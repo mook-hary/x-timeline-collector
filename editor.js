@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const {
   pad2,
@@ -5,12 +6,16 @@ const {
   resolveLocalDateRange,
   parsePostedAtMs,
 } = require("./lib/date-range");
-const { fail, readJsonArrayRequired } = require("./lib/pipeline-io");
+const { fail, readJsonArrayRequired, writeJsonAtomic } = require("./lib/pipeline-io");
 const {
   getImportance,
   buildPostSummary,
   buildEditorView,
 } = require("./lib/editor-core");
+const {
+  buildEditorDecisions,
+  mergeDecisionsIntoEditorView,
+} = require("./lib/editor-decision");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_enriched.json");
 
@@ -30,11 +35,13 @@ function printHelp() {
 
 使い方:
   node editor.js [options]
+  node editor.js decide --stories <path> --brief <path> [options]
 
 役割:
   Reporter（収集）→ Editor（Topic 単位で整理して読む）
+  decide: Story / Editorial / Knowledge から掲載可否（accept|hold|reject）を判定
 
-オプション:
+オプション（view）:
   --today                 今日（ローカル日付の 0:00:00〜23:59:59.999）を対象
   --from <YYYY-MM-DD>     指定日以降を対象（ローカル日付の 0:00:00）
   --to <YYYY-MM-DD>       指定日以前を対象（ローカル日付の 23:59:59.999 まで含む）
@@ -43,17 +50,27 @@ function printHelp() {
   --json                  Topic 配列を JSON で標準出力
   --help, -h              このヘルプを表示
 
+オプション（decide）:
+  --stories <path>        stories.js --json 相当
+  --brief <path>          Brief JSON（editorial + knowledge を含む）
+  --knowledge <path>      Knowledge 配列 JSON（任意。未指定時は Brief.knowledge）
+  --editor <path>         既存 editor.json（任意。指定時は topics を維持して merge）
+  --output <path>         結果 JSON を保存（任意）
+  --json                  JSON を標準出力（decide では既定）
+
 注意:
   --today と --from / --to は併用できません。
   日付契約は search.js と同じ（postedAt・ローカル日付境界）です。
   Topic Key は Digest と同じ契約です（永続 Identity ではありません）。
   正式入力は output/timeline_enriched.json です。
+  decide は既存 Topic ビューを削除しません（decisions を追加）。
 
 例:
   node editor.js --today
   node editor.js --from 2026-07-01 --to 2026-07-15
   node editor.js --category AI --limit 10
   node editor.js --today --json
+  node editor.js decide --stories stories.json --brief brief.json --output editor.json
 `);
 }
 
@@ -225,8 +242,104 @@ function toPublicJson(view, range) {
   };
 }
 
+function readJsonFile(filePath, label) {
+  const resolved = path.resolve(filePath);
+  if (!fs.existsSync(resolved)) {
+    fail(`${label} が見つかりません: ${resolved}`);
+  }
+  try {
+    return JSON.parse(fs.readFileSync(resolved, "utf8"));
+  } catch (err) {
+    fail(`${label} の JSON を読めません: ${err.message}`);
+  }
+}
+
+function parseDecideArgs(argv) {
+  const options = {
+    stories: null,
+    brief: null,
+    knowledge: null,
+    editor: null,
+    output: null,
+    json: true,
+    help: false,
+  };
+
+  for (let i = 0; i < argv.length; i++) {
+    const token = argv[i];
+    if (token === "--help" || token === "-h") {
+      options.help = true;
+      continue;
+    }
+    if (token === "--json") {
+      options.json = true;
+      continue;
+    }
+    const map = {
+      "--stories": "stories",
+      "--brief": "brief",
+      "--knowledge": "knowledge",
+      "--editor": "editor",
+      "--output": "output",
+    };
+    const key = map[token];
+    if (!key) {
+      fail(`未知のオプションです: ${token}\n使い方は node editor.js --help を参照してください。`);
+    }
+    const value = argv[i + 1];
+    if (value == null || value.startsWith("-")) {
+      fail(`${token} には値が必要です。`);
+    }
+    i += 1;
+    options[key] = value;
+  }
+  return options;
+}
+
+function runDecide(argv) {
+  const options = parseDecideArgs(argv);
+  if (options.help) {
+    printHelp();
+    return;
+  }
+  if (!options.stories) fail("decide には --stories が必要です。");
+  if (!options.brief) fail("decide には --brief が必要です。");
+
+  const stories = readJsonFile(options.stories, "stories");
+  const brief = readJsonFile(options.brief, "brief");
+  const knowledge = options.knowledge
+    ? readJsonFile(options.knowledge, "knowledge")
+    : brief.knowledge;
+
+  const decisions = buildEditorDecisions({
+    stories,
+    editorial: brief,
+    knowledge,
+  });
+
+  let payload = { decisions };
+  if (options.editor) {
+    const existing = readJsonFile(options.editor, "editor");
+    payload = mergeDecisionsIntoEditorView(existing, decisions);
+  }
+
+  const text = `${JSON.stringify(payload, null, 2)}\n`;
+  if (options.output) {
+    writeJsonAtomic(path.resolve(options.output), payload);
+  }
+  if (options.json || !options.output) {
+    process.stdout.write(text);
+  }
+}
+
 function main() {
-  const options = parseArgs(process.argv.slice(2));
+  const argv = process.argv.slice(2);
+  if (argv[0] === "decide") {
+    runDecide(argv.slice(1));
+    return;
+  }
+
+  const options = parseArgs(argv);
 
   if (options.help) {
     printHelp();
@@ -258,6 +371,8 @@ if (require.main === module) {
 
 module.exports = {
   parseArgs,
+  parseDecideArgs,
   renderText,
   toPublicJson,
+  runDecide,
 };

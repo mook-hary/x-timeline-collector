@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.12 |
+| **Version** | 2.13 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -251,7 +251,7 @@ search / digest / editor / concepts / stories
 | **Consumer** | `digest.js` の注目投稿選定・`--explain` 表示。`editor.js` / `lib/editor-core.js` の Topic グルーピング（同一契約） |
 | **Notes** | 投稿 Identity は引き続き `url`。`topicKey` は永続 Identity ではない。投稿データへ `topicKey` / selection metadata を書き込まない。 |
 
-### 4.10 Editor View（派生情報・Version 1.5）
+### 4.10 Editor View（派生情報・Version 1.5 / EP-004）
 
 | 項目 | 内容 |
 |---|---|
@@ -267,6 +267,22 @@ search / digest / editor / concepts / stories
 - カテゴリ読取は `finalAnalysis.category` → `analysis.category` → `"その他"`。
 - タグは人間向けのみ（`enrichment.tags` → `finalAnalysis.tags`）。`matchedKeywords` は使わない。
 - Editor View / Topic 構造は投稿データや enriched JSON へ書き戻さない。
+
+#### 掲載可否判断（EP-004）
+
+`editor.js decide`（`lib/editor-decision.js`）は Story + Editorial + Knowledge から **掲載するか**だけを判定する（順位付け・紙面構成は行わない）。
+
+各 Story:
+
+```json
+{ "storyId": "...", "decision": "accept|hold|reject", "reason": ["..."] }
+```
+
+- **accept**: evidence あり・Story 成立・Editorial 生成済み
+- **hold**: evidence不足 / Storyが弱い / Knowledge不足 / Editorial未生成
+- **reject**: 質問投稿 / 宣伝のみ / 根拠不足 / Story重複
+
+Pipeline は既存 `editor.json`（topics 等）を維持したまま `decisions` 配列を追加する。Writer / Article Report / Daily Edition の契約は変更しない。
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -1216,7 +1232,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.12 |
+| Version | 2.13 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
