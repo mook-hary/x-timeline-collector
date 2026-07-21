@@ -14,6 +14,7 @@ function printHelp() {
 
 使い方:
   node article-report.js build --brief <path> --plan <path> --article <path> [options]
+  node article-report.js batch --manifest <path> --brief <path> --plan <path> [options]
   node article-report.js validate --input <path>
   node article-report.js --help
 
@@ -21,6 +22,7 @@ function printHelp() {
   Brief + Editorial Plan + Writer Markdown から、記事の根拠・不足・採用状況を
   診断する決定論的 Report を生成する。記事本文ではない。AI なし。
   Knowledge Base は読みません。入力ファイルは読み取り専用です。
+  batch は articles-manifest の generated 記事ごとに Report を生成する（EP-009）。
 
 build:
   --brief <path>                 Brief JSON（純形式または { brief, operation }）
@@ -30,13 +32,23 @@ build:
   --id <report-id>               Report id（任意）
   --output <path>                Report JSON を保存（atomic write）
 
+batch:
+  --manifest <path>              articles-manifest.json
+  --brief <path>                 Brief JSON
+  --plan <path>                  Editorial Plan JSON
+  --output-dir <dir>             article-reports/ 出力先
+  --legacy-output <path>         primary Report（従来 article-report.json）
+  --confidence-threshold <N>     既定: ${DEFAULT_CONFIDENCE_THRESHOLD}
+
 validate:
   --input <path>                 Report JSON
 
 例:
   node article-report.js build \\
     --brief /tmp/brief.json --plan /tmp/plan.json --article /tmp/article.md
-  node article-report.js build ... --output /tmp/article-report.json
+  node article-report.js batch \\
+    --manifest articles-manifest.json --brief brief.json --plan plan.json \\
+    --output-dir article-reports --legacy-output article-report.json
   node article-report.js validate --input /tmp/article-report.json
 `);
 }
@@ -200,6 +212,56 @@ function cmdValidate(argv) {
   }
 }
 
+function cmdBatch(argv) {
+  const options = parseArgs(argv, [
+    { flag: "--manifest", key: "manifest", type: "string" },
+    { flag: "--brief", key: "brief", type: "string" },
+    { flag: "--plan", key: "plan", type: "string" },
+    { flag: "--output-dir", key: "outputDir", type: "string" },
+    { flag: "--legacy-output", key: "legacyOutput", type: "string" },
+    {
+      flag: "--confidence-threshold",
+      key: "confidenceThreshold",
+      type: "integer",
+    },
+  ]);
+  if (options.help) {
+    printHelp();
+    return;
+  }
+  if (!options.manifest) fail("batch には --manifest が必要です。");
+  if (!options.brief) fail("batch には --brief が必要です。");
+  if (!options.plan) fail("batch には --plan が必要です。");
+
+  const { runArticleReportBatch } = require("./lib/article-report-batch");
+  const brief = loadBrief(options.brief);
+  const plan = loadPlan(options.plan);
+  const manifest = readJson(options.manifest, "Manifest");
+  const manifestAbs = path.resolve(options.manifest);
+  const outputDir = options.outputDir
+    ? path.resolve(options.outputDir)
+    : path.join(path.dirname(manifestAbs), "article-reports");
+
+  try {
+    const result = runArticleReportBatch({
+      manifest,
+      brief,
+      plan,
+      outputDir,
+      manifestPath: manifestAbs,
+      legacyReportPath: options.legacyOutput
+        ? path.resolve(options.legacyOutput)
+        : null,
+      articlesDir: path.join(path.dirname(manifestAbs), "articles"),
+      confidenceThreshold: options.confidenceThreshold,
+      now: brief.generatedAt || "2026-07-21T00:00:00.000Z",
+    });
+    writeJson(result.manifest);
+  } catch (error) {
+    fail(error.message);
+  }
+}
+
 function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0 || argv[0] === "--help" || argv[0] === "-h") {
@@ -210,6 +272,7 @@ function main() {
   const command = argv[0];
   const rest = argv.slice(1);
   if (command === "build") cmdBuild(rest);
+  else if (command === "batch") cmdBatch(rest);
   else if (command === "validate") cmdValidate(rest);
   else {
     fail(
