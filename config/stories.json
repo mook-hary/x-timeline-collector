@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ai-agents",
+    "label": "AIエージェント",
+    "description": "AIエージェント、ツール利用、自律実行に関する動向",
+    "includeTags": ["agent", "agents", "エージェント", "AIエージェント", "ツール呼び出し", "自律"],
+    "includeCategories": ["AI"],
+    "excludeTags": [],
+    "priority": 10
+  },
+  {
+    "id": "models-reasoning",
+    "label": "モデル・推論性能",
+    "description": "LLMの性能、ベンチマーク、推論・評価に関する話題",
+    "includeTags": ["LLM", "モデル", "ベンチマーク", "推論", "GPT", "Claude", "Gemini", "OpenAI"],
+    "includeCategories": ["AI"],
+    "excludeTags": [],
+    "priority": 8
+  },
+  {
+    "id": "ai-safety-policy",
+    "label": "AI安全性・規制",
+    "description": "AI安全性、規制、ガバナンス、社会影響に関する論点",
+    "includeTags": ["安全性", "安全", "規制", "ガバナンス", "アライメント", "alignment"],
+    "includeCategories": ["政治・社会", "ニュース・報道"],
+    "excludeTags": [],
+    "priority": 6
+  },
+  {
+    "id": "tech-engineering",
+    "label": "プログラミング・開発",
+    "description": "ソフトウェア開発、プログラミング、エンジニアリング実践",
+    "includeTags": ["プログラミング", "開発", "エンジニア", "コード", "Cursor", "TypeScript", "JavaScript"],
+    "includeCategories": ["プログラミング・IT"],
+    "excludeTags": [],
+    "priority": 5
+  },
+  {
+    "id": "creative-tech",
+    "label": "制作・クリエイティブ技術",
+    "description": "イラスト、アニメ、ゲームなど制作・表現技術に関する話題",
+    "includeTags": [],
+    "includeCategories": ["イラスト・美術", "アニメ・漫画", "ゲーム・ゲーム開発"],
+    "excludeTags": [],
+    "priority": 4
+  }
+]

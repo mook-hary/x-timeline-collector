@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# Dependencies
+node_modules/
+
+# Playwright / browser profile
+browser-data/
+
+# AI analysis progress and results (may contain API-derived content)
+output/timeline_ai.json
+output/timeline_enriched.json
+output/ai_progress.json
+output/ai_cache.json
+output/enrich_progress.json
+output/enrich_cache.json
+
+knowledge-base/
+
+# OS / editor
+.DS_Store
+*.log

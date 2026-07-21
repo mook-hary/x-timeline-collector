@@ -1,0 +1,25 @@
+{
+  "categoryWeights": {
+    "AI": 5,
+    "アニメ・漫画": 5,
+    "イラスト・美術": 4,
+    "ゲーム・ゲーム開発": 5,
+    "プログラミング・IT": 4,
+    "合気道・武道": 4,
+    "仕事・キャリア": 4,
+    "政治・社会": 3,
+    "ニュース・報道": 3,
+    "生活・健康": 3,
+    "エンタメ・イベント": 2,
+    "広告・PR": 0,
+    "日常・雑談": 1,
+    "その他": 1
+  },
+  "topMinimumImportance": 3,
+  "topExcludedCategories": [
+    "広告・PR"
+  ],
+  "maxPostsPerCategoryInTop": 3,
+  "maxPostsPerAuthorInTop": 2,
+  "categoryDisplayLimit": 3
+}

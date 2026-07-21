@@ -1,0 +1,21 @@
+{
+  "default": "draft",
+  "statuses": [
+    {
+      "id": "draft",
+      "transitionsTo": ["review"]
+    },
+    {
+      "id": "review",
+      "transitionsTo": ["draft", "published"]
+    },
+    {
+      "id": "published",
+      "transitionsTo": ["archived"]
+    },
+    {
+      "id": "archived",
+      "transitionsTo": ["draft"]
+    }
+  ]
+}
