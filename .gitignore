@@ -20,3 +20,6 @@ knowledge-base/
 # OS / editor
 .DS_Store
 *.log
+
+# Generated pipeline working files
+.pipeline-work/
