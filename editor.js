@@ -16,6 +16,10 @@ const {
   buildEditorDecisions,
   mergeDecisionsIntoEditorView,
 } = require("./lib/editor-decision");
+const {
+  buildEditorRanking,
+  mergeRankingIntoEditorView,
+} = require("./lib/editor-ranking");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_enriched.json");
 
@@ -36,10 +40,12 @@ function printHelp() {
 使い方:
   node editor.js [options]
   node editor.js decide --stories <path> --brief <path> [options]
+  node editor.js rank --stories <path> --brief <path> --editor <path> [options]
 
 役割:
   Reporter（収集）→ Editor（Topic 単位で整理して読む）
   decide: Story / Editorial / Knowledge から掲載可否（accept|hold|reject）を判定
+  rank: accept のみを決定論的に順位付け（ranking[]）。紙面構成・掲載制御はしない
 
 オプション（view）:
   --today                 今日（ローカル日付の 0:00:00〜23:59:59.999）を対象
@@ -50,20 +56,20 @@ function printHelp() {
   --json                  Topic 配列を JSON で標準出力
   --help, -h              このヘルプを表示
 
-オプション（decide）:
+オプション（decide / rank）:
   --stories <path>        stories.js --json 相当
   --brief <path>          Brief JSON（editorial + knowledge を含む）
   --knowledge <path>      Knowledge 配列 JSON（任意。未指定時は Brief.knowledge）
-  --editor <path>         既存 editor.json（任意。指定時は topics を維持して merge）
+  --editor <path>         既存 editor.json（decide: topics 維持 / rank: decisions 必須）
   --output <path>         結果 JSON を保存（任意）
-  --json                  JSON を標準出力（decide では既定）
+  --json                  JSON を標準出力（decide/rank では既定）
 
 注意:
   --today と --from / --to は併用できません。
   日付契約は search.js と同じ（postedAt・ローカル日付境界）です。
   Topic Key は Digest と同じ契約です（永続 Identity ではありません）。
   正式入力は output/timeline_enriched.json です。
-  decide は既存 Topic ビューを削除しません（decisions を追加）。
+  decide / rank は既存 topics / decisions を削除しません。
 
 例:
   node editor.js --today
@@ -71,6 +77,7 @@ function printHelp() {
   node editor.js --category AI --limit 10
   node editor.js --today --json
   node editor.js decide --stories stories.json --brief brief.json --output editor.json
+  node editor.js rank --stories stories.json --brief brief.json --editor editor.json --output editor.json
 `);
 }
 
@@ -332,10 +339,50 @@ function runDecide(argv) {
   }
 }
 
+function runRank(argv) {
+  const options = parseDecideArgs(argv);
+  if (options.help) {
+    printHelp();
+    return;
+  }
+  if (!options.stories) fail("rank には --stories が必要です。");
+  if (!options.brief) fail("rank には --brief が必要です。");
+  if (!options.editor) fail("rank には --editor が必要です（decisions を含む）。");
+
+  const stories = readJsonFile(options.stories, "stories");
+  const brief = readJsonFile(options.brief, "brief");
+  const knowledge = options.knowledge
+    ? readJsonFile(options.knowledge, "knowledge")
+    : brief.knowledge;
+  const existing = readJsonFile(options.editor, "editor");
+  const decisions = Array.isArray(existing.decisions) ? existing.decisions : [];
+
+  const ranking = buildEditorRanking({
+    stories,
+    editorial: brief,
+    knowledge,
+    decisions,
+  });
+
+  const payload = mergeRankingIntoEditorView(existing, ranking);
+
+  const text = `${JSON.stringify(payload, null, 2)}\n`;
+  if (options.output) {
+    writeJsonAtomic(path.resolve(options.output), payload);
+  }
+  if (options.json || !options.output) {
+    process.stdout.write(text);
+  }
+}
+
 function main() {
   const argv = process.argv.slice(2);
   if (argv[0] === "decide") {
     runDecide(argv.slice(1));
+    return;
+  }
+  if (argv[0] === "rank") {
+    runRank(argv.slice(1));
     return;
   }
 
@@ -375,4 +422,5 @@ module.exports = {
   renderText,
   toPublicJson,
   runDecide,
+  runRank,
 };

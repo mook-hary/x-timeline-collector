@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.13 |
+| **Version** | 2.14 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -283,6 +283,35 @@ search / digest / editor / concepts / stories
 - **reject**: 質問投稿 / 宣伝のみ / 根拠不足 / Story重複
 
 Pipeline は既存 `editor.json`（topics 等）を維持したまま `decisions` 配列を追加する。Writer / Article Report / Daily Edition の契約は変更しない。
+
+#### 掲載優先順位（EP-005）
+
+`editor.js rank`（`lib/editor-ranking.js`）は `decision === "accept"` の Story のみを決定論的に順位付けし、`editor.ranking[]` を追加する。`topics` / `decisions` は変更しない。`hold` / `reject` は ranking 対象外。対象 0 件時は `ranking: []`。
+
+各要素:
+
+```json
+{
+  "storyId": "...",
+  "rank": 1,
+  "score": 82,
+  "factors": {
+    "evidence": 25,
+    "freshness": 20,
+    "publicInterest": 15,
+    "editorialReadiness": 12,
+    "informationDensity": 10
+  },
+  "reasons": ["..."]
+}
+```
+
+- **score**: 0〜100（整数）。factors 合計を clamp。
+- **factors 上限**: evidence 0–30 / freshness 0–25 / publicInterest 0–20 / editorialReadiness 0–15 / informationDensity 0–10
+- **tie-break**: score → evidence → freshness → editorialReadiness → storyId 昇順
+- **Editorial**: 検証済み情報のみ加点（不採用フィールドは使わない）
+- **用途**: 内部編集判断。現段階では Writer / Daily Edition の掲載制御に使用しない
+- Pipeline 順: Topic → Decision → Ranking → 後段。紙面構成・本数制限は行わない
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -1232,7 +1261,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.13 |
+| Version | 2.14 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
