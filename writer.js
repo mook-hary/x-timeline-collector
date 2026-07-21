@@ -11,13 +11,15 @@ function printHelp() {
   console.log(`x-timeline-collector Writer v2 (Deterministic Markdown Renderer)
 
 使い方:
-  node writer.js build --brief <path> --plan <path> [--stories <path>]
+  node writer.js build --brief <path> --plan <path> [--stories <path>] [--editor <path>]
   node writer.js validate-input --brief <path> --plan <path>
   node writer.js --help
 
 役割:
   Knowledge Brief と Editorial Plan を Markdown 記事草稿へ整形する。
   任意で Story JSON（--stories）を渡すと、投稿・Concept の具体情報を本文へ反映する。
+  --editor を付けると editor.edition.selected[] で Story を選別する（EP-007）。
+  --editor なしの既存 CLI は従来どおり（Edition なし互換）。
   AI・要約・言い換え・Knowledge Base 読込みは行いません。
   同じ入力からは常に同じ Markdown を生成します。保存しません（stdout のみ）。
 
@@ -25,6 +27,7 @@ build:
   --brief <path>     Brief JSON（純 Brief または { brief, operation }）
   --plan <path>      Editorial Plan JSON
   --stories <path>   任意。stories.js --json 相当の Story ペイロード
+  --editor <path>    任意。editor.json（edition.selected で Writer 対象を制限）
 
 validate-input:
   Brief / Plan の検証と briefReference 整合のみ確認（Markdown は生成しない）
@@ -32,19 +35,31 @@ validate-input:
 例:
   node writer.js build --brief /tmp/brief.json --plan /tmp/plan.json
   node writer.js build --brief /tmp/brief.json --plan /tmp/plan.json --stories /tmp/stories.json
+  node writer.js build --brief /tmp/brief.json --plan /tmp/plan.json --stories /tmp/stories.json --editor /tmp/editor.json
   node writer.js validate-input --brief /tmp/brief.json --plan /tmp/plan.json
 `);
 }
 
 function parseArgs(argv) {
-  const options = { help: false, brief: null, plan: null, stories: null };
+  const options = {
+    help: false,
+    brief: null,
+    plan: null,
+    stories: null,
+    editor: null,
+  };
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
     if (token === "--help" || token === "-h") {
       options.help = true;
       continue;
     }
-    if (token === "--brief" || token === "--plan" || token === "--stories") {
+    if (
+      token === "--brief" ||
+      token === "--plan" ||
+      token === "--stories" ||
+      token === "--editor"
+    ) {
       const value = argv[i + 1];
       if (value == null || value.startsWith("-")) {
         fail(`${token} には値が必要です。`);
@@ -52,7 +67,8 @@ function parseArgs(argv) {
       i += 1;
       if (token === "--brief") options.brief = value;
       else if (token === "--plan") options.plan = value;
-      else options.stories = value;
+      else if (token === "--stories") options.stories = value;
+      else options.editor = value;
       continue;
     }
     fail(
@@ -111,9 +127,37 @@ function cmdBuild(argv) {
 
   const brief = loadBrief(options.brief);
   const plan = loadPlan(options.plan);
-  const stories = options.stories
+  let stories = options.stories
     ? readJsonFile(options.stories, "Stories")
     : null;
+
+  if (options.editor) {
+    const {
+      selectStoriesForWriter,
+      toWriterStoriesInput,
+    } = require("./lib/writer-selection");
+    const editor = readJsonFile(options.editor, "Editor");
+    if (!options.stories) {
+      fail("--editor 指定時は --stories も必要です。");
+    }
+    const selection = selectStoriesForWriter({
+      editor,
+      stories,
+      requireEdition: true,
+    });
+    if (!selection.ok) {
+      fail(
+        selection.warnings?.[0]?.message ||
+          "editor.edition.selected[] が必要です。"
+      );
+    }
+    if (selection.summary.resolvedCount === 0) {
+      // Empty selection: no article body (do not fall back to all stories / legacy).
+      process.stdout.write("");
+      return;
+    }
+    stories = toWriterStoriesInput(selection, stories);
+  }
 
   try {
     const markdown = renderMarkdown(brief, plan, { stories });

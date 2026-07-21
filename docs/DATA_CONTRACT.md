@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.15 |
+| **Version** | 2.16 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -347,6 +347,18 @@ Pipeline は既存 `editor.json`（topics 等）を維持したまま `decisions
 - **hold / reject**: 掲載しない（大量 omitted 記録はしない）
 - **omitted reasonCode**: `edition-capacity` / `not-ranked` / `story-not-found` / `duplicate-story`
 - **用途**: 内部編集判断。EP-006 時点では Writer / Daily Edition の掲載制御に未使用
+
+#### Writer Selection（EP-007）
+
+Pipeline の Writer 入力 Story は `editor.edition.selected[]` に制限する（`lib/writer-selection.js`）。selected 外の Story は Writer 対象外。処理順は selected の `position` 昇順（欠損時は `rank` 昇順 → `storyId` 昇順）。score / Decision / Ranking / Edition を Writer が再判定しない。
+
+- **duplicate selected**: 最初の有効 1 件のみ。warning `duplicate-selected-story`
+- **selected Story 不在**: 対象外。warning `selected-story-not-found`。繰り上げ補完しない
+- **empty selection**: Writer 対象 0 件。全件フォールバックしない（Pipeline は Writer skip）
+- **Pipeline**: `edition.selected[]` 必須。欠損時はエラー（暗黙の全 Story 生成なし）
+- **Writer 単体 CLI**: `--editor` なしは従来互換。`--editor` 指定時は Edition 必須
+- **本文契約**: H1 / claims / sources / Editorial 連携は変更しない。section / rank / score / position は本文へ出さない
+- **Daily Edition**: EP-007 では紙面表示へ未接続（Writer 出力を従来どおり処理）
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -765,7 +777,7 @@ HTML コメント metadata:
 
 入力検証: Brief valid、Plan valid、briefReference がある場合は id / generatedAt 一致。`--stories` 欠落でも Brief+Plan のみでフォールバックしクラッシュしない。
 
-Pipeline は `stories.json` を Writer へ渡し、Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
+Pipeline は `writer-selection` で `edition.selected[]` から `stories-selected.json` を作り Writer へ渡す。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
 
 ### 4.19 Pipeline Runner（Version 2.4）
 
@@ -1296,7 +1308,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.15 |
+| Version | 2.16 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
