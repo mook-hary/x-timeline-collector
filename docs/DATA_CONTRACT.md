@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.19 |
+| **Version** | 2.20 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -480,7 +480,33 @@ Manifest（version `1.0`）:
 
 - **empty**: 掲載 0 件でも空 Edition を生成して正常終了
 - **legacy**: 既存 `--daily-manifest` + `daily-edition.js` 経路は維持。`legacyPrimaryArticlePath` / `legacyPrimaryReportPath` を保持
-- Decision / Ranking / Edition 再計算・Writer / Report / AI Rewrite / RSS / HTML / Publish は変更しない
+- Decision / Ranking / Edition 再計算・Writer / Report / AI Rewrite / RSS / Publish は変更しない
+
+#### Human-Readable Edition Preview（EP-011）
+
+`lib/daily-edition-html.js`（Pipeline `daily-edition-html`）は **`daily-edition.json` だけを入口**に、人が読める静的 HTML 新聞を生成する。テンプレートエンジン / SPA / 検索 / 広告 / Publish / RSS は持たない。
+
+入力:
+
+- 主: `daily-edition.json`
+- 本文: 各 entry の `articlePath`（workRoot 相対）
+- Report: 各 entry の `reportPath`（workRoot 相対）
+
+出力:
+
+```
+output/edition/index.html
+output/edition/edition.css
+```
+
+- **描画順**: Edition の `top` → `secondary` → `brief`（再ソートしない）
+- **レスポンシブ**: CSS のみ（モバイル〜デスクトップ）
+- **ダークモード**: `prefers-color-scheme` + `color-scheme` メタ
+- **Report 表示**: `reviewSummary.status` / `readyForAiRewrite` / confidence / claims / length 等
+- **Metadata**: version / date / articleCount / sectionCounts / warnings / legacyPrimary*
+- **空 Edition**: 空ページを生成して正常終了
+- **GitHub Pages**: 相対パスの静的ファイルのみ（`index.html` + `edition.css`）
+- Decision / Ranking / Writer / Report / AI Rewrite / RSS / Publish は変更しない
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -899,7 +925,7 @@ HTML コメント metadata:
 
 入力検証: Brief valid、Plan valid、briefReference がある場合は id / generatedAt 一致。`--stories` 欠落でも Brief+Plan のみでフォールバックしクラッシュしない。
 
-Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` の順で進む。`daily-edition-builder` は `articles-manifest.json` 全件から section 紙面（`daily-edition.json`）を構築する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
+Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` の順で進む。`daily-edition-builder` は `articles-manifest.json` 全件から section 紙面（`daily-edition.json`）を構築し、`daily-edition-html` がそれを静的 HTML（`output/edition/`）へ描画する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
 
 ### 4.19 Pipeline Runner（Version 2.4）
 
@@ -1430,7 +1456,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.19 |
+| Version | 2.20 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
