@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.14 |
+| **Version** | 2.15 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -311,7 +311,42 @@ Pipeline は既存 `editor.json`（topics 等）を維持したまま `decisions
 - **tie-break**: score → evidence → freshness → editorialReadiness → storyId 昇順
 - **Editorial**: 検証済み情報のみ加点（不採用フィールドは使わない）
 - **用途**: 内部編集判断。現段階では Writer / Daily Edition の掲載制御に使用しない
-- Pipeline 順: Topic → Decision → Ranking → 後段。紙面構成・本数制限は行わない
+- Pipeline 順: Topic → Decision → Ranking → Edition → 後段。紙面構成・本数制限は行わない
+
+#### Edition Layout（EP-006）
+
+`editor.js edition`（`lib/editor-edition.js`）は `decisions[]` + `ranking[]` + Story から **その日の掲載対象と掲載順**を決定し、`editor.edition` を追加する。`topics` / `decisions` / `ranking` は変更しない。score の再計算・decision の再判定はしない。
+
+```json
+{
+  "edition": {
+    "version": "1.0",
+    "selected": [
+      { "storyId": "...", "rank": 1, "score": 92, "section": "top", "position": 1 }
+    ],
+    "omitted": [
+      { "storyId": "...", "reasonCode": "edition-capacity" }
+    ],
+    "summary": {
+      "candidateCount": 0,
+      "selectedCount": 0,
+      "omittedCount": 0,
+      "topCount": 0,
+      "secondaryCount": 0,
+      "briefCount": 0
+    }
+  }
+}
+```
+
+- **掲載候補**: `decision===accept` かつ ranking に存在し Story 特定可能（一意）
+- **全体上限**: 9件（top≤1 / secondary≤3 / brief≤5）
+- **section 割り当て**: position1=top、2–4=secondary、5–9=brief
+- **順序**: rank 昇順 → score 降順 → storyId 昇順。`position` は selected 内 1始まり
+- **score 絶対閾値**: なし（EP-006 は紙面配置のみ）
+- **hold / reject**: 掲載しない（大量 omitted 記録はしない）
+- **omitted reasonCode**: `edition-capacity` / `not-ranked` / `story-not-found` / `duplicate-story`
+- **用途**: 内部編集判断。EP-006 時点では Writer / Daily Edition の掲載制御に未使用
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -1261,7 +1296,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.14 |
+| Version | 2.15 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |

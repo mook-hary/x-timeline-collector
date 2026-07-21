@@ -20,6 +20,10 @@ const {
   buildEditorRanking,
   mergeRankingIntoEditorView,
 } = require("./lib/editor-ranking");
+const {
+  buildEditorEdition,
+  mergeEditionIntoEditorView,
+} = require("./lib/editor-edition");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_enriched.json");
 
@@ -41,11 +45,13 @@ function printHelp() {
   node editor.js [options]
   node editor.js decide --stories <path> --brief <path> [options]
   node editor.js rank --stories <path> --brief <path> --editor <path> [options]
+  node editor.js edition --stories <path> --editor <path> [options]
 
 役割:
   Reporter（収集）→ Editor（Topic 単位で整理して読む）
   decide: Story / Editorial / Knowledge から掲載可否（accept|hold|reject）を判定
   rank: accept のみを決定論的に順位付け（ranking[]）。紙面構成・掲載制御はしない
+  edition: ranking + decisions から Edition 紙面（selected/omitted）を生成。Writer未接続
 
 オプション（view）:
   --today                 今日（ローカル日付の 0:00:00〜23:59:59.999）を対象
@@ -56,20 +62,20 @@ function printHelp() {
   --json                  Topic 配列を JSON で標準出力
   --help, -h              このヘルプを表示
 
-オプション（decide / rank）:
+オプション（decide / rank / edition）:
   --stories <path>        stories.js --json 相当
-  --brief <path>          Brief JSON（editorial + knowledge を含む）
-  --knowledge <path>      Knowledge 配列 JSON（任意。未指定時は Brief.knowledge）
-  --editor <path>         既存 editor.json（decide: topics 維持 / rank: decisions 必須）
+  --brief <path>          Brief JSON（decide/rank 用）
+  --knowledge <path>      Knowledge 配列 JSON（任意）
+  --editor <path>         既存 editor.json（rank: decisions / edition: decisions+ranking）
   --output <path>         結果 JSON を保存（任意）
-  --json                  JSON を標準出力（decide/rank では既定）
+  --json                  JSON を標準出力（decide/rank/edition では既定）
 
 注意:
   --today と --from / --to は併用できません。
   日付契約は search.js と同じ（postedAt・ローカル日付境界）です。
   Topic Key は Digest と同じ契約です（永続 Identity ではありません）。
   正式入力は output/timeline_enriched.json です。
-  decide / rank は既存 topics / decisions を削除しません。
+  decide / rank / edition は既存 topics / decisions / ranking を削除しません。
 
 例:
   node editor.js --today
@@ -78,6 +84,7 @@ function printHelp() {
   node editor.js --today --json
   node editor.js decide --stories stories.json --brief brief.json --output editor.json
   node editor.js rank --stories stories.json --brief brief.json --editor editor.json --output editor.json
+  node editor.js edition --stories stories.json --editor editor.json --output editor.json
 `);
 }
 
@@ -375,6 +382,77 @@ function runRank(argv) {
   }
 }
 
+function parseEditionArgs(argv) {
+  const options = {
+    stories: null,
+    editor: null,
+    output: null,
+    json: true,
+    help: false,
+  };
+
+  for (let i = 0; i < argv.length; i++) {
+    const token = argv[i];
+    if (token === "--help" || token === "-h") {
+      options.help = true;
+      continue;
+    }
+    if (token === "--json") {
+      options.json = true;
+      continue;
+    }
+    const map = {
+      "--stories": "stories",
+      "--editor": "editor",
+      "--output": "output",
+    };
+    const key = map[token];
+    if (!key) {
+      fail(`未知のオプションです: ${token}\n使い方は node editor.js --help を参照してください。`);
+    }
+    const value = argv[i + 1];
+    if (value == null || value.startsWith("-")) {
+      fail(`${token} には値が必要です。`);
+    }
+    i += 1;
+    options[key] = value;
+  }
+  return options;
+}
+
+function runEdition(argv) {
+  const options = parseEditionArgs(argv);
+  if (options.help) {
+    printHelp();
+    return;
+  }
+  if (!options.stories) fail("edition には --stories が必要です。");
+  if (!options.editor) {
+    fail("edition には --editor が必要です（decisions + ranking を含む）。");
+  }
+
+  const stories = readJsonFile(options.stories, "stories");
+  const existing = readJsonFile(options.editor, "editor");
+  const decisions = Array.isArray(existing.decisions) ? existing.decisions : [];
+  const ranking = Array.isArray(existing.ranking) ? existing.ranking : [];
+
+  const edition = buildEditorEdition({
+    decisions,
+    ranking,
+    stories,
+  });
+
+  const payload = mergeEditionIntoEditorView(existing, edition);
+
+  const text = `${JSON.stringify(payload, null, 2)}\n`;
+  if (options.output) {
+    writeJsonAtomic(path.resolve(options.output), payload);
+  }
+  if (options.json || !options.output) {
+    process.stdout.write(text);
+  }
+}
+
 function main() {
   const argv = process.argv.slice(2);
   if (argv[0] === "decide") {
@@ -383,6 +461,10 @@ function main() {
   }
   if (argv[0] === "rank") {
     runRank(argv.slice(1));
+    return;
+  }
+  if (argv[0] === "edition" || argv[0] === "layout") {
+    runEdition(argv.slice(1));
     return;
   }
 
@@ -419,8 +501,10 @@ if (require.main === module) {
 module.exports = {
   parseArgs,
   parseDecideArgs,
+  parseEditionArgs,
   renderText,
   toPublicJson,
   runDecide,
   runRank,
+  runEdition,
 };
