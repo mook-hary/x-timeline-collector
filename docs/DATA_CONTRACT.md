@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.16 |
+| **Version** | 2.17 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -359,6 +359,48 @@ Pipeline の Writer 入力 Story は `editor.edition.selected[]` に制限する
 - **Writer 単体 CLI**: `--editor` なしは従来互換。`--editor` 指定時は Edition 必須
 - **本文契約**: H1 / claims / sources / Editorial 連携は変更しない。section / rank / score / position は本文へ出さない
 - **Daily Edition**: EP-007 では紙面表示へ未接続（Writer 出力を従来どおり処理）
+
+#### Multi-Article Writer（EP-008）
+
+`lib/writer-batch.js`（`writer.js batch` / Pipeline `writer-batch`）は `edition.selected[]` の各 Story を **1 Story = 1 記事**として独立生成する。複数 Story を1記事へ統合しない。
+
+出力:
+
+- `articles/{NN}-{safe-story-id}.md`（position 2桁ゼロ埋め、storyId を安全化）
+- `articles-manifest.json`
+
+Manifest（version `1.0`）:
+
+```json
+{
+  "version": "1.0",
+  "articles": [
+    {
+      "storyId": "...",
+      "position": 1,
+      "section": "top",
+      "rank": 1,
+      "score": 92,
+      "articlePath": "articles/01-....md",
+      "status": "generated"
+    }
+  ],
+  "summary": {
+    "requestedCount": 0,
+    "generatedCount": 0,
+    "failedCount": 0,
+    "skippedCount": 0
+  },
+  "warnings": [],
+  "legacyPrimaryArticlePath": "articles/01-....md"
+}
+```
+
+- **status**: `generated` | `failed` | `skipped`
+- **empty selection**: 記事0件・空 Manifest。全件フォールバックなし
+- **個別失敗**: `failed` を記録し他記事は継続。別 Story で補完しない
+- **legacy primary**: position 1 の記事を `article.md` / `--output` へも出力。AR / DE は EP-008 時点で primary のみ参照
+- Writer 本文契約・Decision / Ranking / Edition は変更しない
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -777,7 +819,7 @@ HTML コメント metadata:
 
 入力検証: Brief valid、Plan valid、briefReference がある場合は id / generatedAt 一致。`--stories` 欠落でも Brief+Plan のみでフォールバックしクラッシュしない。
 
-Pipeline は `writer-selection` で `edition.selected[]` から `stories-selected.json` を作り Writer へ渡す。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
+Pipeline は `writer-selection` で `edition.selected[]` から選定し、`writer-batch` が Story ごとに記事を生成する（`articles/` + `articles-manifest.json`）。従来の単一 `--output` / AR / DE は legacy primary（position 1）を参照する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
 
 ### 4.19 Pipeline Runner（Version 2.4）
 
@@ -1308,7 +1350,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.16 |
+| Version | 2.17 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
