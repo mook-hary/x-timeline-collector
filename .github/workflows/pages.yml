@@ -1,0 +1,73 @@
+# Deploy Personal Timeline site/ to GitHub Pages.
+# Secrets are not required. Uses GitHub-native Pages actions.
+#
+# Build strategy:
+# 1. If output/timeline_enriched.json exists → full pipeline --no-api
+# 2. Else if output/index.html exists → site-builder only (from committed output/)
+# 3. Else fail with a clear message
+
+name: Deploy Personal Timeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: |
+          set -euo pipefail
+          if [ -f output/timeline_enriched.json ]; then
+            echo "Running full pipeline (--no-api)"
+            node pipeline.js --no-api --days 7 --plan-title "Personal Timeline"
+          elif [ -f output/index.html ]; then
+            echo "Enriched timeline missing; assembling site/ from existing output/"
+            node -e "require('./lib/site-builder').buildSite({ rootDir: process.cwd() })"
+          else
+            echo "::error::Neither output/timeline_enriched.json nor output/index.html found."
+            echo "Run the pipeline locally, commit output/ (or site/), then push."
+            exit 1
+          fi
+          test -f site/index.html
+          test -f site/manifest.webmanifest
+          test -f site/favicon.ico
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

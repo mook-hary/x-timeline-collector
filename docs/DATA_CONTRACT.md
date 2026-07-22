@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.22 |
+| **Version** | 2.23 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -575,6 +575,32 @@ output/dashboard.css
 - **オフライン**: 外部フォント・外部スクリプトなし。レスポンシブ + `prefers-color-scheme`
 - 検索 / お気に入り / GitHub Pages / RSS / SPA は未実装
 
+#### Personal Web App / Site Builder（EP-014）
+
+`lib/site-builder.js`（Pipeline `site-builder`）は、確定済み `output/` から **GitHub Pages 用の静的サイト `site/`** を組み立てる。記事・Report・Ranking・AI は再実行しない（コピー + PWA 資産のみ）。
+
+出力:
+
+```
+site/
+  index.html
+  dashboard.css
+  edition/
+  archive/
+  manifest.webmanifest
+  favicon.ico
+  icon-192.png
+  icon-512.png
+  apple-touch-icon.png
+```
+
+- **PWA**: `manifest.webmanifest`（name / short_name / display=standalone / start_url / theme_color / icons）
+- **Icons**: 決定論的に生成（外部画像依存なし）。Apple Touch Icon / favicon 対応
+- **HTML**: Dashboard に `manifest` / `theme-color` / `apple-touch-icon`。相対パスのみ
+- **Deploy**: `.github/workflows/pages.yml` が `site/` を GitHub Pages へ配信（Secrets 不要）
+- **output/** は開発成果物として維持。`site/` が公開物
+- Service Worker / Push / Analytics / SPA は未実装
+
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
 | 項目 | 内容 |
@@ -992,7 +1018,7 @@ HTML コメント metadata:
 
 入力検証: Brief valid、Plan valid、briefReference がある場合は id / generatedAt 一致。`--stories` 欠落でも Brief+Plan のみでフォールバックしクラッシュしない。
 
-Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` → `edition-archive-builder` → `personal-dashboard-builder` の順で進む。`daily-edition-html` が最新号 Preview（`output/edition/`）、`edition-archive-builder` が日付別 Archive（`output/archive/<editionId>/`）、`personal-dashboard-builder` が朝の入口（`output/index.html`）を生成する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
+Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` → `edition-archive-builder` → `personal-dashboard-builder` → `site-builder` の順で進む。`personal-dashboard-builder` が朝の入口（`output/index.html`）、`site-builder` が GitHub Pages 用 `site/`（PWA 含む）を生成する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
 
 ### 4.19 Pipeline Runner（Version 2.4）
 
@@ -1523,7 +1549,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.22 |
+| Version | 2.23 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |

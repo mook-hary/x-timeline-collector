@@ -746,6 +746,42 @@ node pipeline.js --no-api --daily-manifest daily-manifest.json \
 
 進捗は stderr、通常記事 Markdown のみが stdout です（Daily Edition は混在させません）。`reviewSummary.status=fail` のとき Pipeline は非 0 終了します。warning のみなら成功です。中間ファイルは `.pipeline-work/` に置きます。
 
+Pipeline 成功後、朝の入口と Pages 用サイトも生成されます。
+
+| パス | 役割 |
+|---|---|
+| `output/index.html` | ローカル用 Personal Dashboard |
+| `output/edition/` | 最新号 Preview |
+| `output/archive/<date>/` | 日付別 Archive |
+| `site/` | GitHub Pages / ホーム画面追加用（コピーして置ける静的一式） |
+
+```bash
+open output/index.html   # ローカル確認
+open site/index.html     # Pages と同じ構成
+```
+
+詳細契約は [DATA_CONTRACT](docs/DATA_CONTRACT.md)。
+
+### 17.1 Personal Web App（GitHub Pages / ホーム画面）
+
+`site/` は追加ビルドなしで GitHub Pages に載せられる静的サイトです（外部 CDN / Google Fonts / 外部 JS なし）。
+
+#### GitHub Pages
+
+1. Repository Settings → Pages → Source を **GitHub Actions** にする
+2. `main` へ push（または Actions の “Deploy Personal Timeline” を手動実行）
+3. `.github/workflows/pages.yml` が `site/` を公開する
+
+CI は Secrets 不要です。`output/timeline_enriched.json` がある場合は `pipeline --no-api` を実行し、無い場合は既存の `output/index.html` から `site/` を組み立てます。自動更新を安定させたい場合は、ローカルで Pipeline を回したあと `output/` または `site/` を含めて push してください。
+
+#### iPhone ホーム画面に追加（Safari）
+
+1. Pages URL（またはローカルで共有した URL）を Safari で開く
+2. 共有ボタン → **ホーム画面に追加**
+3. 名前は「Timeline」などで保存
+
+ホーム画面アイコンから開くと、スタンドアロン表示（`display: standalone`）の朝刊ワークスペースとして使えます。Today's Pick → 記事 → 終了、の約 5 分フロー向けです。
+
 詳細契約は [DATA_CONTRACT](docs/DATA_CONTRACT.md)。
 
 ### 18. Daily Runner — `daily-runner.js`
