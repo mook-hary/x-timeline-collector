@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.21 |
+| **Version** | 2.22 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -546,6 +546,35 @@ output/archive/<editionId>/
 
 `archive-manifest.json` 最低限: `version`, `editionId`, `editionDate`, `createdAt`, `source`, `files`, `summary`, `warnings`。
 
+#### Personal Dashboard（EP-013）
+
+`lib/personal-dashboard-builder.js`（Pipeline `personal-dashboard-builder`）は、毎朝の入口として **読者向け Personal Dashboard** を静的 HTML/CSS で生成する。Writer / Report / Ranking / Edition / AI は再実行しない。
+
+入力:
+
+- `.pipeline-work/daily-edition.json`（Today / Pick / Read Next / Topics）
+- `output/archive/*/archive-manifest.json`（Recent Editions）
+- 補助: `output/edition/index.html`、記事 Markdown、Report metadata
+
+出力:
+
+```
+output/index.html
+output/dashboard.css
+```
+
+構成: Header → Today → Today’s Pick → Read Next → Topics → Recent Editions → Footer
+
+- **Today**: 最新号 Preview（`edition/index.html`）への導線。件数・section 内訳
+- **Today’s Pick**: `top` 先頭 → `secondary` 先頭 → `brief` 先頭（再ランキングしない）。最大 1 件
+- **Read Next**: Pick 以外を top→secondary→brief 順で最大 5 件
+- **Topics**: 既存 `category` / `topics` / `tags` 等のみ。無ければ section 件数。本文推測なし。最大 8。`other` のみの場合は section へフォールバック
+- **Recent Editions**: Archive Manifest 探索、editionDate 降順、最大 7。壊れた号は warning で除外
+- **読者向け**: storyId / paths / claims / confidence 等を主要画面に出さない
+- **Empty / Missing**: 空状態を表示して生成継続（Pipeline では Edition 必須）
+- **オフライン**: 外部フォント・外部スクリプトなし。レスポンシブ + `prefers-color-scheme`
+- 検索 / お気に入り / GitHub Pages / RSS / SPA は未実装
+
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
 | 項目 | 内容 |
@@ -963,7 +992,7 @@ HTML コメント metadata:
 
 入力検証: Brief valid、Plan valid、briefReference がある場合は id / generatedAt 一致。`--stories` 欠落でも Brief+Plan のみでフォールバックしクラッシュしない。
 
-Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` → `edition-archive-builder` の順で進む。`daily-edition-builder` は section 紙面（`daily-edition.json`）を構築し、`daily-edition-html` が最新号 Preview（`output/edition/`）を描画し、`edition-archive-builder` が日付別 Archive（`output/archive/<editionId>/`）へ保存する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
+Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` → `edition-archive-builder` → `personal-dashboard-builder` の順で進む。`daily-edition-html` が最新号 Preview（`output/edition/`）、`edition-archive-builder` が日付別 Archive（`output/archive/<editionId>/`）、`personal-dashboard-builder` が朝の入口（`output/index.html`）を生成する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
 
 ### 4.19 Pipeline Runner（Version 2.4）
 
@@ -1494,7 +1523,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.21 |
+| Version | 2.22 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
