@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 2.20 |
+| **Version** | 2.21 |
 | **Status** | Active |
 | **Last Updated** | 2026-07-21 |
 
@@ -460,6 +460,7 @@ Manifest（version `1.0`）:
 ```json
 {
   "version": "1.0",
+  "editionDate": "2026-07-22",
   "edition": {
     "top": [],
     "secondary": [],
@@ -478,6 +479,7 @@ Manifest（version `1.0`）:
 
 各 entry 最低限: `storyId`, `position`, `section`, `articlePath`, `reportPath`, `readyForAiRewrite`（`publishable` があれば含めてよい）。
 
+- **editionDate**: 号の日付（`YYYY-MM-DD`）。Archive `editionId` の主入力
 - **empty**: 掲載 0 件でも空 Edition を生成して正常終了
 - **legacy**: 既存 `--daily-manifest` + `daily-edition.js` 経路は維持。`legacyPrimaryArticlePath` / `legacyPrimaryReportPath` を保持
 - Decision / Ranking / Edition 再計算・Writer / Report / AI Rewrite / RSS / Publish は変更しない
@@ -507,6 +509,42 @@ output/edition/edition.css
 - **空 Edition**: 空ページを生成して正常終了
 - **GitHub Pages**: 相対パスの静的ファイルのみ（`index.html` + `edition.css`）
 - Decision / Ranking / Writer / Report / AI Rewrite / RSS / Publish は変更しない
+
+#### Edition Archive（EP-012）
+
+`lib/edition-archive-builder.js`（Pipeline `edition-archive-builder`）は、確定済みの Daily Edition 一式を **日付キーの Archive** へ保存する。Writer / Report / Daily Edition Builder / HTML 再生成 / AI は行わない（コピーとパス整合のみ）。
+
+**editionId**（= `editionDate`）:
+
+1. `daily-edition.json` の `editionDate`（または `date`）
+2. Pipeline から渡す日付
+3. 実行日（`YYYY-MM-DD`）
+
+同日に時刻付きの別 ID を無条件生成しない。形式は `YYYY-MM-DD` のみ。
+
+出力:
+
+```
+output/archive/<editionId>/
+  index.html
+  edition.css
+  daily-edition.json
+  archive-manifest.json
+  articles/
+  article-reports/
+```
+
+- **保存対象**: Edition の `top` / `secondary` / `brief` に掲載された entry のみ
+- **相対パス**: Archive ディレクトリ基準。Manifest に絶対パスを保存しない
+- **パス書換**: Archive 内 `daily-edition.json` と HTML の article/report 参照を Archive 相対へ
+- **最新号**: `output/edition/` は維持（移動・削除しない）
+- **Missing Article/Report**: warning で省略、Archive 全体は継続
+- **Missing HTML/CSS または不正 JSON**: error。不完全な号を確定しない（一時ディレクトリ方式）
+- **Empty**: 記事 0 件でも空 Archive を生成して正常終了
+- **Idempotency**: 同一 `editionId` は同一ディレクトリへ原子的に置換（増殖しない）
+- Archive Index / GitHub Pages / RSS / 検索 / 自動削除は未実装
+
+`archive-manifest.json` 最低限: `version`, `editionId`, `editionDate`, `createdAt`, `source`, `files`, `summary`, `warnings`。
 
 ### 4.11 Concept Library（派生ビュー・Version 1.6）
 
@@ -925,7 +963,7 @@ HTML コメント metadata:
 
 入力検証: Brief valid、Plan valid、briefReference がある場合は id / generatedAt 一致。`--stories` 欠落でも Brief+Plan のみでフォールバックしクラッシュしない。
 
-Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` の順で進む。`daily-edition-builder` は `articles-manifest.json` 全件から section 紙面（`daily-edition.json`）を構築し、`daily-edition-html` がそれを静的 HTML（`output/edition/`）へ描画する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
+Pipeline は `writer-selection` → `writer-batch` → `article-report-batch` → `daily-edition-builder` → `daily-edition-html` → `edition-archive-builder` の順で進む。`daily-edition-builder` は section 紙面（`daily-edition.json`）を構築し、`daily-edition-html` が最新号 Preview（`output/edition/`）を描画し、`edition-archive-builder` が日付別 Archive（`output/archive/<editionId>/`）へ保存する。従来の単一 `--output` / `--report-output` は legacy primary（position 1）を参照する。既存 `--daily-manifest` + `daily-edition.js` 経路も維持する。Plan.title 未指定時は **具体的な Brief.title（Editorial headline）を優先**し、それがない場合のみ Story 由来タイトルを Plan に同期して Article Report の H1 照合を維持する。
 
 ### 4.19 Pipeline Runner（Version 2.4）
 
@@ -1456,7 +1494,7 @@ Cache / Progress 破損時は上書きせず終了する。
 | 項目 | 内容 |
 |---|---|
 | 文書名 | DATA_CONTRACT |
-| Version | 2.20 |
+| Version | 2.21 |
 | 適用対象 | connect / analyze / analyze_ai / enrich_ai / search / digest / editor / concepts / stories / knowledge / knowledge-base / brief / editorial-plan / writer / article-report / daily-edition / daily-runner / launchd / pipeline およびその入出力 |
 | 正本の置き場 | `docs/DATA_CONTRACT.md` |
 | 利用手順の正本 | `README.md` |
