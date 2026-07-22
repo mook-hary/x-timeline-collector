@@ -230,4 +230,23 @@ function seedOutput(root) {
   console.log("MissingDashboard PASS");
 }
 
+// --- EP-018 demo placeholder site ---
+{
+  const { writeDemoSite } = require("../lib/site-builder");
+  const root = tmpDir("site-demo-");
+  const siteRoot = path.join(root, "site");
+  const result = writeDemoSite({ siteRoot });
+  assert.ok(result.demo);
+  assert.ok(fs.existsSync(path.join(siteRoot, "index.html")));
+  assert.ok(fs.existsSync(path.join(siteRoot, "edition", "index.html")));
+  assert.ok(fs.existsSync(path.join(siteRoot, "manifest.webmanifest")));
+  const html = fs.readFileSync(path.join(siteRoot, "index.html"), "utf8");
+  assert.ok(html.includes("Timeline Demo"));
+  assert.ok(!html.includes("/Users/"));
+  assert.ok(!html.includes("output/"));
+  assert.ok(!html.includes("runs/"));
+  assert.ok(!fs.existsSync(path.join(siteRoot, "archive", "2026-07-22")));
+  console.log("DemoSite PASS");
+}
+
 console.log("All site-builder tests PASS");

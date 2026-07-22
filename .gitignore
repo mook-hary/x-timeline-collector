@@ -1,25 +1,37 @@
-# Environment
+# Environment (keep .env.example tracked)
 .env
+.env.*
+!.env.example
 
 # Dependencies
 node_modules/
 
-# Playwright / browser profile
+# Playwright / browser profile (cookies, sessions, login data)
 browser-data/
 
-# AI analysis progress and results (may contain API-derived content)
-output/timeline_ai.json
-output/timeline_enriched.json
-output/ai_progress.json
-output/ai_cache.json
-output/enrich_progress.json
-output/enrich_cache.json
-
+# Private knowledge store
 knowledge-base/
 
-# OS / editor
-.DS_Store
-*.log
+# Disposable local pipeline intermediates
+output/
+
+# Run workspaces (including retest / experiment dirs)
+runs/
+runs-*/
 
 # Generated pipeline working files
 .pipeline-work/
+
+# Local logs
+logs/
+
+# OS / editor / cache
+.DS_Store
+*.log
+*.swp
+*.swo
+.idea/
+.vscode/
+*.tmp
+*.temp
+.cache/

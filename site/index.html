@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="generator" content="x-timeline-collector demo-site">
+  <meta name="theme-color" content="#0c6b66">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Timeline">
+  <title>Timeline Demo</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<body>
+<header class="site-header wrap">
+  <p class="site-header__kicker">Public demo</p>
+  <h1 class="site-header__title">Timeline Demo</h1>
+  <p class="site-header__lede">Placeholder site for x-timeline-collector. No live timeline data is included.</p>
+</header>
+<main>
+<section class="section wrap" aria-labelledby="about-label">
+  <h2 class="section__label" id="about-label">About</h2>
+  <div class="card card--today">
+    <p>This repository keeps curated <code>site/</code> files public. Local pipeline intermediates and run workspaces stay private and are not deployed.</p>
+    <p class="today__actions"><a class="btn btn--compact" href="edition/index.html">Open demo edition</a></p>
+  </div>
+</section>
+<section class="section wrap" aria-labelledby="publish-label">
+  <h2 class="section__label" id="publish-label">Publish locally</h2>
+  <div class="card">
+    <ol>
+      <li>Run the pipeline so a local dashboard is generated.</li>
+      <li>Review that local dashboard.</li>
+      <li>Run <code>npm run build:site</code> to copy approved files into <code>site/</code>.</li>
+      <li>Run <code>npm run validate:site</code> and <code>npm run audit:public</code> before committing <code>site/</code>.</li>
+    </ol>
+  </div>
+</section>
+</main>
+<footer class="site-footer wrap">
+  <p>Demo placeholder — not a live edition.</p>
+</footer>
+</body>
+</html>

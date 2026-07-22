@@ -1,10 +1,14 @@
 {
   "name": "x-timeline-collector",
   "version": "1.0.0",
-  "description": "",
+  "description": "Personal X timeline collector and editorial pipeline",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node scripts/run-tests.js",
+    "build:site": "node scripts/build-site.js",
+    "build:site:demo": "node scripts/build-site-demo.js",
+    "validate:site": "node scripts/validate-site.js",
+    "audit:public": "node scripts/audit-public.js"
   },
   "keywords": [],
   "author": "",

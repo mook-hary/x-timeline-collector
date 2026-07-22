@@ -1,10 +1,10 @@
-# Deploy Personal Timeline site/ to GitHub Pages.
+# Deploy curated site/ to GitHub Pages.
 # Secrets are not required. Uses GitHub-native Pages actions.
 #
-# Build strategy:
-# 1. If output/timeline_enriched.json exists → full pipeline --no-api
-# 2. Else if output/index.html exists → site-builder only (from committed output/)
-# 3. Else fail with a clear message
+# Security model (EP-018):
+# - Deploy only reviewed files already present under site/
+# - Do not read output/, runs/, timeline dumps, or browser data
+# - Do not rebuild from private local intermediates in CI
 
 name: Deploy Personal Timeline
 
@@ -33,28 +33,33 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build site
+      - name: Validate curated site/
         run: |
           set -euo pipefail
-          if [ -f output/timeline_enriched.json ]; then
-            echo "Running full pipeline (--no-api)"
-            node pipeline.js --no-api --days 7 --plan-title "Personal Timeline"
-          elif [ -f output/index.html ]; then
-            echo "Enriched timeline missing; assembling site/ from existing output/"
-            node -e "require('./lib/site-builder').buildSite({ rootDir: process.cwd() })"
-          else
-            echo "::error::Neither output/timeline_enriched.json nor output/index.html found."
-            echo "Run the pipeline locally, commit output/ (or site/), then push."
-            exit 1
-          fi
+          test -d site
           test -f site/index.html
           test -f site/manifest.webmanifest
           test -f site/favicon.ico
+          # Reject private artifacts accidentally placed under site/
+          if [ -e site/.env ] || [ -e site/output ] || [ -e site/runs ]; then
+            echo "::error::Forbidden private paths found under site/"
+            exit 1
+          fi
+          if find site -type l | grep -q .; then
+            echo "::error::Symlinks are not allowed under site/"
+            find site -type l
+            exit 1
+          fi
+          if find site -type f \( \
+              -name 'timeline.json' -o -name 'timeline.csv' -o \
+              -name 'timeline_analyzed.json' -o -name 'timeline_enriched.json' -o \
+              -name '.env' \
+            \) | grep -q .; then
+            echo "::error::Forbidden raw/private files found under site/"
+            exit 1
+          fi
+          node scripts/validate-site.js
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

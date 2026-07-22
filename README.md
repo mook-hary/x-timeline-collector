@@ -13,6 +13,44 @@
 
 ---
 
+## Public vs local layout
+
+This repository is structured so a public GitHub tree can exist without shipping private timeline data.
+
+| Path | Visibility | Role |
+|---|---|---|
+| Application source (`*.js`, `lib/`), `test/`, `docs/`, `README.md` | Public | Source code and documentation |
+| `config/`, `digest.config.json`, `.env.example`, `package.json`, `package-lock.json` | Public | Configuration templates and package metadata |
+| `.github/workflows/` | Public | CI / Pages workflow (deploys `site/` only) |
+| `site/` | Public (curated) | Reviewed static site for GitHub Pages |
+| `.env` | Local only | Secrets template is `.env.example` — never commit real keys |
+| `browser-data/` | Local only | Playwright/Chromium profile (cookies / sessions) |
+| `knowledge-base/` | Local only | Private knowledge store |
+| `.pipeline-work/` | Local only | Disposable pipeline working files |
+| `logs/` | Local only | Local runner / launchd logs |
+| `output/` | Local only | Disposable intermediate pipeline data (raw timeline, reviews, local dashboard) |
+| `runs/`, `runs-*/` | Local only | Run workspaces and retest artifacts |
+
+Flow:
+
+1. Run the pipeline locally → writes disposable data under `output/`
+2. Review the local dashboard (`output/index.html`)
+3. Intentionally publish: `npm run build:site` copies approved files into `site/`
+4. Validate: `npm run validate:site` and `npm run audit:public`
+5. Commit only curated `site/` (never `output/` or `runs/`)
+6. GitHub Pages deploys the tracked `site/` directory only
+
+### Public-release checklist
+
+- [ ] `.env`, `browser-data/`, `knowledge-base/`, `output/`, `runs/`, `runs-*/`, `.pipeline-work/`, `logs/` are untracked
+- [ ] `npm run audit:public` passes
+- [ ] `npm run validate:site` passes
+- [ ] `site/` contains only reviewed public pages (or the demo placeholder)
+- [ ] No home-directory absolute paths, raw timeline dumps, or secrets in tracked files
+- [ ] Pages workflow uploads `site/` only (no CI rebuild from private `output/`)
+
+---
+
 ## Quick Start
 
 既存の `output/timeline_enriched.json` がある場合（API なし）:
@@ -750,14 +788,22 @@ Pipeline 成功後、朝の入口と Pages 用サイトも生成されます。
 
 | パス | 役割 |
 |---|---|
-| `output/index.html` | ローカル用 Personal Dashboard |
-| `output/edition/` | 最新号 Preview |
-| `output/archive/<date>/` | 日付別 Archive |
-| `site/` | GitHub Pages / ホーム画面追加用（コピーして置ける静的一式） |
+| `output/index.html` | ローカル用 Personal Dashboard（**Git 管理外**） |
+| `output/edition/` | 最新号 Preview（**Git 管理外**） |
+| `output/archive/<date>/` | 日付別 Archive（**Git 管理外**） |
+| `site/` | GitHub Pages 用。レビュー済みの公開静的一式のみをコミット |
 
 ```bash
-open output/index.html   # ローカル確認
+open output/index.html   # ローカル確認（private）
+npm run build:site       # 承認した内容だけ site/ へコピー（意図的な公開ステップ）
+npm run validate:site
 open site/index.html     # Pages と同じ構成
+```
+
+公開デモに戻す場合:
+
+```bash
+npm run build:site:demo
 ```
 
 詳細契約は [DATA_CONTRACT](docs/DATA_CONTRACT.md)。
@@ -766,13 +812,22 @@ open site/index.html     # Pages と同じ構成
 
 `site/` は追加ビルドなしで GitHub Pages に載せられる静的サイトです（外部 CDN / Google Fonts / 外部 JS なし）。
 
+GitHub Pages は **追跡済みの `site/` のみ**をデプロイします。CI は `output/` や raw timeline を読みません。
+
+#### ローカルから公開サイトを更新する
+
+1. Pipeline 等でローカル `output/` を生成・確認する
+2. `npm run build:site` で `site/` を更新する（自動で全部公開にはしない）
+3. `npm run validate:site` と `npm run audit:public` を実行する
+4. 問題なければ `site/` だけをコミットして `main` へ push する
+
 #### GitHub Pages
 
 1. Repository Settings → Pages → Source を **GitHub Actions** にする
 2. `main` へ push（または Actions の “Deploy Personal Timeline” を手動実行）
-3. `.github/workflows/pages.yml` が `site/` を公開する
+3. `.github/workflows/pages.yml` が検証済みの `site/` を公開する
 
-CI は Secrets 不要です。`output/timeline_enriched.json` がある場合は `pipeline --no-api` を実行し、無い場合は既存の `output/index.html` から `site/` を組み立てます。自動更新を安定させたい場合は、ローカルで Pipeline を回したあと `output/` または `site/` を含めて push してください。
+CI は Secrets 不要です。`output/` をコミットする必要はありません。
 
 #### iPhone ホーム画面に追加（Safari）
 
@@ -875,16 +930,17 @@ node launchd.js uninstall
 
 | ファイル | 段階 |
 |---|---|
-| `output/timeline.json` | 収集 Raw |
-| `output/timeline_analyzed.json` | キーワード分類後 |
-| `output/timeline_ai.json` | AI 再分類後（`finalAnalysis`） |
-| `output/timeline_enriched.json` | 補強後。search / digest / editor / concepts / stories の正式入力 |
-| `output/ai_*.json` / `enrich_*.json` | AI の進捗・キャッシュ（再開用。投稿の正本ではない） |
-| `output/review/*` など | 人間レビュー用の派生 |
+| `output/timeline.json` | 収集 Raw（**local-only**） |
+| `output/timeline_analyzed.json` | キーワード分類後（**local-only**） |
+| `output/timeline_ai.json` | AI 再分類後（`finalAnalysis`）（**local-only**） |
+| `output/timeline_enriched.json` | 補強後。search / digest / editor / concepts / stories の正式入力（**local-only**） |
+| `output/ai_*.json` / `enrich_*.json` | AI の進捗・キャッシュ（再開用。投稿の正本ではない）（**local-only**） |
+| `output/review/*` など | 人間レビュー用の派生（**local-only**） |
+| `site/` | レビュー済みの公開静的サイトのみを Git 管理 |
 
 詳細は [DATA_CONTRACT](docs/DATA_CONTRACT.md) を参照してください。
 
-`.env`、AI 進捗／キャッシュ、`timeline_ai.json` / `timeline_enriched.json` など機微・再生成可能な成果は Git にコミットしない運用を推奨します。
+`.env`、`browser-data/`、`knowledge-base/`、`output/`、`runs/`、`runs-*/`、`.pipeline-work/`、`logs/` は Git にコミットしません。公開前に `npm run audit:public` を実行してください。
 
 ---
 
