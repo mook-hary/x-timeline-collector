@@ -522,13 +522,16 @@ function seed(root, {
   console.log("Case11 PASS");
 }
 
-// --- Case 12: Responsive / dark / focus ---
+// --- Case 12: Responsive / dark / focus / a11y ---
 {
   assert.ok(DASHBOARD_CSS.includes("prefers-color-scheme: dark"));
   assert.ok(DASHBOARD_CSS.includes("@media (max-width"));
   assert.ok(DASHBOARD_CSS.includes("focus-visible"));
   assert.ok(DASHBOARD_CSS.includes("overflow-x: hidden"));
   assert.ok(DASHBOARD_CSS.includes("overflow-wrap"));
+  assert.ok(DASHBOARD_CSS.includes("prefers-reduced-motion"));
+  assert.ok(DASHBOARD_CSS.includes("--tap"));
+  assert.ok(DASHBOARD_CSS.includes("min-height: var(--tap)"));
   console.log("Case12 PASS");
 }
 
@@ -567,6 +570,90 @@ function seed(root, {
   assert.strictEqual(a.html, b.html);
   assert.strictEqual(a.css, b.css);
   console.log("Case13 PASS");
+}
+
+// --- EP-015 polish: page container / gutters ---
+{
+  assert.ok(DASHBOARD_CSS.includes("--max: 1120px"));
+  assert.ok(DASHBOARD_CSS.includes("margin-inline: auto"));
+  assert.ok(DASHBOARD_CSS.includes("--gutter: 16px"));
+  assert.ok(DASHBOARD_CSS.includes("--gutter: 24px"));
+  assert.ok(DASHBOARD_CSS.includes("--gutter: 32px"));
+  assert.ok(DASHBOARD_CSS.includes("calc(100% - 2 * var(--gutter))"));
+  console.log("PolishContainer PASS");
+}
+
+// --- EP-015: denser header / today / pick ---
+{
+  assert.ok(DASHBOARD_CSS.includes(".site-header"));
+  assert.ok(/\.site-header\s*\{[^}]*padding:\s*1\.15rem/s.test(DASHBOARD_CSS));
+  assert.ok(DASHBOARD_CSS.includes("card--today"));
+  assert.ok(DASHBOARD_CSS.includes("flex-wrap: wrap"));
+  assert.ok(DASHBOARD_CSS.includes(".pick__title"));
+  assert.ok(DASHBOARD_CSS.includes("--measure"));
+  assert.ok(DASHBOARD_CSS.includes("max-width: var(--measure)"));
+  console.log("PolishDensity PASS");
+}
+
+// --- EP-015: empty compact + score hidden + topics wrap ---
+{
+  const root = tmpDir("dash-polish-");
+  const fx = seed(root, {
+    stories: [
+      {
+        id: "a",
+        section: "top",
+        position: 1,
+        title: "Pick Story",
+        score: 94,
+        body: "summary text",
+      },
+    ],
+  });
+  const result = buildPersonalDashboard({
+    edition: fx.editionPath,
+    workRoot: fx.workDir,
+    outputDir: fx.outputDir,
+    latestHtmlPath: fx.latestHtmlPath,
+  });
+  const html = result.html;
+  assert.ok(!html.includes("score 94"));
+  assert.ok(!/\bscore\b/i.test(html));
+  assert.ok(html.includes("次に読む記事はまだありません"));
+  assert.ok(DASHBOARD_CSS.includes(".empty"));
+  assert.ok(/\.empty\s*\{[^}]*border:\s*0/s.test(DASHBOARD_CSS));
+  assert.ok(DASHBOARD_CSS.includes("flex-wrap: wrap"));
+  assert.ok(html.includes("archive/") || html.includes("保存された過去号"));
+  assert.ok(html.includes('class="pick__title"'));
+  assert.ok(html.includes('class="pick__summary"') || html.includes("Pick Story"));
+  console.log("PolishScoreEmpty PASS");
+}
+
+// --- EP-015: site CSS sync ---
+{
+  const root = tmpDir("dash-site-sync-");
+  const fx = seed(root, {
+    stories: [{ id: "a", section: "top", position: 1, title: "Sync" }],
+  });
+  buildPersonalDashboard({
+    edition: fx.editionPath,
+    workRoot: fx.workDir,
+    outputDir: fx.outputDir,
+    latestHtmlPath: fx.latestHtmlPath,
+  });
+  const { buildSite } = require("../lib/site-builder");
+  buildSite({
+    outputRoot: fx.outputDir,
+    siteRoot: path.join(root, "site"),
+  });
+  const outCss = fs.readFileSync(path.join(fx.outputDir, "dashboard.css"), "utf8");
+  const siteCss = fs.readFileSync(path.join(root, "site", "dashboard.css"), "utf8");
+  assert.strictEqual(outCss, siteCss);
+  assert.ok(outCss.includes("--max: 1120px"));
+  const siteHtml = fs.readFileSync(path.join(root, "site", "index.html"), "utf8");
+  assert.ok(siteHtml.includes('href="dashboard.css"'));
+  assert.ok(siteHtml.includes('rel="manifest"'));
+  console.log("PolishSiteSync PASS");
 }
 
 // --- reader-facing: no internal dump ---
