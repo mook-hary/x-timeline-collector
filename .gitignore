@@ -15,6 +15,9 @@ knowledge-base/
 # Disposable local pipeline intermediates
 output/
 
+# Local Morning API usage history
+data/
+
 # Run workspaces (including retest / experiment dirs)
 runs/
 runs-*/

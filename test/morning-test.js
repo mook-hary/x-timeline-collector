@@ -397,6 +397,8 @@ function mockSpawnOk() {
   // 300 input → $0.000075 (<$0.0001 → 6dp); 60 output → $0.00012 → $0.0001
   assert.ok(joined.includes("Input  : $0.000075"));
   assert.ok(joined.includes("Output : $0.0001"));
+  assert.ok(joined.includes("Usage history saved:"));
+  assert.strictEqual(result.historySaved, true);
   console.log("usage aggregate PASS");
 }
 
@@ -417,6 +419,7 @@ function mockSpawnOk() {
     spawn,
     log: (line) => logs.push(line),
     env: { ...process.env, OPENAI_MODEL: "not-a-priced-model" },
+    historyPath: path.join(root, "data", "api-usage-history.json"),
   });
   assert.strictEqual(result.ok, true);
   const joined = logs.join("\n");
@@ -426,6 +429,166 @@ function mockSpawnOk() {
     joined.includes("pricing is not configured for not-a-priced-model")
   );
   console.log("unknown model cost PASS");
+}
+
+// --- EP-033: history saved once with usage + cost + runOptions ---
+{
+  const root = tmpDir("morning-hist-save-");
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(root, "connect.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "enrich_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
+
+  const historyCalls = [];
+  const times = [
+    "2026-07-23T04:27:01.000Z",
+    "2026-07-23T04:30:15.123Z",
+  ];
+  const spawn = (_cmd, args) => {
+    const script = String(args[0] || "");
+    let stdout = "";
+    if (script.endsWith("analyze_ai.js")) {
+      stdout =
+        '[api-usage] {"label":"Analyze","requests":49,"input_tokens":38200,"output_tokens":21110,"total_tokens":59310}\n';
+    } else if (script.endsWith("enrich_ai.js")) {
+      stdout =
+        '[api-usage] {"label":"Enrich","requests":50,"input_tokens":40614,"output_tokens":27381,"total_tokens":67995}\n';
+    }
+    return { status: 0, error: null, stdout, stderr: "" };
+  };
+  const logs = [];
+  const result = runMorning(parseMorningArgs(["--skip-collect"]), {
+    rootDir: root,
+    spawn,
+    log: (line) => logs.push(line),
+    env: { ...process.env, OPENAI_MODEL: "gpt-5-mini" },
+    now: () => times.shift() || "2026-07-23T04:30:15.123Z",
+    recordUsageHistory: (historyPath, entry) => {
+      historyCalls.push({ historyPath, entry });
+      return { ok: true, added: true, path: historyPath, entry };
+    },
+  });
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(historyCalls.length, 1);
+  const entry = historyCalls[0].entry;
+  assert.strictEqual(entry.startedAt, "2026-07-23T04:27:01.000Z");
+  assert.strictEqual(entry.finishedAt, "2026-07-23T04:30:15.123Z");
+  assert.strictEqual(entry.model, "gpt-5-mini");
+  assert.strictEqual(entry.analyze.requests, 49);
+  assert.strictEqual(entry.enrich.requests, 50);
+  assert.strictEqual(entry.total.requests, 99);
+  assert.strictEqual(entry.total.inputTokens, 78814);
+  assert.ok(entry.estimatedCostUsd.total > 0);
+  assert.deepStrictEqual(entry.runOptions, {
+    skipCollect: true,
+    skipAi: false,
+    fromEnriched: false,
+  });
+  assert.ok(logs.join("\n").includes("Usage history saved:"));
+  assert.ok(logs.join("\n").includes("Morning Summary"));
+  console.log("history save once PASS");
+}
+
+// --- EP-033: zero usage still recorded ---
+{
+  const root = tmpDir("morning-hist-zero-");
+  fs.mkdirSync(path.join(root, "output"), { recursive: true });
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(
+    path.join(root, "output", "timeline_enriched.json"),
+    "[]\n",
+    "utf8"
+  );
+  fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
+
+  const historyCalls = [];
+  const logs = [];
+  const result = runMorning(parseMorningArgs(["--from-enriched"]), {
+    rootDir: root,
+    spawn: () => ({ status: 0, error: null, stdout: "", stderr: "" }),
+    log: (line) => logs.push(line),
+    now: (() => {
+      let i = 0;
+      const t = ["2026-07-23T05:00:00.000Z", "2026-07-23T05:00:01.000Z"];
+      return () => t[i++] || t[t.length - 1];
+    })(),
+    recordUsageHistory: (historyPath, entry) => {
+      historyCalls.push(entry);
+      return { ok: true, added: true, path: historyPath, entry };
+    },
+  });
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(historyCalls.length, 1);
+  assert.strictEqual(historyCalls[0].total.requests, 0);
+  assert.deepStrictEqual(historyCalls[0].estimatedCostUsd, {
+    input: 0,
+    output: 0,
+    total: 0,
+  });
+  assert.strictEqual(historyCalls[0].runOptions.fromEnriched, true);
+  console.log("zero usage history PASS");
+}
+
+// --- EP-033: history save failure does not fail Morning ---
+{
+  const root = tmpDir("morning-hist-fail-");
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(root, "connect.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "enrich_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
+
+  const logs = [];
+  const result = runMorning(parseMorningArgs(["--skip-collect"]), {
+    rootDir: root,
+    spawn: () => ({ status: 0, error: null, stdout: "", stderr: "" }),
+    log: (line) => logs.push(line),
+    recordUsageHistory: () => {
+      throw new Error("disk full");
+    },
+  });
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(result.historySaved, false);
+  assert.ok(
+    logs.some((l) =>
+      l.includes("WARNING: failed to save usage history: disk full")
+    )
+  );
+  console.log("history save failure soft PASS");
+}
+
+// --- EP-033: mid-run failure does not save success history ---
+{
+  const root = tmpDir("morning-hist-midfail-");
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
+
+  let historyCalls = 0;
+  assert.throws(
+    () =>
+      runMorning(parseMorningArgs(["--skip-collect"]), {
+        rootDir: root,
+        spawn: (_cmd, args) => {
+          const script = String(args[0] || "");
+          if (script.endsWith("analyze_ai.js")) {
+            return { status: 2, error: null, stdout: "", stderr: "boom" };
+          }
+          return { status: 0, error: null, stdout: "", stderr: "" };
+        },
+        log: () => {},
+        recordUsageHistory: () => {
+          historyCalls += 1;
+          return { ok: true };
+        },
+      }),
+    /AI Analyze failed/
+  );
+  assert.strictEqual(historyCalls, 0);
+  console.log("mid-fail no history PASS");
 }
 
 console.log("morning-test: ALL PASS");

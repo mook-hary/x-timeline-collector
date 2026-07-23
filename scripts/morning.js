@@ -12,6 +12,12 @@ const {
   parseUsageFromOutput,
   formatMorningUsageSummary,
 } = require("../lib/api-usage");
+const {
+  HISTORY_REL,
+  buildMorningHistoryEntry,
+  resolveHistoryPath,
+  recordMorningUsage,
+} = require("../lib/api-usage-history");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -230,6 +236,12 @@ function runMorning(options, deps = {}) {
     return { ok: true, stepsRun: [], opened: false };
   }
 
+  const now =
+    typeof deps.now === "function"
+      ? deps.now
+      : () => new Date().toISOString();
+  const startedAt = now();
+
   const plan = buildMorningPlan(options);
   const enrichedPath = path.join(rootDir, ENRICHED_REL);
 
@@ -348,6 +360,41 @@ function runMorning(options, deps = {}) {
     )
   );
 
+  // EP-033: persist usage history once on success only (never fail Morning).
+  const finishedAt = now();
+  let historySaved = false;
+  try {
+    const recordFn =
+      typeof deps.recordUsageHistory === "function"
+        ? deps.recordUsageHistory
+        : recordMorningUsage;
+    const historyPath = deps.historyPath || resolveHistoryPath(rootDir);
+    const entry = buildMorningHistoryEntry({
+      startedAt,
+      finishedAt,
+      model: env.OPENAI_MODEL,
+      analyze: usageByStep.analyze,
+      enrich: usageByStep.enrich,
+      runOptions: {
+        skipCollect: options.skipCollect === true,
+        skipAi: options.skipAi === true,
+        fromEnriched: options.fromEnriched === true,
+      },
+    });
+    const result = recordFn(historyPath, entry);
+    historySaved = !!(result && result.ok !== false);
+    const displayPath = (result && result.path) || historyPath;
+    const rel =
+      path.isAbsolute(displayPath) &&
+      displayPath.startsWith(rootDir + path.sep)
+        ? path.relative(rootDir, displayPath)
+        : displayPath;
+    log(`[Morning] Usage history saved: ${rel || HISTORY_REL}`);
+  } catch (error) {
+    const reason = error && error.message ? error.message : String(error);
+    log(`[Morning] WARNING: failed to save usage history: ${reason}`);
+  }
+
   log("[Morning] Done");
   return {
     ok: true,
@@ -355,6 +402,9 @@ function runMorning(options, deps = {}) {
     opened,
     plan,
     usage: usageByStep,
+    historySaved,
+    startedAt,
+    finishedAt,
   };
 }
 
@@ -383,6 +433,7 @@ module.exports = {
   AI_LIMIT,
   ENRICHED_REL,
   READER_HTML_REL,
+  HISTORY_REL,
   parseMorningArgs,
   buildMorningPlan,
   runMorning,
