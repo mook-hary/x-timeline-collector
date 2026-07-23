@@ -7,6 +7,7 @@
     "test": "node scripts/run-tests.js",
     "build:site": "node scripts/build-site.js",
     "build:site:demo": "node scripts/build-site-demo.js",
+    "build:digest-reader": "node scripts/build-digest-reader.js",
     "validate:site": "node scripts/validate-site.js",
     "audit:public": "node scripts/audit-public.js"
   },
