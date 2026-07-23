@@ -391,7 +391,41 @@ function mockSpawnOk() {
   assert.ok(joined.includes("Morning Summary"));
   assert.ok(joined.includes("Requests : 5"));
   assert.ok(joined.includes("Total    : 360"));
+  assert.ok(joined.includes("Estimated Cost"));
+  assert.ok(joined.includes("Model  : gpt-5-mini"));
+  assert.ok(joined.includes("Estimate only; actual billing may differ."));
+  // 300 input → $0.000075 (<$0.0001 → 6dp); 60 output → $0.00012 → $0.0001
+  assert.ok(joined.includes("Input  : $0.000075"));
+  assert.ok(joined.includes("Output : $0.0001"));
   console.log("usage aggregate PASS");
+}
+
+// --- EP-032: unknown model cost unavailable, morning still succeeds ---
+{
+  const root = tmpDir("morning-cost-unknown-");
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(root, "connect.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "enrich_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
+
+  const spawn = () => ({ status: 0, error: null, stdout: "", stderr: "" });
+  const logs = [];
+  const result = runMorning(parseMorningArgs(["--skip-collect"]), {
+    rootDir: root,
+    spawn,
+    log: (line) => logs.push(line),
+    env: { ...process.env, OPENAI_MODEL: "not-a-priced-model" },
+  });
+  assert.strictEqual(result.ok, true);
+  const joined = logs.join("\n");
+  assert.ok(joined.includes("Model  : not-a-priced-model"));
+  assert.ok(joined.includes("Estimated Cost: unavailable"));
+  assert.ok(
+    joined.includes("pricing is not configured for not-a-priced-model")
+  );
+  console.log("unknown model cost PASS");
 }
 
 console.log("morning-test: ALL PASS");

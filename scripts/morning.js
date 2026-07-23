@@ -337,10 +337,16 @@ function runMorning(options, deps = {}) {
   }
 
   // Always print Morning Summary at successful end (zeros when AI skipped).
-  log(formatMorningUsageSummary({
-    analyze: usageByStep.analyze,
-    enrich: usageByStep.enrich,
-  }));
+  const env = deps.env || process.env;
+  log(
+    formatMorningUsageSummary(
+      {
+        analyze: usageByStep.analyze,
+        enrich: usageByStep.enrich,
+      },
+      { model: env.OPENAI_MODEL }
+    )
+  );
 
   log("[Morning] Done");
   return {
