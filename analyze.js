@@ -19,6 +19,47 @@ const LOW_CONFIDENCE_FILE = path.join(
 );
 const CATEGORIES_FILE = path.join(__dirname, "config", "categories.json");
 
+function printHelp() {
+  console.log(`x-timeline-collector Keyword Analyze (analyze.js)
+
+Usage:
+  node analyze.js
+  node analyze.js --help
+  npm run analyze
+
+Options:
+  --help, -h  Show this help (does not analyze)
+
+Input:
+  output/timeline.json
+  config/categories.json
+
+Output:
+  output/timeline_analyzed.json
+  output/uncategorized.json
+  output/uncategorized.txt
+  output/review/*.txt
+  output/review_low_confidence.txt
+
+API:
+  None (OpenAI not used)
+
+Chrome:
+  Not required
+`);
+}
+
+function parseAnalyzeArgs(argv) {
+  for (const token of argv) {
+    if (token === "--help" || token === "-h") {
+      return { help: true };
+    }
+    console.error(`不明なオプション: ${token}`);
+    process.exit(1);
+  }
+  return { help: false };
+}
+
 function buildSearchText(post, category) {
   const fields =
     category === "広告・PR"
@@ -371,6 +412,12 @@ function writeLowConfidenceFile(analyzedPosts, categoryNames) {
 }
 
 function main() {
+  const cli = parseAnalyzeArgs(process.argv.slice(2));
+  if (cli.help) {
+    printHelp();
+    return;
+  }
+
   const categories = readJsonObjectRequired(CATEGORIES_FILE, "カテゴリ設定");
   const posts = readJsonArrayRequired(INPUT_FILE, "output/timeline.json");
 

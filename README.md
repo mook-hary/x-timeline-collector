@@ -241,18 +241,56 @@ cp .env.example .env
 
 ---
 
+## 毎朝（Digest Reader）
+
+ローカル専用。`site/`・Publish・Writer は含みません。
+
+### 毎朝
+
+```bash
+npm run morning -- --open
+```
+
+実行順: Collect (`connect.js --once`) → Keyword Analyze → AI Analyze (`--limit 50`) → AI Enrich (`--limit 50`) → Digest Reader。
+
+### Readerだけ
+
+```bash
+npm run morning -- --from-enriched --open
+```
+
+### Collectなし
+
+```bash
+npm run morning -- --skip-collect --open
+```
+
+### AIなし
+
+```bash
+npm run morning -- --skip-ai --open
+```
+
+既存の `output/timeline_enriched.json` を使います（最新ではない可能性があります）。
+
+関連: `npm run collect` / `analyze` / `analyze:ai` / `enrich` / `build:digest-reader`。詳細は `node scripts/morning.js --help`。
+
+---
+
 ## 実行方法
 
 ### 1. 収集 — `connect.js`
 
 ```bash
-node connect.js
+node connect.js --once   # 保存後に終了（Morning / 自動化向け）
+node connect.js          # 保存後も待機（従来どおり。終了は Ctrl+C）
+node connect.js --help
 ```
 
 - 最大 50 件／最大 15 スクロールでホームTLを取得し、`output/timeline.json` に**蓄積**
 - 併せて `output/timeline.csv`（UTF-8 BOM）を生成
 - URL で重複除外。既存の `collectedAt` は変更しない
-- ブラウザは閉じない（終了は `Ctrl+C`）
+- `--once` なしではブラウザを閉じない（終了は `Ctrl+C`）
 
 旧方式（専用プロファイル起動）: `node index.js`（うまくいかない場合は上記 CDP 方式を推奨）
 
@@ -260,6 +298,7 @@ node connect.js
 
 ```bash
 node analyze.js
+node analyze.js --help
 ```
 
 - 入力: `output/timeline.json`
@@ -273,6 +312,7 @@ node analyze.js
 ```bash
 node analyze_ai.js --limit 5
 node analyze_ai.js --cache-stats
+node analyze_ai.js --help
 ```
 
 - 対象: `analysis.confidence === "low"` またはカテゴリ「その他」
@@ -287,6 +327,7 @@ node analyze_ai.js --cache-stats
 ```bash
 node enrich_ai.js --limit 5
 node enrich_ai.js --cache-stats
+node enrich_ai.js --help
 ```
 
 - 入力: `timeline_ai.json` → 出力: `timeline_enriched.json`

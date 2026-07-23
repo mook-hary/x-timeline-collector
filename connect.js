@@ -18,6 +18,59 @@ const CSV_COLUMNS = [
   "collectedAt",
 ];
 
+function printHelp() {
+  console.log(`x-timeline-collector Collect (connect.js)
+
+Usage:
+  node connect.js [--once]
+  node connect.js --help
+
+Options:
+  --once     Save JSON/CSV then exit (exit 0). For Morning / automation.
+  --help, -h Show this help (does not collect)
+
+Input:
+  Existing output/timeline.json (merged by URL). Optional.
+
+Output:
+  output/timeline.json
+  output/timeline.csv
+
+API:
+  None (OpenAI not used)
+
+Chrome:
+  Required. Start Google Chrome with remote debugging on port 9222,
+  logged in to https://x.com/home.
+
+  Example:
+    /Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome \\
+      --remote-debugging-port=9222 \\
+      --user-data-dir="$HOME/chrome-debug-profile"
+
+Notes:
+  Without --once, the process stays attached after save (Ctrl+C to stop).
+  Max ${MAX_POSTS} posts / max ${MAX_SCROLLS} scrolls per run.
+`);
+}
+
+function parseConnectArgs(argv) {
+  const options = { help: false, once: false };
+  for (const token of argv) {
+    if (token === "--help" || token === "-h") {
+      options.help = true;
+      continue;
+    }
+    if (token === "--once") {
+      options.once = true;
+      continue;
+    }
+    console.error(`不明なオプション: ${token}`);
+    process.exit(1);
+  }
+  return options;
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -326,6 +379,12 @@ function savePosts(posts) {
 }
 
 (async () => {
+  const cli = parseConnectArgs(process.argv.slice(2));
+  if (cli.help) {
+    printHelp();
+    process.exit(0);
+  }
+
   const existingPosts = loadExistingPosts();
   console.log(`既存投稿: ${existingPosts.length} 件`);
 
@@ -360,6 +419,10 @@ function savePosts(posts) {
     console.log(`今回新しく追加した件数: ${addedCount}`);
     console.log(`JSON保存先: ${OUTPUT_FILE}`);
     console.log(`CSV保存先: ${OUTPUT_CSV_FILE}`);
+
+    if (cli.once) {
+      process.exit(0);
+    }
 
     // Do not close the browser; keep the Node process alive
     await new Promise(() => {});

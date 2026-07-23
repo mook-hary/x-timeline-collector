@@ -9,7 +9,12 @@
     "build:site:demo": "node scripts/build-site-demo.js",
     "build:digest-reader": "node scripts/build-digest-reader.js",
     "validate:site": "node scripts/validate-site.js",
-    "audit:public": "node scripts/audit-public.js"
+    "audit:public": "node scripts/audit-public.js",
+    "morning": "node scripts/morning.js",
+    "collect": "node connect.js",
+    "analyze": "node analyze.js",
+    "analyze:ai": "node analyze_ai.js",
+    "enrich": "node enrich_ai.js"
   },
   "keywords": [],
   "author": "",
