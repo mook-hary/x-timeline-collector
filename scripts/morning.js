@@ -7,6 +7,11 @@
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
+const {
+  emptyUsage,
+  parseUsageFromOutput,
+  formatMorningUsageSummary,
+} = require("../lib/api-usage");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -255,6 +260,10 @@ function runMorning(options, deps = {}) {
 
   const total = plan.steps.length;
   const stepsRun = [];
+  const usageByStep = {
+    analyze: emptyUsage(),
+    enrich: emptyUsage(),
+  };
 
   for (let i = 0; i < plan.steps.length; i++) {
     const step = plan.steps[i];
@@ -291,6 +300,16 @@ function runMorning(options, deps = {}) {
       throw err;
     }
 
+    const combinedOut = `${result.stdout || ""}\n${result.stderr || ""}`;
+    const parsedUsage = parseUsageFromOutput(combinedOut);
+    if (parsedUsage) {
+      if (step.id === "analyze-ai") {
+        usageByStep.analyze = parsedUsage;
+      } else if (step.id === "enrich") {
+        usageByStep.enrich = parsedUsage;
+      }
+    }
+
     log(`[Morning] ${step.label} complete`);
     stepsRun.push(step.id);
   }
@@ -317,8 +336,20 @@ function runMorning(options, deps = {}) {
     log("[Morning] Opened Digest Reader");
   }
 
+  // Always print Morning Summary at successful end (zeros when AI skipped).
+  log(formatMorningUsageSummary({
+    analyze: usageByStep.analyze,
+    enrich: usageByStep.enrich,
+  }));
+
   log("[Morning] Done");
-  return { ok: true, stepsRun, opened, plan };
+  return {
+    ok: true,
+    stepsRun,
+    opened,
+    plan,
+    usage: usageByStep,
+  };
 }
 
 function main() {

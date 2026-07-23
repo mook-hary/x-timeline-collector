@@ -17,6 +17,12 @@ const {
   readJsonObjectOptional,
   writeJsonAtomic,
 } = require("./lib/pipeline-io");
+const {
+  emptyUsage,
+  extractUsageFromResponse,
+  addUsage,
+  printUsageSummary,
+} = require("./lib/api-usage");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_analyzed.json");
 const OUTPUT_FILE = path.join(__dirname, "output", "timeline_ai.json");
@@ -348,7 +354,10 @@ async function classifyWithAi(client, model, post) {
     throw new Error(`AI応答のJSON解析に失敗しました: ${error.message}`);
   }
 
-  return validateAiResult(parsed);
+  return {
+    result: validateAiResult(parsed),
+    usage: extractUsageFromResponse(response),
+  };
 }
 
 function touchCacheEntry(cache, cacheKey) {
@@ -583,6 +592,7 @@ async function main() {
   let cacheHitCount = 0;
   let consecutiveFailures = 0;
   let client = null;
+  let usageTotals = emptyUsage();
 
   const needsApi = toProcess.some((post) => {
     const contract = buildExecutionContract(post, model);
@@ -611,6 +621,7 @@ async function main() {
     console.log(`未処理件数: ${pendingCount}`);
     console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
     console.log(`保存先: ${OUTPUT_FILE}`);
+    printUsageSummary("Analyze", usageTotals);
     return;
   }
 
@@ -662,7 +673,8 @@ async function main() {
 
         console.log(`[${label}] API実行: ${handle}`);
         apiAttemptCount++;
-        const result = await classifyWithAi(client, model, post);
+        const { result, usage } = await classifyWithAi(client, model, post);
+        usageTotals = addUsage(usageTotals, usage);
         const now = new Date().toISOString();
 
         writeCacheEntry(cache, cacheKey, contract, result, now);
@@ -733,6 +745,7 @@ async function main() {
   console.log(`保存先: ${OUTPUT_FILE}`);
   console.log(`進捗ファイル: ${PROGRESS_FILE}`);
   console.log(`キャッシュファイル: ${CACHE_FILE}`);
+  printUsageSummary("Analyze", usageTotals);
 }
 
 if (require.main === module) {

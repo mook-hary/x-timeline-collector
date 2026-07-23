@@ -217,11 +217,22 @@ async function ensureHomePage(browser) {
     return page;
   }
 
-  const context = contexts[0] || (await browser.newContext());
+  const context = contexts[0];
+  if (!context) {
+    throw new Error(
+      "CDP 接続先に BrowserContext がありません。" +
+        "リモートデバッグ中の Chrome で少なくとも1つのウィンドウ／タブを開いてから再実行してください。"
+    );
+  }
+
   page = await context.newPage();
   await page.goto("https://x.com/home");
   console.log("X のページが見つからなかったため、https://x.com/home を開きました。");
   return page;
+}
+
+async function connectToChrome(browserType = chromium, cdpUrl = CDP_URL) {
+  return browserType.connectOverCDP(cdpUrl, { noDefaults: true });
 }
 
 async function extractVisiblePosts(page) {
@@ -378,7 +389,7 @@ function savePosts(posts) {
   fs.writeFileSync(OUTPUT_CSV_FILE, "\uFEFF" + toCsv(posts), "utf8");
 }
 
-(async () => {
+async function main() {
   const cli = parseConnectArgs(process.argv.slice(2));
   if (cli.help) {
     printHelp();
@@ -391,7 +402,7 @@ function savePosts(posts) {
   let browser;
 
   try {
-    browser = await chromium.connectOverCDP(CDP_URL);
+    browser = await connectToChrome();
   } catch (error) {
     console.error(
       "Chrome への接続に失敗しました。リモートデバッグモードで起動しているか確認してください。\n" +
@@ -430,4 +441,17 @@ function savePosts(posts) {
     console.error(`タイムラインの取得に失敗しました: ${error.message}`);
     process.exit(1);
   }
-})();
+}
+
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  CDP_URL,
+  connectToChrome,
+  ensureHomePage,
+  isXHomePage,
+  isXPage,
+  parseConnectArgs,
+};

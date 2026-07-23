@@ -207,6 +207,8 @@ function mockSpawnOk() {
   assert.ok(!calls.some((c) => /analyze_ai\.js$/.test(c.args[0])));
   assert.ok(!calls.some((c) => /enrich_ai\.js$/.test(c.args[0])));
   assert.ok(logs.some((l) => l.includes("最新データではない可能性があります")));
+  assert.ok(logs.some((l) => l.includes("Morning Summary")));
+  assert.ok(logs.some((l) => l.includes("Grand Total")));
   console.log("skip-ai PASS");
 }
 
@@ -353,6 +355,43 @@ function mockSpawnOk() {
   assert.strictEqual(plan.steps[0].script, "connect.js");
   assert.deepStrictEqual(plan.steps[0].args, ["--once"]);
   console.log("default collect --once PASS");
+}
+
+// --- EP-030: morning aggregates usage markers ---
+{
+  const root = tmpDir("morning-usage-");
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(root, "connect.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "enrich_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
+
+  const spawn = (_cmd, args) => {
+    const script = String(args[0] || "");
+    let stdout = "";
+    if (script.endsWith("analyze_ai.js")) {
+      stdout =
+        '[api-usage] {"label":"Analyze","requests":2,"input_tokens":100,"output_tokens":20,"total_tokens":120}\n';
+    } else if (script.endsWith("enrich_ai.js")) {
+      stdout =
+        '[api-usage] {"label":"Enrich","requests":3,"input_tokens":200,"output_tokens":40,"total_tokens":240}\n';
+    }
+    return { status: 0, error: null, stdout, stderr: "" };
+  };
+  const logs = [];
+  const result = runMorning(parseMorningArgs(["--skip-collect"]), {
+    rootDir: root,
+    spawn,
+    log: (line) => logs.push(line),
+  });
+  assert.strictEqual(result.usage.analyze.requests, 2);
+  assert.strictEqual(result.usage.enrich.requests, 3);
+  const joined = logs.join("\n");
+  assert.ok(joined.includes("Morning Summary"));
+  assert.ok(joined.includes("Requests : 5"));
+  assert.ok(joined.includes("Total    : 360"));
+  console.log("usage aggregate PASS");
 }
 
 console.log("morning-test: ALL PASS");

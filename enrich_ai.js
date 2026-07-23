@@ -16,6 +16,12 @@ const {
   readJsonObjectOptional,
   writeJsonAtomic,
 } = require("./lib/pipeline-io");
+const {
+  emptyUsage,
+  extractUsageFromResponse,
+  addUsage,
+  printUsageSummary,
+} = require("./lib/api-usage");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_ai.json");
 const OUTPUT_FILE = path.join(__dirname, "output", "timeline_enriched.json");
@@ -344,7 +350,10 @@ async function enrichWithAi(client, model, post) {
     throw new Error(`AI応答のJSON解析に失敗しました: ${error.message}`);
   }
 
-  return validateEnrichResult(parsed);
+  return {
+    result: validateEnrichResult(parsed),
+    usage: extractUsageFromResponse(response),
+  };
 }
 
 function touchCacheEntry(cache, cacheKey) {
@@ -576,6 +585,7 @@ async function main() {
   let cacheHitCount = 0;
   let consecutiveFailures = 0;
   let client = null;
+  let usageTotals = emptyUsage();
 
   const needsApi = toProcess.some((post) => {
     const contract = buildExecutionContract(post, model);
@@ -604,6 +614,7 @@ async function main() {
     console.log(`未処理件数: ${pendingCount}`);
     console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
     console.log(`保存先: ${OUTPUT_FILE}`);
+    printUsageSummary("Enrich", usageTotals);
     return;
   }
 
@@ -655,7 +666,8 @@ async function main() {
 
         console.log(`[${label}] API実行: ${handle}`);
         apiAttemptCount++;
-        const result = await enrichWithAi(client, model, post);
+        const { result, usage } = await enrichWithAi(client, model, post);
+        usageTotals = addUsage(usageTotals, usage);
         const now = new Date().toISOString();
 
         writeCacheEntry(cache, cacheKey, contract, result, now);
@@ -726,6 +738,7 @@ async function main() {
   console.log(`保存先: ${OUTPUT_FILE}`);
   console.log(`進捗ファイル: ${PROGRESS_FILE}`);
   console.log(`キャッシュファイル: ${CACHE_FILE}`);
+  printUsageSummary("Enrich", usageTotals);
 }
 
 if (require.main === module) {
