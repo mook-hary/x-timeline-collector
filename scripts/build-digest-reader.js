@@ -23,7 +23,7 @@ Accepted options (same family as digest.js):
   --to <YYYY-MM-DD>
   --category <name>
   --min-importance <1-5>
-  --top <N>                 default ${DEFAULT_TOP}
+  --top <N>                 Today's Picks count (default ${DEFAULT_TOP})
   --full                    show more posts per category
   --help, -h
 
@@ -56,7 +56,7 @@ function main() {
     process.exit(1);
   }
 
-  // digest.js defaults --top to 5; reader prefers 8 unless user overrides.
+  // digest.js defaults --top to 5; reader Today's Picks default matches.
   if (!argv.includes("--top")) {
     digestOptions.top = DEFAULT_TOP;
   }

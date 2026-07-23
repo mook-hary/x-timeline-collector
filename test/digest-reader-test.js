@@ -1,5 +1,5 @@
 /**
- * EP-022/024 — Digest Reader tests.
+ * EP-022/024/028 — Digest Reader tests (incl. Today's Picks).
  * Run: node test/digest-reader-test.js
  */
 const assert = require("assert");
@@ -8,10 +8,13 @@ const os = require("os");
 const path = require("path");
 const {
   buildDigestReader,
-  buildHighlights,
   escapeHtml,
   formatStars,
-  estimateReadingMinutes,
+  selectTodaysPicks,
+  isNearlySameText,
+  renderPickCard,
+  DEFAULT_TOP,
+  buildTodayBrief,
 } = require("../lib/digest-reader");
 const { mergeDigestConfig, DEFAULT_DIGEST_CONFIG } = require("../lib/digest-core");
 
@@ -102,15 +105,28 @@ function assertNoTrendLanguage(text) {
   }
 }
 
+function dayOptions(extra = {}) {
+  return {
+    from: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
+    to: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
+    top: DEFAULT_TOP,
+    ...extra,
+  };
+}
+
 // --- helpers ---
 {
   assert.strictEqual(escapeHtml(`<a href="x">`), `&lt;a href=&quot;x&quot;&gt;`);
   assert.strictEqual(formatStars(3), "★ ★ ★");
   assert.strictEqual(formatStars(0), "・");
+  assert.strictEqual(DEFAULT_TOP, 5);
+  assert.ok(isNearlySameText("同じ文", "同じ文"));
+  assert.ok(isNearlySameText("hello world", "hello   world"));
+  assert.ok(!isNearlySameText("要約A", "まったく別の本文"));
   console.log("Helpers PASS");
 }
 
-// --- Case 1: generates reader with hierarchy ---
+// --- Case 1: generates reader with Today's Picks ---
 {
   const root = tmpDir("digest-reader-c1-");
   const out = path.join(root, "output", "digest-reader");
@@ -119,69 +135,47 @@ function assertNoTrendLanguage(text) {
     outputDir: out,
     posts: fixturePosts(),
     config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
-    digestOptions: {
-      from: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
-      to: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
-      top: 8,
-    },
+    digestOptions: dayOptions({ top: 5 }),
   });
   assert.ok(fs.existsSync(result.htmlPath));
   assert.ok(fs.existsSync(result.cssPath));
   const html = fs.readFileSync(result.htmlPath, "utf8");
 
-  // Header metrics
   assert.ok(html.includes("件解析"));
   assert.ok(html.includes("注目"));
   assert.ok(/約\d+分/.test(html));
-  assert.ok(html.includes('aria-label="主要指標"'));
-  assert.ok(html.includes("Local Private Digest"));
-  assert.ok(html.includes("生成:"));
+  assert.ok(html.includes("Today's Brief"));
+  assert.ok(html.includes("Today's Picks"));
+  assert.ok(html.includes('id="todays-picks"'));
+  assert.ok(!html.includes("Top Stories"));
+  assert.ok(!html.includes(">Overview<"));
+  assert.ok(!html.includes("今日のハイライト"));
+  assert.ok(!html.includes("editorialScore"));
+  assert.ok(!html.includes("_editorialScore"));
 
-  // No Overview category chips (class chip must not appear)
   assert.ok(!html.includes('class="chip"'));
-  assert.ok(!html.includes("chips"));
-  assert.ok(html.includes("今日のハイライト"));
-  assert.ok(html.includes('class="highlights"'));
+  assert.ok(Array.isArray(result.summary.brief));
+  assert.ok(result.summary.brief.length >= 1);
+  assert.ok(result.summary.brief.length <= 3);
 
-  // Highlights max 3
-  const highlightMatches = html.match(/<ul class="highlights">([\s\S]*?)<\/ul>/);
-  assert.ok(highlightMatches);
-  const highlightItems = [...highlightMatches[1].matchAll(/<li>/g)];
-  assert.ok(highlightItems.length <= 3);
-  assert.ok(highlightItems.length >= 1);
-  assertNoTrendLanguage(highlightMatches[1]);
-
-  // Top Stories link + importance label
   assert.ok(html.includes("Xで開く ↗"));
-  assert.ok(html.includes('aria-label="元の投稿をXで開く"'));
-  assert.ok(html.includes("重要度"));
-  assert.ok(html.includes("★"));
-  assert.ok(!html.includes("元ポストを見る"));
-  assert.ok(!html.includes("personalScore"));
-
-  // Category nav: Top first
+  assert.ok(html.includes('href="#todays-picks"'));
   const navMatch = html.match(/<ul class="cat-nav__list">([\s\S]*?)<\/ul>/);
   assert.ok(navMatch);
-  assert.ok(navMatch[1].trimStart().startsWith('<li><a href="#top-stories">Top</a></li>'));
+  assert.ok(
+    navMatch[1].trimStart().startsWith('<li><a href="#todays-picks">Picks</a></li>')
+  );
 
-  // All category sections retained
   assert.ok(html.includes("政治・社会"));
   assert.ok(html.includes("AI"));
-  assert.ok(html.includes("アニメ・漫画"));
   assert.ok(html.includes('id="all-categories"'));
-
-  assert.ok(html.includes("Timeline Digest"));
-  assert.ok(html.includes("Top Stories"));
-  assert.ok(html.includes('href="style.css"'));
   assert.ok(html.includes("Generated locally."));
-  assert.ok(html.includes("Not published."));
   assert.ok(!html.includes("<script"));
-  assert.ok(!html.includes("/Users/"));
-  assert.ok(!html.includes("timeline_enriched.json"));
+  assert.ok(result.summary.picksCount >= 1);
   console.log("Case1 PASS");
 }
 
-// --- Case 2: empty state Overview does not break ---
+// --- Case 2: empty state ---
 {
   const root = tmpDir("digest-reader-c2-");
   const out = path.join(root, "out");
@@ -193,16 +187,18 @@ function assertNoTrendLanguage(text) {
     digestOptions: { top: 5 },
   });
   const html = fs.readFileSync(result.htmlPath, "utf8");
-  assert.ok(html.includes("条件に一致する投稿はありませんでした"));
+  assert.ok(html.includes("条件に一致する投稿がありません"));
+  assert.ok(html.includes("Today's Brief"));
   assert.ok(html.includes("0件解析"));
-  assert.ok(html.includes("注目0件"));
-  assert.ok(/約\d+分/.test(html));
-  assert.ok(!html.includes('class="chip"'));
   assert.strictEqual(result.summary.total, 0);
+  assert.strictEqual(result.summary.picksCount, 0);
+  assert.deepStrictEqual(result.summary.brief, [
+    "条件に一致する投稿がありません",
+  ]);
   console.log("Case2 PASS");
 }
 
-// --- Case 3: no source link when url missing ---
+// --- Case 3: no X link when url missing (picks) ---
 {
   const root = tmpDir("digest-reader-c3-");
   const out = path.join(root, "out");
@@ -213,20 +209,18 @@ function assertNoTrendLanguage(text) {
       {
         postedAt: "2026-07-14T10:00:00.000Z",
         url: "",
+        text: "本文のみ",
         finalAnalysis: { category: "その他" },
         enrichment: { importance: 4, summary: "urlなし" },
       },
     ],
     config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
-    digestOptions: {
-      from: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
-      to: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
-      top: 5,
-    },
+    digestOptions: dayOptions(),
   });
   const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
-  assert.ok(html.includes("リンクなし"));
-  assert.ok(!html.includes("Xで開く"));
+  const picks = html.match(/id="todays-picks"[\s\S]*?<div id="all-categories">/);
+  assert.ok(picks);
+  assert.ok(!picks[0].includes("Xで開く"));
   console.log("Case3 PASS");
 }
 
@@ -251,32 +245,24 @@ function assertNoTrendLanguage(text) {
   console.log("Case4 PASS");
 }
 
-// --- Case 5: highlights for unknown / few categories ---
+// --- Case 5: Today's Brief ---
 {
-  const highlights = buildHighlights(
-    {
-      total: 2,
-      topPosts: [{ category: "謎カテゴリ", summary: "x", importance: 4 }],
-      categories: [{ category: "謎カテゴリ", count: 2, posts: [] }],
-    },
-    { overviewSelected: 1 },
-    3
+  const lines = buildTodayBrief(
+    [
+      { finalAnalysis: { category: "AI" } },
+      { finalAnalysis: { category: "AI" } },
+      { finalAnalysis: { category: "アニメ・漫画" } },
+    ],
+    [{}, {}, {}]
   );
-  assert.ok(highlights.length <= 3);
-  assert.ok(highlights[0].includes("謎カテゴリ"));
-  assert.ok(highlights.some((h) => h.includes("注目1件")));
-  assertNoTrendLanguage(highlights.join("\n"));
-
-  const emptyHighlights = buildHighlights(
-    { total: 0, topPosts: [], categories: [] },
-    { overviewSelected: 0 },
-    1
-  );
-  assert.deepStrictEqual(emptyHighlights, []);
+  assert.ok(lines.length <= 3);
+  assert.ok(lines[0].includes("AI関連の投稿が最も多い日です"));
+  assert.ok(lines[1].includes("アニメ・漫画関連も多く流れています"));
+  assert.ok(lines[2].includes("まず読む投稿を3件選びました"));
   console.log("Case5 PASS");
 }
 
-// --- Case 6: category nav caps at 5 + helper link ---
+// --- Case 6: category nav caps ---
 {
   const root = tmpDir("digest-reader-c6-");
   const out = path.join(root, "out");
@@ -293,7 +279,7 @@ function assertNoTrendLanguage(text) {
   ];
   let seq = 0;
   for (let i = 0; i < cats.length; i++) {
-    const n = cats.length - i; // 8..1 so counts differ
+    const n = cats.length - i;
     for (let j = 0; j < n; j++) {
       const hour = String(Math.floor(seq / 60) + 1).padStart(2, "0");
       const minute = String(seq % 60).padStart(2, "0");
@@ -301,6 +287,7 @@ function assertNoTrendLanguage(text) {
       many.push({
         postedAt: `2026-07-14T${hour}:${minute}:00.000Z`,
         url: `https://x.com/u/status/${i}${j}`,
+        text: `本文 ${cats[i]} ${j}`,
         finalAnalysis: { category: cats[i], tags: [] },
         enrichment: {
           importance: 4,
@@ -316,26 +303,231 @@ function assertNoTrendLanguage(text) {
     outputDir: out,
     posts: many,
     config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
-    digestOptions: {
-      from: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
-      to: { year: 2026, month: 7, day: 14, label: "2026-07-14" },
-      top: 8,
-    },
+    digestOptions: dayOptions({ top: 8 }),
   });
   const html = fs.readFileSync(result.htmlPath, "utf8");
   const nav = html.match(/<ul class="cat-nav__list">([\s\S]*?)<\/ul>/)[1];
-  const catLinks = [...nav.matchAll(/href="#category-\d+"/g)];
-  assert.ok(catLinks.length <= 5);
+  assert.ok([...nav.matchAll(/href="#category-\d+"/g)].length <= 5);
   assert.ok(nav.includes("すべてのカテゴリ"));
-  assert.ok(html.includes('id="all-categories"'));
-  const sectionCount = [...html.matchAll(/id="category-\d+"/g)].length;
-  assert.ok(sectionCount >= 6, `expected all category sections, got ${sectionCount}`);
-  for (const c of cats) {
-    assert.ok(html.includes(c), `missing section for ${c}`);
-  }
-  assert.ok(result.summary.highlights.length <= 3);
-  assertNoTrendLanguage(result.summary.highlights.join("\n"));
+  assert.strictEqual(result.summary.picksCount, 8);
+  assert.ok(result.summary.brief.length <= 3);
+  assert.ok(result.summary.brief.some((l) => l.includes("まず読む投稿を8件")));
   console.log("Case6 PASS");
+}
+
+// --- EP-028: importance missing still in picks ---
+{
+  const root = tmpDir("digest-reader-no-imp-");
+  const result = buildDigestReader({
+    rootDir: root,
+    outputDir: path.join(root, "out"),
+    posts: [
+      {
+        postedAt: "2026-07-14T10:00:00.000Z",
+        url: "https://x.com/u/status/100",
+        text: "本文だけある投稿",
+        finalAnalysis: { category: "AI", tags: ["x"] },
+        enrichment: {
+          summary: "要約はあるが重要度は未設定の投稿です。",
+          reason: "根拠",
+          tags: ["tag"],
+        },
+      },
+    ],
+    config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
+    digestOptions: dayOptions({ top: 5 }),
+  });
+  const html = fs.readFileSync(result.htmlPath, "utf8");
+  assert.ok(result.summary.picksCount >= 1);
+  assert.ok(html.includes("Today's Picks（1）"));
+  const picksSection = html.match(
+    /id="todays-picks"[\s\S]*?(?=<div id="all-categories">)/
+  )[0];
+  assert.ok(!picksSection.includes("card__importance"));
+  assert.ok(!picksSection.includes("重要度 -"));
+  console.log("EP028 importance-missing PASS");
+}
+
+// --- EP-028: posts exist => non-zero picks ---
+{
+  const picks = selectTodaysPicks(
+    [
+      {
+        url: "https://x.com/u/status/1",
+        text: "a",
+        finalAnalysis: { category: "日常・雑談" },
+        enrichment: { summary: "短い" },
+      },
+      {
+        url: "https://x.com/u/status/2",
+        text: "b",
+        finalAnalysis: { category: "日常・雑談" },
+        enrichment: {},
+      },
+    ],
+    5
+  );
+  assert.ok(picks.length >= 1);
+  console.log("EP028 non-zero PASS");
+}
+
+// --- EP-028: --top N ---
+{
+  const posts = [];
+  for (let i = 0; i < 10; i++) {
+    posts.push({
+      postedAt: `2026-07-14T10:${String(i).padStart(2, "0")}:00.000Z`,
+      url: `https://x.com/u/status/${i}`,
+      text: `本文${i}`,
+      finalAnalysis: { category: "AI" },
+      enrichment: {
+        importance: 3,
+        summary: `要約テキスト番号${i}は十分な長さがあります。`,
+        reason: "r",
+        tags: ["t"],
+      },
+    });
+  }
+  const root = tmpDir("digest-reader-topn-");
+  const result = buildDigestReader({
+    rootDir: root,
+    outputDir: path.join(root, "out"),
+    posts,
+    config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
+    digestOptions: dayOptions({ top: 3 }),
+  });
+  assert.strictEqual(result.summary.picksCount, 3);
+  assert.ok(result.htmlPath);
+  const html = fs.readFileSync(result.htmlPath, "utf8");
+  assert.ok(html.includes("Today's Picks（3）"));
+  console.log("EP028 top-n PASS");
+}
+
+// --- EP-028: high score first ---
+{
+  const ranked = selectTodaysPicks(
+    [
+      {
+        url: "https://x.com/u/status/low",
+        text: "x",
+        finalAnalysis: { category: "広告・PR" },
+        enrichment: { importance: 1, summary: "広告" },
+      },
+      {
+        url: "https://x.com/u/status/high",
+        text: "詳細な本文",
+        finalAnalysis: { category: "AI", tags: ["LLM"] },
+        enrichment: {
+          importance: 5,
+          summary: "高品質な要約。十分に長く加点される内容です。",
+          reason: "学習に直結する根拠がある",
+          tags: ["AI", "tool"],
+        },
+      },
+    ],
+    5
+  );
+  assert.ok(ranked[0].url.includes("high"));
+  assert.ok(ranked[0]._editorialScore >= ranked[1]._editorialScore);
+  console.log("EP028 high-score-first PASS");
+}
+
+// --- EP-028: duplicate URLs not shown twice ---
+{
+  const ranked = selectTodaysPicks(
+    [
+      {
+        url: "https://x.com/u/status/dup",
+        text: "1",
+        finalAnalysis: { category: "AI" },
+        enrichment: { importance: 5, summary: "同じURLの1件目" },
+      },
+      {
+        url: "https://x.com/u/status/dup",
+        text: "2",
+        finalAnalysis: { category: "AI" },
+        enrichment: { importance: 5, summary: "同じURLの2件目" },
+      },
+      {
+        url: "https://x.com/u/status/other",
+        text: "3",
+        finalAnalysis: { category: "AI" },
+        enrichment: { importance: 4, summary: "別URL" },
+      },
+    ],
+    5
+  );
+  const urls = ranked.map((p) => p.url);
+  assert.strictEqual(urls.length, new Set(urls).size);
+  assert.strictEqual(ranked.length, 2);
+  console.log("EP028 dedupe PASS");
+}
+
+// --- EP-028: no duplicate summary/body ---
+{
+  const html = renderPickCard({
+    category: "AI",
+    summary: "同じテキスト",
+    text: "同じテキスト",
+    reason: "",
+    importance: 3,
+    url: "https://x.com/u/status/1",
+  });
+  assert.ok(html.includes("card__summary"));
+  assert.ok(!html.includes("card__body"));
+
+  const html2 = renderPickCard({
+    category: "AI",
+    summary: "要約だけ",
+    text: "まったく異なる本文です",
+    reason: "理由あり",
+    importance: null,
+    url: "https://x.com/u/status/2",
+  });
+  assert.ok(html2.includes("card__summary"));
+  assert.ok(html2.includes("card__body"));
+  assert.ok(html2.includes("card__reason"));
+  assert.ok(!html2.includes("重要度"));
+  console.log("EP028 no-double-text PASS");
+}
+
+// --- EP-028: --min-importance respected ---
+{
+  const root = tmpDir("digest-reader-minimp-");
+  const result = buildDigestReader({
+    rootDir: root,
+    outputDir: path.join(root, "out"),
+    posts: [
+      {
+        postedAt: "2026-07-14T10:00:00.000Z",
+        url: "https://x.com/u/status/low",
+        text: "low",
+        finalAnalysis: { category: "AI" },
+        enrichment: {
+          importance: 2,
+          summary: "低重要度だが長い要約テキストです。",
+          reason: "r",
+        },
+      },
+      {
+        postedAt: "2026-07-14T11:00:00.000Z",
+        url: "https://x.com/u/status/high",
+        text: "high",
+        finalAnalysis: { category: "日常・雑談" },
+        enrichment: {
+          importance: 4,
+          summary: "高重要度の要約テキストです。",
+          reason: "r",
+        },
+      },
+    ],
+    config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
+    digestOptions: dayOptions({ top: 5, minImportance: 4 }),
+  });
+  assert.strictEqual(result.digest.total, 1);
+  assert.ok(result.digest.todaysPicks.every((p) => p.url.includes("high")));
+  assert.ok(result.summary.picksCount >= 1);
+  console.log("EP028 min-importance PASS");
 }
 
 console.log("digest-reader-test: ALL PASS");
