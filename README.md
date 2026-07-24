@@ -430,6 +430,32 @@ Editorial
 
 AI Provider は交換可能です（Extractor は特定サービスへ依存しません）。
 
+### Knowledge Session CLI（合気道）
+
+Knowledge Pipeline の状態を CLI だけで一覧・詳細確認できます（更新・承認・生成は行いません）。
+
+```bash
+npm run aikido:source:list
+npm run aikido:source:list -- --status=collected --type=official-site --limit=20
+npm run aikido:source:list -- --id=<id>
+
+npm run aikido:review:list
+npm run aikido:review:list -- --status=pending --category=principle --hasWarnings
+npm run aikido:review:list -- --id=<id>
+
+npm run aikido:knowledge:list
+npm run aikido:knowledge:list -- --category=training --difficulty=2 --tag=ukemi
+npm run aikido:knowledge:list -- --id=<id>
+```
+
+共通オプション:
+
+- `--json` … JSON 出力（自動化向け）
+- `--id=<id>` … 詳細（人間向け整形。`--json` 併用可）
+- `--limit=N` / `--status=` / `--category=` / `--difficulty=` / `--tag=` … 利用可能なものだけ適用
+
+存在しない ID は終了コード `1` です。
+
 ### Web Source Collector（合気道）
 
 **明示した URL のみ**取得し、Source Intake へ登録します（サイト全体クロール・検索・X は対象外）。

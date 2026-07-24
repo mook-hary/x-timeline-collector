@@ -24,7 +24,10 @@
     "analyze": "node analyze.js",
     "analyze:ai": "node analyze_ai.js",
     "enrich": "node enrich_ai.js",
-    "aikido:collect:web": "node scripts/aikido-collect-web.js"
+    "aikido:collect:web": "node scripts/aikido-collect-web.js",
+    "aikido:source:list": "node scripts/aikido-session.js source",
+    "aikido:review:list": "node scripts/aikido-session.js review",
+    "aikido:knowledge:list": "node scripts/aikido-session.js knowledge"
   },
   "keywords": [],
   "author": "",
