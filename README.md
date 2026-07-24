@@ -404,6 +404,68 @@ knowledge.publishDraft("ikkyo-basics", { dryRun: true }); // 保存しない
 
 同一 `knowledgeId` + `templateId` の `status=draft` が既にある場合はデフォルトで拒否（`allowDuplicateDraft` で許可）。
 
+### X Post Formatter
+
+Editorial Item を X 投稿データへ整形します（要約・リライト・投稿・API 呼び出しは行いません）。
+
+```bash
+npm run aikido:x:preview -- --id=<editorial-id>
+npm run aikido:x:preview -- --id=<editorial-id> --json --includeHashtags
+```
+
+```js
+const { createXPostFormatter } = require("./lib/x-post-formatter");
+const formatter = createXPostFormatter();
+const post = formatter.formatPost(editorialItem);
+// post.text / post.warnings / post.metadata
+```
+
+- 本文は書き換えず、改行正規化などの整形のみ
+- デフォルト 280 文字。超過時はエラーにせず `warnings` を返す
+- `includeHashtags`（default: false）で tags / metadata からハッシュタグ付与
+- URL 付与・X API 投稿は対象外
+
+### X Publisher（XP-002）
+
+Formatted Post を X API へ渡す Publisher 層です。**デフォルトは dry-run**（外部通信なし）。実通信は `execute: true` のときだけです。
+
+```js
+const { createXPublisher } = require("./lib/x-publisher");
+
+const fakeClient = {
+  async createPost({ text, madeWithAI }) {
+    return { remoteId: "123", text, raw: {} };
+  },
+};
+
+const publisher = createXPublisher({
+  client: fakeClient,
+  clock: () => new Date().toISOString(),
+});
+
+// dry-run（client は呼ばれない）
+await publisher.publishPost(formattedPost);
+
+// 実投稿（注入した client のみ）
+await publisher.publishPost(formattedPost, { execute: true });
+```
+
+環境から組み立てる場合（Factory 実行時にトークン必須。モジュール読み込み時は不要）:
+
+```js
+const { createXPublisherFromEnv } = require("./lib/x-publisher-env");
+// needs X_USER_ACCESS_TOKEN — 実値を Git に commit しない
+const publisher = createXPublisherFromEnv();
+await publisher.publishPost(formattedPost); // 依然 dry-run
+```
+
+注意:
+
+- User Access Token（`X_USER_ACCESS_TOKEN`）が必要。`.env` は gitignore 済み
+- 投稿履歴・永続的な二重投稿防止は未実装（XP-003）
+- 実投稿 CLI / `--confirm` は未実装（XP-004）
+- 既存 `npm run aikido:x:preview` はプレビューのみ（変更なし）
+
 ### Source Intake（合気道資料）
 
 X 以外の資料（書籍・道場サイト・動画・稽古メモ・経験など）を、Knowledge 化の前段として統一保存します。外部通信はしません。

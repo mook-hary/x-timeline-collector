@@ -28,7 +28,8 @@
     "aikido:source:list": "node scripts/aikido-session.js source",
     "aikido:review:list": "node scripts/aikido-session.js review",
     "aikido:knowledge:list": "node scripts/aikido-session.js knowledge",
-    "aikido:editorial": "node scripts/aikido-editorial.js"
+    "aikido:editorial": "node scripts/aikido-editorial.js",
+    "aikido:x:preview": "node scripts/aikido-x-preview.js"
   },
   "keywords": [],
   "author": "",
