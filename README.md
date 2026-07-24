@@ -240,39 +240,34 @@ cp .env.example .env
 
 ---
 
-## 毎朝（Digest Reader）
+## 毎朝（Digest Reader → Pages）
 
-ローカル専用。`site/`・Publish・Writer は含みません。
-
-### 毎朝
+### フルパイプライン（推奨）
 
 ```bash
-npm run morning -- --open
+npm run morning
+npm run morning -- --dry-run    # 実行予定のみ
 ```
 
-実行順: Collect (`connect.js --once`) → Keyword Analyze → AI Analyze (`--limit 50`) → AI Enrich (`--limit 50`) → Digest Reader。
+実行順:
 
-### Readerだけ
+1. Collect (`connect.js --once`)
+2. Analyze → AI Analyze → Enrich
+3. Publish（`npm run publish` 相当: Reader 生成 → test → audit → commit → push）
+
+Reader 生成は Publish 内で1回だけ行い、二重実行しません。
+
+### ローカル Runner のみ（公開しない）
 
 ```bash
-npm run morning -- --from-enriched --open
+npm run morning:runner -- --open
+npm run reader                  # enriched から Reader のみ
+npm run morning:runner -- --from-enriched --open
+npm run morning:runner -- --skip-collect --open
+npm run morning:runner -- --skip-ai --open
 ```
 
-### Collectなし
-
-```bash
-npm run morning -- --skip-collect --open
-```
-
-### AIなし
-
-```bash
-npm run morning -- --skip-ai --open
-```
-
-既存の `output/timeline_enriched.json` を使います（最新ではない可能性があります）。
-
-関連: `npm run collect` / `analyze` / `analyze:ai` / `enrich` / `build:digest-reader`。詳細は `node scripts/morning.js --help`。
+関連: `npm run collect` / `analyze` / `analyze:ai` / `enrich` / `publish`。詳細は `node scripts/morning-pipeline.js --help` / `node scripts/morning.js --help`。
 
 ---
 

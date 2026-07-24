@@ -50,6 +50,7 @@ Options:
   --skip-collect     Skip Collect
   --skip-ai          Collect (unless skipped) → Analyze → Reader
                      (uses existing timeline_enriched.json)
+  --skip-reader      Stop after Enrich (no Digest Reader step)
   --from-enriched    Reader only (uses existing timeline_enriched.json)
   --open             open output/digest-reader/index.html after success
   --help, -h         Show this help (does nothing else)
@@ -92,6 +93,7 @@ function parseMorningArgs(argv) {
     help: false,
     skipCollect: false,
     skipAi: false,
+    skipReader: false,
     fromEnriched: false,
     open: false,
     readerArgs: [],
@@ -109,6 +111,10 @@ function parseMorningArgs(argv) {
     }
     if (token === "--skip-ai") {
       options.skipAi = true;
+      continue;
+    }
+    if (token === "--skip-reader") {
+      options.skipReader = true;
       continue;
     }
     if (token === "--from-enriched") {
@@ -194,12 +200,14 @@ function buildMorningPlan(options) {
     });
   }
 
-  steps.push({
-    id: "reader",
-    label: "Digest Reader",
-    script: path.join("scripts", "build-digest-reader.js"),
-    args: [...options.readerArgs],
-  });
+  if (!options.skipReader) {
+    steps.push({
+      id: "reader",
+      label: "Digest Reader",
+      script: path.join("scripts", "build-digest-reader.js"),
+      args: [...options.readerArgs],
+    });
+  }
 
   return {
     steps,
