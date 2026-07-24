@@ -259,7 +259,7 @@ function dayOptions(extra = {}) {
   console.log("Case4 PASS");
 }
 
-// --- Case 5: Morning Brief (buildTodayBrief) ---
+// --- Case 5: Morning Brief (buildTodayBrief editorial) ---
 {
   const lines = buildTodayBrief(
     [
@@ -270,9 +270,14 @@ function dayOptions(extra = {}) {
     [{}, {}, {}]
   );
   assert.ok(lines.length <= 3);
-  assert.ok(lines[0].includes("AI関連の投稿が最も多い日です"));
-  assert.ok(lines[1].includes("アニメ・漫画関連も多く流れています"));
-  assert.ok(lines[2].includes("まず読む投稿を3件選びました"));
+  assert.ok(lines.length >= 1);
+  assert.ok(lines[0].includes("AI"));
+  // Editorial form (not legacy count bullets) when enough posts
+  assert.ok(!lines.some((l) => /最も多い日です/.test(l)));
+  assert.ok(!lines.some((l) => /件選びました/.test(l)));
+  for (const w of TREND_WORDS) {
+    assert.ok(!lines.join("").includes(w));
+  }
   console.log("Case5 PASS");
 }
 
@@ -325,7 +330,11 @@ function dayOptions(extra = {}) {
   assert.ok(nav.includes("すべてのカテゴリ"));
   assert.strictEqual(result.summary.picksCount, 8);
   assert.ok(result.summary.brief.length <= 3);
-  assert.ok(result.summary.brief.some((l) => l.includes("まず読む投稿を8件")));
+  assert.ok(
+    result.summary.brief.some(
+      (l) => l.includes("Today's Picks") || l.includes("読む")
+    )
+  );
   console.log("Case6 PASS");
 }
 
