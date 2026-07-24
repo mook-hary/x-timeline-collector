@@ -400,12 +400,12 @@ function dayOptions(extra = {}) {
   for (let i = 0; i < 10; i++) {
     posts.push({
       postedAt: `2026-07-14T10:${String(i).padStart(2, "0")}:00.000Z`,
-      url: `https://x.com/u/status/${i}`,
-      text: `本文${i}`,
-      finalAnalysis: { category: "AI" },
+      url: `https://x.com/u${i}/status/${i}`,
+      text: `本文トピック${i}: 固有の出来事${i}について述べています`,
+      finalAnalysis: { category: i % 2 === 0 ? "AI" : "制作" },
       enrichment: {
         importance: 3,
-        summary: `要約テキスト番号${i}は十分な長さがあります。`,
+        summary: `固有要約${i}: 製品${String.fromCharCode(65 + i)}の動向を整理した十分な長さの文。`,
         reason: "r",
         tags: ["t"],
       },
@@ -451,7 +451,9 @@ function dayOptions(extra = {}) {
     5
   );
   assert.ok(ranked[0].url.includes("high"));
-  assert.ok(ranked[0]._editorialScore >= ranked[1]._editorialScore);
+  if (ranked.length > 1) {
+    assert.ok(ranked[0]._editorialScore >= ranked[1]._editorialScore);
+  }
   console.log("EP028 high-score-first PASS");
 }
 

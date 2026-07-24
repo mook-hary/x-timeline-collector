@@ -1,5 +1,5 @@
 /**
- * EP-034 — Usage Dashboard tests (no OpenAI / no Morning).
+ * EP-034 / EP-037 — Usage Dashboard tests (no OpenAI / no Morning).
  * Run: node test/usage-dashboard-test.js
  */
 const assert = require("assert");
@@ -8,8 +8,15 @@ const os = require("os");
 const path = require("path");
 const { buildMorningHistoryEntry } = require("../lib/api-usage-history");
 const {
+  DEFAULT_USD_JPY_RATE,
   formatTokenCount,
   formatDashboardCost,
+  formatJpyApprox,
+  formatDashboardCostCombined,
+  formatDashboardCostHtml,
+  formatExchangeRateNote,
+  resolveUsdJpyRate,
+  usdToJpy,
   selectLastNRuns,
   filterEntriesForLocalToday,
   summarizeWithAverages,
@@ -52,6 +59,45 @@ function entryAt(localY, localM, localD, hour, usage) {
   console.log("format PASS");
 }
 
+// --- EP-037: rate resolve + JPY conversion ---
+{
+  assert.strictEqual(DEFAULT_USD_JPY_RATE, 150);
+  assert.strictEqual(resolveUsdJpyRate(undefined), 150);
+  assert.strictEqual(resolveUsdJpyRate(""), 150);
+  assert.strictEqual(resolveUsdJpyRate("   "), 150);
+  assert.strictEqual(resolveUsdJpyRate("nope"), 150);
+  assert.strictEqual(resolveUsdJpyRate("0"), 150);
+  assert.strictEqual(resolveUsdJpyRate("-3"), 150);
+  assert.strictEqual(resolveUsdJpyRate("Infinity"), 150);
+  assert.strictEqual(resolveUsdJpyRate("NaN"), 150);
+  assert.strictEqual(resolveUsdJpyRate("155"), 155);
+  assert.strictEqual(resolveUsdJpyRate("155.5"), 155.5);
+  assert.strictEqual(resolveUsdJpyRate(160), 160);
+
+  assert.strictEqual(usdToJpy(0.1348, 150), 20);
+  assert.strictEqual(usdToJpy(0.0674, 150), 10);
+  assert.strictEqual(usdToJpy(0.1166855, 150), 18);
+  assert.strictEqual(formatJpyApprox(20), "約¥20");
+  assert.strictEqual(formatJpyApprox(1234), "約¥1,234");
+  assert.strictEqual(
+    formatDashboardCostCombined(0.1348, 150),
+    "約¥20（$0.1348）"
+  );
+  assert.strictEqual(formatDashboardCostCombined(null, 150), "Unavailable");
+  assert.strictEqual(formatDashboardCostCombined(NaN, 150), "Unavailable");
+  assert.ok(formatDashboardCostHtml(0.1348, 150).includes("cost-jpy"));
+  assert.ok(formatDashboardCostHtml(0.1348, 150).includes("約¥20"));
+  assert.ok(formatDashboardCostHtml(0.1348, 150).includes("（$0.1348）"));
+  assert.ok(formatDashboardCostHtml(null, 150).includes("Unavailable"));
+  assert.ok(!formatDashboardCostHtml(null, 150).includes("約¥"));
+  assert.strictEqual(formatExchangeRateNote(150), "円換算: $1 = ¥150（概算）");
+  assert.strictEqual(
+    formatExchangeRateNote(155.5),
+    "円換算: $1 = ¥155.5（概算）"
+  );
+  console.log("jpy convert PASS");
+}
+
 {
   const dash = buildUsageDashboard([], { available: false });
   assert.strictEqual(dash.available, false);
@@ -59,6 +105,7 @@ function entryAt(localY, localM, localD, hour, usage) {
   assert.ok(html.includes("AI Usage Dashboard"));
   assert.ok(html.includes("No usage history available."));
   assert.ok(!html.includes("Today's Run"));
+  assert.ok(!html.includes("約¥"));
   console.log("history missing PASS");
 }
 
@@ -229,13 +276,54 @@ function entryAt(localY, localM, localD, hour, usage) {
   const html = fs.readFileSync(result.htmlPath, "utf8");
   assert.ok(html.includes("AI Usage Dashboard"));
   assert.ok(html.includes("Today's Run"));
+  assert.ok(html.includes("Last 7 Runs"));
+  assert.ok(html.includes("All Time"));
   assert.ok(html.includes("78,814"));
   assert.ok(html.includes("48,491"));
   assert.ok(html.includes("$0.1167"));
+  assert.ok(html.includes("約¥18"));
+  assert.ok(html.includes("（$0.1167）"));
+  assert.ok(html.includes("Average Cost / Run"));
+  assert.ok(html.includes("円換算: $1 = ¥150（概算）"));
   assert.ok(html.includes("gpt-5-mini"));
   const css = fs.readFileSync(result.cssPath, "utf8");
   assert.ok(css.includes("usage-dash"));
+  assert.ok(css.includes("cost-jpy"));
   console.log("reader display PASS");
+}
+
+// --- EP-037: custom rate in render ---
+{
+  const now = new Date(2026, 6, 23, 16, 0, 0);
+  const today = entryAt(2026, 7, 23, 10, {
+    requests: 1,
+    input: 1000000,
+    output: 0,
+  });
+  const dash = buildUsageDashboard([today], { now, available: true });
+  // $0.25 * 155.5 ≈ ¥39
+  const html = renderUsageDashboard(dash, { usdJpyRate: 155.5 });
+  assert.ok(html.includes("約¥39"));
+  assert.ok(html.includes("（$0.2500）"));
+  assert.ok(html.includes("円換算: $1 = ¥155.5（概算）"));
+  assert.ok(html.includes("Average Cost / Run"));
+
+  const bad = renderUsageDashboard(dash, { usdJpyRate: "bad" });
+  assert.ok(bad.includes("円換算: $1 = ¥150（概算）"));
+  console.log("custom rate PASS");
+}
+
+// --- EP-037: history JSON unchanged (USD only) ---
+{
+  const entry = entryAt(2026, 7, 23, 10, {
+    requests: 1,
+    input: 1000,
+    output: 500,
+  });
+  assert.ok(entry.estimatedCostUsd);
+  assert.ok(!("estimatedCostJpy" in entry));
+  assert.ok(!JSON.stringify(entry).includes("約¥"));
+  console.log("history schema untouched PASS");
 }
 
 console.log("usage-dashboard-test: ALL PASS");
