@@ -285,6 +285,8 @@ store.transition(id, "review");
 store.transition(id, "approved");
 store.transition(id, "scheduled", { scheduledAt: "2026-07-25T07:00:00.000Z" });
 store.listReadyToPublish();
+store.findSimilar(candidate, { threshold: 0.7 });
+store.findSimilarById(id);
 store.find(id);
 store.list();
 store.listByStatus("draft");
@@ -292,6 +294,8 @@ store.listBySource("aikido");
 ```
 
 Workflow: `draft` → `review` → `approved` → `scheduled` / `published` → `archived`（状態変更は `transition()` のみ）。
+
+類似判定はローカル（文字 bigram + Dice、外部 API なし）。`lib/editorial-similarity.js`。
 
 1 コンテンツ = `.pipeline-work/editorial/<id>.json`。
 
