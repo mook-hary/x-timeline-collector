@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Editorial Dashboard</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Editorial Dashboard</h1>
+      <p class="muted">Local only · Knowledge → Editorial → X Preview → Publish</p>
+    </div>
+    <button type="button" id="btn-refresh" class="btn btn-secondary">Refresh</button>
+  </header>
+
+  <main class="layout">
+    <section class="panel list-panel" aria-label="Editorial list">
+      <h2>Editorials</h2>
+      <div id="list-status" class="status-line" role="status"></div>
+      <div id="editorial-list" class="list"></div>
+    </section>
+
+    <section class="panel detail-panel" aria-label="Editorial detail">
+      <div id="empty-detail" class="empty">
+        Select an Editorial from the list.
+      </div>
+
+      <div id="detail" class="detail hidden">
+        <header class="detail-header">
+          <h2 id="detail-title">—</h2>
+          <span id="detail-publish-badge" class="badge"></span>
+        </header>
+
+        <dl class="meta-grid">
+          <div><dt>Editorial ID</dt><dd id="meta-id">—</dd></div>
+          <div><dt>Knowledge ID</dt><dd id="meta-knowledge">—</dd></div>
+          <div><dt>Category</dt><dd id="meta-category">—</dd></div>
+          <div><dt>Status</dt><dd id="meta-status">—</dd></div>
+          <div><dt>Created At</dt><dd id="meta-created">—</dd></div>
+          <div><dt>Updated At</dt><dd id="meta-updated">—</dd></div>
+        </dl>
+
+        <div id="published-block" class="published-block hidden">
+          <h3>Published</h3>
+          <dl class="meta-grid">
+            <div><dt>Remote ID</dt><dd id="meta-remote">—</dd></div>
+            <div><dt>Published At</dt><dd id="meta-published-at">—</dd></div>
+          </dl>
+          <p class="notice notice-warn" id="already-published-msg">Already published.</p>
+        </div>
+
+        <label class="field-label" for="body-editor">Post body (Editorial body)</label>
+        <textarea id="body-editor" rows="14" spellcheck="true"></textarea>
+
+        <div class="actions">
+          <button type="button" id="btn-save" class="btn btn-secondary">Save Draft</button>
+          <button type="button" id="btn-preview" class="btn btn-preview">Preview X Post</button>
+          <button type="button" id="btn-publish" class="btn btn-publish">Publish to X</button>
+        </div>
+
+        <div id="action-status" class="status-line" role="status"></div>
+        <div id="action-error" class="error-box hidden" role="alert"></div>
+
+        <section class="preview-box hidden" id="preview-box">
+          <h3>X Post Preview</h3>
+          <pre id="preview-text" class="preview-text"></pre>
+          <p class="muted">Characters: <span id="preview-chars">0</span></p>
+          <p id="preview-limit-msg" class="notice notice-warn hidden">
+            Post exceeds the allowed X character limit.
+          </p>
+        </section>
+
+        <section class="confirm-box hidden" id="confirm-box">
+          <h3>Confirm publish</h3>
+          <p>この内容をXへ実際に投稿します。</p>
+          <pre id="confirm-text" class="preview-text"></pre>
+          <div class="actions">
+            <button type="button" id="btn-cancel-publish" class="btn btn-secondary">Cancel</button>
+            <button type="button" id="btn-confirm-publish" class="btn btn-danger">Confirm Publish</button>
+          </div>
+        </section>
+
+        <section class="history">
+          <h3>Publish history</h3>
+          <div id="history-status" class="muted"></div>
+          <div id="history-list" class="history-list"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

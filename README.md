@@ -511,6 +511,22 @@ npm run aikido:publish:x -- --category=principle --confirm --continueOnError --j
 
 初回運用手順（1 Knowledge → 1 X 投稿）: [docs/runbooks/OP-001-first-publish.md](docs/runbooks/OP-001-first-publish.md)
 
+### Editorial Dashboard（ED-001）
+
+ローカル専用のブラウザ UI です。既存 Editorial / Formatter / Publisher / Ledger を呼び出します（CLI 置き換えではありません）。
+
+```bash
+npm run editorial:dashboard
+```
+
+アクセス: [http://127.0.0.1:4174](http://127.0.0.1:4174)（`127.0.0.1` のみ bind）
+
+- Publish は 2 段階確認（Confirm Publish のみ実投稿）
+- Preview では X API を呼ばない
+- `X_USER_ACCESS_TOKEN` を利用（ブラウザへは送らない）
+- 投稿済み Editorial は再投稿しない（Ledger の重複規則）
+- 停止は Ctrl+C
+
 ### Source Intake（合気道資料）
 
 X 以外の資料（書籍・道場サイト・動画・稽古メモ・経験など）を、Knowledge 化の前段として統一保存します。外部通信はしません。
