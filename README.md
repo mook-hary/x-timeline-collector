@@ -269,6 +269,8 @@ npm run morning:runner -- --skip-ai --open
 
 関連: `npm run collect` / `analyze` / `analyze:ai` / `enrich` / `publish`。詳細は `node scripts/morning-pipeline.js --help` / `node scripts/morning.js --help`。
 
+終了時に Summary を表示し、実行結果を `.pipeline-work/history/YYYY-MM-DD-HHmmss.json` に保存します（履歴保存に失敗しても Pipeline は失敗扱いしません）。
+
 ### 毎朝自動実行（launchd）
 
 macOS のユーザー LaunchAgent で、毎朝 `npm run morning` 相当を自動実行します（Morning Pipeline 本体は変更しません）。

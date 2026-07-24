@@ -100,14 +100,16 @@ function tmpDir(prefix) {
 {
   let publishCalls = 0;
   const logs = [];
+  const root = tmpDir("morning-pipeline-fail-");
   assert.throws(
     () =>
       runMorningPipeline(
         { dryRun: false, morningArgv: [] },
         {
-          rootDir: tmpDir("morning-pipeline-fail-"),
+          rootDir: root,
           log: (l) => logs.push(l),
           logErr: (l) => logs.push(l),
+          historyNow: () => new Date(2026, 6, 24, 7, 12, 33),
           runMorning: () => {
             const err = new Error("collect boom");
             err.step = {
@@ -116,6 +118,16 @@ function tmpDir(prefix) {
               script: "connect.js",
               args: ["--once"],
             };
+            err.stages = [
+              {
+                id: "collect",
+                label: "Collect",
+                startedAt: "2026-07-24T07:00:00.000Z",
+                finishedAt: "2026-07-24T07:00:01.000Z",
+                ok: false,
+                itemCount: null,
+              },
+            ];
             err.exitCode = 7;
             throw err;
           },
@@ -131,6 +143,18 @@ function tmpDir(prefix) {
   assert.strictEqual(publishCalls, 0);
   assert.ok(logs.some((l) => /FAILED stage=Collect/.test(l)));
   assert.ok(logs.some((l) => /command=node connect.js --once/.test(l)));
+  assert.ok(logs.some((l) => /Morning Pipeline Summary/.test(l)));
+  assert.ok(logs.some((l) => /Status: FAILED/.test(l)));
+  const hist = path.join(
+    root,
+    ".pipeline-work",
+    "history",
+    "2026-07-24-071233.json"
+  );
+  assert.ok(fs.existsSync(hist));
+  const report = JSON.parse(fs.readFileSync(hist, "utf8"));
+  assert.strictEqual(report.status, "FAILED");
+  assert.strictEqual(report.failure.stage, "Collect");
   console.log("EP046 fail-stops PASS");
 }
 
@@ -139,23 +163,54 @@ function tmpDir(prefix) {
   const root = tmpDir("morning-pipeline-ok-");
   let morningCalls = 0;
   let publishCalls = 0;
+  const logs = [];
   const result = runMorningPipeline(
     { dryRun: false, morningArgv: ["--skip-collect"] },
     {
       rootDir: root,
-      log: () => {},
+      log: (l) => logs.push(l),
       logErr: () => {},
+      historyNow: () => new Date(2026, 6, 24, 7, 12, 33),
       runMorning: (opts) => {
         morningCalls += 1;
         assert.strictEqual(opts.skipReader, true);
         assert.strictEqual(opts.skipCollect, true);
         assert.strictEqual(opts.fromEnriched, false);
-        return { ok: true, stepsRun: ["analyze"] };
+        return {
+          ok: true,
+          stepsRun: ["analyze"],
+          stages: [
+            {
+              id: "analyze",
+              label: "Analyze",
+              startedAt: "2026-07-24T07:00:00.000Z",
+              finishedAt: "2026-07-24T07:01:00.000Z",
+              ok: true,
+              itemCount: 100,
+            },
+            {
+              id: "analyze-ai",
+              label: "AI Analyze",
+              startedAt: "2026-07-24T07:01:00.000Z",
+              finishedAt: "2026-07-24T07:02:00.000Z",
+              ok: true,
+              itemCount: 50,
+            },
+            {
+              id: "enrich",
+              label: "AI Enrich",
+              startedAt: "2026-07-24T07:02:00.000Z",
+              finishedAt: "2026-07-24T07:03:00.000Z",
+              ok: true,
+              itemCount: 50,
+            },
+          ],
+        };
       },
       createPublishRunner: () => ({
         runPublish: () => {
           publishCalls += 1;
-          return { ok: true, committed: true };
+          return { ok: true, committed: true, skippedPush: false };
         },
       }),
     }
@@ -169,7 +224,53 @@ function tmpDir(prefix) {
   ]);
   // lock released
   assert.ok(!fs.existsSync(path.join(root, LOCK_REL)));
+  assert.ok(logs.some((l) => /Morning Pipeline Summary/.test(l)));
+  assert.ok(logs.some((l) => /Status: SUCCESS/.test(l)));
+  assert.ok(result.historyPath);
+  assert.strictEqual(result.healthReport.status, "SUCCESS");
+  assert.strictEqual(result.healthReport.publish.pushed, true);
+  assert.strictEqual(result.healthReport.counts.analyzeAi, 50);
   console.log("EP046 happy-path PASS");
+}
+
+// --- history save failure does not fail pipeline ---
+{
+  const root = tmpDir("morning-pipeline-histfail-");
+  const logs = [];
+  const result = runMorningPipeline(
+    { dryRun: false, morningArgv: ["--skip-collect"] },
+    {
+      rootDir: root,
+      log: (l) => logs.push(l),
+      logErr: () => {},
+      runMorning: () => ({
+        ok: true,
+        stepsRun: ["analyze"],
+        stages: [
+          {
+            id: "analyze",
+            label: "Analyze",
+            startedAt: "2026-07-24T07:00:00.000Z",
+            finishedAt: "2026-07-24T07:00:01.000Z",
+            ok: true,
+            itemCount: 10,
+          },
+        ],
+      }),
+      createPublishRunner: () => ({
+        runPublish: () => ({ ok: true, committed: false, skippedPush: true }),
+      }),
+      saveMorningHealthReport: () => {
+        throw new Error("disk full");
+      },
+    }
+  );
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(result.historyPath, null);
+  assert.ok(logs.some((l) => /WARNING: failed to save health history/.test(l)));
+  assert.ok(logs.some((l) => /Morning Pipeline Summary/.test(l)));
+  assert.ok(logs.some((l) => /\(not saved\)/.test(l)));
+  console.log("EP048 history-soft-fail PASS");
 }
 
 // --- CLI dry-run via spawn ---

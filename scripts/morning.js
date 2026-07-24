@@ -18,6 +18,7 @@ const {
   resolveHistoryPath,
   recordMorningUsage,
 } = require("../lib/api-usage-history");
+const { parseStageItemCount } = require("../lib/morning-health");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -280,6 +281,8 @@ function runMorning(options, deps = {}) {
 
   const total = plan.steps.length;
   const stepsRun = [];
+  /** @type {object[]} */
+  const stages = [];
   const usageByStep = {
     analyze: emptyUsage(),
     enrich: emptyUsage(),
@@ -289,6 +292,7 @@ function runMorning(options, deps = {}) {
     const step = plan.steps[i];
     const index = i + 1;
     log(`[Morning] ${index}/${total} ${step.label}`);
+    const stageStartedAt = now();
 
     const scriptPath = path.join(rootDir, step.script);
     const result = spawn(process.execPath, [scriptPath, ...step.args], {
@@ -297,6 +301,22 @@ function runMorning(options, deps = {}) {
       env: deps.env || process.env,
       stdio: deps.stdio || ["ignore", "pipe", "pipe"],
     });
+
+    const stageFinishedAt = now();
+    const combinedOut = `${result.stdout || ""}\n${result.stderr || ""}`;
+    const itemCount = parseStageItemCount(step.id, combinedOut);
+    const stageRecord = {
+      id: step.id,
+      label: step.label,
+      startedAt: stageStartedAt,
+      finishedAt: stageFinishedAt,
+      durationMs: Math.max(
+        0,
+        Date.parse(stageFinishedAt) - Date.parse(stageStartedAt) || 0
+      ),
+      ok: true,
+      itemCount,
+    };
 
     const status = result.status;
     if (status !== 0 || result.error) {
@@ -307,6 +327,8 @@ function runMorning(options, deps = {}) {
       if (result.error) {
         log(`[Morning] spawn error=${result.error.message}`);
       }
+      stageRecord.ok = false;
+      stages.push(stageRecord);
       const err = new Error(
         `${step.label} failed (exit ${code}): ${formatCommand(
           step.script,
@@ -317,10 +339,10 @@ function runMorning(options, deps = {}) {
       err.step = step;
       err.exitCode = code;
       err.result = result;
+      err.stages = stages.slice();
       throw err;
     }
 
-    const combinedOut = `${result.stdout || ""}\n${result.stderr || ""}`;
     const parsedUsage = parseUsageFromOutput(combinedOut);
     if (parsedUsage) {
       if (step.id === "analyze-ai") {
@@ -330,6 +352,7 @@ function runMorning(options, deps = {}) {
       }
     }
 
+    stages.push(stageRecord);
     log(`[Morning] ${step.label} complete`);
     stepsRun.push(step.id);
   }
@@ -407,6 +430,7 @@ function runMorning(options, deps = {}) {
   return {
     ok: true,
     stepsRun,
+    stages,
     opened,
     plan,
     usage: usageByStep,
