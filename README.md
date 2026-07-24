@@ -527,6 +527,21 @@ npm run editorial:dashboard
 - 投稿済み Editorial は再投稿しない（Ledger の重複規則）
 - 停止は Ctrl+C
 
+### Candidate Review Dashboard（EA-001）
+
+Candidate（Review）の確認・編集・採用・却下用ローカル UI です。
+
+```bash
+npm run aikido:review:dashboard
+```
+
+アクセス: [http://127.0.0.1:4175](http://127.0.0.1:4175)（`127.0.0.1` のみ・ED-001 の 4174 と分離）
+
+- Preview では Knowledge を保存しない / status も変えない
+- 採用・却下は明示確認が必要
+- Approved（converted）Candidate は再採用されない
+- 停止は Ctrl+C
+
 ### Source Intake（合気道資料）
 
 X 以外の資料（書籍・道場サイト・動画・稽古メモ・経験など）を、Knowledge 化の前段として統一保存します。外部通信はしません。

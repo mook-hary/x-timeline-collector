@@ -33,7 +33,8 @@
     "aikido:x:preview": "node scripts/aikido-x-preview.js",
     "aikido:publish:list": "node scripts/aikido-publish-list.js",
     "aikido:publish:x": "node scripts/aikido-publish.js",
-    "editorial:dashboard": "node scripts/editorial-dashboard.js"
+    "editorial:dashboard": "node scripts/editorial-dashboard.js",
+    "aikido:review:dashboard": "node scripts/aikido-review-dashboard.js"
   },
   "keywords": [],
   "author": "",

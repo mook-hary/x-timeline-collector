@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Candidate Review Dashboard</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Candidate Review</h1>
+      <p class="muted">Local only · Source → Candidate → Knowledge</p>
+    </div>
+    <div class="topbar-right">
+      <span id="pending-count" class="pending-pill">Pending: 0</span>
+      <button type="button" id="btn-refresh" class="btn btn-secondary">Refresh</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel list-panel">
+      <h2>Candidates</h2>
+      <div class="filters" role="tablist">
+        <button type="button" class="filter active" data-status="pending">Pending</button>
+        <button type="button" class="filter" data-status="all">All</button>
+        <button type="button" class="filter" data-status="approved">Approved</button>
+        <button type="button" class="filter" data-status="rejected">Rejected</button>
+      </div>
+      <div id="list-status" class="status-line"></div>
+      <div id="candidate-list" class="list"></div>
+    </section>
+
+    <section class="panel detail-panel">
+      <div id="empty-detail" class="empty">Select a Candidate from the list.</div>
+
+      <div id="detail" class="detail hidden">
+        <header class="detail-header">
+          <h2 id="detail-title">—</h2>
+          <span id="detail-status-badge" class="badge"></span>
+        </header>
+
+        <dl class="meta-grid">
+          <div><dt>Candidate ID</dt><dd id="meta-id">—</dd></div>
+          <div><dt>Source ID</dt><dd id="meta-source-id">—</dd></div>
+          <div><dt>Category</dt><dd id="meta-category">—</dd></div>
+          <div><dt>Difficulty</dt><dd id="meta-difficulty">—</dd></div>
+          <div><dt>Created At</dt><dd id="meta-created">—</dd></div>
+          <div><dt>Updated At</dt><dd id="meta-updated">—</dd></div>
+          <div><dt>Knowledge ID</dt><dd id="meta-knowledge">—</dd></div>
+        </dl>
+
+        <section class="source-box" id="source-box">
+          <h3>Source</h3>
+          <p id="source-unavailable" class="muted hidden">Source information is unavailable.</p>
+          <dl class="meta-grid" id="source-grid">
+            <div><dt>Source Title</dt><dd id="source-title">—</dd></div>
+            <div><dt>Source Type</dt><dd id="source-type">—</dd></div>
+            <div><dt>Source URL</dt><dd id="source-url">—</dd></div>
+            <div><dt>Collected At</dt><dd id="source-collected">—</dd></div>
+          </dl>
+        </section>
+
+        <label class="field-label" for="field-title">Title</label>
+        <input id="field-title" class="text-input" />
+
+        <label class="field-label" for="field-category">Category</label>
+        <select id="field-category" class="text-input"></select>
+
+        <label class="field-label" for="field-summary">Summary</label>
+        <textarea id="field-summary" rows="3"></textarea>
+
+        <label class="field-label" for="field-content">Content</label>
+        <textarea id="field-content" rows="12"></textarea>
+
+        <label class="field-label" for="field-tags">Tags (comma-separated)</label>
+        <input id="field-tags" class="text-input" />
+
+        <label class="field-label" for="field-difficulty">Difficulty (1–5)</label>
+        <input id="field-difficulty" class="text-input" type="number" min="1" max="5" step="1" />
+
+        <div class="actions">
+          <button type="button" id="btn-save" class="btn btn-secondary">Save Candidate</button>
+          <button type="button" id="btn-preview" class="btn btn-preview">Preview Knowledge</button>
+          <button type="button" id="btn-approve" class="btn btn-approve">Approve as Knowledge</button>
+          <button type="button" id="btn-reject" class="btn btn-reject">Reject Candidate</button>
+        </div>
+
+        <div id="action-status" class="status-line" role="status"></div>
+        <div id="action-error" class="error-box hidden" role="alert"></div>
+
+        <section id="preview-box" class="preview-box hidden">
+          <h3>Knowledge Preview</h3>
+          <dl class="preview-dl">
+            <div><dt>Title</dt><dd id="pv-title"></dd></div>
+            <div><dt>Category</dt><dd id="pv-category"></dd></div>
+            <div><dt>Summary</dt><dd id="pv-summary"></dd></div>
+            <div><dt>Content</dt><dd id="pv-content" class="pre"></dd></div>
+            <div><dt>Tags</dt><dd id="pv-tags"></dd></div>
+            <div><dt>Difficulty</dt><dd id="pv-difficulty"></dd></div>
+            <div><dt>Sources</dt><dd id="pv-sources"></dd></div>
+          </dl>
+        </section>
+
+        <section id="approve-box" class="confirm-box hidden">
+          <h3>Confirm approval</h3>
+          <p>このCandidateをKnowledgeとして登録します。</p>
+          <div id="approve-preview" class="mini-preview"></div>
+          <div class="actions">
+            <button type="button" id="btn-cancel-approve" class="btn btn-secondary">Cancel</button>
+            <button type="button" id="btn-confirm-approve" class="btn btn-approve">Confirm Approval</button>
+          </div>
+        </section>
+
+        <section id="reject-box" class="confirm-box reject hidden">
+          <h3>Confirm rejection</h3>
+          <p>このCandidateを却下します。</p>
+          <label class="field-label" for="reject-reason">Reason</label>
+          <textarea id="reject-reason" rows="3" placeholder="Rejection reason (required)"></textarea>
+          <div class="actions">
+            <button type="button" id="btn-cancel-reject" class="btn btn-secondary">Cancel</button>
+            <button type="button" id="btn-confirm-reject" class="btn btn-reject">Confirm Rejection</button>
+          </div>
+        </section>
+
+        <section class="history">
+          <h3>Review</h3>
+          <div id="review-history" class="history-box"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
