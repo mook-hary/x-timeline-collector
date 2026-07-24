@@ -335,6 +335,32 @@ Workflow: `draft` → `review` → `approved` → `scheduled` / `published` → 
 
 1 コンテンツ = `.pipeline-work/editorial/<id>.json`。
 
+### Knowledge Layer（合気道）
+
+文章下書きではなく「知識」を独立管理するレイヤです。Editorial Store には保存しません。
+
+```js
+const { createAikidoKnowledgeStore } = require("./lib/aikido-knowledge");
+const knowledge = createAikidoKnowledgeStore(); // .pipeline-work/knowledge/aikido/
+
+knowledge.createKnowledge({
+  title: "一教の基本",
+  category: "technique",
+  summary: "正面打ち一教",
+  content: "...",
+  tags: ["ikkyo"],
+  difficulty: 2,
+  sources: ["合気会教本", "本部道場", "自分の稽古"],
+  related: [],
+});
+
+knowledge.listKnowledge({ category: "technique", difficulty: 2 });
+```
+
+category: `technique` / `principle` / `training` / `mindset` / `etiquette` / `history` / `teaching` / `injury-prevention` / `experience`
+
+今後の流れ: Knowledge → Draft Generator → Editorial。
+
 ### 毎朝自動実行（launchd）
 
 macOS のユーザー LaunchAgent で、毎朝 `npm run morning` 相当を自動実行します（Morning Pipeline 本体は変更しません）。
