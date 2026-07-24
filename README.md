@@ -271,6 +271,24 @@ npm run morning:runner -- --skip-ai --open
 
 終了時に Summary を表示し、実行結果を `.pipeline-work/history/YYYY-MM-DD-HHmmss.json` に保存します（履歴保存に失敗しても Pipeline は失敗扱いしません）。
 
+### Editorial Content Store（基盤）
+
+投稿候補・記事候補を共通フォーマットで保存するストアです（Morning Pipeline への組み込みはまだありません）。
+
+```js
+const { createEditorialStore } = require("./lib/editorial-store");
+const store = createEditorialStore(); // .pipeline-work/editorial/
+
+store.create({ source: "news", type: "article", title: "...", body: "..." });
+store.update(id, { status: "ready", score: 0.9 });
+store.find(id);
+store.list();
+store.listByStatus("draft");
+store.listBySource("aikido");
+```
+
+1 コンテンツ = `.pipeline-work/editorial/<id>.json`。
+
 ### 毎朝自動実行（launchd）
 
 macOS のユーザー LaunchAgent で、毎朝 `npm run morning` 相当を自動実行します（Morning Pipeline 本体は変更しません）。
