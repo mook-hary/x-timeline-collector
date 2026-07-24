@@ -509,6 +509,8 @@ npm run aikido:publish:x -- --category=principle --confirm --continueOnError --j
 - 成功（`status=published`）のみ Ledger へ保存
 - `X_USER_ACCESS_TOKEN` が必要（`--confirm` 時）。トークンをログへ出さない
 
+初回運用手順（1 Knowledge → 1 X 投稿）: [docs/runbooks/OP-001-first-publish.md](docs/runbooks/OP-001-first-publish.md)
+
 ### Source Intake（合気道資料）
 
 X 以外の資料（書籍・道場サイト・動画・稽古メモ・経験など）を、Knowledge 化の前段として統一保存します。外部通信はしません。
