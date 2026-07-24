@@ -365,6 +365,45 @@ category: `technique` / `principle` / `training` / `mindset` / `etiquette` / `hi
 
 Draft Generator（`lib/aikido-draft-generator.js`）はテンプレートで Editorial 互換の `post` を決定的に生成します（外部 AI なし・自動保存なし）。
 
+### Editorial Bridge（合気道）
+
+Knowledge の Draft を Editorial Store へ**登録だけ**します（Rule / Ranking / Publish / Workflow 変更は行いません）。
+
+```text
+Knowledge Store
+    ↓
+Draft Generator
+    ↓
+Editorial Bridge
+    ↓
+Editorial Store
+    ↓
+Editorial Engine
+```
+
+```bash
+npm run aikido:editorial -- --id=<knowledge-id>
+npm run aikido:editorial -- --category=principle --limit=5
+npm run aikido:editorial -- --id=<knowledge-id> --dry-run
+npm run aikido:editorial -- --category=principle --json
+```
+
+```js
+const { createAikidoEditorialBridge } = require("./lib/aikido-editorial-bridge");
+const { createEditorialStore } = require("./lib/editorial-store");
+const { createAikidoKnowledgeStore } = require("./lib/aikido-knowledge");
+
+const editorialStore = createEditorialStore();
+const bridge = createAikidoEditorialBridge({ editorialStore });
+const knowledge = createAikidoKnowledgeStore({ editorialBridge: bridge });
+
+knowledge.publishDraft("ikkyo-basics");           // generate → register
+knowledge.publishDrafts({ category: "principle" });
+knowledge.publishDraft("ikkyo-basics", { dryRun: true }); // 保存しない
+```
+
+同一 `knowledgeId` + `templateId` の `status=draft` が既にある場合はデフォルトで拒否（`allowDuplicateDraft` で許可）。
+
 ### Source Intake（合気道資料）
 
 X 以外の資料（書籍・道場サイト・動画・稽古メモ・経験など）を、Knowledge 化の前段として統一保存します。外部通信はしません。
@@ -425,7 +464,11 @@ Knowledge Store
     ↓
 Draft Generator
     ↓
-Editorial
+Editorial Bridge
+    ↓
+Editorial Store
+    ↓
+Editorial Engine
 ```
 
 AI Provider は交換可能です（Extractor は特定サービスへ依存しません）。
