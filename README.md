@@ -463,7 +463,7 @@ await publisher.publishPost(formattedPost); // 依然 dry-run
 
 - User Access Token（`X_USER_ACCESS_TOKEN`）が必要。`.env` は gitignore 済み
 - 投稿履歴は Publish Ledger（XP-003）へ分離。Publisher は状態を持たない
-- 実投稿 CLI / `--confirm` は未実装（XP-004）
+- 実投稿 CLI は `npm run aikido:publish:x`（`--confirm` 必須）
 - 既存 `npm run aikido:x:preview` はプレビューのみ（変更なし）
 
 ### Publish Ledger（XP-003）
@@ -491,6 +491,23 @@ npm run aikido:publish:list -- --knowledgeId=<id> --editorialId=<id>
 - 本文は保存せず SHA-256 `checksum` のみ
 - dry-run は保存しない
 - 投稿・Retry・Delete・Workflow 変更は行わない
+
+### X Publish CLI（XP-004）
+
+Editorial → Formatter → Publisher → Ledger を CLI でつなぎます。**デフォルトは dry-run**。実投稿は `--confirm` のみ。
+
+```bash
+npm run aikido:publish:x -- --id=<editorial-id>
+npm run aikido:publish:x -- --category=principle --limit=5
+npm run aikido:publish:x -- --id=<editorial-id> --confirm
+npm run aikido:publish:x -- --id=<editorial-id> --confirm --force
+npm run aikido:publish:x -- --category=principle --confirm --continueOnError --json
+```
+
+- `--dry-run` は `--confirm` より優先（投稿しない）
+- 同一 `editorialId` / `checksum` はデフォルト skip（`--force` で許可）
+- 成功（`status=published`）のみ Ledger へ保存
+- `X_USER_ACCESS_TOKEN` が必要（`--confirm` 時）。トークンをログへ出さない
 
 ### Source Intake（合気道資料）
 
