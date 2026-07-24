@@ -149,13 +149,15 @@ function dayOptions(extra = {}) {
   assert.ok(html.includes("Category Digest"));
   assert.ok(html.includes("More News"));
   assert.ok(html.includes("AI Usage Dashboard"));
-  // EP-035 section order
+  assert.ok(html.includes("Categories"));
+  // EP-036 section order: Brief → Picks → Categories nav → Digest → More → Usage
   const iBrief = html.indexOf("Morning Brief");
   const iPicks = html.indexOf("Today's Picks");
+  const iNav = html.indexOf('class="cat-nav"');
   const iDigest = html.indexOf("Category Digest");
   const iMore = html.indexOf("More News");
   const iUsage = html.indexOf("AI Usage Dashboard");
-  assert.ok(iBrief < iPicks && iPicks < iDigest && iDigest < iMore && iMore < iUsage);
+  assert.ok(iBrief < iPicks && iPicks < iNav && iNav < iDigest && iDigest < iMore && iMore < iUsage);
   assert.ok(html.includes('id="todays-picks"'));
   assert.ok(!html.includes("Top Stories"));
   assert.ok(!html.includes(">Overview<"));
@@ -168,7 +170,8 @@ function dayOptions(extra = {}) {
   assert.ok(result.summary.brief.length >= 1);
   assert.ok(result.summary.brief.length <= 3);
 
-  assert.ok(html.includes("Xで開く ↗"));
+  assert.ok(html.includes("Xで読む ↗"));
+  assert.ok(html.includes("注目した理由"));
   assert.ok(html.includes('href="#todays-picks"'));
   const navMatch = html.match(/<ul class="cat-nav__list">([\s\S]*?)<\/ul>/);
   assert.ok(navMatch);
@@ -230,6 +233,7 @@ function dayOptions(extra = {}) {
   const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
   const picks = html.match(/id="todays-picks"[\s\S]*?<div id="all-categories">/);
   assert.ok(picks);
+  assert.ok(!picks[0].includes("Xで読む"));
   assert.ok(!picks[0].includes("Xで開く"));
   console.log("Case3 PASS");
 }
@@ -473,7 +477,7 @@ function dayOptions(extra = {}) {
   console.log("EP028 dedupe PASS");
 }
 
-// --- EP-028: no duplicate summary/body ---
+// --- EP-028/036: no duplicate title/summary; why label ---
 {
   const html = renderPickCard({
     category: "AI",
@@ -483,7 +487,8 @@ function dayOptions(extra = {}) {
     importance: 3,
     url: "https://x.com/u/status/1",
   });
-  assert.ok(html.includes("card__summary"));
+  assert.ok(html.includes("card__title"));
+  assert.ok(!html.includes("card__summary"));
   assert.ok(!html.includes("card__body"));
 
   const html2 = renderPickCard({
@@ -494,9 +499,13 @@ function dayOptions(extra = {}) {
     importance: null,
     url: "https://x.com/u/status/2",
   });
+  assert.ok(html2.includes("card__title"));
   assert.ok(html2.includes("card__summary"));
-  assert.ok(html2.includes("card__body"));
-  assert.ok(html2.includes("card__reason"));
+  assert.ok(html2.includes("注目した理由"));
+  assert.ok(html2.includes("card__why-text"));
+  assert.ok(html2.includes("Xで読む ↗"));
+  assert.ok(!html2.includes("card__body"));
+  assert.ok(!html2.includes("card__reason"));
   assert.ok(!html2.includes("重要度"));
   console.log("EP028 no-double-text PASS");
 }
@@ -538,6 +547,45 @@ function dayOptions(extra = {}) {
   assert.ok(result.digest.todaysPicks.every((p) => p.url.includes("high")));
   assert.ok(result.summary.picksCount >= 1);
   console.log("EP028 min-importance PASS");
+}
+
+// --- EP-036: more-read CTA with dynamic count ---
+{
+  const root = tmpDir("digest-reader-more-");
+  const posts = [];
+  for (let i = 0; i < 8; i++) {
+    posts.push({
+      authorName: `U${i}`,
+      authorHandle: `@u${i}`,
+      postedAt: `2026-07-14T0${i}:30:00.000Z`,
+      text: `post ${i} long enough summary text`,
+      url: `https://x.com/u/status/${100 + i}`,
+      finalAnalysis: { category: "AI", tags: ["AI"] },
+      enrichment: {
+        importance: 4,
+        summary: `AI要約 ${i} です。詳細な内容の要約テキスト。`,
+        reason: "注目理由",
+        tags: [],
+      },
+    });
+  }
+  const result = buildDigestReader({
+    rootDir: root,
+    outputDir: path.join(root, "out"),
+    posts,
+    config: mergeDigestConfig({
+      ...DEFAULT_DIGEST_CONFIG,
+      categoryDisplayLimit: 3,
+    }),
+    digestOptions: dayOptions({ top: 2 }),
+  });
+  const html = fs.readFileSync(result.htmlPath, "utf8");
+  assert.ok(/さらに5件読む →/.test(html));
+  assert.ok(html.includes('class="more-read"'));
+  assert.ok(html.includes('href="#category-digest"'));
+  assert.ok(!html.includes("ほか "));
+  assert.ok(html.includes("Xで読む ↗"));
+  console.log("EP036 more-read PASS");
 }
 
 console.log("digest-reader-test: ALL PASS");
