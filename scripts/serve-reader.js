@@ -1,24 +1,22 @@
 #!/usr/bin/env node
 /**
- * EP-040 — Serve output/digest-reader on localhost.
+ * EP-040/043 — Serve output/digest-reader on the LAN (0.0.0.0).
  * Usage: npm run reader:serve
  */
 const {
-  DEFAULT_PORT,
   READER_DIR_REL,
   resolvePort,
   readerDir,
-  readerUrl,
   isPortInUse,
   ensureReaderHtml,
   startReaderServer,
   attachShutdown,
+  formatServeUrlLines,
 } = require("../lib/reader-launch");
 
 async function main() {
   const rootDir = process.cwd();
   const port = resolvePort(process.env);
-  const url = readerUrl(port);
 
   try {
     ensureReaderHtml(rootDir);
@@ -29,7 +27,10 @@ async function main() {
 
   const inUse = await isPortInUse(port);
   if (inUse) {
-    process.stdout.write(`Reader server already running: ${url}\n`);
+    process.stdout.write(`Reader server already running:\n`);
+    for (const line of formatServeUrlLines(port)) {
+      process.stdout.write(`${line}\n`);
+    }
     process.stdout.write(
       `Port ${port} is in use. Open that URL, or stop the other process and retry.\n`
     );
@@ -42,7 +43,10 @@ async function main() {
     server = await startReaderServer(dir, port);
   } catch (error) {
     if (error && error.code === "EADDRINUSE") {
-      process.stdout.write(`Reader server already running: ${url}\n`);
+      process.stdout.write(`Reader server already running:\n`);
+      for (const line of formatServeUrlLines(port)) {
+        process.stdout.write(`${line}\n`);
+      }
       process.exit(0);
     }
     process.stderr.write(
@@ -52,7 +56,9 @@ async function main() {
   }
 
   process.stdout.write(`Serving ${READER_DIR_REL}\n`);
-  process.stdout.write(`Reader server: ${url}\n`);
+  for (const line of formatServeUrlLines(port)) {
+    process.stdout.write(`${line}\n`);
+  }
   process.stdout.write("Press Ctrl+C to stop.\n");
   attachShutdown(server, (msg) => process.stderr.write(`${msg}\n`));
 }

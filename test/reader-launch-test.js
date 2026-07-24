@@ -9,6 +9,7 @@ const os = require("os");
 const path = require("path");
 const {
   DEFAULT_PORT,
+  LISTEN_HOST,
   READER_HTML_REL,
   resolvePort,
   readerUrl,
@@ -18,6 +19,9 @@ const {
   ensureReaderHtml,
   startReaderServer,
   generateReader,
+  getLanIPv4,
+  formatServeUrls,
+  formatServeUrlLines,
 } = require("../lib/reader-launch");
 
 function tmpDir(prefix) {
@@ -45,6 +49,7 @@ function httpGet(urlPath, port) {
 // --- path / port helpers ---
 {
   assert.strictEqual(DEFAULT_PORT, 8765);
+  assert.strictEqual(LISTEN_HOST, "0.0.0.0");
   assert.strictEqual(readerUrl(8765), "http://localhost:8765");
   assert.strictEqual(resolvePort({}), 8765);
   assert.strictEqual(resolvePort({ READER_PORT: "9001" }), 9001);
@@ -52,6 +57,30 @@ function httpGet(urlPath, port) {
   const root = "/tmp/project";
   assert.ok(readerHtmlPath(root).endsWith(READER_HTML_REL));
   console.log("EP040 helpers PASS");
+}
+
+// --- EP-043 LAN helpers ---
+{
+  const ip = getLanIPv4(() => ({
+    lo0: [{ address: "127.0.0.1", family: "IPv4", internal: true }],
+    en0: [{ address: "192.168.1.23", family: "IPv4", internal: false }],
+    utun0: [{ address: "10.0.0.1", family: "IPv4", internal: false }],
+  }));
+  assert.strictEqual(ip, "192.168.1.23");
+
+  const urls = formatServeUrls(8765, "192.168.1.23");
+  assert.strictEqual(urls.local, "http://localhost:8765");
+  assert.strictEqual(urls.network, "http://192.168.1.23:8765");
+
+  const lines = formatServeUrlLines(8765, "192.168.1.23");
+  assert.ok(lines[0].includes("Local:"));
+  assert.ok(lines[0].includes("http://localhost:8765"));
+  assert.ok(lines[1].includes("Network:"));
+  assert.ok(lines[1].includes("http://192.168.1.23:8765"));
+
+  const none = formatServeUrlLines(8765, null);
+  assert.ok(none[1].includes("unavailable"));
+  console.log("EP043 lan-urls PASS");
 }
 
 // --- ensureReaderHtml errors ---
@@ -80,6 +109,18 @@ function httpGet(urlPath, port) {
   assert.strictEqual(await isPortInUse(port), false);
   const server = await startReaderServer(dir, port);
   assert.strictEqual(await isPortInUse(port), true);
+
+  const addr = server.address();
+  assert.ok(addr && typeof addr === "object");
+  assert.strictEqual(addr.port, port);
+  // 0.0.0.0 (or :: if dual-stack maps) — must not be loopback-only.
+  const boundHost = String(addr.address);
+  assert.ok(
+    boundHost === "0.0.0.0" ||
+      boundHost === "::" ||
+      boundHost === "::ffff:0.0.0.0",
+    `expected LAN bind, got ${boundHost}`
+  );
 
   const index = await httpGet("/", port);
   assert.strictEqual(index.status, 200);
