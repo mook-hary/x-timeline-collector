@@ -280,12 +280,18 @@ const { createEditorialStore } = require("./lib/editorial-store");
 const store = createEditorialStore(); // .pipeline-work/editorial/
 
 store.create({ source: "news", type: "article", title: "...", body: "..." });
-store.update(id, { status: "ready", score: 0.9 });
+store.update(id, { score: 0.9 }); // status は変更不可
+store.transition(id, "review");
+store.transition(id, "approved");
+store.transition(id, "scheduled", { scheduledAt: "2026-07-25T07:00:00.000Z" });
+store.listReadyToPublish();
 store.find(id);
 store.list();
 store.listByStatus("draft");
 store.listBySource("aikido");
 ```
+
+Workflow: `draft` → `review` → `approved` → `scheduled` / `published` → `archived`（状態変更は `transition()` のみ）。
 
 1 コンテンツ = `.pipeline-work/editorial/<id>.json`。
 
