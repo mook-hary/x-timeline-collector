@@ -34,7 +34,9 @@
     "aikido:publish:list": "node scripts/aikido-publish-list.js",
     "aikido:publish:x": "node scripts/aikido-publish.js",
     "editorial:dashboard": "node scripts/editorial-dashboard.js",
-    "aikido:review:dashboard": "node scripts/aikido-review-dashboard.js"
+    "aikido:review:dashboard": "node scripts/aikido-review-dashboard.js",
+    "aikido:morning": "node scripts/aikido-morning.js",
+    "dashboard": "node scripts/launcher-dashboard.js"
   },
   "keywords": [],
   "author": "",

@@ -361,6 +361,43 @@ textarea#body-editor {
   margin: 0.35rem 0;
 }
 
+.morning-pipeline-card {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.morning-pipeline-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+}
+
+.morning-meta {
+  margin-bottom: 0.75rem;
+}
+
+.mp-history-title {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.mp-history {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 240px;
+  overflow: auto;
+}
+
+.mp-history-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.8rem;
+  background: #fff;
+  color: var(--muted);
+}
+
 .hidden { display: none !important; }
 
 @media (max-width: 900px) {

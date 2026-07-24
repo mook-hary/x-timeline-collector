@@ -539,6 +539,40 @@ Editorial Dashboard の AI Draft Assistant では、Knowledge を根拠として
 - Preview は AI API を利用しない
 - 実投稿には従来どおり Publish 確認が必要
 
+#### Morning Pipeline（EA-003）
+
+```bash
+npm run aikido:morning
+npm run aikido:morning -- --dry-run
+npm run aikido:morning -- --url=https://example.com/article
+```
+
+Morning Pipeline は Collect → Analyze → Candidate をまとめて実行するオーケストレーターです（既存ライブラリを直接呼び出し）。
+
+- Review 以降（Approve / Reject）は人が Review Dashboard で判断する
+- Publish / Editorial 生成 / AI Draft / 自動 Approve は行わない
+- Dry Run あり（Collect・Candidate 保存・ログ保存なし）
+- 実行ログ: `.pipeline-work/logs/morning/pipeline-YYYYMMDD-HHmmss.json`
+- Editorial Dashboard から「Run Morning Pipeline」でも起動可能（同時実行禁止）
+- Analyze には `OPENAI_API_KEY` が必要（Dry Run 除く）
+- 既定 URL は `AIKIDO_MORNING_URLS`（カンマ区切り）または `--url=`
+
+### Launcher Dashboard（EA-004）
+
+```bash
+npm run dashboard
+```
+
+アクセス: [http://127.0.0.1:4173](http://127.0.0.1:4173)（`127.0.0.1` のみ bind）
+
+Launcher Dashboard は Review / Editorial / Morning Pipeline への統合入口です。各 Dashboard の責務は変更しません。
+
+- Stats / Activity / System Health を表示
+- Morning Pipeline を起動可能（EA-003）
+- Review（4175）・Editorial（4174）へ新しいタブで遷移
+- 30 秒ごとに Stats / Pipeline / Activity を自動更新（ページ全体リロードなし）
+- 停止は Ctrl+C
+
 ### Candidate Review Dashboard（EA-001）
 
 Candidate（Review）の確認・編集・採用・却下用ローカル UI です。

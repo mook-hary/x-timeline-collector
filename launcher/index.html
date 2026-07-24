@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aikido Knowledge Platform</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Aikido Knowledge Platform</h1>
+      <p class="muted">Launcher · Review · Editorial · Morning Pipeline</p>
+    </div>
+    <div class="topbar-meta">
+      <span id="refresh-hint" class="muted">Auto-refresh 30s</span>
+      <button type="button" id="btn-refresh" class="btn btn-secondary">Refresh</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="cards" aria-label="Dashboards">
+      <article class="card" id="card-pipeline">
+        <h2>Morning Pipeline</h2>
+        <dl class="mini-meta">
+          <div><dt>Last Run</dt><dd id="pipe-last">—</dd></div>
+          <div><dt>Status</dt><dd id="pipe-status">Idle</dd></div>
+          <div><dt>Duration</dt><dd id="pipe-duration">—</dd></div>
+        </dl>
+        <p id="pipe-running" class="muted hidden" role="status"></p>
+        <button type="button" id="btn-run-pipeline" class="btn btn-primary">
+          Run Pipeline
+        </button>
+      </article>
+
+      <article class="card" id="card-review">
+        <h2>Review</h2>
+        <p class="card-desc">Candidate の Approve / Reject</p>
+        <a id="link-review" class="btn btn-link" href="http://127.0.0.1:4175" target="_blank" rel="noopener">
+          Open Review Dashboard
+        </a>
+      </article>
+
+      <article class="card" id="card-editorial">
+        <h2>Editorial</h2>
+        <p class="card-desc">Draft · Preview · Publish · AI Draft</p>
+        <a id="link-editorial" class="btn btn-link" href="http://127.0.0.1:4174" target="_blank" rel="noopener">
+          Open Editorial Dashboard
+        </a>
+      </article>
+
+      <article class="card" id="card-publish">
+        <h2>Publish</h2>
+        <p class="card-desc">投稿は Editorial Dashboard から</p>
+        <a id="link-publish" class="btn btn-link" href="http://127.0.0.1:4174" target="_blank" rel="noopener">
+          Open Editorial Dashboard
+        </a>
+      </article>
+    </section>
+
+    <section class="panel" aria-label="System status">
+      <h2>System Status</h2>
+      <ul class="status-list" id="system-status">
+        <li>Review Dashboard: <span data-key="review">—</span></li>
+        <li>Editorial Dashboard: <span data-key="editorial">—</span></li>
+        <li>Pipeline: <span data-key="pipeline">—</span></li>
+      </ul>
+    </section>
+
+    <section class="panel" aria-label="Statistics">
+      <h2>Statistics</h2>
+      <dl class="stats-grid" id="stats-grid">
+        <div><dt>Pending Candidates</dt><dd id="stat-pending">—</dd></div>
+        <div><dt>Approved Candidates</dt><dd id="stat-approved">—</dd></div>
+        <div><dt>Knowledge</dt><dd id="stat-knowledge">—</dd></div>
+        <div><dt>Editorial Drafts</dt><dd id="stat-drafts">—</dd></div>
+        <div><dt>Published</dt><dd id="stat-published">—</dd></div>
+        <div><dt>Today's Pipeline</dt><dd id="stat-pipeline">—</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel" aria-label="Recent activity">
+      <h2>Recent Activity</h2>
+      <div id="activity-list" class="activity-list"></div>
+    </section>
+
+    <div id="global-error" class="error-box hidden" role="alert"></div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -8,6 +8,10 @@
     aiSuggestions: [],
     aiGenerating: false,
     aiApplyPending: null,
+    morningRunning: false,
+    morningStatus: null,
+    morningHistory: [],
+    candidateCount: null,
   };
 
   const $ = (id) => document.getElementById(id);
@@ -35,6 +39,134 @@
 
   function showAiStatus(message) {
     $("ai-draft-status").textContent = message || "";
+  }
+
+  function showMpError(message) {
+    const box = $("mp-error");
+    box.textContent = message || "";
+    box.classList.toggle("hidden", !message);
+  }
+
+  function renderMorningPipeline() {
+    const st = state.morningStatus || {};
+    const last = st.lastRun || null;
+    setText("mp-status", st.status || "Idle");
+    setText(
+      "mp-last-run",
+      last && last.startedAt ? last.startedAt : "—"
+    );
+    setText(
+      "mp-duration",
+      last && last.durationMs != null ? `${last.durationMs} ms` : "—"
+    );
+    setText(
+      "mp-collected",
+      last && last.collected != null ? String(last.collected) : "—"
+    );
+    const cand =
+      state.candidateCount != null
+        ? state.candidateCount
+        : last && last.candidates != null
+          ? last.candidates
+          : null;
+    setText("mp-candidates", cand != null ? String(cand) : "—");
+
+    const detail = $("mp-running-detail");
+    if (state.morningRunning) {
+      const step = st.currentStep ? `${st.currentStep}...` : "Running...";
+      detail.textContent = `Running...\n${step}`;
+      detail.classList.remove("hidden");
+    } else {
+      detail.textContent = "";
+      detail.classList.add("hidden");
+    }
+
+    $("btn-morning-run").disabled = !!state.morningRunning;
+
+    const histRoot = $("mp-history");
+    histRoot.innerHTML = "";
+    const rows = state.morningHistory || [];
+    if (!rows.length) {
+      histRoot.innerHTML = '<p class="muted">No pipeline history yet.</p>';
+      return;
+    }
+    for (const row of rows) {
+      const el = document.createElement("div");
+      el.className = "mp-history-item";
+      const date = document.createElement("div");
+      date.textContent = `Date: ${row.startedAt || "—"}`;
+      const dur = document.createElement("div");
+      dur.textContent = `Duration: ${
+        row.durationMs != null ? `${row.durationMs} ms` : "—"
+      }`;
+      const status = document.createElement("div");
+      status.textContent = `Status: ${row.status || "—"}`;
+      const collected = document.createElement("div");
+      collected.textContent = `Collected: ${
+        row.collected != null ? row.collected : "—"
+      }`;
+      const candidates = document.createElement("div");
+      candidates.textContent = `Candidates: ${
+        row.candidates != null ? row.candidates : "—"
+      }`;
+      el.appendChild(date);
+      el.appendChild(dur);
+      el.appendChild(status);
+      el.appendChild(collected);
+      el.appendChild(candidates);
+      histRoot.appendChild(el);
+    }
+  }
+
+  async function refreshMorningPipeline() {
+    try {
+      const status = await api("/api/pipeline/morning/status");
+      state.morningStatus = status;
+      state.morningRunning = !!status.running;
+      if (status.candidateCount != null) {
+        state.candidateCount = status.candidateCount;
+      }
+      const hist = await api("/api/pipeline/morning/history?limit=20");
+      state.morningHistory = hist.history || [];
+      renderMorningPipeline();
+    } catch (error) {
+      showMpError(error.message);
+    }
+  }
+
+  async function runMorningPipeline() {
+    if (state.morningRunning) return;
+    state.morningRunning = true;
+    showMpError("");
+    $("btn-morning-run").disabled = true;
+    state.morningStatus = {
+      ...(state.morningStatus || {}),
+      status: "Running",
+      running: true,
+      currentStep: "Collect",
+    };
+    renderMorningPipeline();
+    try {
+      const data = await api("/api/pipeline/morning/run", {
+        method: "POST",
+        body: JSON.stringify({}),
+      });
+      state.morningStatus = data.status || state.morningStatus;
+      state.morningHistory = data.history || state.morningHistory;
+      if (data.candidateCount != null) {
+        state.candidateCount = data.candidateCount;
+      }
+      state.morningRunning = false;
+      renderMorningPipeline();
+    } catch (error) {
+      state.morningRunning = false;
+      if (error.code === "PIPELINE_ALREADY_RUNNING") {
+        showMpError("Morning Pipeline is already running.");
+      } else {
+        showMpError(error.message || "Morning Pipeline failed.");
+      }
+      await refreshMorningPipeline();
+    }
   }
 
   async function api(path, options = {}) {
@@ -552,6 +684,10 @@
       e.preventDefault();
       confirmAiApply();
     });
+    $("btn-morning-run").addEventListener("click", (e) => {
+      e.preventDefault();
+      runMorningPipeline();
+    });
   }
 
   async function boot() {
@@ -559,6 +695,7 @@
     try {
       await loadList();
       await loadHistory(null);
+      await refreshMorningPipeline();
     } catch (error) {
       showError(error.message);
     }

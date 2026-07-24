@@ -20,6 +20,26 @@
       <h2>Editorials</h2>
       <div id="list-status" class="status-line" role="status"></div>
       <div id="editorial-list" class="list"></div>
+
+      <section class="morning-pipeline-card" id="morning-pipeline-card">
+        <h2>Morning Pipeline</h2>
+        <dl class="meta-grid morning-meta">
+          <div><dt>Last Run</dt><dd id="mp-last-run">—</dd></div>
+          <div><dt>Status</dt><dd id="mp-status">Idle</dd></div>
+          <div><dt>Duration</dt><dd id="mp-duration">—</dd></div>
+          <div><dt>Collected</dt><dd id="mp-collected">—</dd></div>
+          <div><dt>Candidates</dt><dd id="mp-candidates">—</dd></div>
+        </dl>
+        <p id="mp-running-detail" class="muted hidden" role="status"></p>
+        <div class="actions">
+          <button type="button" id="btn-morning-run" class="btn btn-secondary">
+            Run Morning Pipeline
+          </button>
+        </div>
+        <div id="mp-error" class="error-box hidden" role="alert"></div>
+        <h3 class="mp-history-title">History</h3>
+        <div id="mp-history" class="mp-history"></div>
+      </section>
     </section>
 
     <section class="panel detail-panel" aria-label="Editorial detail">
