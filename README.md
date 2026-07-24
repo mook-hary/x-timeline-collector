@@ -365,6 +365,32 @@ category: `technique` / `principle` / `training` / `mindset` / `etiquette` / `hi
 
 Draft Generator（`lib/aikido-draft-generator.js`）はテンプレートで Editorial 互換の `post` を決定的に生成します（外部 AI なし・自動保存なし）。
 
+### Source Intake（合気道資料）
+
+X 以外の資料（書籍・道場サイト・動画・稽古メモ・経験など）を、Knowledge 化の前段として統一保存します。外部通信はしません。
+
+```js
+const { createAikidoSourceIntake } = require("./lib/aikido-source-intake");
+const intake = createAikidoSourceIntake(); // .pipeline-work/sources/aikido/
+
+intake.createSource({
+  sourceType: "book",
+  title: "合気道教本",
+  notes: "第一章のメモ",
+});
+
+intake.createSource({
+  sourceType: "article",
+  title: "稽古の心得",
+  url: "https://example.com/aikido/tips",
+  rawText: "本文抜粋",
+});
+
+intake.markProcessed(id, { knowledgeIds: ["ikkyo-basics"] });
+```
+
+流れ: Source → Source Intake → Knowledge Extraction → Aikido Knowledge → Draft Generator → Editorial。
+
 今後の流れ: Knowledge → Draft Generator → Editorial。
 
 ### 毎朝自動実行（launchd）
