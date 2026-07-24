@@ -269,6 +269,28 @@ npm run morning:runner -- --skip-ai --open
 
 関連: `npm run collect` / `analyze` / `analyze:ai` / `enrich` / `publish`。詳細は `node scripts/morning-pipeline.js --help` / `node scripts/morning.js --help`。
 
+### 毎朝自動実行（launchd）
+
+macOS のユーザー LaunchAgent で、毎朝 `npm run morning` 相当を自動実行します（Morning Pipeline 本体は変更しません）。
+
+```bash
+npm run scheduler:install      # 登録（デフォルト 07:00 / Asia/Tokyo）
+npm run scheduler:status       # 登録状態を確認
+npm run scheduler:uninstall    # 解除（未登録でも正常終了）
+```
+
+時刻を変える例:
+
+```bash
+npm run scheduler:install -- --hour 7 --minute 0 --timezone Asia/Tokyo
+```
+
+- plist は `.pipeline-work/launchd/` に生成し、`~/Library/LaunchAgents/` へ登録します
+- Label: `com.x-timeline-collector.morning-pipeline`（一意）
+- 再 install しても重複登録しません（既存を bootout → bootstrap）
+- sudo / cron は使いません
+- 実行時刻は Mac のシステム時刻（タイムゾーン設定）に従います
+
 ---
 
 ## 実行方法
