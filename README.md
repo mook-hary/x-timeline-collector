@@ -288,6 +288,8 @@ store.listReadyToPublish();
 store.findSimilar(candidate, { threshold: 0.7 });
 store.findSimilarById(id);
 store.evaluate(id, { includeSimilarity: true });
+store.rank({ includeEvaluation: true, includeSimilarity: true });
+store.rankItem(id);
 store.find(id);
 store.list();
 store.listByStatus("draft");
@@ -298,6 +300,7 @@ Workflow: `draft` → `review` → `approved` → `scheduled` / `published` → 
 
 類似判定はローカル（文字 bigram + Dice、外部 API なし）。`lib/editorial-similarity.js`。
 公開前ルールは `lib/editorial-rules.js`（判定のみ・状態は変更しない）。
+優先順位は `lib/editorial-ranking.js`（score / 内訳のみ）。
 
 1 コンテンツ = `.pipeline-work/editorial/<id>.json`。
 
