@@ -300,6 +300,67 @@ textarea#body-editor {
   padding: 2rem 0.5rem;
 }
 
+.ai-draft-section {
+  margin: 1.25rem 0;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fafaf9;
+}
+
+.ai-draft-section h3 {
+  margin: 0 0 0.35rem;
+}
+
+.ai-usage-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+}
+
+.ai-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.ai-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: #fff;
+}
+
+.ai-card.invalid {
+  border-color: #fecdd3;
+  background: #fff7f7;
+}
+
+.ai-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: baseline;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.ai-card-head .label {
+  font-weight: 600;
+}
+
+.ai-card-body {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  margin: 0.5rem 0;
+}
+
+.ai-card .notice {
+  margin: 0.35rem 0;
+}
+
 .hidden { display: none !important; }
 
 @media (max-width: 900px) {

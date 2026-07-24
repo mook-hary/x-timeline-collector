@@ -5,6 +5,9 @@
     detail: null,
     preview: null,
     confirmOpen: false,
+    aiSuggestions: [],
+    aiGenerating: false,
+    aiApplyPending: null,
   };
 
   const $ = (id) => document.getElementById(id);
@@ -22,6 +25,16 @@
 
   function showStatus(message) {
     $("action-status").textContent = message || "";
+  }
+
+  function showAiError(message) {
+    const box = $("ai-draft-error");
+    box.textContent = message || "";
+    box.classList.toggle("hidden", !message);
+  }
+
+  function showAiStatus(message) {
+    $("ai-draft-status").textContent = message || "";
   }
 
   async function api(path, options = {}) {
@@ -101,6 +114,151 @@
       publishBtn.title = "Post exceeds the allowed X character limit.";
     } else {
       publishBtn.title = "";
+    }
+  }
+
+  function resetAiUi() {
+    state.aiSuggestions = [];
+    state.aiApplyPending = null;
+    state.aiGenerating = false;
+    showAiError("");
+    showAiStatus("");
+    $("ai-suggestions").innerHTML = "";
+    $("ai-apply-confirm").classList.add("hidden");
+    $("btn-ai-again").classList.add("hidden");
+    $("btn-ai-generate").disabled = false;
+    $("btn-ai-again").disabled = false;
+  }
+
+  function renderAiSuggestions() {
+    const root = $("ai-suggestions");
+    root.innerHTML = "";
+    const has = state.aiSuggestions.length > 0;
+    $("btn-ai-again").classList.toggle("hidden", !has);
+
+    for (const s of state.aiSuggestions) {
+      const card = document.createElement("article");
+      card.className = "ai-card" + (s.invalid || !s.withinLimit ? " invalid" : "");
+
+      const head = document.createElement("div");
+      head.className = "ai-card-head";
+      const label = document.createElement("span");
+      label.className = "label";
+      label.textContent = s.label || "案";
+      const intent = document.createElement("span");
+      intent.textContent = `Intent: ${s.intent || "—"}`;
+      const chars = document.createElement("span");
+      chars.textContent = `Characters: ${
+        s.characterCount != null ? s.characterCount : "—"
+      }`;
+      head.appendChild(label);
+      head.appendChild(intent);
+      head.appendChild(chars);
+      card.appendChild(head);
+
+      if (s.invalid || !s.withinLimit) {
+        const notice = document.createElement("p");
+        notice.className = "notice notice-warn";
+        notice.textContent =
+          s.validationError || "Post exceeds the allowed X character limit.";
+        card.appendChild(notice);
+      }
+
+      const body = document.createElement("pre");
+      body.className = "ai-card-body";
+      body.textContent = s.body || "";
+      card.appendChild(body);
+
+      const useBtn = document.createElement("button");
+      useBtn.type = "button";
+      useBtn.className = "btn btn-secondary";
+      useBtn.textContent = "Use This Draft";
+      useBtn.disabled = !!(s.invalid || s.withinLimit === false);
+      useBtn.addEventListener("click", () => openAiApplyConfirm(s));
+      card.appendChild(useBtn);
+
+      root.appendChild(card);
+    }
+  }
+
+  function openAiApplyConfirm(suggestion) {
+    state.aiApplyPending = suggestion;
+    $("ai-apply-current").textContent =
+      ($("body-editor").value || (state.detail && state.detail.body) || "") ||
+      "(empty)";
+    $("ai-apply-next").textContent = suggestion.body || "";
+    $("ai-apply-confirm").classList.remove("hidden");
+    showAiError("");
+    showAiStatus("");
+  }
+
+  function cancelAiApply() {
+    state.aiApplyPending = null;
+    $("ai-apply-confirm").classList.add("hidden");
+  }
+
+  async function confirmAiApply() {
+    if (!state.selectedId || !state.aiApplyPending) return;
+    showAiError("");
+    showAiStatus("");
+    try {
+      const data = await api(
+        `/api/editorials/${encodeURIComponent(state.selectedId)}/apply-ai-draft`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            suggestionBody: state.aiApplyPending.body,
+            confirm: true,
+          }),
+        }
+      );
+      state.detail = data.editorial;
+      $("body-editor").value = data.editorial.body || "";
+      cancelAiApply();
+      showAiStatus("AI draft applied and saved.");
+      showStatus("AI draft applied and saved.");
+      await loadList();
+      renderDetail();
+    } catch (error) {
+      showAiError(`Draft apply failed: ${error.message}`);
+    }
+  }
+
+  async function generateAiDrafts() {
+    if (!state.selectedId || state.aiGenerating) return;
+    state.aiGenerating = true;
+    $("btn-ai-generate").disabled = true;
+    $("btn-ai-again").disabled = true;
+    showAiError("");
+    showAiStatus("Generating suggestions...");
+    cancelAiApply();
+    try {
+      const data = await api(
+        `/api/editorials/${encodeURIComponent(state.selectedId)}/ai-drafts`,
+        {
+          method: "POST",
+          body: JSON.stringify({ count: 3 }),
+        }
+      );
+      state.aiSuggestions = data.suggestions || [];
+      renderAiSuggestions();
+      showAiStatus(
+        state.aiSuggestions.length
+          ? `${state.aiSuggestions.length} suggestion(s) ready.`
+          : "No suggestions returned."
+      );
+    } catch (error) {
+      if (error.code === "AI_CONFIG_MISSING") {
+        showAiError("AI Draft Assistant is not configured.");
+      } else {
+        showAiError(error.message || "AI draft generation failed.");
+      }
+      state.aiSuggestions = [];
+      renderAiSuggestions();
+    } finally {
+      state.aiGenerating = false;
+      $("btn-ai-generate").disabled = false;
+      $("btn-ai-again").disabled = false;
     }
   }
 
@@ -223,6 +381,7 @@
     state.confirmOpen = false;
     state.preview = null;
     state.selectedId = id;
+    resetAiUi();
     const data = await api(`/api/editorials/${encodeURIComponent(id)}`);
     state.detail = data.editorial;
     renderList();
@@ -261,14 +420,6 @@
     state.confirmOpen = false;
     renderConfirm();
     try {
-      // Persist current textarea into preview by saving? Spec: preview uses store.
-      // Preview current editor content: save is separate. Use store body.
-      // If user edited but not saved, preview store — better to preview textarea:
-      // Spec says Formatter on editorial. We'll save is optional; preview uses saved.
-      // For UX, temporarily PUT then preview is heavy. Instead preview uses API on saved item.
-      // Document: save before preview if edited. Or we pass body - API doesn't accept body on preview.
-      // Quick UX: if textarea differs from detail.body, auto-save first? Spec separate buttons.
-      // Preview uses existing formatter on stored editorial — user should Save first.
       const data = await api(
         `/api/editorials/${encodeURIComponent(state.selectedId)}/preview`,
         {
@@ -314,7 +465,6 @@
     showError("");
     showStatus("");
     try {
-      // Persist textarea so publish matches what was confirmed.
       const body = $("body-editor").value;
       const saved = await api(
         `/api/editorials/${encodeURIComponent(state.selectedId)}`,
@@ -382,10 +532,25 @@
       e.preventDefault();
       confirmPublish();
     });
-
-    // Prevent Enter in confirm from accidentally submitting elsewhere.
     $("btn-confirm-publish").addEventListener("keydown", (e) => {
       if (e.key === "Enter") e.preventDefault();
+    });
+
+    $("btn-ai-generate").addEventListener("click", (e) => {
+      e.preventDefault();
+      generateAiDrafts();
+    });
+    $("btn-ai-again").addEventListener("click", (e) => {
+      e.preventDefault();
+      generateAiDrafts();
+    });
+    $("btn-ai-cancel").addEventListener("click", (e) => {
+      e.preventDefault();
+      cancelAiApply();
+    });
+    $("btn-ai-confirm").addEventListener("click", (e) => {
+      e.preventDefault();
+      confirmAiApply();
     });
   }
 

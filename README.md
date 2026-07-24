@@ -527,6 +527,18 @@ npm run editorial:dashboard
 - 投稿済み Editorial は再投稿しない（Ledger の重複規則）
 - 停止は Ctrl+C
 
+#### AI Draft Assistant（EA-002）
+
+Editorial Dashboard の AI Draft Assistant では、Knowledge を根拠として X 投稿案を 3 案生成できます。
+
+- AI 案は自動保存されない
+- AI 案は自動投稿されない
+- Confirm Apply 後にのみ Editorial 本文へ保存される
+- AI API 利用には既存の AI 設定が必要（`OPENAI_API_KEY` / 任意で `OPENAI_MODEL`）
+- Generate 操作ごとに AI API 利用が発生する（ページ表示や Preview では呼ばない）
+- Preview は AI API を利用しない
+- 実投稿には従来どおり Publish 確認が必要
+
 ### Candidate Review Dashboard（EA-001）
 
 Candidate（Review）の確認・編集・採用・却下用ローカル UI です。

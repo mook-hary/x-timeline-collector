@@ -54,6 +54,36 @@
         <label class="field-label" for="body-editor">Post body (Editorial body)</label>
         <textarea id="body-editor" rows="14" spellcheck="true"></textarea>
 
+        <section class="ai-draft-section" id="ai-draft-section">
+          <h3>AI Draft Assistant</h3>
+          <p class="muted ai-usage-note">
+            AI APIを使用して3案生成します。案は自動保存・自動投稿されません。
+          </p>
+          <div class="actions">
+            <button type="button" id="btn-ai-generate" class="btn btn-secondary">
+              Generate 3 Suggestions
+            </button>
+            <button type="button" id="btn-ai-again" class="btn btn-secondary hidden">
+              Generate Again
+            </button>
+          </div>
+          <div id="ai-draft-status" class="status-line" role="status"></div>
+          <div id="ai-draft-error" class="error-box hidden" role="alert"></div>
+          <div id="ai-suggestions" class="ai-suggestions"></div>
+
+          <div id="ai-apply-confirm" class="confirm-box hidden">
+            <h3>このAI案をEditorial本文へ適用します。</h3>
+            <p class="muted">現在の本文:</p>
+            <pre id="ai-apply-current" class="preview-text"></pre>
+            <p class="muted">適用する本文:</p>
+            <pre id="ai-apply-next" class="preview-text"></pre>
+            <div class="actions">
+              <button type="button" id="btn-ai-cancel" class="btn btn-secondary">Cancel</button>
+              <button type="button" id="btn-ai-confirm" class="btn btn-preview">Confirm Apply</button>
+            </div>
+          </div>
+        </section>
+
         <div class="actions">
           <button type="button" id="btn-save" class="btn btn-secondary">Save Draft</button>
           <button type="button" id="btn-preview" class="btn btn-preview">Preview X Post</button>
