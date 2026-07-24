@@ -21,33 +21,32 @@ This repository is structured so a public GitHub tree can exist without shipping
 |---|---|---|
 | Application source (`*.js`, `lib/`), `test/`, `docs/`, `README.md` | Public | Source code and documentation |
 | `config/`, `digest.config.json`, `.env.example`, `package.json`, `package-lock.json` | Public | Configuration templates and package metadata |
-| `.github/workflows/` | Public | CI / Pages workflow (deploys `site/` only) |
-| `site/` | Public (curated) | Reviewed static site for GitHub Pages |
+| `.github/workflows/` | Public | CI / Pages workflows |
+| `site/` | Public (curated) | Reviewed static site (manual Pages deploy) |
+| `output/digest-reader/` | Optional public | Generated Digest Reader HTML for GitHub Pages |
 | `.env` | Local only | Secrets template is `.env.example` — never commit real keys |
 | `browser-data/` | Local only | Playwright/Chromium profile (cookies / sessions) |
 | `knowledge-base/` | Local only | Private knowledge store |
 | `.pipeline-work/` | Local only | Disposable pipeline working files |
 | `logs/` | Local only | Local runner / launchd logs |
-| `output/` | Local only | Disposable intermediate pipeline data (raw timeline, reviews, local dashboard) |
+| `output/` (except digest-reader) | Local only | Disposable intermediate pipeline data |
 | `runs/`, `runs-*/` | Local only | Run workspaces and retest artifacts |
 
 Flow:
 
 1. Run the pipeline locally → writes disposable data under `output/`
-2. Review the local dashboard (`output/index.html`)
-3. Intentionally publish: `npm run build:site` copies approved files into `site/`
-4. Validate: `npm run validate:site` and `npm run audit:public`
-5. Commit only curated `site/` (never `output/` or `runs/`)
-6. GitHub Pages deploys the tracked `site/` directory only
+2. Review the local Reader (`npm run reader:open` or `npm run reader:serve`)
+3. To publish Reader: commit `output/digest-reader/index.html` + `style.css`, push `main`
+4. GitHub Pages deploys **only** `output/digest-reader` (not the rest of `output/`)
+5. Optional curated app: `npm run build:site` → commit `site/` → run “Deploy Personal Timeline” manually
 
 ### Public-release checklist
 
-- [ ] `.env`, `browser-data/`, `knowledge-base/`, `output/`, `runs/`, `runs-*/`, `.pipeline-work/`, `logs/` are untracked
+- [ ] `.env`, `browser-data/`, `knowledge-base/`, `output/*` (except intentional `output/digest-reader`), `runs/`, `runs-*/`, `.pipeline-work/`, `logs/` are untracked
 - [ ] `npm run audit:public` passes
-- [ ] `npm run validate:site` passes
-- [ ] `site/` contains only reviewed public pages (or the demo placeholder)
+- [ ] `npm run validate:site` passes (when publishing `site/`)
+- [ ] Pages Reader deploy uploads `output/digest-reader` only
 - [ ] No home-directory absolute paths, raw timeline dumps, or secrets in tracked files
-- [ ] Pages workflow uploads `site/` only (no CI rebuild from private `output/`)
 
 ---
 
@@ -851,32 +850,46 @@ npm run build:site:demo
 
 ### 17.1 Personal Web App（GitHub Pages / ホーム画面）
 
-`site/` は追加ビルドなしで GitHub Pages に載せられる静的サイトです（外部 CDN / Google Fonts / 外部 JS なし）。
+#### Digest Reader（推奨・iPhone 固定 URL）
 
-GitHub Pages は **追跡済みの `site/` のみ**をデプロイします。CI は `output/` や raw timeline を読みません。
+生成済み Reader（`output/digest-reader`）だけを GitHub Pages に載せます。リポジトリ全体や他の `output/` は公開しません。
 
-#### ローカルから公開サイトを更新する
+**公開 URL（このリポジトリ）:**  
+https://mook-hary.github.io/x-timeline-collector/
 
-1. Pipeline 等でローカル `output/` を生成・確認する
-2. `npm run build:site` で `site/` を更新する（自動で全部公開にはしない）
-3. `npm run validate:site` と `npm run audit:public` を実行する
-4. 問題なければ `site/` だけをコミットして `main` へ push する
+##### 更新手順
 
-#### GitHub Pages
+```bash
+npm run reader                 # または npm run morning -- --from-enriched
+# 内容を確認してから:
+git add output/digest-reader/index.html output/digest-reader/style.css
+git commit -m "Publish Digest Reader"
+git push origin main
+```
 
-1. Repository Settings → Pages → Source を **GitHub Actions** にする
-2. `main` へ push（または Actions の “Deploy Personal Timeline” を手動実行）
-3. `.github/workflows/pages.yml` が検証済みの `site/` を公開する
+- `main` への push、または Actions の **Deploy Digest Reader Pages** 手動実行でデプロイされます。
+- ワークフロー: `.github/workflows/deploy-reader-pages.yml`
 
-CI は Secrets 不要です。`output/` をコミットする必要はありません。
+##### GitHub 側の設定
+
+1. Repository **Settings → Pages**
+2. **Source** を **GitHub Actions** にする
+3. 初回は Actions でワークフローを実行し、成功後に上記 URL を開く
+
+#### curated `site/`（手動）
+
+`site/` は追加ビルドなしで載せられる静的サイトです（外部 CDN / Google Fonts / 外部 JS なし）。  
+自動デプロイは Reader 側です。`site/` を公開したいときだけ Actions の **Deploy Personal Timeline** を手動実行します。
+
+1. `npm run build:site` → `npm run validate:site` / `npm run audit:public`
+2. `site/` をコミットして push
+3. Actions で “Deploy Personal Timeline” を Run workflow
 
 #### iPhone ホーム画面に追加（Safari）
 
-1. Pages URL（またはローカルで共有した URL）を Safari で開く
+1. Pages の Reader URL を Safari で開く
 2. 共有ボタン → **ホーム画面に追加**
 3. 名前は「Timeline」などで保存
-
-ホーム画面アイコンから開くと、スタンドアロン表示（`display: standalone`）の朝刊ワークスペースとして使えます。Today's Pick → 記事 → 終了、の約 5 分フロー向けです。
 
 詳細契約は [DATA_CONTRACT](docs/DATA_CONTRACT.md)。
 

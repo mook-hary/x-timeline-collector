@@ -1,0 +1,80 @@
+# Deploy generated Digest Reader (output/digest-reader) to GitHub Pages.
+# Does not rebuild Reader in CI and does not upload the rest of the repository.
+#
+# Prerequisites:
+# - Track output/digest-reader/index.html + style.css in git (see README)
+# - Settings → Pages → Source = GitHub Actions
+
+name: Deploy Digest Reader Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Verify Reader publish set
+        run: |
+          set -euo pipefail
+          root="output/digest-reader"
+          if [ ! -d "$root" ]; then
+            echo "::error::Missing $root. Generate locally (npm run reader), commit index.html + style.css, then retry."
+            exit 1
+          fi
+          if [ ! -f "$root/index.html" ] || [ ! -f "$root/style.css" ]; then
+            echo "::error::Need $root/index.html and $root/style.css in the repository."
+            exit 1
+          fi
+          # Refuse private intermediates accidentally placed under the publish dir
+          if [ -e "$root/.env" ] || [ -e "$root/timeline_enriched.json" ] || [ -e "$root/timeline.json" ]; then
+            echo "::error::Forbidden private files found under $root"
+            exit 1
+          fi
+          if find "$root" -type l | grep -q .; then
+            echo "::error::Symlinks are not allowed under $root"
+            find "$root" -type l
+            exit 1
+          fi
+          if find "$root" -type f \( \
+              -name 'timeline.json' -o -name 'timeline.csv' -o \
+              -name 'timeline_analyzed.json' -o -name 'timeline_enriched.json' -o \
+              -name 'timeline_ai.json' -o -name '.env' -o \
+              -name 'ai_cache.json' -o -name 'enrich_cache.json' \
+            \) | grep -q .; then
+            echo "::error::Forbidden raw/private files found under $root"
+            exit 1
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output/digest-reader
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

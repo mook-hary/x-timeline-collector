@@ -1,5 +1,7 @@
-# Deploy curated site/ to GitHub Pages.
-# Secrets are not required. Uses GitHub-native Pages actions.
+# Deploy curated site/ to GitHub Pages (manual only).
+# Automatic Pages deploys on main are handled by deploy-reader-pages.yml
+# (Digest Reader). Run this workflow from Actions when you intentionally
+# want the curated site/ instead.
 #
 # Security model (EP-018):
 # - Deploy only reviewed files already present under site/
@@ -9,8 +11,6 @@
 name: Deploy Personal Timeline
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

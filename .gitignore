@@ -12,8 +12,15 @@ browser-data/
 # Private knowledge store
 knowledge-base/
 
-# Disposable local pipeline intermediates
-output/
+# Disposable local pipeline intermediates (keep Reader publish set trackable)
+output/*
+!output/digest-reader/
+!output/digest-reader/**
+# Local screenshots / extras under Reader dir stay private by default
+output/digest-reader/*.png
+output/digest-reader/*.jpg
+output/digest-reader/*.jpeg
+output/digest-reader/*.webp
 
 # Local Morning API usage history
 data/
