@@ -396,6 +396,22 @@ const candidates = extractor.extractFromSource(source);
 intake.extractKnowledge(id, { provider: myProvider });
 ```
 
+### Candidate Review（合気道）
+
+Extractor の候補を永続化し、人が確認・修正・承認・却下します。**承認なしに Knowledge 化されません。**
+
+```js
+const { createAikidoCandidateReview } = require("./lib/aikido-candidate-review");
+const { createAikidoKnowledgeStore } = require("./lib/aikido-knowledge");
+
+const knowledge = createAikidoKnowledgeStore();
+const review = createAikidoCandidateReview({ knowledgeStore: knowledge });
+
+review.createReviews(extractionResult);
+review.approveReview(id);
+review.createKnowledgeFromReview(id); // approved のみ → Knowledge Store
+```
+
 流れ:
 
 ```text
