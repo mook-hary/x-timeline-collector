@@ -430,6 +430,42 @@ Editorial
 
 AI Provider は交換可能です（Extractor は特定サービスへ依存しません）。
 
+### Web Source Collector（合気道）
+
+**明示した URL のみ**取得し、Source Intake へ登録します（サイト全体クロール・検索・X は対象外）。
+
+```bash
+npm run aikido:collect:web -- https://example.com/aikido/article
+npm run aikido:collect:web -- <URL1> <URL2>
+```
+
+```js
+const { createAikidoWebCollector } = require("./lib/aikido-web-collector");
+collector.previewUrl(url);   // 保存しない
+collector.collectUrl(url);   // Source Intake へ登録
+```
+
+流れ:
+
+```text
+Explicit Web URLs
+    ↓
+Aikido Web Collector
+    ↓
+Source Intake
+    ↓
+Knowledge Extractor
+    ↓
+Candidate Review
+```
+
+注意:
+
+- X / Twitter・PDF・YouTube・JS 必須ページは対象外
+- 利用規約・robots.txt を確認し、高頻度アクセスをしない
+- 著作物全文の再公開を目的としない
+- Collector は取得のみで Knowledge / Review は自動作成しない
+
 ### 毎朝自動実行（launchd）
 
 macOS のユーザー LaunchAgent で、毎朝 `npm run morning` 相当を自動実行します（Morning Pipeline 本体は変更しません）。

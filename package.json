@@ -23,7 +23,8 @@
     "collect": "node connect.js",
     "analyze": "node analyze.js",
     "analyze:ai": "node analyze_ai.js",
-    "enrich": "node enrich_ai.js"
+    "enrich": "node enrich_ai.js",
+    "aikido:collect:web": "node scripts/aikido-collect-web.js"
   },
   "keywords": [],
   "author": "",
