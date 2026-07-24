@@ -36,7 +36,8 @@
     "editorial:dashboard": "node scripts/editorial-dashboard.js",
     "aikido:review:dashboard": "node scripts/aikido-review-dashboard.js",
     "aikido:morning": "node scripts/aikido-morning.js",
-    "dashboard": "node scripts/launcher-dashboard.js"
+    "dashboard": "node scripts/launcher-dashboard.js",
+    "platform": "node scripts/platform.js"
   },
   "keywords": [],
   "author": "",
