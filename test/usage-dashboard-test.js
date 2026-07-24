@@ -195,7 +195,7 @@ function entryAt(localY, localM, localD, hour, usage) {
   assert.ok(html.includes("AI Usage Dashboard"));
   assert.ok(html.includes("No usage today."));
   assert.ok(html.includes("Last 7 Runs"));
-  assert.ok(html.indexOf("AI Usage Dashboard") > html.indexOf("Today's Brief"));
+  assert.ok(html.indexOf("AI Usage Dashboard") > html.indexOf("Morning Brief"));
   console.log("reader empty entries PASS");
 }
 

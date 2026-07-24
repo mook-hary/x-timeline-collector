@@ -144,8 +144,18 @@ function dayOptions(extra = {}) {
   assert.ok(html.includes("件解析"));
   assert.ok(html.includes("注目"));
   assert.ok(/約\d+分/.test(html));
-  assert.ok(html.includes("Today's Brief"));
+  assert.ok(html.includes("Morning Brief"));
   assert.ok(html.includes("Today's Picks"));
+  assert.ok(html.includes("Category Digest"));
+  assert.ok(html.includes("More News"));
+  assert.ok(html.includes("AI Usage Dashboard"));
+  // EP-035 section order
+  const iBrief = html.indexOf("Morning Brief");
+  const iPicks = html.indexOf("Today's Picks");
+  const iDigest = html.indexOf("Category Digest");
+  const iMore = html.indexOf("More News");
+  const iUsage = html.indexOf("AI Usage Dashboard");
+  assert.ok(iBrief < iPicks && iPicks < iDigest && iDigest < iMore && iMore < iUsage);
   assert.ok(html.includes('id="todays-picks"'));
   assert.ok(!html.includes("Top Stories"));
   assert.ok(!html.includes(">Overview<"));
@@ -188,7 +198,7 @@ function dayOptions(extra = {}) {
   });
   const html = fs.readFileSync(result.htmlPath, "utf8");
   assert.ok(html.includes("条件に一致する投稿がありません"));
-  assert.ok(html.includes("Today's Brief"));
+  assert.ok(html.includes("Morning Brief"));
   assert.ok(html.includes("0件解析"));
   assert.strictEqual(result.summary.total, 0);
   assert.strictEqual(result.summary.picksCount, 0);
@@ -245,7 +255,7 @@ function dayOptions(extra = {}) {
   console.log("Case4 PASS");
 }
 
-// --- Case 5: Today's Brief ---
+// --- Case 5: Morning Brief (buildTodayBrief) ---
 {
   const lines = buildTodayBrief(
     [
