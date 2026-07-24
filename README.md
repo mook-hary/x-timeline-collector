@@ -275,6 +275,20 @@ npm run morning:runner -- --skip-ai --open
 
 投稿候補・記事候補を共通フォーマットで保存するストアです（Morning Pipeline への組み込みはまだありません）。
 
+高水準 API（推奨）:
+
+```js
+const { createEditorialEngine } = require("./lib/editorial-engine");
+
+const engine = createEditorialEngine();
+
+const queue = await engine.getReviewQueue();
+const candidates = await engine.getPublishCandidates();
+const dashboard = await engine.getDashboard();
+```
+
+`await` は任意（同期 API）。低水準モジュールも直接利用できます。
+
 ```js
 const { createEditorialStore } = require("./lib/editorial-store");
 const store = createEditorialStore(); // .pipeline-work/editorial/
@@ -301,6 +315,7 @@ Workflow: `draft` → `review` → `approved` → `scheduled` / `published` → 
 類似判定はローカル（文字 bigram + Dice、外部 API なし）。`lib/editorial-similarity.js`。
 公開前ルールは `lib/editorial-rules.js`（判定のみ・状態は変更しない）。
 優先順位は `lib/editorial-ranking.js`（score / 内訳のみ）。
+統合入口は `lib/editorial-engine.js`。
 
 1 コンテンツ = `.pipeline-work/editorial/<id>.json`。
 
