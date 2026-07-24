@@ -598,6 +598,28 @@ npm run aikido:knowledge:list -- --category=training --difficulty=2 --tag=ukemi
 npm run aikido:knowledge:list -- --id=<id>
 ```
 
+動作確認用の Knowledge を手動登録（Seed）:
+
+```bash
+npm run aikido:knowledge:add -- \
+  --title="呼吸力とは力を抜くことではない" \
+  --category="principle" \
+  --summary="呼吸力についての基本的な説明" \
+  --body="Knowledge本文" \
+  --difficulty="beginner" \
+  --tags="呼吸力,脱力,基本原理"
+
+npm run aikido:knowledge:add -- \
+  --title="テスト" \
+  --category="principle" \
+  --body="テスト本文" \
+  --dry-run
+```
+
+- `--body` は既存スキーマの `content` へ保存
+- `--difficulty` は `1`–`5`、または CLI 別名 `beginner`→1 / `intermediate`→3 / `advanced`→5（省略時は 1）
+- 必須: `--title` / `--category` / `--body`
+
 共通オプション:
 
 - `--json` … JSON 出力（自動化向け）
