@@ -387,11 +387,32 @@ intake.createSource({
 });
 
 intake.markProcessed(id, { knowledgeIds: ["ikkyo-basics"] });
+
+// Knowledge 候補抽出（自動保存・status 変更なし。Provider は差し替え可能）
+const { createAikidoKnowledgeExtractor } = require("./lib/aikido-knowledge-extractor");
+const extractor = createAikidoKnowledgeExtractor({ provider: myProvider });
+const candidates = extractor.extractFromSource(source);
+// または
+intake.extractKnowledge(id, { provider: myProvider });
 ```
 
-流れ: Source → Source Intake → Knowledge Extraction → Aikido Knowledge → Draft Generator → Editorial。
+流れ:
 
-今後の流れ: Knowledge → Draft Generator → Editorial。
+```text
+Source Intake
+    ↓
+Knowledge Extractor
+    ↓
+Candidate Review
+    ↓
+Knowledge Store
+    ↓
+Draft Generator
+    ↓
+Editorial
+```
+
+AI Provider は交換可能です（Extractor は特定サービスへ依存しません）。
 
 ### 毎朝自動実行（launchd）
 

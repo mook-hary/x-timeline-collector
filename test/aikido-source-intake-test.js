@@ -227,15 +227,15 @@ function advance(ms) {
   console.log("KP003 list PASS");
 }
 
-// --- independence ---
+// --- independence (no Editorial / Draft / Knowledge Store write path) ---
 {
   const src = fs.readFileSync(
     path.join(__dirname, "..", "lib", "aikido-source-intake.js"),
     "utf8"
   );
-  assert.ok(
-    !/aikido-knowledge|aikido-draft|editorial-store|editorial-engine/.test(src)
-  );
+  assert.ok(!/editorial-store|editorial-engine|aikido-draft-generator/.test(src));
+  assert.ok(!/require\(["'].*aikido-knowledge["']\)/.test(src));
+  assert.ok(/aikido-knowledge-extractor/.test(src));
   console.log("KP003 independence PASS");
 }
 
