@@ -36,7 +36,7 @@ Flow:
 
 1. Run the pipeline locally → writes disposable data under `output/`
 2. Review the local Reader (`npm run reader:open` or `npm run reader:serve`)
-3. To publish Reader: commit `output/digest-reader/index.html` + `style.css`, push `main`
+3. To publish Reader: `npm run publish` (or manually commit `output/digest-reader` files and push `main`)
 4. GitHub Pages deploys **only** `output/digest-reader` (not the rest of `output/`)
 5. Optional curated app: `npm run build:site` → commit `site/` → run “Deploy Personal Timeline” manually
 
@@ -860,8 +860,15 @@ https://mook-hary.github.io/x-timeline-collector/
 ##### 更新手順
 
 ```bash
-npm run reader                 # または npm run morning -- --from-enriched
-# 内容を確認してから:
+npm run publish
+```
+
+`publish` は Reader 生成 → test → audit → `index.html` / `style.css` のみ commit → `git push origin main` まで行います（`main` 以外では拒否）。
+
+手動で行う場合:
+
+```bash
+npm run reader
 git add output/digest-reader/index.html output/digest-reader/style.css
 git commit -m "Publish Digest Reader"
 git push origin main

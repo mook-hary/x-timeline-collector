@@ -12,6 +12,7 @@
     "reader:serve": "node scripts/serve-reader.js",
     "reader:open": "node scripts/open-reader.js",
     "reader:watch": "node scripts/watch-reader.js",
+    "publish": "node scripts/publish-reader.js",
     "validate:site": "node scripts/validate-site.js",
     "audit:public": "node scripts/audit-public.js",
     "morning": "node scripts/morning.js",
