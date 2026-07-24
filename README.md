@@ -355,9 +355,15 @@ knowledge.createKnowledge({
 });
 
 knowledge.listKnowledge({ category: "technique", difficulty: 2 });
+
+const draft = knowledge.generateDraft("ikkyo-basics");
+const drafts = knowledge.generateDrafts({ category: "technique" });
+// Editorial Store への保存は別ステップ（現状は生成のみ）
 ```
 
 category: `technique` / `principle` / `training` / `mindset` / `etiquette` / `history` / `teaching` / `injury-prevention` / `experience`
+
+Draft Generator（`lib/aikido-draft-generator.js`）はテンプレートで Editorial 互換の `post` を決定的に生成します（外部 AI なし・自動保存なし）。
 
 今後の流れ: Knowledge → Draft Generator → Editorial。
 
