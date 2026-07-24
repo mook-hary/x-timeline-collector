@@ -13,6 +13,22 @@
 
 ---
 
+## Architecture
+
+Editorial Platform の設計判断は ADR として記録しています。
+
+| ADR | 内容 |
+|---|---|
+| [ADR-001 Editorial Platform](docs/adr/ADR-001-editorial-platform.md) | Platform 全体・Reader との関係・Engine 中心構成 |
+| [ADR-002 Editorial Store](docs/adr/ADR-002-editorial-store.md) | JSON / 1 Item = 1 File |
+| [ADR-003 Editorial Workflow](docs/adr/ADR-003-editorial-workflow.md) | 状態遷移モデル |
+| [ADR-004 Editorial Similarity](docs/adr/ADR-004-editorial-similarity.md) | Local bigram + Dice |
+| [ADR-005 Editorial Rules](docs/adr/ADR-005-editorial-rules.md) | Rule Engine |
+| [ADR-006 Editorial Ranking](docs/adr/ADR-006-editorial-ranking.md) | Multi-metric ranking |
+| [ADR-007 Editorial Engine](docs/adr/ADR-007-editorial-engine.md) | Facade / 統合入口 |
+
+---
+
 ## Public vs local layout
 
 This repository is structured so a public GitHub tree can exist without shipping private timeline data.
@@ -1048,9 +1064,10 @@ node launchd.js uninstall
 | 文書 | 正本とする内容 |
 |---|---|
 | [docs/DATA_CONTRACT.md](docs/DATA_CONTRACT.md) | データモデル、Source of Truth、フォールバック、キャッシュ契約、後方互換、データライフサイクル |
+| [docs/adr/](docs/adr/) | Editorial Platform の Architecture Decision Records |
 | 本 README | 利用方法・パイプライン・設定の入口 |
 
-実装やスキーマを変えるときは、先に DATA_CONTRACT を確認・更新してからコードを変更してください。
+実装やスキーマを変えるときは、先に DATA_CONTRACT を確認・更新してからコードを変更してください。設計方針を変えるときは該当 ADR を更新または追加してください。
 
 ---
 
