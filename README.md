@@ -462,9 +462,35 @@ await publisher.publishPost(formattedPost); // 依然 dry-run
 注意:
 
 - User Access Token（`X_USER_ACCESS_TOKEN`）が必要。`.env` は gitignore 済み
-- 投稿履歴・永続的な二重投稿防止は未実装（XP-003）
+- 投稿履歴は Publish Ledger（XP-003）へ分離。Publisher は状態を持たない
 - 実投稿 CLI / `--confirm` は未実装（XP-004）
 - 既存 `npm run aikido:x:preview` はプレビューのみ（変更なし）
+
+### Publish Ledger（XP-003）
+
+X への**投稿状態**を `.pipeline-work/publish/<provider>/` に永続化します。Publisher は状態を持たず、成功結果を Ledger へ渡します。
+
+```js
+const { createPublishLedger } = require("./lib/publish-ledger");
+const ledger = createPublishLedger();
+
+const published = await publisher.publishPost(post, { execute: true });
+ledger.recordPublish(published); // status=published のみ保存（dry-run は null）
+
+ledger.findByEditorialId("ed-1");
+ledger.findByChecksum(checksum); // 重複判定用（止めない）
+ledger.list({ provider: "x", status: "published" });
+```
+
+```bash
+npm run aikido:publish:list
+npm run aikido:publish:list -- --provider=x --status=published --json
+npm run aikido:publish:list -- --knowledgeId=<id> --editorialId=<id>
+```
+
+- 本文は保存せず SHA-256 `checksum` のみ
+- dry-run は保存しない
+- 投稿・Retry・Delete・Workflow 変更は行わない
 
 ### Source Intake（合気道資料）
 
