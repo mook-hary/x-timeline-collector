@@ -19,14 +19,39 @@
     if (el) el.textContent = value == null || value === "" ? "—" : String(value);
   }
 
+  function toast(message, error) {
+    if (window.DashboardTheme && DashboardTheme.showToast) {
+      DashboardTheme.showToast(message, { error: !!error });
+    }
+  }
+
+  function statusChipClass(status) {
+    const s = String(status || "").toLowerCase();
+    if (s === "published") return "chip chip-published";
+    if (s === "draft" || s === "unpublished") return "chip chip-draft";
+    if (s === "pending" || s === "reviewing") return "chip chip-pending";
+    if (s === "approved" || s === "converted") return "chip chip-approved";
+    if (s === "rejected") return "chip chip-rejected";
+    return "chip chip-draft";
+  }
+
   function showError(msg) {
     const box = $("action-error");
     box.textContent = msg || "";
     box.classList.toggle("hidden", !msg);
   }
 
-  function showStatus(msg) {
-    $("action-status").textContent = msg || "";
+  function showStatus(msg, withSpinner) {
+    const el = $("action-status");
+    el.innerHTML = "";
+    if (!msg) return;
+    if (withSpinner) {
+      const spin = document.createElement("span");
+      spin.className = "spinner";
+      spin.setAttribute("aria-hidden", "true");
+      el.appendChild(spin);
+    }
+    el.appendChild(document.createTextNode(msg));
   }
 
   function setBusy(busy) {
@@ -81,7 +106,7 @@
     $("pending-count").textContent = `Pending: ${state.pendingCount}`;
     if (!state.candidates.length) {
       root.innerHTML =
-        '<p class="empty">レビュー対象のCandidateはありません。</p>';
+        '<div class="empty-state"><strong>まだCandidateはありません。</strong>Morning Pipelineを実行するか、Sourceを追加してください。</div>';
       $("list-status").textContent = "";
       return;
     }
@@ -92,7 +117,7 @@
       btn.className =
         "list-item" + (item.id === state.selectedId ? " active" : "");
       const badge = document.createElement("span");
-      badge.className = `badge ${item.status || ""}`;
+      badge.className = statusChipClass(item.status);
       badge.textContent = item.status || "—";
       btn.innerHTML = `<div class="row-title"></div><div class="row-meta"></div>`;
       btn.querySelector(".row-title").textContent = item.title || "(untitled)";
@@ -190,7 +215,7 @@
     const d = state.detail;
     setText("detail-title", d.title);
     const badge = $("detail-status-badge");
-    badge.className = `badge ${d.status || ""}`;
+    badge.className = statusChipClass(d.status);
     badge.textContent = d.status || "—";
     setText("meta-id", d.id);
     setText("meta-source-id", d.sourceId);
@@ -297,11 +322,13 @@
         }),
       });
       state.detail = data.candidate;
-      showStatus("Candidate saved.");
+      showStatus("Saved.");
+      toast("Saved.");
       await loadList();
       renderDetail();
     } catch (error) {
       showError(`Save failed: ${error.message}`);
+      toast(`Save failed: ${error.message}`, true);
     } finally {
       setBusy(false);
       updateActionLocks();
@@ -312,7 +339,7 @@
     if (!state.selectedId || state.busy) return;
     setBusy(true);
     showError("");
-    showStatus("");
+    showStatus("Running...", true);
     state.approveOpen = false;
     state.rejectOpen = false;
     try {
@@ -342,10 +369,12 @@
       renderDetail();
       renderPreview();
       renderConfirm();
-      showStatus("Knowledge preview ready.");
+      showStatus("Preview ready.");
+      toast("Preview ready.");
       await loadList();
     } catch (error) {
       showError(`Preview failed: ${error.message}`);
+      toast(`Preview failed: ${error.message}`, true);
     } finally {
       setBusy(false);
       updateActionLocks();
@@ -382,6 +411,7 @@
       showStatus(
         `Approved successfully.\nKnowledge ID: ${data.knowledgeId || "—"}`
       );
+      toast("Approved.");
       await selectCandidate(state.selectedId);
       await loadList();
     } catch (error) {
@@ -395,6 +425,7 @@
       } else {
         showError(`Approve failed: ${error.message}`);
       }
+      toast(error.message || "Approve failed.", true);
       state.approveOpen = false;
       await selectCandidate(state.selectedId).catch(() => {});
     } finally {
@@ -422,10 +453,12 @@
       );
       state.rejectOpen = false;
       showStatus("Candidate rejected.");
+      toast("Rejected.");
       await selectCandidate(state.selectedId);
       await loadList();
     } catch (error) {
       showError(`Reject failed: ${error.message}`);
+      toast(`Reject failed: ${error.message}`, true);
       state.rejectOpen = false;
     } finally {
       setBusy(false);
@@ -435,6 +468,19 @@
   }
 
   function bind() {
+    if (window.DashboardTheme) DashboardTheme.initThemeToggle();
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape") return;
+      if (state.approveOpen) {
+        state.approveOpen = false;
+        renderConfirm();
+      } else if (state.rejectOpen) {
+        state.rejectOpen = false;
+        renderConfirm();
+      }
+    });
+
     document.querySelectorAll(".filter").forEach((btn) => {
       btn.addEventListener("click", async () => {
         state.filter = btn.dataset.status;

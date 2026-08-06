@@ -11,7 +11,17 @@ const {
   createRunner,
   PUBLISH_REL_FILES,
   REQUIRED_BRANCH,
+  TEST_SCRIPT_REL,
+  AUDIT_SCRIPT_REL,
 } = require("../lib/publish-reader");
+
+function isNodeScriptCall(command, args, scriptRel) {
+  return (
+    command === process.execPath &&
+    args.length === 1 &&
+    path.basename(args[0]) === path.basename(scriptRel)
+  );
+}
 
 // --- commit message ---
 {
@@ -62,7 +72,12 @@ const {
     if (command === "git" && args[0] === "status") {
       return { status: 0, stdout: "", stderr: "" };
     }
-    if (command === "npm") return { status: 0, stdout: "", stderr: "" };
+    if (isNodeScriptCall(command, args, TEST_SCRIPT_REL)) {
+      return { status: 0, stdout: "", stderr: "" };
+    }
+    if (isNodeScriptCall(command, args, AUDIT_SCRIPT_REL)) {
+      return { status: 0, stdout: "", stderr: "" };
+    }
     return { status: 0, stdout: "", stderr: "" };
   };
   const runner = createRunner({
@@ -92,7 +107,7 @@ const {
     if (command === "git" && args[0] === "rev-parse") {
       return { status: 0, stdout: "main\n", stderr: "" };
     }
-    if (command === "npm" && args[0] === "test") {
+    if (isNodeScriptCall(command, args, TEST_SCRIPT_REL)) {
       return { status: 1, stdout: "fail", stderr: "" };
     }
     return { status: 0, stdout: "", stderr: "" };
@@ -112,6 +127,10 @@ const {
   );
   assert.ok(!calls.some((c) => c[1] === "add"));
   assert.ok(!calls.some((c) => c[1] === "commit"));
+  assert.ok(
+    calls.some((c) => isNodeScriptCall(c[0], c.slice(1), TEST_SCRIPT_REL))
+  );
+  assert.ok(!calls.some((c) => c[0] === "npm"));
   console.log("EP045 test-fail PASS");
 }
 
@@ -123,10 +142,10 @@ const {
     if (command === "git" && args[0] === "rev-parse") {
       return { status: 0, stdout: "main\n", stderr: "" };
     }
-    if (command === "npm" && args[0] === "test") {
+    if (isNodeScriptCall(command, args, TEST_SCRIPT_REL)) {
       return { status: 0, stdout: "", stderr: "" };
     }
-    if (command === "npm" && args[0] === "run") {
+    if (isNodeScriptCall(command, args, AUDIT_SCRIPT_REL)) {
       return { status: 2, stdout: "", stderr: "audit fail" };
     }
     return { status: 0, stdout: "", stderr: "" };
@@ -141,6 +160,10 @@ const {
     /audit:public failed/
   );
   assert.ok(!calls.some((c) => c[1] === "add"));
+  assert.ok(
+    calls.some((c) => isNodeScriptCall(c[0], c.slice(1), AUDIT_SCRIPT_REL))
+  );
+  assert.ok(!calls.some((c) => c[0] === "npm"));
   console.log("EP045 audit-fail PASS");
 }
 
@@ -186,7 +209,12 @@ const {
       assert.ok(!args.includes("-f"));
       return { status: 0, stdout: "", stderr: "" };
     }
-    if (command === "npm") return { status: 0, stdout: "", stderr: "" };
+    if (isNodeScriptCall(command, args, TEST_SCRIPT_REL)) {
+      return { status: 0, stdout: "", stderr: "" };
+    }
+    if (isNodeScriptCall(command, args, AUDIT_SCRIPT_REL)) {
+      return { status: 0, stdout: "", stderr: "" };
+    }
     return { status: 0, stdout: "", stderr: "" };
   };
 
@@ -262,6 +290,54 @@ const {
   assert.ok(!calls.some((c) => c[1] === "reset"));
   assert.ok(!calls.some((c) => c[1] === "revert"));
   console.log("EP045 push-fail-no-rewind PASS");
+}
+
+// --- PATH-independent: uses process.execPath + scripts, never bare "npm" ---
+{
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "publish-npm-path-"));
+  const calls = [];
+  const spawn = (command, args) => {
+    calls.push([command, ...args]);
+    if (command === "git" && args[0] === "rev-parse") {
+      return { status: 0, stdout: "main\n", stderr: "" };
+    }
+    if (command === "git" && args[0] === "status") {
+      return { status: 0, stdout: "", stderr: "" };
+    }
+    if (isNodeScriptCall(command, args, TEST_SCRIPT_REL)) {
+      assert.strictEqual(args[0], path.join(root, TEST_SCRIPT_REL));
+      return { status: 0, stdout: "", stderr: "" };
+    }
+    if (isNodeScriptCall(command, args, AUDIT_SCRIPT_REL)) {
+      assert.strictEqual(args[0], path.join(root, AUDIT_SCRIPT_REL));
+      return { status: 0, stdout: "", stderr: "" };
+    }
+    return { status: 0, stdout: "", stderr: "" };
+  };
+  const prevPath = process.env.PATH;
+  process.env.PATH = "";
+  try {
+    const runner = createRunner({
+      rootDir: root,
+      spawn,
+      env: { ...process.env, PATH: "" },
+      log: () => {},
+      generateReader: () => ({ status: 0 }),
+    });
+    assert.strictEqual(runner.nodePath, process.execPath);
+    const result = runner.runPublish({ skipGenerate: true });
+    assert.strictEqual(result.ok, true);
+    assert.ok(
+      calls.some((c) => isNodeScriptCall(c[0], c.slice(1), TEST_SCRIPT_REL))
+    );
+    assert.ok(
+      calls.some((c) => isNodeScriptCall(c[0], c.slice(1), AUDIT_SCRIPT_REL))
+    );
+    assert.ok(!calls.some((c) => c[0] === "npm"));
+  } finally {
+    process.env.PATH = prevPath;
+  }
+  console.log("EP045 path-independent PASS");
 }
 
 console.log("publish-reader-test: all PASS");

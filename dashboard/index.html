@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Editorial Dashboard</title>
+  <script src="/shared/dashboard-theme.js"></script>
+  <script src="/shared/dashboard-analytics.js"></script>
+  <link rel="stylesheet" href="/shared/dashboard-theme.css" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -12,7 +15,10 @@
       <h1>Editorial Dashboard</h1>
       <p class="muted">Local only · Knowledge → Editorial → X Preview → Publish</p>
     </div>
-    <button type="button" id="btn-refresh" class="btn btn-secondary">Refresh</button>
+    <div class="topbar-actions">
+      <button type="button" id="btn-theme-toggle" class="theme-toggle" aria-label="Toggle theme">☀</button>
+      <button type="button" id="btn-refresh" class="btn btn-secondary">Refresh</button>
+    </div>
   </header>
 
   <main class="layout">
@@ -27,9 +33,8 @@
           <div><dt>Last Run</dt><dd id="mp-last-run">—</dd></div>
           <div><dt>Status</dt><dd id="mp-status">Idle</dd></div>
           <div><dt>Duration</dt><dd id="mp-duration">—</dd></div>
-          <div><dt>Collected</dt><dd id="mp-collected">—</dd></div>
-          <div><dt>Candidates</dt><dd id="mp-candidates">—</dd></div>
         </dl>
+        <p id="mp-summary" class="pipeline-summary muted">Pipeline has not run yet.</p>
         <p id="mp-running-detail" class="muted hidden" role="status"></p>
         <div class="actions">
           <button type="button" id="btn-morning-run" class="btn btn-secondary">
@@ -43,14 +48,15 @@
     </section>
 
     <section class="panel detail-panel" aria-label="Editorial detail">
-      <div id="empty-detail" class="empty">
-        Select an Editorial from the list.
+      <div id="empty-detail" class="empty-state">
+        <strong>Editorialを選択してください。</strong>
+        左の一覧から編集対象を選ぶと、Original / AI Draft / Preview を並べて比較できます。
       </div>
 
       <div id="detail" class="detail hidden">
         <header class="detail-header">
           <h2 id="detail-title">—</h2>
-          <span id="detail-publish-badge" class="badge"></span>
+          <span id="detail-publish-badge" class="chip chip-unpublished"></span>
         </header>
 
         <dl class="meta-grid">
@@ -71,63 +77,78 @@
           <p class="notice notice-warn" id="already-published-msg">Already published.</p>
         </div>
 
-        <label class="field-label" for="body-editor">Post body (Editorial body)</label>
-        <textarea id="body-editor" rows="14" spellcheck="true"></textarea>
+        <div class="compare-layout" aria-label="Original AI Draft Preview compare">
+          <section class="compare-col" id="original-col">
+            <h3>Original</h3>
+            <label class="field-label" for="body-editor">Post body (Editorial body)</label>
+            <textarea id="body-editor" rows="16" spellcheck="true"></textarea>
+            <p class="kbd-hint muted">Shortcuts: E Save · P Preview · G Generate · Esc Cancel</p>
+          </section>
 
-        <section class="ai-draft-section" id="ai-draft-section">
-          <h3>AI Draft Assistant</h3>
-          <p class="muted ai-usage-note">
-            AI APIを使用して3案生成します。案は自動保存・自動投稿されません。
-          </p>
-          <div class="actions">
-            <button type="button" id="btn-ai-generate" class="btn btn-secondary">
-              Generate 3 Suggestions
-            </button>
-            <button type="button" id="btn-ai-again" class="btn btn-secondary hidden">
-              Generate Again
-            </button>
-          </div>
-          <div id="ai-draft-status" class="status-line" role="status"></div>
-          <div id="ai-draft-error" class="error-box hidden" role="alert"></div>
-          <div id="ai-suggestions" class="ai-suggestions"></div>
-
-          <div id="ai-apply-confirm" class="confirm-box hidden">
-            <h3>このAI案をEditorial本文へ適用します。</h3>
-            <p class="muted">現在の本文:</p>
-            <pre id="ai-apply-current" class="preview-text"></pre>
-            <p class="muted">適用する本文:</p>
-            <pre id="ai-apply-next" class="preview-text"></pre>
+          <section class="compare-col" id="ai-draft-section">
+            <h3>AI Draft Assistant</h3>
+            <p class="muted ai-usage-note">
+              AI APIを使用して3案生成します。案は自動保存・自動投稿されません。
+            </p>
             <div class="actions">
-              <button type="button" id="btn-ai-cancel" class="btn btn-secondary">Cancel</button>
-              <button type="button" id="btn-ai-confirm" class="btn btn-preview">Confirm Apply</button>
+              <button type="button" id="btn-ai-generate" class="btn btn-primary">
+                Generate 3 Suggestions
+              </button>
+              <button type="button" id="btn-ai-again" class="btn btn-secondary hidden">
+                Generate Again
+              </button>
             </div>
-          </div>
-        </section>
+            <div id="ai-draft-status" class="status-line" role="status"></div>
+            <div id="ai-draft-error" class="error-box hidden" role="alert"></div>
+            <div id="ai-suggestions" class="ai-suggestions"></div>
 
-        <div class="actions">
+            <div id="ai-apply-confirm" class="confirm-box hidden">
+              <h3>このAI案をEditorial本文へ適用します。</h3>
+              <p class="muted">Diff vs Original:</p>
+              <div id="ai-apply-diff" class="diff-view"></div>
+              <p class="muted">現在の本文:</p>
+              <pre id="ai-apply-current" class="preview-text"></pre>
+              <p class="muted">適用する本文:</p>
+              <pre id="ai-apply-next" class="preview-text"></pre>
+              <div class="actions">
+                <button type="button" id="btn-ai-cancel" class="btn btn-ghost">Cancel</button>
+                <button type="button" id="btn-ai-confirm" class="btn btn-primary">Confirm Apply</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="compare-col" id="preview-col">
+            <h3>Preview</h3>
+            <section class="preview-box hidden" id="preview-box">
+              <h4 class="preview-sub">X Post Preview</h4>
+              <pre id="preview-text" class="preview-text"></pre>
+              <p class="muted">Characters: <span id="preview-chars">0</span></p>
+              <p id="preview-limit-msg" class="notice notice-warn hidden">
+                Post exceeds the allowed X character limit.
+              </p>
+            </section>
+            <p id="preview-empty" class="empty-state">
+              <strong>Previewはまだありません。</strong>
+              Preview を実行するとここに表示されます。
+            </p>
+          </section>
+        </div>
+
+        <div class="actions detail-actions">
           <button type="button" id="btn-save" class="btn btn-secondary">Save Draft</button>
-          <button type="button" id="btn-preview" class="btn btn-preview">Preview X Post</button>
-          <button type="button" id="btn-publish" class="btn btn-publish">Publish to X</button>
+          <button type="button" id="btn-preview" class="btn btn-primary">Preview X Post</button>
+          <button type="button" id="btn-publish" class="btn btn-primary">Publish to X</button>
         </div>
 
         <div id="action-status" class="status-line" role="status"></div>
         <div id="action-error" class="error-box hidden" role="alert"></div>
-
-        <section class="preview-box hidden" id="preview-box">
-          <h3>X Post Preview</h3>
-          <pre id="preview-text" class="preview-text"></pre>
-          <p class="muted">Characters: <span id="preview-chars">0</span></p>
-          <p id="preview-limit-msg" class="notice notice-warn hidden">
-            Post exceeds the allowed X character limit.
-          </p>
-        </section>
 
         <section class="confirm-box hidden" id="confirm-box">
           <h3>Confirm publish</h3>
           <p>この内容をXへ実際に投稿します。</p>
           <pre id="confirm-text" class="preview-text"></pre>
           <div class="actions">
-            <button type="button" id="btn-cancel-publish" class="btn btn-secondary">Cancel</button>
+            <button type="button" id="btn-cancel-publish" class="btn btn-ghost">Cancel</button>
             <button type="button" id="btn-confirm-publish" class="btn btn-danger">Confirm Publish</button>
           </div>
         </section>

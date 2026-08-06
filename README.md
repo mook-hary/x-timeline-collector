@@ -567,10 +567,11 @@ npm run dashboard
 
 Launcher Dashboard は Review / Editorial / Morning Pipeline への統合入口です。各 Dashboard の責務は変更しません。
 
-- Stats / Activity / System Health を表示
-- Morning Pipeline を起動可能（EA-003）
+- Today's Work / Activity / System Health を表示（UX-001）
+- Dark Theme 既定 + Light 切替（右上 🌙/☀、`localStorage`）
+- Morning Pipeline を起動可能（EA-003）。結果は文章サマリで表示
 - Review（4175）・Editorial（4174）へ新しいタブで遷移
-- 30 秒ごとに Stats / Pipeline / Activity を自動更新（ページ全体リロードなし）
+- 30 秒ごとに Work / Pipeline / Activity を自動更新（ページ全体リロードなし）
 - 停止は Ctrl+C
 
 ### Platform Launcher（DEV-001）

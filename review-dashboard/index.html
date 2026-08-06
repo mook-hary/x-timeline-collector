@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Candidate Review Dashboard</title>
+  <script src="/shared/dashboard-theme.js"></script>
+  <link rel="stylesheet" href="/shared/dashboard-theme.css" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
@@ -12,8 +14,9 @@
       <h1>Candidate Review</h1>
       <p class="muted">Local only · Source → Candidate → Knowledge</p>
     </div>
-    <div class="topbar-right">
+    <div class="topbar-actions">
       <span id="pending-count" class="pending-pill">Pending: 0</span>
+      <button type="button" id="btn-theme-toggle" class="theme-toggle" aria-label="Toggle theme">☀</button>
       <button type="button" id="btn-refresh" class="btn btn-secondary">Refresh</button>
     </div>
   </header>
@@ -32,12 +35,15 @@
     </section>
 
     <section class="panel detail-panel">
-      <div id="empty-detail" class="empty">Select a Candidate from the list.</div>
+      <div id="empty-detail" class="empty-state">
+        <strong>Candidateを選択してください。</strong>
+        左の一覧からレビュー対象を選びます。
+      </div>
 
       <div id="detail" class="detail hidden">
         <header class="detail-header">
           <h2 id="detail-title">—</h2>
-          <span id="detail-status-badge" class="badge"></span>
+          <span id="detail-status-badge" class="chip chip-pending"></span>
         </header>
 
         <dl class="meta-grid">
@@ -81,9 +87,9 @@
 
         <div class="actions">
           <button type="button" id="btn-save" class="btn btn-secondary">Save Candidate</button>
-          <button type="button" id="btn-preview" class="btn btn-preview">Preview Knowledge</button>
-          <button type="button" id="btn-approve" class="btn btn-approve">Approve as Knowledge</button>
-          <button type="button" id="btn-reject" class="btn btn-reject">Reject Candidate</button>
+          <button type="button" id="btn-preview" class="btn btn-primary">Preview Knowledge</button>
+          <button type="button" id="btn-approve" class="btn btn-primary">Approve as Knowledge</button>
+          <button type="button" id="btn-reject" class="btn btn-danger">Reject Candidate</button>
         </div>
 
         <div id="action-status" class="status-line" role="status"></div>
@@ -107,8 +113,8 @@
           <p>このCandidateをKnowledgeとして登録します。</p>
           <div id="approve-preview" class="mini-preview"></div>
           <div class="actions">
-            <button type="button" id="btn-cancel-approve" class="btn btn-secondary">Cancel</button>
-            <button type="button" id="btn-confirm-approve" class="btn btn-approve">Confirm Approval</button>
+            <button type="button" id="btn-cancel-approve" class="btn btn-ghost">Cancel</button>
+            <button type="button" id="btn-confirm-approve" class="btn btn-primary">Confirm Approval</button>
           </div>
         </section>
 
@@ -118,8 +124,8 @@
           <label class="field-label" for="reject-reason">Reason</label>
           <textarea id="reject-reason" rows="3" placeholder="Rejection reason (required)"></textarea>
           <div class="actions">
-            <button type="button" id="btn-cancel-reject" class="btn btn-secondary">Cancel</button>
-            <button type="button" id="btn-confirm-reject" class="btn btn-reject">Confirm Rejection</button>
+            <button type="button" id="btn-cancel-reject" class="btn btn-ghost">Cancel</button>
+            <button type="button" id="btn-confirm-reject" class="btn btn-danger">Confirm Rejection</button>
           </div>
         </section>
 

@@ -21,6 +21,33 @@
     box.classList.toggle("hidden", !message);
   }
 
+  function toast(message, error) {
+    if (window.DashboardTheme && DashboardTheme.showToast) {
+      DashboardTheme.showToast(message, { error: !!error });
+    }
+  }
+
+  function pipelineSentence(pipe) {
+    const last = pipe && pipe.lastRun ? pipe.lastRun : null;
+    if (!last) return "Pipeline has not run yet.";
+    if (pipe.running) return "Pipeline is running…";
+    const collected = Number(last.collected || 0);
+    const candidates = Number(last.candidates || 0);
+    if (last.status === "Failed" || last.success === false) {
+      return "Last pipeline run failed. Check history and try again.";
+    }
+    if (last.status === "Dry Run" || last.dryRun) {
+      return "Last run was a dry run. No sources or candidates were saved.";
+    }
+    if (candidates > 0) {
+      return `${candidates} new Candidate${candidates === 1 ? "" : "s"} created.`;
+    }
+    if (collected > 0) {
+      return `${collected} source${collected === 1 ? "" : "s"} collected. No new candidates.`;
+    }
+    return "No new sources were collected.";
+  }
+
   async function api(path, options = {}) {
     const res = await fetch(path, {
       ...options,
@@ -48,9 +75,7 @@
 
   function renderLinks() {
     const links = (state.home && state.home.links) || {};
-    if (links.review) {
-      $("link-review").href = links.review;
-    }
+    if (links.review) $("link-review").href = links.review;
     if (links.editorial) {
       $("link-editorial").href = links.editorial;
       $("link-publish").href = links.editorial;
@@ -66,11 +91,19 @@
       "pipe-duration",
       last && last.durationMs != null ? `${last.durationMs} ms` : "—"
     );
+    $("pipe-summary").textContent = pipelineSentence(pipe);
+
     const running = $("pipe-running");
     if (state.pipelineRunning || pipe.running) {
-      running.textContent = pipe.currentStep
-        ? `Running...\n${pipe.currentStep}...`
-        : "Running...";
+      running.innerHTML = "";
+      const spin = document.createElement("span");
+      spin.className = "spinner";
+      running.appendChild(spin);
+      running.appendChild(
+        document.createTextNode(
+          ` Running... ${pipe.currentStep ? pipe.currentStep + "..." : ""}`
+        )
+      );
       running.classList.remove("hidden");
       $("btn-run-pipeline").disabled = true;
     } else {
@@ -79,14 +112,11 @@
     }
   }
 
-  function renderStats() {
+  function renderWork() {
     const s = state.stats || (state.home && state.home.stats) || {};
-    setText("stat-pending", s.pendingCandidates);
-    setText("stat-approved", s.approvedCandidates);
-    setText("stat-knowledge", s.knowledge);
-    setText("stat-drafts", s.editorialDrafts);
-    setText("stat-published", s.published);
-    setText("stat-pipeline", s.todaysPipeline);
+    setText("work-pending", s.pendingCandidates != null ? s.pendingCandidates : 0);
+    setText("work-drafts", s.editorialDrafts != null ? s.editorialDrafts : 0);
+    setText("work-published", s.published != null ? s.published : 0);
   }
 
   function renderHealth() {
@@ -108,7 +138,8 @@
     root.innerHTML = "";
     const rows = state.activity || [];
     if (!rows.length) {
-      root.innerHTML = '<p class="muted">No recent activity.</p>';
+      root.innerHTML =
+        '<div class="empty-state"><strong>まだアクティビティはありません。</strong>Morning Pipeline を実行するか、Review / Editorial で作業を始めてください。</div>';
       return;
     }
     for (const row of rows) {
@@ -143,7 +174,7 @@
     if (!state.home) state.home = {};
     state.home.pipeline = status;
     state.home.stats = stats;
-    renderStats();
+    renderWork();
     renderActivity();
     renderHealth();
     renderPipeline();
@@ -156,7 +187,7 @@
     state.stats = home.stats;
     state.activity = home.activity || [];
     renderLinks();
-    renderStats();
+    renderWork();
     renderActivity();
     renderPipeline();
     const health = await api("/api/health");
@@ -177,18 +208,27 @@
       state.pipelineRunning = false;
       if (!state.home) state.home = {};
       state.home.pipeline = data.status || state.home.pipeline;
+      toast("Pipeline finished.");
       await refreshSoft();
     } catch (error) {
       state.pipelineRunning = false;
-      showError(error.message || "Pipeline failed.");
+      const msg =
+        error.code === "PIPELINE_ALREADY_RUNNING"
+          ? "Morning Pipeline is already running."
+          : error.message || "Pipeline failed.";
+      showError(msg);
+      toast(msg, true);
       renderPipeline();
       await refreshSoft().catch(() => {});
     }
   }
 
   function bind() {
+    if (window.DashboardTheme) DashboardTheme.initThemeToggle();
     $("btn-refresh").addEventListener("click", () => {
-      refreshAll().catch((error) => showError(error.message));
+      refreshAll()
+        .then(() => toast("Refreshed."))
+        .catch((error) => showError(error.message));
     });
     $("btn-run-pipeline").addEventListener("click", (e) => {
       e.preventDefault();
