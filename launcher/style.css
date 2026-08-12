@@ -83,6 +83,30 @@
 .status-list span.available { color: var(--ok); font-weight: 600; }
 .status-list span.unavailable { color: var(--warn); font-weight: 600; }
 
+.collector-health {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+  margin: 0;
+}
+
+.collector-health dt {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.collector-health dd {
+  margin: 0.15rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.collector-health dd.ok { color: var(--ok); font-weight: 700; }
+.collector-health dd.failed { color: var(--danger); font-weight: 700; }
+.collector-health dd.warning { color: var(--warn); font-weight: 700; }
+
 .work-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

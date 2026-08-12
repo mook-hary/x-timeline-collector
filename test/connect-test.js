@@ -8,6 +8,8 @@ const {
   CDP_URL,
   connectToChrome,
   ensureHomePage,
+  assessXSession,
+  AUTH_ERROR,
 } = require("../connect");
 
 function makePage(url) {
@@ -124,6 +126,38 @@ async function run() {
     );
     assert.strictEqual(makeBrowser.newContextCalls, 0);
     console.log("missing context fails clearly PASS");
+  }
+
+  // --- COLLECT-HEALTH: session probe on home ---
+  {
+    const page = makePage("https://x.com/home");
+    page.evaluate = async () => ({
+      hasArticles: true,
+      loginHints: false,
+      homeChrome: true,
+    });
+    page.waitForSelector = async () => true;
+    const session = await assessXSession(page);
+    assert.strictEqual(session.authenticated, true);
+    assert.strictEqual(session.error, null);
+    console.log("session login-ok PASS");
+  }
+
+  // --- COLLECT-HEALTH: login wall ---
+  {
+    const page = makePage("https://x.com/i/flow/login");
+    page.evaluate = async () => ({
+      hasArticles: false,
+      loginHints: true,
+      homeChrome: false,
+    });
+    page.waitForSelector = async () => {
+      throw new Error("timeout");
+    };
+    const session = await assessXSession(page, { waitTimeoutMs: 10 });
+    assert.strictEqual(session.authenticated, false);
+    assert.strictEqual(session.error, AUTH_ERROR);
+    console.log("session auth-required PASS");
   }
 
   console.log("connect-test PASS");

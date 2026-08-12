@@ -119,6 +119,42 @@
     setText("work-published", s.published != null ? s.published : 0);
   }
 
+  function renderCollectorHealth() {
+    const ch =
+      (state.home && state.home.collectorHealth) ||
+      state.collectorHealth ||
+      {};
+    const loginEl = $("ch-login");
+    const statusEl = $("ch-status");
+    setText("ch-login", ch.xLogin != null ? ch.xLogin : "—");
+    setText("ch-last", ch.lastCollect || "—");
+    setText(
+      "ch-new",
+      ch.newPosts != null && ch.newPosts !== "" ? ch.newPosts : "—"
+    );
+    setText("ch-latest", ch.latestPost || "—");
+    const statusLabel =
+      ch.status === "healthy"
+        ? "Healthy"
+        : ch.status === "warning"
+          ? "Warning"
+          : ch.status === "failed"
+            ? "Failed"
+            : ch.status || "—";
+    setText("ch-status", statusLabel);
+    if (loginEl) {
+      loginEl.classList.remove("ok", "failed", "warning");
+      if (ch.xLogin === "OK") loginEl.classList.add("ok");
+      else if (ch.xLogin === "Failed") loginEl.classList.add("failed");
+    }
+    if (statusEl) {
+      statusEl.classList.remove("ok", "failed", "warning");
+      if (ch.status === "healthy") statusEl.classList.add("ok");
+      else if (ch.status === "warning") statusEl.classList.add("warning");
+      else if (ch.status === "failed") statusEl.classList.add("failed");
+    }
+  }
+
   function renderHealth() {
     const h = state.health || {};
     const root = $("system-status");
@@ -174,10 +210,17 @@
     if (!state.home) state.home = {};
     state.home.pipeline = status;
     state.home.stats = stats;
+    try {
+      state.collectorHealth = await api("/api/collector-health");
+      state.home.collectorHealth = state.collectorHealth;
+    } catch (_error) {
+      // optional
+    }
     renderWork();
     renderActivity();
     renderHealth();
     renderPipeline();
+    renderCollectorHealth();
   }
 
   async function refreshAll() {
@@ -186,10 +229,12 @@
     state.home = home;
     state.stats = home.stats;
     state.activity = home.activity || [];
+    state.collectorHealth = home.collectorHealth || null;
     renderLinks();
     renderWork();
     renderActivity();
     renderPipeline();
+    renderCollectorHealth();
     const health = await api("/api/health");
     state.health = health;
     renderHealth();

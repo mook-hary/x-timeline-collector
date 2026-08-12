@@ -18,7 +18,11 @@ const {
   resolveHistoryPath,
   recordMorningUsage,
 } = require("../lib/api-usage-history");
-const { parseStageItemCount } = require("../lib/morning-health");
+const {
+  parseStageItemCount,
+  parseCollectHealthFromOutput,
+} = require("../lib/morning-health");
+const { collectDetailFromHealth } = require("../lib/x-collector-health");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -318,6 +322,18 @@ function runMorning(options, deps = {}) {
       itemCount,
     };
 
+    if (step.id === "collect") {
+      const health = parseCollectHealthFromOutput(combinedOut);
+      if (health) {
+        stageRecord.collectorHealth = health;
+        const detail = collectDetailFromHealth(health);
+        if (detail) stageRecord.collect = detail;
+      }
+      if (/X_AUTH_REQUIRED/.test(combinedOut)) {
+        stageRecord.authError = "X_AUTH_REQUIRED";
+      }
+    }
+
     const status = result.status;
     if (status !== 0 || result.error) {
       const code = result.error ? 1 : status == null ? 1 : status;
@@ -327,19 +343,25 @@ function runMorning(options, deps = {}) {
       if (result.error) {
         log(`[Morning] spawn error=${result.error.message}`);
       }
+      if (stageRecord.authError) {
+        log(`[Morning] ${stageRecord.authError}`);
+      }
       stageRecord.ok = false;
       stages.push(stageRecord);
       const err = new Error(
-        `${step.label} failed (exit ${code}): ${formatCommand(
-          step.script,
-          step.args
-        )}`
+        stageRecord.authError
+          ? `${step.label} failed: ${stageRecord.authError}`
+          : `${step.label} failed (exit ${code}): ${formatCommand(
+              step.script,
+              step.args
+            )}`
       );
-      err.code = "morning-step";
+      err.code = stageRecord.authError || "morning-step";
       err.step = step;
       err.exitCode = code;
       err.result = result;
       err.stages = stages.slice();
+      err.collectorHealth = stageRecord.collectorHealth || null;
       throw err;
     }
 

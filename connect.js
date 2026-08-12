@@ -2,6 +2,16 @@ const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
 const { writeJsonAtomic } = require("./lib/pipeline-io");
+const {
+  AUTH_ERROR,
+  DEFAULT_STALE_MS,
+  assessXSession,
+  buildCollectMetrics,
+  newestPostedAt,
+  assessTimelineFreshness,
+  buildCollectorHealth,
+  formatCollectHealthLine,
+} = require("./lib/x-collector-health");
 
 const CDP_URL = "http://localhost:9222";
 const MAX_POSTS = 50;
@@ -414,12 +424,52 @@ async function main() {
 
   try {
     const page = await ensureHomePage(browser);
+    const session = await assessXSession(page);
+    if (!session.authenticated || session.error === AUTH_ERROR) {
+      const failedHealth = buildCollectorHealth({
+        authenticated: false,
+        timelineAvailable: false,
+        status: "failed",
+        error: AUTH_ERROR,
+        reason: session.reason,
+      });
+      console.error(formatCollectHealthLine(failedHealth));
+      console.error(`ERROR: ${AUTH_ERROR}`);
+      console.error(
+        "X にログインしていないか、Home Timeline を取得できません。" +
+          "古い timeline.json は更新せず終了します。"
+      );
+      process.exit(1);
+    }
+
     const fetchedPosts = await collectPosts(page);
     const collectedAt = new Date().toISOString();
     const { merged, fetchedCount, addedCount, duplicateCount, newPosts } =
       mergeWithExisting(existingPosts, fetchedPosts, collectedAt);
 
     savePosts(merged);
+
+    const newest = newestPostedAt(fetchedPosts) || newestPostedAt(newPosts);
+    const collect = buildCollectMetrics({
+      fetchedFromScreen: fetchedCount,
+      newPosts: addedCount,
+      duplicateUrlsSkipped: duplicateCount,
+      totalStored: merged.length,
+      missingPostedAt: countEmptyField(newPosts, "postedAt"),
+      newestPostAt: newest,
+    });
+    const staleMs =
+      process.env.X_TIMELINE_STALE_MS != null
+        ? Number(process.env.X_TIMELINE_STALE_MS)
+        : DEFAULT_STALE_MS;
+    const freshness = assessTimelineFreshness(newest, collectedAt, staleMs);
+    const health = buildCollectorHealth({
+      authenticated: true,
+      timelineAvailable: true,
+      collect,
+      warnings: freshness.warnings,
+      status: freshness.warnings.length ? "warning" : "healthy",
+    });
 
     printCollectionSummary({
       fetchedCount,
@@ -428,6 +478,11 @@ async function main() {
       totalCount: merged.length,
     });
     console.log(`今回新しく追加した件数: ${addedCount}`);
+    if (newest) console.log(`Newest postedAt: ${newest}`);
+    if (freshness.warnings.includes("X_TIMELINE_STALE")) {
+      console.log(`WARNING: X_TIMELINE_STALE (newestPostAt=${newest})`);
+    }
+    console.log(formatCollectHealthLine(health));
     console.log(`JSON保存先: ${OUTPUT_FILE}`);
     console.log(`CSV保存先: ${OUTPUT_CSV_FILE}`);
 
@@ -438,6 +493,17 @@ async function main() {
     // Do not close the browser; keep the Node process alive
     await new Promise(() => {});
   } catch (error) {
+    if (error && error.code === AUTH_ERROR) {
+      const failedHealth = buildCollectorHealth({
+        authenticated: false,
+        timelineAvailable: false,
+        status: "failed",
+        error: AUTH_ERROR,
+      });
+      console.error(formatCollectHealthLine(failedHealth));
+      console.error(`ERROR: ${AUTH_ERROR}`);
+      process.exit(1);
+    }
     console.error(`タイムラインの取得に失敗しました: ${error.message}`);
     process.exit(1);
   }
@@ -454,4 +520,11 @@ module.exports = {
   isXHomePage,
   isXPage,
   parseConnectArgs,
+  assessXSession,
+  mergeWithExisting,
+  toCanonicalNewPost,
+  buildCollectMetrics,
+  newestPostedAt,
+  buildCollectorHealth,
+  AUTH_ERROR,
 };

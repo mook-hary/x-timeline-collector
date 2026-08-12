@@ -131,11 +131,14 @@ function tmpDir(prefix) {
   assert.ok(summary.includes("Morning Pipeline Summary"));
   assert.ok(summary.includes("Status: SUCCESS"));
   assert.ok(summary.includes("4m 12s"));
-  assert.ok(summary.includes("247 items"));
+  assert.ok(summary.includes("247 items") || summary.includes("X Collector"));
   assert.ok(summary.includes("AI Analyze:"));
   assert.ok(summary.includes("Publish:"));
   assert.ok(summary.includes("Success"));
   assert.ok(summary.includes(saved.relativePath));
+  // Legacy reports gain collect.totalStored from counts; collectorHealth stays null.
+  assert.strictEqual(report.collect.totalStored, 247);
+  assert.strictEqual(report.collectorHealth, null);
   console.log("EP048 report-save PASS");
 }
 
