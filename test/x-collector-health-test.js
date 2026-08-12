@@ -326,7 +326,7 @@ process.exit(1);
     console.log("CH001 no-continue-on-auth PASS");
   }
 
-  // --- dashboard helper + load latest ---
+  // --- dashboard helper + load latest + Launcher API ---
   {
     const root = tmpDir("ch001-dash-");
     const health = buildCollectorHealth({
@@ -351,6 +351,13 @@ process.exit(1);
           collectorHealth: health,
         },
       ],
+      collect: {
+        fetchedFromScreen: 10,
+        newPosts: 3,
+        totalStored: 50,
+        newestPostAt: "2026-08-12T02:00:00.000Z",
+      },
+      collectorHealth: health,
       publish: {
         ok: true,
         committed: false,
@@ -369,6 +376,39 @@ process.exit(1);
     assert.strictEqual(dash.newPosts, 3);
     assert.strictEqual(dash.status, "healthy");
     assert.strictEqual(dash.latestPost, "2026-08-12T02:00:00.000Z");
+
+    const {
+      createLauncherDashboardApi,
+    } = require("../lib/launcher-dashboard-api");
+    const api = createLauncherDashboardApi({
+      rootDir: root,
+      loadLatestMorningHealthReport: () => loaded,
+      reviewApi: {
+        listCandidates: () => ({
+          ok: true,
+          data: { candidates: [], pendingCount: 0, categories: [] },
+        }),
+        knowledgeStore: { listKnowledge: () => [] },
+      },
+      editorialApi: {
+        listEditorials: () => ({ ok: true, data: { editorials: [] } }),
+        listPublishes: () => ({ ok: true, data: { publishes: [] } }),
+        getMorningPipelineStatus: () => ({
+          ok: true,
+          data: { status: "Idle", running: false, lastRun: null },
+        }),
+        candidateReview: { listReviews: () => [] },
+      },
+      morningPipeline: {
+        getStatus: () => ({ status: "Idle", running: false, lastRun: null }),
+        getHistory: () => [],
+      },
+    });
+    const ch = api.getCollectorHealth();
+    assert.strictEqual(ch.ok, true);
+    assert.strictEqual(ch.data.xLogin, "OK");
+    assert.strictEqual(ch.data.newPosts, 3);
+    assert.strictEqual(ch.data.status, "healthy");
     console.log("CH001 dashboard-shape PASS");
   }
 

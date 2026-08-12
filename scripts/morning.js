@@ -449,6 +449,7 @@ function runMorning(options, deps = {}) {
   }
 
   log("[Morning] Done");
+  const collectStage = stages.find((s) => s && s.id === "collect") || null;
   return {
     ok: true,
     stepsRun,
@@ -459,6 +460,11 @@ function runMorning(options, deps = {}) {
     historySaved,
     startedAt,
     finishedAt,
+    // Top-level mirrors for Morning Pipeline → History wiring (EP / COLLECT-HEALTH).
+    collectorHealth: collectStage && collectStage.collectorHealth
+      ? collectStage.collectorHealth
+      : null,
+    collect: collectStage && collectStage.collect ? collectStage.collect : null,
   };
 }
 

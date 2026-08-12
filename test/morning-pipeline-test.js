@@ -273,6 +273,150 @@ function tmpDir(prefix) {
   console.log("EP048 history-soft-fail PASS");
 }
 
+// --- COLLECT-HEALTH wiring: SUCCESS History keeps collectorHealth + collect ---
+{
+  const root = tmpDir("morning-pipeline-ch-ok-");
+  const collectHealth = {
+    authenticated: true,
+    timelineAvailable: true,
+    status: "healthy",
+    warnings: [],
+    fetchedFromScreen: 35,
+    newPosts: 34,
+    duplicateUrlsSkipped: 1,
+    totalStored: 638,
+    missingPostedAt: 5,
+    newestPostAt: "2026-08-12T01:00:00.000Z",
+  };
+  const collectDetail = {
+    fetchedFromScreen: 35,
+    newPosts: 34,
+    duplicateUrlsSkipped: 1,
+    totalStored: 638,
+    missingPostedAt: 5,
+    newestPostAt: "2026-08-12T01:00:00.000Z",
+  };
+  const logs = [];
+  const result = runMorningPipeline(
+    { dryRun: false, morningArgv: [] },
+    {
+      rootDir: root,
+      log: (l) => logs.push(l),
+      logErr: () => {},
+      historyNow: () => new Date(2026, 7, 12, 14, 0, 0),
+      runMorning: () => ({
+        ok: true,
+        stepsRun: ["collect", "analyze"],
+        stages: [
+          {
+            id: "collect",
+            label: "Collect",
+            startedAt: "2026-08-12T01:00:00.000Z",
+            finishedAt: "2026-08-12T01:01:00.000Z",
+            ok: true,
+            itemCount: 638,
+            collectorHealth: collectHealth,
+            collect: collectDetail,
+          },
+          {
+            id: "analyze",
+            label: "Analyze",
+            startedAt: "2026-08-12T01:01:00.000Z",
+            finishedAt: "2026-08-12T01:02:00.000Z",
+            ok: true,
+            itemCount: 10,
+          },
+        ],
+        collectorHealth: collectHealth,
+        collect: collectDetail,
+      }),
+      createPublishRunner: () => ({
+        runPublish: () => ({ ok: true, committed: true, skippedPush: false }),
+      }),
+    }
+  );
+  assert.strictEqual(result.ok, true);
+  assert.ok(result.healthReport.collectorHealth);
+  assert.strictEqual(result.healthReport.collectorHealth.status, "healthy");
+  assert.strictEqual(result.healthReport.collectorHealth.authenticated, true);
+  assert.ok(result.healthReport.collect);
+  assert.strictEqual(result.healthReport.collect.newPosts, 34);
+  assert.strictEqual(result.healthReport.collect.fetchedFromScreen, 35);
+  assert.strictEqual(result.healthReport.counts.collect, 638);
+  assert.ok(logs.some((l) => /X Collector/.test(l)));
+  assert.ok(logs.some((l) => /Login: OK/.test(l)));
+
+  const histPath = path.join(root, result.historyPath);
+  assert.ok(fs.existsSync(histPath));
+  const saved = JSON.parse(fs.readFileSync(histPath, "utf8"));
+  assert.ok(saved.collectorHealth, "History must include collectorHealth");
+  assert.strictEqual(saved.collectorHealth.status, "healthy");
+  assert.strictEqual(saved.collect.newPosts, 34);
+  assert.strictEqual(saved.counts.collect, 638);
+  console.log("CH001 pipeline-history-success PASS");
+}
+
+// --- COLLECT-HEALTH wiring: X_AUTH_REQUIRED failed health saved ---
+{
+  const root = tmpDir("morning-pipeline-ch-auth-");
+  const failedHealth = {
+    authenticated: false,
+    timelineAvailable: false,
+    status: "failed",
+    error: "X_AUTH_REQUIRED",
+    warnings: [],
+  };
+  let threw = null;
+  try {
+    runMorningPipeline(
+      { dryRun: false, morningArgv: [] },
+      {
+        rootDir: root,
+        log: () => {},
+        logErr: () => {},
+        historyNow: () => new Date(2026, 7, 12, 14, 5, 0),
+        runMorning: () => {
+          const err = new Error("Collect failed: X_AUTH_REQUIRED");
+          err.code = "X_AUTH_REQUIRED";
+          err.exitCode = 1;
+          err.step = { id: "collect", label: "Collect", script: "connect.js", args: ["--once"] };
+          err.stages = [
+            {
+              id: "collect",
+              label: "Collect",
+              ok: false,
+              itemCount: null,
+              collectorHealth: failedHealth,
+            },
+          ];
+          err.collectorHealth = failedHealth;
+          throw err;
+        },
+        createPublishRunner: () => ({
+          runPublish: () => {
+            throw new Error("publish must not run after auth failure");
+          },
+        }),
+      }
+    );
+  } catch (error) {
+    threw = error;
+  }
+  assert.ok(threw);
+  const histDir = path.join(root, ".pipeline-work", "history");
+  const files = fs.readdirSync(histDir).filter((n) => n.endsWith(".json"));
+  assert.ok(files.length >= 1);
+  const saved = JSON.parse(
+    fs.readFileSync(path.join(histDir, files.sort().pop()), "utf8")
+  );
+  assert.strictEqual(saved.status, "FAILED");
+  assert.ok(saved.collectorHealth);
+  assert.strictEqual(saved.collectorHealth.status, "failed");
+  assert.strictEqual(saved.collectorHealth.error, "X_AUTH_REQUIRED");
+  assert.strictEqual(saved.collectorHealth.authenticated, false);
+  console.log("CH001 pipeline-history-auth-fail PASS");
+}
+
 // --- CLI dry-run via spawn ---
 {
   const { spawnSync } = require("child_process");
