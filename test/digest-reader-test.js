@@ -183,7 +183,8 @@ function dayOptions(extra = {}) {
   assert.ok(html.includes("AI"));
   assert.ok(html.includes('id="all-categories"'));
   assert.ok(html.includes("Generated locally."));
-  assert.ok(!html.includes("<script"));
+  assert.ok(!/<script\s+src=/i.test(html));
+  assert.ok(html.includes('id="digest-reader-more-script"'));
   assert.ok(result.summary.picksCount >= 1);
   console.log("Case1 PASS");
 }
@@ -571,12 +572,12 @@ function dayOptions(extra = {}) {
       postedAt: `2026-07-14T0${i}:30:00.000Z`,
       text: `post ${i} long enough summary text`,
       url: `https://x.com/u/status/${100 + i}`,
-      finalAnalysis: { category: "AI", tags: ["AI"] },
+      finalAnalysis: { category: "AI", tags: [`ai-${i}`] },
       enrichment: {
         importance: 4,
         summary: `AI要約 ${i} です。詳細な内容の要約テキスト。`,
         reason: "注目理由",
-        tags: [],
+        tags: [`ai-${i}`],
       },
     });
   }
@@ -593,10 +594,84 @@ function dayOptions(extra = {}) {
   const html = fs.readFileSync(result.htmlPath, "utf8");
   assert.ok(/さらに5件読む →/.test(html));
   assert.ok(html.includes('class="more-read"'));
-  assert.ok(html.includes('href="#category-digest"'));
+  assert.ok(html.includes('data-more-target="more-cat-extra-'));
+  assert.ok(html.includes('id="more-cat-extra-'));
+  assert.ok(html.includes("hidden"));
+  assert.ok(html.includes('id="digest-reader-more-script"'));
+  assert.ok(!html.includes('href="#category-digest">さらに'));
   assert.ok(!html.includes("ほか "));
   assert.ok(html.includes("Xで読む ↗"));
+  const aiGroup = result.digest.categories.find((c) => c.category === "AI");
+  assert.ok(aiGroup);
+  assert.strictEqual(aiGroup.posts.length, 3);
+  assert.strictEqual(aiGroup.morePosts.length, 5);
   console.log("EP036 more-read PASS");
+}
+
+// --- READER-QUALITY-001: expand markup is per-category and independent ---
+{
+  const root = tmpDir("digest-reader-expand-");
+  const posts = [];
+  for (let i = 0; i < 5; i++) {
+    posts.push({
+      authorName: `A${i}`,
+      authorHandle: `@a${i}`,
+      postedAt: `2026-07-14T0${i}:10:00.000Z`,
+      text: `ai body ${i}`,
+      url: `https://x.com/a/status/${200 + i}`,
+      finalAnalysis: { category: "AI", tags: [`ai-topic-${i}`] },
+      enrichment: {
+        importance: 4,
+        summary: `AIカテゴリ固有要約 ${i} のテキスト。`,
+        reason: "理由",
+        tags: [`ai-topic-${i}`],
+      },
+    });
+  }
+  for (let i = 0; i < 4; i++) {
+    posts.push({
+      authorName: `P${i}`,
+      authorHandle: `@p${i}`,
+      postedAt: `2026-07-14T1${i}:10:00.000Z`,
+      text: `politics body ${i}`,
+      url: `https://x.com/p/status/${300 + i}`,
+      finalAnalysis: { category: "政治・社会", tags: [`pol-${i}`] },
+      enrichment: {
+        importance: 4,
+        summary: `政治カテゴリ固有要約 ${i} のテキスト。`,
+        reason: "理由",
+        tags: [`pol-${i}`],
+      },
+    });
+  }
+  const result = buildDigestReader({
+    rootDir: root,
+    outputDir: path.join(root, "out"),
+    posts,
+    config: mergeDigestConfig({
+      ...DEFAULT_DIGEST_CONFIG,
+      categoryDisplayLimit: 2,
+    }),
+    digestOptions: dayOptions({ top: 2 }),
+  });
+  const html = fs.readFileSync(result.htmlPath, "utf8");
+  const buttons = [...html.matchAll(/data-more-target="(more-cat-extra-\d+)"/g)];
+  assert.ok(buttons.length >= 2);
+  const targets = new Set(buttons.map((m) => m[1]));
+  assert.strictEqual(targets.size, buttons.length);
+  for (const id of targets) {
+    assert.ok(html.includes(`id="${id}"`));
+    assert.ok(
+      new RegExp(
+        `id="${id}"[^>]*hidden|id="${id}"[^>]*class="[^"]*is-collapsed`
+      ).test(html) || html.includes(`id="${id}"`)
+    );
+  }
+  // Hidden overflow cards include summaries not in primary slots.
+  assert.ok(html.includes("AIカテゴリ固有要約"));
+  assert.ok(html.includes("政治カテゴリ固有要約"));
+  assert.ok(html.includes("expandMore") || html.includes("data-more-target"));
+  console.log("RQ001 more-read independent PASS");
 }
 
 console.log("digest-reader-test: ALL PASS");

@@ -24,6 +24,7 @@ const {
   sortPostsByImportance,
   buildDigestSelection,
 } = require("./lib/digest-core");
+const { diversifyReaderSlots } = require("./lib/reader-diversity");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_enriched.json");
 const CONFIG_FILE = path.join(__dirname, "digest.config.json");
@@ -262,14 +263,19 @@ function buildDigest(posts, options, range, config) {
     },
     topPosts: topPosts.map((post) => toPostJson(post, config)),
     categories: categories.map((item) => {
-      const displayed = item.posts.slice(0, displayLimit);
+      const { primary, overflow } = diversifyReaderSlots(
+        item.posts,
+        displayLimit,
+        { topicCap: config.topicCap, linkCap: 1 }
+      );
       return {
         category: item.category,
         count: item.count,
         totalPostCount: item.count,
-        displayedPostCount: displayed.length,
+        displayedPostCount: primary.length,
         averageImportance: item.averageImportance,
-        posts: displayed.map((post) => toPostJson(post, config)),
+        posts: primary.map((post) => toPostJson(post, config)),
+        morePosts: overflow.map((post) => toPostJson(post, config)),
       };
     }),
     _rawTopPosts: topPosts,
@@ -425,8 +431,12 @@ function renderMarkdown(digest, options) {
     lines.push(`## ${item.category}（${item.count}件）`);
     lines.push("");
 
-    const displayed = item.posts.slice(0, digest._displayLimit);
-    for (const post of displayed) {
+    const { primary } = diversifyReaderSlots(
+      item.posts,
+      digest._displayLimit,
+      { topicCap: digest._config.topicCap, linkCap: 1 }
+    );
+    for (const post of primary) {
       const stars = formatStars(getImportance(post));
       const summary = oneLineSummary(post);
       const authorName = post.authorName || "";
@@ -443,7 +453,7 @@ function renderMarkdown(digest, options) {
       lines.push("");
     }
 
-    const remaining = item.count - displayed.length;
+    const remaining = item.count - primary.length;
     if (remaining > 0) {
       lines.push(`ほか ${remaining}件`);
       lines.push("");
