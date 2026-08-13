@@ -15,6 +15,11 @@ const {
   renderPickCard,
   DEFAULT_TOP,
   buildTodayBrief,
+  moreReadOpenLabel,
+  MORE_READ_CLOSE_LABEL,
+  toggleMoreReadState,
+  applyMoreReadToggle,
+  renderMoreReadScript,
 } = require("../lib/digest-reader");
 const { mergeDigestConfig, DEFAULT_DIGEST_CONFIG } = require("../lib/digest-core");
 
@@ -595,9 +600,12 @@ function dayOptions(extra = {}) {
   assert.ok(/さらに5件読む →/.test(html));
   assert.ok(html.includes('class="more-read"'));
   assert.ok(html.includes('data-more-target="more-cat-extra-'));
+  assert.ok(html.includes('data-more-count="5"'));
   assert.ok(html.includes('id="more-cat-extra-'));
   assert.ok(html.includes("hidden"));
   assert.ok(html.includes('id="digest-reader-more-script"'));
+  assert.ok(html.includes("閉じる"));
+  assert.ok(!html.includes("wrap.hidden"));
   assert.ok(!html.includes('href="#category-digest">さらに'));
   assert.ok(!html.includes("ほか "));
   assert.ok(html.includes("Xで読む ↗"));
@@ -670,8 +678,98 @@ function dayOptions(extra = {}) {
   // Hidden overflow cards include summaries not in primary slots.
   assert.ok(html.includes("AIカテゴリ固有要約"));
   assert.ok(html.includes("政治カテゴリ固有要約"));
-  assert.ok(html.includes("expandMore") || html.includes("data-more-target"));
+  assert.ok(html.includes("toggleMore") || html.includes("data-more-target"));
   console.log("RQ001 more-read independent PASS");
+}
+
+// --- READER-QUALITY-002: more-read is toggle (open ↔ 閉じる) ---
+{
+  assert.strictEqual(moreReadOpenLabel(5), "さらに5件読む →");
+  assert.strictEqual(MORE_READ_CLOSE_LABEL, "閉じる");
+
+  const open = toggleMoreReadState(false, 5);
+  assert.deepStrictEqual(open, {
+    expanded: true,
+    label: "閉じる",
+    panelHidden: false,
+  });
+  const close = toggleMoreReadState(true, 5);
+  assert.deepStrictEqual(close, {
+    expanded: false,
+    label: "さらに5件読む →",
+    panelHidden: true,
+  });
+
+  // Count stays the initial remaining value across repeated toggles.
+  let expanded = false;
+  for (let i = 0; i < 4; i++) {
+    const next = toggleMoreReadState(expanded, 7);
+    expanded = next.expanded;
+    if (expanded) {
+      assert.strictEqual(next.label, "閉じる");
+    } else {
+      assert.strictEqual(next.label, "さらに7件読む →");
+    }
+  }
+
+  function stubEl(attrs = {}) {
+    const store = { ...attrs };
+    const classes = new Set(
+      String(store.class || "")
+        .split(/\s+/)
+        .filter(Boolean)
+    );
+    return {
+      hidden: Boolean(store.hidden),
+      textContent: store.text || "",
+      classList: {
+        add: (c) => classes.add(c),
+        remove: (c) => classes.delete(c),
+        contains: (c) => classes.has(c),
+      },
+      getAttribute(name) {
+        if (name === "aria-expanded") return store["aria-expanded"];
+        if (name === "data-more-count") return store["data-more-count"];
+        return store[name] ?? null;
+      },
+      setAttribute(name, value) {
+        store[name] = String(value);
+      },
+    };
+  }
+
+  const btnA = stubEl({
+    "aria-expanded": "false",
+    "data-more-count": "3",
+    text: moreReadOpenLabel(3),
+  });
+  const panelA = stubEl({ hidden: true, class: "more-cat__extra is-collapsed" });
+  const btnB = stubEl({
+    "aria-expanded": "false",
+    "data-more-count": "2",
+    text: moreReadOpenLabel(2),
+  });
+  const panelB = stubEl({ hidden: true, class: "more-cat__extra is-collapsed" });
+
+  applyMoreReadToggle(btnA, panelA);
+  assert.strictEqual(btnA.textContent, "閉じる");
+  assert.strictEqual(btnA.getAttribute("aria-expanded"), "true");
+  assert.strictEqual(panelA.hidden, false);
+  // Category B stays closed (independent).
+  assert.strictEqual(btnB.textContent, moreReadOpenLabel(2));
+  assert.strictEqual(panelB.hidden, true);
+
+  applyMoreReadToggle(btnA, panelA);
+  assert.strictEqual(btnA.textContent, moreReadOpenLabel(3));
+  assert.strictEqual(btnA.getAttribute("aria-expanded"), "false");
+  assert.strictEqual(panelA.hidden, true);
+  assert.ok(panelA.classList.contains("is-collapsed"));
+
+  const script = renderMoreReadScript();
+  assert.ok(script.includes("閉じる"));
+  assert.ok(script.includes("data-more-count"));
+  assert.ok(!script.includes("wrap.hidden"));
+  console.log("RQ002 more-read toggle PASS");
 }
 
 console.log("digest-reader-test: ALL PASS");
