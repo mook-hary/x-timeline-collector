@@ -610,6 +610,10 @@ a {
   margin: 0.15rem 0 0;
 }
 
+.more-cat__extra[hidden] {
+  display: none !important;
+}
+
 .more-read {
   display: inline-flex;
   align-items: center;
@@ -623,6 +627,19 @@ a {
   font-weight: 700;
   color: var(--accent);
   text-decoration: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+button.more-read {
+  font: inherit;
+}
+
+.more-read--static {
+  cursor: default;
+  border-style: dashed;
+  opacity: 0.85;
 }
 
 .more-read:hover,
@@ -631,6 +648,12 @@ a {
   color: #fff;
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.more-read--static:hover,
+.more-read--static:focus-visible {
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .empty {
