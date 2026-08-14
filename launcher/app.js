@@ -155,6 +155,49 @@
     }
   }
 
+  function renderMorningPublish() {
+    const mp = (state.home && state.home.morningPublish) || {};
+    setText("mp-deadline", mp.deadline || "07:00");
+    setText("mp-last", mp.lastPublished || "—");
+    const metEl = $("mp-met");
+    let metLabel = "—";
+    if (mp.deadlineMet === true || mp.deadlineStatus === "met") metLabel = "Met";
+    else if (mp.deadlineMet === false || mp.deadlineStatus === "missed") {
+      metLabel = "Missed";
+    }
+    setText("mp-met", metLabel);
+    if (metEl) {
+      metEl.classList.remove("ok", "failed", "warning");
+      if (metLabel === "Met") metEl.classList.add("ok");
+      else if (metLabel === "Missed") metEl.classList.add("warning");
+    }
+    setText("mp-next", mp.nextRun || "03:00");
+    setText("mp-total", mp.totalDuration || "—");
+
+    const stagesRoot = $("mp-stages");
+    if (stagesRoot) {
+      stagesRoot.innerHTML = "";
+      const stages = Array.isArray(mp.stages) ? mp.stages : [];
+      for (const stage of stages) {
+        const li = document.createElement("li");
+        li.textContent = `${stage.label}: ${stage.durationLabel || "—"}`;
+        stagesRoot.appendChild(li);
+      }
+    }
+
+    const warn = $("mp-warning");
+    if (warn) {
+      const warnings = Array.isArray(mp.warnings) ? mp.warnings : [];
+      if (warnings.length) {
+        warn.textContent = `Warning: ${warnings.join(", ")}`;
+        warn.classList.remove("hidden");
+      } else {
+        warn.textContent = "";
+        warn.classList.add("hidden");
+      }
+    }
+  }
+
   function renderHealth() {
     const h = state.health || {};
     const root = $("system-status");
@@ -216,11 +259,17 @@
     } catch (_error) {
       // optional
     }
+    try {
+      state.home.morningPublish = await api("/api/morning-publish");
+    } catch (_error) {
+      // optional
+    }
     renderWork();
     renderActivity();
     renderHealth();
     renderPipeline();
     renderCollectorHealth();
+    renderMorningPublish();
   }
 
   async function refreshAll() {
@@ -235,6 +284,7 @@
     renderActivity();
     renderPipeline();
     renderCollectorHealth();
+    renderMorningPublish();
     const health = await api("/api/health");
     state.health = health;
     renderHealth();

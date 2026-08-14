@@ -41,12 +41,14 @@ function tmpDir(prefix) {
   assert.strictEqual(plan.hour, DEFAULT_HOUR);
   assert.strictEqual(plan.minute, DEFAULT_MINUTE);
   assert.strictEqual(plan.timezone, DEFAULT_TIMEZONE);
+  assert.strictEqual(DEFAULT_HOUR, 3);
   assert.strictEqual(plan.npmEquivalent, "npm run morning");
   assert.ok(plan.plistPath.includes(PLIST_DIR_REL));
   assert.ok(plan.plistXml.includes("<key>Label</key>"));
   assert.ok(plan.plistXml.includes(DEFAULT_LABEL));
   assert.ok(plan.plistXml.includes("<key>Hour</key>"));
-  assert.ok(plan.plistXml.includes("<integer>7</integer>"));
+  assert.ok(plan.plistXml.includes("<integer>3</integer>"));
+  assert.ok(!plan.plistXml.includes("<integer>7</integer>"));
   assert.ok(plan.plistXml.includes("<key>Minute</key>"));
   assert.ok(plan.plistXml.includes(process.execPath));
   assert.ok(plan.plistXml.includes("morning-pipeline.js"));

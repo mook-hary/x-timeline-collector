@@ -23,6 +23,16 @@ const {
   parseCollectHealthFromOutput,
 } = require("../lib/morning-health");
 const { collectDetailFromHealth } = require("../lib/x-collector-health");
+const {
+  resolveCollectTimeoutMs,
+  resolveCollectRetryWaitMs,
+  shouldRetryCollect,
+  isCollectTimeout,
+  isCollectAuthFailure,
+  sleepSync,
+  COLLECT_TIMEOUT_CODE,
+  AUTH_ERROR,
+} = require("../lib/morning-collect-policy");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -299,12 +309,45 @@ function runMorning(options, deps = {}) {
     const stageStartedAt = now();
 
     const scriptPath = path.join(rootDir, step.script);
-    const result = spawn(process.execPath, [scriptPath, ...step.args], {
+    const spawnOptsBase = {
       cwd: rootDir,
       encoding: "utf8",
       env: deps.env || process.env,
       stdio: deps.stdio || ["ignore", "pipe", "pipe"],
-    });
+    };
+
+    let result;
+    let collectAttempts = 0;
+    if (step.id === "collect") {
+      const timeoutMs =
+        deps.collectTimeoutMs != null
+          ? Number(deps.collectTimeoutMs)
+          : resolveCollectTimeoutMs(deps.env || process.env);
+      const retryWaitMs =
+        deps.collectRetryWaitMs != null
+          ? Number(deps.collectRetryWaitMs)
+          : resolveCollectRetryWaitMs(deps.env || process.env);
+
+      for (let attempt = 0; attempt < 2; attempt++) {
+        collectAttempts = attempt + 1;
+        if (attempt > 0) {
+          log(
+            `[Morning] Collect CDP retry after ${retryWaitMs}ms (attempt ${collectAttempts}/2)`
+          );
+          sleepSync(retryWaitMs, deps);
+        }
+        result = spawn(process.execPath, [scriptPath, ...step.args], {
+          ...spawnOptsBase,
+          timeout: timeoutMs,
+        });
+        if (result.status === 0 && !result.error) break;
+        if (isCollectAuthFailure(result)) break;
+        if (isCollectTimeout(result)) break;
+        if (!shouldRetryCollect(result, attempt)) break;
+      }
+    } else {
+      result = spawn(process.execPath, [scriptPath, ...step.args], spawnOptsBase);
+    }
 
     const stageFinishedAt = now();
     const combinedOut = `${result.stdout || ""}\n${result.stderr || ""}`;
@@ -321,6 +364,9 @@ function runMorning(options, deps = {}) {
       ok: true,
       itemCount,
     };
+    if (step.id === "collect" && collectAttempts > 1) {
+      stageRecord.collectAttempts = collectAttempts;
+    }
 
     if (step.id === "collect") {
       const health = parseCollectHealthFromOutput(combinedOut);
@@ -329,8 +375,11 @@ function runMorning(options, deps = {}) {
         const detail = collectDetailFromHealth(health);
         if (detail) stageRecord.collect = detail;
       }
-      if (/X_AUTH_REQUIRED/.test(combinedOut)) {
-        stageRecord.authError = "X_AUTH_REQUIRED";
+      if (isCollectAuthFailure(result) || /X_AUTH_REQUIRED/.test(combinedOut)) {
+        stageRecord.authError = AUTH_ERROR;
+      }
+      if (isCollectTimeout(result)) {
+        stageRecord.timeoutError = COLLECT_TIMEOUT_CODE;
       }
     }
 
@@ -346,17 +395,29 @@ function runMorning(options, deps = {}) {
       if (stageRecord.authError) {
         log(`[Morning] ${stageRecord.authError}`);
       }
+      if (stageRecord.timeoutError) {
+        log(`[Morning] ${stageRecord.timeoutError}`);
+        log(
+          "[Morning] Collect timed out — refusing to publish with stale timeline data."
+        );
+      }
       stageRecord.ok = false;
       stages.push(stageRecord);
+      const failCode =
+        stageRecord.timeoutError ||
+        stageRecord.authError ||
+        "morning-step";
       const err = new Error(
-        stageRecord.authError
-          ? `${step.label} failed: ${stageRecord.authError}`
-          : `${step.label} failed (exit ${code}): ${formatCommand(
-              step.script,
-              step.args
-            )}`
+        stageRecord.timeoutError
+          ? `${step.label} failed: ${COLLECT_TIMEOUT_CODE}`
+          : stageRecord.authError
+            ? `${step.label} failed: ${stageRecord.authError}`
+            : `${step.label} failed (exit ${code}): ${formatCommand(
+                step.script,
+                step.args
+              )}`
       );
-      err.code = stageRecord.authError || "morning-step";
+      err.code = failCode;
       err.step = step;
       err.exitCode = code;
       err.result = result;
