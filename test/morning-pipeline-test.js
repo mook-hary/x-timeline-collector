@@ -58,12 +58,13 @@ function tmpDir(prefix) {
   console.log("EP046 dry-run-plan PASS");
 }
 
+async function main() {
 // --- dry-run does not call morning/publish ---
 {
   let morningCalls = 0;
   let publishCalls = 0;
   const logs = [];
-  const result = runMorningPipeline(
+  const result = await runMorningPipeline(
     { dryRun: true, morningArgv: [] },
     {
       log: (l) => logs.push(l),
@@ -101,7 +102,7 @@ function tmpDir(prefix) {
   let publishCalls = 0;
   const logs = [];
   const root = tmpDir("morning-pipeline-fail-");
-  assert.throws(
+  await assert.rejects(
     () =>
       runMorningPipeline(
         { dryRun: false, morningArgv: [] },
@@ -164,7 +165,7 @@ function tmpDir(prefix) {
   let morningCalls = 0;
   let publishCalls = 0;
   const logs = [];
-  const result = runMorningPipeline(
+  const result = await runMorningPipeline(
     { dryRun: false, morningArgv: ["--skip-collect"] },
     {
       rootDir: root,
@@ -208,9 +209,16 @@ function tmpDir(prefix) {
         };
       },
       createPublishRunner: () => ({
-        runPublish: () => {
+        runPublish: async () => {
           publishCalls += 1;
-          return { ok: true, committed: true, skippedPush: false };
+          return {
+            ok: true,
+            committed: true,
+            skippedPush: false,
+            pagesPublished: true,
+            pagesDeploymentStarted: true,
+            pagesDeployment: { status: "success", attempts: 1 },
+          };
         },
       }),
     }
@@ -229,6 +237,7 @@ function tmpDir(prefix) {
   assert.ok(result.historyPath);
   assert.strictEqual(result.healthReport.status, "SUCCESS");
   assert.strictEqual(result.healthReport.publish.pushed, true);
+  assert.strictEqual(result.healthReport.publish.pagesPublished, true);
   assert.strictEqual(result.healthReport.counts.analyzeAi, 50);
   console.log("EP046 happy-path PASS");
 }
@@ -237,7 +246,7 @@ function tmpDir(prefix) {
 {
   const root = tmpDir("morning-pipeline-histfail-");
   const logs = [];
-  const result = runMorningPipeline(
+  const result = await runMorningPipeline(
     { dryRun: false, morningArgv: ["--skip-collect"] },
     {
       rootDir: root,
@@ -258,7 +267,7 @@ function tmpDir(prefix) {
         ],
       }),
       createPublishRunner: () => ({
-        runPublish: () => ({ ok: true, committed: false, skippedPush: true }),
+        runPublish: async () => ({ ok: true, committed: false, skippedPush: true, pagesPublished: false }),
       }),
       saveMorningHealthReport: () => {
         throw new Error("disk full");
@@ -297,7 +306,7 @@ function tmpDir(prefix) {
     newestPostAt: "2026-08-12T01:00:00.000Z",
   };
   const logs = [];
-  const result = runMorningPipeline(
+  const result = await runMorningPipeline(
     { dryRun: false, morningArgv: [] },
     {
       rootDir: root,
@@ -331,7 +340,7 @@ function tmpDir(prefix) {
         collect: collectDetail,
       }),
       createPublishRunner: () => ({
-        runPublish: () => ({ ok: true, committed: true, skippedPush: false }),
+        runPublish: async () => ({ ok: true, committed: true, skippedPush: false, pagesPublished: true, pagesDeploymentStarted: true, pagesDeployment: { status: "success", attempts: 1 } }),
       }),
     }
   );
@@ -368,7 +377,7 @@ function tmpDir(prefix) {
   };
   let threw = null;
   try {
-    runMorningPipeline(
+    await runMorningPipeline(
       { dryRun: false, morningArgv: [] },
       {
         rootDir: root,
@@ -436,3 +445,9 @@ function tmpDir(prefix) {
 }
 
 console.log("morning-pipeline-test: all PASS");
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

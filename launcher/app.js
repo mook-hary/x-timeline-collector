@@ -174,6 +174,38 @@
     setText("mp-next", mp.nextRun || "03:00");
     setText("mp-total", mp.totalDuration || "—");
 
+    const gitPush = mp.gitPush || "—";
+    setText("mp-git-push", gitPush);
+    const gitPushEl = $("mp-git-push");
+    if (gitPushEl) {
+      gitPushEl.classList.remove("ok", "failed", "warning");
+      if (gitPush === "Success") gitPushEl.classList.add("ok");
+      else if (gitPush === "Failed") gitPushEl.classList.add("failed");
+    }
+
+    const pagesDeploy = mp.pagesDeploy || "—";
+    setText("mp-pages-deploy", pagesDeploy);
+    const pagesEl = $("mp-pages-deploy");
+    if (pagesEl) {
+      pagesEl.classList.remove("ok", "failed", "warning");
+      if (pagesDeploy === "Success") pagesEl.classList.add("ok");
+      else if (pagesDeploy === "Failed") pagesEl.classList.add("failed");
+    }
+
+    setText("mp-published-at", mp.publishedAt || mp.lastPublished || "—");
+
+    const reasonRow = $("mp-pages-reason-row");
+    const reason = mp.pagesDeployReason || null;
+    if (reasonRow) {
+      if (pagesDeploy === "Failed" && reason) {
+        reasonRow.classList.remove("hidden");
+        setText("mp-pages-reason", reason);
+      } else {
+        reasonRow.classList.add("hidden");
+        setText("mp-pages-reason", "—");
+      }
+    }
+
     const stagesRoot = $("mp-stages");
     if (stagesRoot) {
       stagesRoot.innerHTML = "";

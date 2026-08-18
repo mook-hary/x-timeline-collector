@@ -232,16 +232,37 @@ search / digest / editor / concepts / stories
 | 項目 | 内容 |
 |---|---|
 | **Canonical Source** | `enrichment.importance` |
-| **Consumer** | `search.js`、`digest.js` |
+| **Consumer** | `search.js`、`digest.js`、Today's Picks（legacy / 派生） |
 | **Notes** | 整数 `1`〜`5` が正規値。pending 時など一時的に `0` がありうるが、完了した enrichment では `1`〜`5` を正とする。 |
+
+**意味の整理（Version 1.x multi-axis）:**  
+`importance` は互換のための総合重要度である。新規 Enrich（schema v2）では `informationValue` / `personalRelevance` / `impact` から派生し、**`attentionSignal` は importance を押し上げない**。  
+既存データに多軸がない場合は、従来どおり `enrichment.importance` のみを用いる。
+
+### 4.7a Multi-axis enrichment（Version 1.x）
+
+| フィールド | 意味 | 1–5 の目安 |
+|---|---|---|
+| **`enrichment.informationValue`** | 読むことで得られる情報・知識・経験・洞察 | 5=重要事実/一次情報/専門知見 … 1=情報なし・煽りのみ |
+| **`enrichment.personalRelevance`** | 学習・仕事・意思決定との個人的関連 | 5=強く関係 … 1=ほぼ無関係 |
+| **`enrichment.impact`** | 内容が事実である場合の影響の大きさ | 5=重大 … 1=限定的。強い主張≠高 impact |
+| **`enrichment.attentionSignal`** | 注意を奪いやすさ（品質ではない） | 5=非常に刺激的 … 1=ほぼなし |
+
+**不変条件:**
+
+- `attentionSignal ≠ importance`。刺激性は品質評価ではない。
+- Today's Picks / editorialScore は原則 `attentionSignal` を加点しない。
+- 低 `informationValue` かつ高 `attentionSignal` の投稿は主要枠に上がりにくい。
+- 意見投稿であること自体は減点しない（根拠・具体性・経験があれば高 `informationValue` 可能）。
+- 多軸欠落時は legacy `importance` にフォールバックする（強制再 Enrich 不要）。
 
 ### 4.8 personalScore（派生値）
 
 | 項目 | 内容 |
 |---|---|
-| **Canonical Source** | 永続フィールドではない。`digest.js` / `lib/digest-core.js` が `importance` と `digest.config.json` のカテゴリ重みから計算する派生値。 |
+| **Canonical Source** | 永続フィールドではない。`digest.js` / `lib/digest-core.js` が rank 値と `digest.config.json` のカテゴリ重みから計算する派生値。 |
 | **Consumer** | digest の注目投稿選定・表示 |
-| **Notes** | 基本式は `importance × 10 + categoryWeight × 3`。投稿 JSON に保存される正式フィールドではない。 |
+| **Notes** | 基本式は `rankValue × 10 + categoryWeight × 3`。`rankValue` は `informationValue`（あれば）優先、なければ `importance`。投稿 JSON に保存される正式フィールドではない。 |
 
 ### 4.9 Digest 選定メタ・topicKey（派生値・Version 1.4）
 

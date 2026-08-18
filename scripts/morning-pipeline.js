@@ -8,7 +8,7 @@ const {
   runMorningPipeline,
 } = require("../lib/morning-pipeline");
 
-function main() {
+async function main() {
   let options;
   try {
     options = parseMorningPipelineArgs(process.argv.slice(2));
@@ -18,7 +18,7 @@ function main() {
   }
 
   try {
-    runMorningPipeline(options);
+    await runMorningPipeline(options);
   } catch (error) {
     const code = Number.isInteger(error.exitCode) ? error.exitCode : 1;
     process.exit(code);

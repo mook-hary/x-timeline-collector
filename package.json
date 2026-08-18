@@ -13,6 +13,7 @@
     "reader:open": "node scripts/open-reader.js",
     "reader:watch": "node scripts/watch-reader.js",
     "publish": "node scripts/publish-reader.js",
+    "pages:retry": "node scripts/pages-retry.js",
     "morning": "node scripts/morning-pipeline.js",
     "morning:runner": "node scripts/morning.js",
     "scheduler:install": "node scripts/morning-scheduler.js install",

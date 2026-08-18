@@ -15,6 +15,7 @@ const {
   saveMorningHealthReport,
   publishResultFromRunner,
   formatMorningPipelineSummary,
+  morningPublishForDashboard,
 } = require("../lib/morning-health");
 
 function tmpDir(prefix) {
@@ -134,7 +135,7 @@ function tmpDir(prefix) {
   assert.ok(summary.includes("247 items") || summary.includes("X Collector"));
   assert.ok(summary.includes("AI Analyze:"));
   assert.ok(summary.includes("Publish:"));
-  assert.ok(summary.includes("Success"));
+  assert.ok(summary.includes("Git Push: Success") || summary.includes("Success"));
   assert.ok(summary.includes(saved.relativePath));
   // Legacy reports gain collect.totalStored from counts; collectorHealth stays null.
   assert.strictEqual(report.collect.totalStored, 247);
@@ -178,12 +179,43 @@ function tmpDir(prefix) {
       ok: true,
       committed: true,
       skippedPush: false,
+      pagesPublished: true,
+      pagesDeploymentStarted: true,
+      pagesDeployment: {
+        commitSha: "abc",
+        status: "success",
+        attempts: 1,
+      },
     }),
     {
       ok: true,
       committed: true,
       pushed: true,
+      pagesDeploymentStarted: true,
       pagesPublished: true,
+      pagesDeployment: {
+        commitSha: "abc",
+        status: "success",
+        attempts: 1,
+      },
+      commitSha: null,
+    }
+  );
+  // Push alone must NOT imply pagesPublished
+  assert.deepStrictEqual(
+    publishResultFromRunner({
+      ok: true,
+      committed: true,
+      skippedPush: false,
+    }),
+    {
+      ok: true,
+      committed: true,
+      pushed: true,
+      pagesDeploymentStarted: false,
+      pagesPublished: false,
+      pagesDeployment: null,
+      commitSha: null,
     }
   );
   assert.deepStrictEqual(
@@ -196,9 +228,44 @@ function tmpDir(prefix) {
       ok: true,
       committed: false,
       pushed: false,
+      pagesDeploymentStarted: false,
       pagesPublished: false,
+      pagesDeployment: null,
+      commitSha: null,
     }
   );
+
+  const pagesFail = buildMorningHealthReport({
+    startedAt: "2026-07-24T07:00:00.000Z",
+    finishedAt: "2026-07-24T07:05:00.000Z",
+    status: "SUCCESS",
+    stages: [],
+    publish: {
+      ok: true,
+      committed: true,
+      pushed: true,
+      pagesDeploymentStarted: true,
+      pagesPublished: false,
+      pagesDeployment: {
+        commitSha: "deadbeef",
+        status: "failed",
+        attempts: 3,
+        errorCode: 503,
+        errorMessage: "GitHub Pages service unavailable",
+        warning: "PAGES_DEPLOY_FAILED",
+      },
+    },
+  });
+  assert.strictEqual(pagesFail.publish.pagesPublished, false);
+  assert.strictEqual(pagesFail.publish.pushed, true);
+  assert.ok(pagesFail.warnings.includes("PAGES_DEPLOY_FAILED"));
+  assert.strictEqual(pagesFail.pagesDeployment.errorCode, 503);
+
+  const dash = morningPublishForDashboard(pagesFail);
+  assert.strictEqual(dash.gitPush, "Success");
+  assert.strictEqual(dash.pagesDeploy, "Failed");
+  assert.strictEqual(dash.pagesDeployReason, "GitHub 503");
+
   console.log("EP048 publish-flags PASS");
 }
 
