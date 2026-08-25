@@ -23,6 +23,7 @@ const {
   parseCollectHealthFromOutput,
 } = require("../lib/morning-health");
 const { collectDetailFromHealth } = require("../lib/x-collector-health");
+const { parseCollectLastStage } = require("../lib/collect-stage");
 const {
   resolveCollectTimeoutMs,
   resolveCollectRetryWaitMs,
@@ -33,6 +34,13 @@ const {
   COLLECT_TIMEOUT_CODE,
   AUTH_ERROR,
 } = require("../lib/morning-collect-policy");
+const {
+  parsePreflightFromOutput,
+  buildCollectorPreflight,
+  resolvePreflightTimeouts,
+  CDP_NOT_AVAILABLE,
+  CDP_CONNECT_TIMEOUT,
+} = require("../lib/collector-preflight");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -235,6 +243,53 @@ function formatCommand(script, args) {
   return ["node", script, ...args].join(" ");
 }
 
+function healthyPreflightStub() {
+  return buildCollectorPreflight({
+    status: "healthy",
+    cdpAvailable: true,
+    playwrightConnected: true,
+    xHomeAvailable: true,
+    chromeRestarted: false,
+    attempts: 1,
+  });
+}
+
+function defaultEnsureCollectorReady(options = {}) {
+  const spawn = options.spawn;
+  const scriptPath = path.join(__dirname, "collector-preflight.js");
+  const env = options.env || process.env;
+  const timeouts = resolvePreflightTimeouts(env, options.timeouts || {});
+  const overallMs =
+    timeouts.cdpHttpMs +
+    timeouts.cdpConnectMs +
+    timeouts.xHomeMs +
+    timeouts.restartWaitMs +
+    timeouts.cdpHttpMs +
+    timeouts.cdpConnectMs +
+    timeouts.xHomeMs +
+    15000;
+  const result = spawn(process.execPath, [scriptPath], {
+    cwd: options.cwd,
+    encoding: "utf8",
+    env,
+    timeout: overallMs,
+    stdio: options.stdio || ["ignore", "pipe", "pipe"],
+  });
+  const combined = `${result.stdout || ""}\n${result.stderr || ""}`;
+  const parsed = parsePreflightFromOutput(combined);
+  if (parsed) return parsed;
+  if (result.status === 0 && !result.error) return healthyPreflightStub();
+  const timedOut =
+    result.timedOut === true ||
+    (result.error && result.error.code === "ETIMEDOUT");
+  return buildCollectorPreflight({
+    status: "failed",
+    error: timedOut ? CDP_CONNECT_TIMEOUT : CDP_NOT_AVAILABLE,
+    attempts: 1,
+    chromeRestarted: false,
+  });
+}
+
 /**
  * @param {object} options
  * @param {object} [deps]
@@ -318,7 +373,68 @@ function runMorning(options, deps = {}) {
 
     let result;
     let collectAttempts = 0;
+    let collectorPreflight = null;
     if (step.id === "collect") {
+      const ensureReady =
+        typeof deps.ensureCollectorReady === "function"
+          ? deps.ensureCollectorReady
+          : defaultEnsureCollectorReady;
+      collectorPreflight = buildCollectorPreflight(
+        ensureReady({
+          spawn,
+          env: spawnOptsBase.env,
+          cwd: rootDir,
+          stdio: spawnOptsBase.stdio,
+          sleep: deps.sleep,
+          log,
+        }) || {}
+      );
+      if (collectorPreflight.status === "recovered") {
+        log("[Morning] Collect preflight recovered after dedicated Chrome restart");
+      } else if (collectorPreflight.status === "healthy") {
+        log("[Morning] Collect preflight healthy");
+      }
+      if (collectorPreflight.status === "failed") {
+        const failCode = collectorPreflight.error || CDP_NOT_AVAILABLE;
+        log(`[Morning] ERROR step=${step.label}`);
+        log(`[Morning] Collect preflight failed: ${failCode}`);
+        if (collectorPreflight.chromeRestarted) {
+          log("[Morning] Dedicated collector Chrome was restarted once");
+        }
+        const stageFinishedAt = now();
+        const stageRecord = {
+          id: step.id,
+          label: step.label,
+          startedAt: stageStartedAt,
+          finishedAt: stageFinishedAt,
+          durationMs: Math.max(
+            0,
+            Date.parse(stageFinishedAt) - Date.parse(stageStartedAt) || 0
+          ),
+          ok: false,
+          itemCount: null,
+          collectorPreflight,
+        };
+        if (failCode === AUTH_ERROR) stageRecord.authError = AUTH_ERROR;
+        stages.push(stageRecord);
+        const err = new Error(`Collect failed: ${failCode}`);
+        err.code = failCode;
+        err.step = step;
+        err.exitCode = 1;
+        err.stages = stages.slice();
+        err.collectorHealth =
+          failCode === AUTH_ERROR
+            ? {
+                authenticated: false,
+                timelineAvailable: false,
+                status: "failed",
+                error: AUTH_ERROR,
+              }
+            : null;
+        err.collectorPreflight = collectorPreflight;
+        throw err;
+      }
+
       const timeoutMs =
         deps.collectTimeoutMs != null
           ? Number(deps.collectTimeoutMs)
@@ -369,12 +485,17 @@ function runMorning(options, deps = {}) {
     }
 
     if (step.id === "collect") {
+      if (collectorPreflight) {
+        stageRecord.collectorPreflight = collectorPreflight;
+      }
       const health = parseCollectHealthFromOutput(combinedOut);
       if (health) {
         stageRecord.collectorHealth = health;
         const detail = collectDetailFromHealth(health);
         if (detail) stageRecord.collect = detail;
       }
+      const lastStage = parseCollectLastStage(combinedOut);
+      if (lastStage) stageRecord.lastStage = lastStage;
       if (isCollectAuthFailure(result) || /X_AUTH_REQUIRED/.test(combinedOut)) {
         stageRecord.authError = AUTH_ERROR;
       }
@@ -423,6 +544,8 @@ function runMorning(options, deps = {}) {
       err.result = result;
       err.stages = stages.slice();
       err.collectorHealth = stageRecord.collectorHealth || null;
+      err.collectorPreflight = stageRecord.collectorPreflight || null;
+      err.lastStage = stageRecord.lastStage || null;
       throw err;
     }
 
@@ -526,6 +649,10 @@ function runMorning(options, deps = {}) {
       ? collectStage.collectorHealth
       : null,
     collect: collectStage && collectStage.collect ? collectStage.collect : null,
+    collectorPreflight:
+      collectStage && collectStage.collectorPreflight
+        ? collectStage.collectorPreflight
+        : null,
   };
 }
 

@@ -24,6 +24,7 @@ const {
   isCollectTimeout,
   isCollectCdpFailure,
   COLLECT_TIMEOUT_CODE,
+  DEFAULT_COLLECT_TIMEOUT_MS,
 } = require("../lib/morning-collect-policy");
 const {
   buildMorningHealthReport,
@@ -134,6 +135,7 @@ function tmpDir(prefix) {
   assert.ok(isCollectTimeout(timeout));
   assert.ok(!shouldRetryCollect(timeout, 0));
   assert.strictEqual(COLLECT_TIMEOUT_CODE, "COLLECT_TIMEOUT");
+  assert.strictEqual(DEFAULT_COLLECT_TIMEOUT_MS, 15 * 60 * 1000);
   console.log("SLA001 collect-policy PASS");
 }
 
@@ -319,6 +321,14 @@ function tmpDir(prefix) {
       collectTimeoutMs: 50,
       collectRetryWaitMs: 0,
       sleep: () => {},
+      ensureCollectorReady: () => ({
+        status: "healthy",
+        cdpAvailable: true,
+        playwrightConnected: true,
+        xHomeAvailable: true,
+        chromeRestarted: false,
+        attempts: 1,
+      }),
       spawn: () => {
         spawnCalls += 1;
         return {
@@ -376,6 +386,14 @@ function tmpDir(prefix) {
     log: () => {},
     collectRetryWaitMs: 0,
     sleep: () => {},
+    ensureCollectorReady: () => ({
+      status: "healthy",
+      cdpAvailable: true,
+      playwrightConnected: true,
+      xHomeAvailable: true,
+      chromeRestarted: false,
+      attempts: 1,
+    }),
     spawn: cdpSpawn,
     existsSync: (p) => fs.existsSync(p),
   });
@@ -389,6 +407,14 @@ function tmpDir(prefix) {
       log: () => {},
       collectRetryWaitMs: 0,
       sleep: () => {},
+      ensureCollectorReady: () => ({
+        status: "healthy",
+        cdpAvailable: true,
+        playwrightConnected: true,
+        xHomeAvailable: true,
+        chromeRestarted: false,
+        attempts: 1,
+      }),
       spawn: () => {
         authCalls += 1;
         return {

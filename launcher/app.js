@@ -126,7 +126,10 @@
       {};
     const loginEl = $("ch-login");
     const statusEl = $("ch-status");
+    const cdpEl = $("ch-cdp");
     setText("ch-login", ch.xLogin != null ? ch.xLogin : "—");
+    setText("ch-cdp", ch.cdp != null ? ch.cdp : "—");
+    setText("ch-restart", ch.chromeRestart != null ? ch.chromeRestart : "—");
     setText("ch-last", ch.lastCollect || "—");
     setText(
       "ch-new",
@@ -142,6 +145,17 @@
             ? "Failed"
             : ch.status || "—";
     setText("ch-status", statusLabel);
+    setText("ch-stage", ch.lastStage || "—");
+    if (loginEl) {
+      loginEl.classList.remove("ok", "failed", "warning");
+      if (ch.xLogin === "OK") loginEl.classList.add("ok");
+      else if (ch.xLogin === "Failed") loginEl.classList.add("failed");
+    }
+    if (cdpEl) {
+      cdpEl.classList.remove("ok", "failed", "warning");
+      if (ch.cdp === "OK" || ch.cdp === "Recovered") cdpEl.classList.add("ok");
+      else if (ch.cdp === "Failed") cdpEl.classList.add("failed");
+    }
     if (loginEl) {
       loginEl.classList.remove("ok", "failed", "warning");
       if (ch.xLogin === "OK") loginEl.classList.add("ok");

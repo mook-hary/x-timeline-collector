@@ -326,6 +326,14 @@ async function main() {
             itemCount: 638,
             collectorHealth: collectHealth,
             collect: collectDetail,
+            collectorPreflight: {
+              status: "healthy",
+              cdpAvailable: true,
+              playwrightConnected: true,
+              xHomeAvailable: true,
+              chromeRestarted: false,
+              attempts: 1,
+            },
           },
           {
             id: "analyze",
@@ -338,6 +346,14 @@ async function main() {
         ],
         collectorHealth: collectHealth,
         collect: collectDetail,
+        collectorPreflight: {
+          status: "healthy",
+          cdpAvailable: true,
+          playwrightConnected: true,
+          xHomeAvailable: true,
+          chromeRestarted: false,
+          attempts: 1,
+        },
       }),
       createPublishRunner: () => ({
         runPublish: async () => ({ ok: true, committed: true, skippedPush: false, pagesPublished: true, pagesDeploymentStarted: true, pagesDeployment: { status: "success", attempts: 1 } }),
@@ -354,6 +370,9 @@ async function main() {
   assert.strictEqual(result.healthReport.counts.collect, 638);
   assert.ok(logs.some((l) => /X Collector/.test(l)));
   assert.ok(logs.some((l) => /Login: OK/.test(l)));
+  assert.ok(logs.some((l) => /CDP: OK/.test(l)));
+  assert.ok(logs.some((l) => /Chrome Restart: No/.test(l)));
+  assert.ok(logs.some((l) => /Collect: Healthy/.test(l)));
 
   const histPath = path.join(root, result.historyPath);
   assert.ok(fs.existsSync(histPath));
@@ -362,6 +381,9 @@ async function main() {
   assert.strictEqual(saved.collectorHealth.status, "healthy");
   assert.strictEqual(saved.collect.newPosts, 34);
   assert.strictEqual(saved.counts.collect, 638);
+  assert.ok(saved.collectorPreflight);
+  assert.strictEqual(saved.collectorPreflight.status, "healthy");
+  assert.strictEqual(saved.collectorPreflight.chromeRestarted, false);
   console.log("CH001 pipeline-history-success PASS");
 }
 

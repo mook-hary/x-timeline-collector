@@ -190,7 +190,72 @@ async function main() {
     assert.ok(summary.includes("New: 34"));
     assert.ok(summary.includes("Total: 638"));
     assert.ok(summary.includes("Freshness: OK"));
+    assert.ok(summary.includes("Collect: Healthy"));
     console.log("CH001 history-health PASS");
+  }
+
+  // --- preflight recovered appears in summary + history ---
+  {
+    const health = buildCollectorHealth({
+      authenticated: true,
+      timelineAvailable: true,
+      collect: {
+        fetchedFromScreen: 10,
+        newPosts: 2,
+        totalStored: 100,
+        newestPostAt: "2026-08-25T01:00:00.000Z",
+      },
+    });
+    const { buildCollectorPreflight } = require("../lib/collector-preflight");
+    const report = buildMorningHealthReport({
+      startedAt: "2026-08-25T01:00:00.000Z",
+      finishedAt: "2026-08-25T01:02:00.000Z",
+      status: "SUCCESS",
+      stages: [
+        {
+          id: "collect",
+          ok: true,
+          itemCount: 100,
+          collectorHealth: health,
+          lastStage: "save",
+          collectorPreflight: {
+            status: "recovered",
+            chromeRestarted: true,
+            attempts: 2,
+            initialError: "CDP_CONNECT_TIMEOUT",
+            cdpAvailable: true,
+            playwrightConnected: true,
+            xHomeAvailable: true,
+          },
+        },
+      ],
+      collectorHealth: health,
+      collectorPreflight: buildCollectorPreflight({
+        status: "recovered",
+        chromeRestarted: true,
+        attempts: 2,
+        initialError: "CDP_CONNECT_TIMEOUT",
+        cdpAvailable: true,
+        playwrightConnected: true,
+        xHomeAvailable: true,
+      }),
+      publish: { ok: true, committed: true, pushed: true, pagesPublished: true },
+    });
+    assert.strictEqual(report.collectorPreflight.status, "recovered");
+    assert.strictEqual(report.collectorPreflight.chromeRestarted, true);
+    assert.strictEqual(report.collectorPreflight.attempts, 2);
+    assert.strictEqual(report.stages[0].lastStage, "save");
+    const summary = formatMorningPipelineSummary(report, "hist.json");
+    assert.ok(summary.includes("CDP: Recovered"));
+    assert.ok(summary.includes("Chrome Restart: Yes"));
+    assert.ok(summary.includes("Login: OK"));
+    assert.ok(summary.includes("Collect: Healthy"));
+    const dash = collectorHealthForDashboard(report);
+    assert.strictEqual(dash.cdp, "Recovered");
+    assert.strictEqual(dash.chromeRestart, "Yes");
+    assert.strictEqual(dash.xLogin, "OK");
+    assert.strictEqual(dash.lastStage, "save");
+    console.log("CH001 preflight-recovered PASS");
   }
 
   // --- auth failure history ---
@@ -302,6 +367,14 @@ process.exit(1);
         {
           rootDir: root,
           log: () => {},
+          ensureCollectorReady: () => ({
+            status: "healthy",
+            cdpAvailable: true,
+            playwrightConnected: true,
+            xHomeAvailable: true,
+            chromeRestarted: false,
+            attempts: 1,
+          }),
           spawn: (cmd, args, opts) =>
             spawnSync(cmd, args, {
               cwd: opts.cwd || root,

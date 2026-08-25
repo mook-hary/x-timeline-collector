@@ -12,6 +12,15 @@ const {
   buildCollectorHealth,
   formatCollectHealthLine,
 } = require("./lib/x-collector-health");
+const {
+  COLLECT_STAGES,
+  createCollectStageTracker,
+} = require("./lib/collect-stage");
+const {
+  DEFAULT_CDP_CONNECT_TIMEOUT_MS,
+  CDP_CONNECT_TIMEOUT,
+  CDP_NOT_AVAILABLE,
+} = require("./lib/collector-preflight");
 
 const CDP_URL = "http://localhost:9222";
 const MAX_POSTS = 50;
@@ -241,8 +250,15 @@ async function ensureHomePage(browser) {
   return page;
 }
 
-async function connectToChrome(browserType = chromium, cdpUrl = CDP_URL) {
-  return browserType.connectOverCDP(cdpUrl, { noDefaults: true });
+async function connectToChrome(browserType = chromium, cdpUrl = CDP_URL, options = {}) {
+  const timeout =
+    options.timeout != null
+      ? Number(options.timeout)
+      : DEFAULT_CDP_CONNECT_TIMEOUT_MS;
+  return browserType.connectOverCDP(cdpUrl, {
+    noDefaults: true,
+    timeout: Number.isFinite(timeout) && timeout > 0 ? timeout : DEFAULT_CDP_CONNECT_TIMEOUT_MS,
+  });
 }
 
 async function extractVisiblePosts(page) {
@@ -343,7 +359,7 @@ async function scrollDownSlowly(page) {
   }, distance);
 }
 
-async function collectPosts(page) {
+async function collectPosts(page, tracker) {
   await page.waitForSelector("article", { timeout: 30000 });
 
   console.log("スクロール前に2秒待機します...");
@@ -353,8 +369,10 @@ async function collectPosts(page) {
   const seen = new Set();
 
   mergeFetchedPosts(posts, seen, await extractVisiblePosts(page));
+  if (tracker) tracker.mark(COLLECT_STAGES.INITIAL_POSTS);
   console.log(`初期表示・現在${posts.length}件`);
 
+  if (tracker) tracker.mark(COLLECT_STAGES.SCROLLING);
   for (let i = 1; i <= MAX_SCROLLS; i++) {
     if (posts.length >= MAX_POSTS) {
       console.log(`${MAX_POSTS}件に達したためスクロールを終了します。`);
@@ -409,22 +427,35 @@ async function main() {
   const existingPosts = loadExistingPosts();
   console.log(`既存投稿: ${existingPosts.length} 件`);
 
+  const tracker = createCollectStageTracker((line) => console.error(line));
   let browser;
 
+  tracker.mark(COLLECT_STAGES.CDP_CONNECT);
   try {
     browser = await connectToChrome();
   } catch (error) {
+    tracker.writeLast();
+    const msg = String((error && error.message) || "");
+    const code = /timeout|timed out/i.test(msg)
+      ? CDP_CONNECT_TIMEOUT
+      : /ECONNREFUSED|ENOTFOUND|EHOSTUNREACH/i.test(msg)
+        ? CDP_NOT_AVAILABLE
+        : null;
     console.error(
       "Chrome への接続に失敗しました。リモートデバッグモードで起動しているか確認してください。\n" +
         `接続先: ${CDP_URL}\n` +
         `詳細: ${error.message}`
     );
+    if (code) console.error(`ERROR: ${code}`);
     process.exit(1);
   }
 
   try {
+    tracker.mark(COLLECT_STAGES.CONTEXT_ACQUIRED);
     const page = await ensureHomePage(browser);
+    tracker.mark(COLLECT_STAGES.X_HOME_SELECTED);
     const session = await assessXSession(page);
+    tracker.mark(COLLECT_STAGES.LOGIN_CHECKED);
     if (!session.authenticated || session.error === AUTH_ERROR) {
       const failedHealth = buildCollectorHealth({
         authenticated: false,
@@ -433,6 +464,7 @@ async function main() {
         error: AUTH_ERROR,
         reason: session.reason,
       });
+      tracker.writeLast();
       console.error(formatCollectHealthLine(failedHealth));
       console.error(`ERROR: ${AUTH_ERROR}`);
       console.error(
@@ -442,11 +474,12 @@ async function main() {
       process.exit(1);
     }
 
-    const fetchedPosts = await collectPosts(page);
+    const fetchedPosts = await collectPosts(page, tracker);
     const collectedAt = new Date().toISOString();
     const { merged, fetchedCount, addedCount, duplicateCount, newPosts } =
       mergeWithExisting(existingPosts, fetchedPosts, collectedAt);
 
+    tracker.mark(COLLECT_STAGES.SAVE);
     savePosts(merged);
 
     const newest = newestPostedAt(fetchedPosts) || newestPostedAt(newPosts);
@@ -493,6 +526,7 @@ async function main() {
     // Do not close the browser; keep the Node process alive
     await new Promise(() => {});
   } catch (error) {
+    tracker.writeLast();
     if (error && error.code === AUTH_ERROR) {
       const failedHealth = buildCollectorHealth({
         authenticated: false,
@@ -527,4 +561,7 @@ module.exports = {
   newestPostedAt,
   buildCollectorHealth,
   AUTH_ERROR,
+  COLLECT_STAGES,
+  createCollectStageTracker,
+  DEFAULT_CDP_CONNECT_TIMEOUT_MS,
 };

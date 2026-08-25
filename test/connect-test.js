@@ -10,7 +10,10 @@ const {
   ensureHomePage,
   assessXSession,
   AUTH_ERROR,
+  COLLECT_STAGES,
+  createCollectStageTracker,
 } = require("../connect");
+const { parseCollectLastStage } = require("../lib/collect-stage");
 
 function makePage(url) {
   return {
@@ -62,7 +65,10 @@ async function run() {
     assert.deepStrictEqual(browser, { ok: true });
     assert.strictEqual(calls.length, 1);
     assert.strictEqual(calls[0].url, "http://localhost:9222");
-    assert.deepStrictEqual(calls[0].options, { noDefaults: true });
+    assert.deepStrictEqual(calls[0].options, {
+      noDefaults: true,
+      timeout: 20000,
+    });
     assert.strictEqual(CDP_URL, "http://localhost:9222");
     console.log("connectOverCDP noDefaults PASS");
   }
@@ -158,6 +164,21 @@ async function run() {
     assert.strictEqual(session.authenticated, false);
     assert.strictEqual(session.error, AUTH_ERROR);
     console.log("session auth-required PASS");
+  }
+
+  // --- stage tracker last-stage ---
+  {
+    const lines = [];
+    const tracker = createCollectStageTracker((line) => lines.push(line));
+    tracker.mark(COLLECT_STAGES.CDP_CONNECT);
+    tracker.mark(COLLECT_STAGES.CONTEXT_ACQUIRED);
+    tracker.writeLast();
+    assert.strictEqual(tracker.lastStage, "context_acquired");
+    assert.ok(lines.includes("COLLECT_STAGE:cdp_connect"));
+    assert.ok(lines.includes("COLLECT_LAST_STAGE:context_acquired"));
+    const parsed = parseCollectLastStage(lines.join("\n"));
+    assert.strictEqual(parsed, "context_acquired");
+    console.log("collect stage tracker PASS");
   }
 
   console.log("connect-test PASS");
