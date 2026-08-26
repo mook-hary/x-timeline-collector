@@ -7,7 +7,8 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const {
-  DEFAULT_COLLECTOR_USER_DATA_DIR,
+  COLLECTOR_USER_DATA_DIR_NAME,
+  defaultCollectorUserDataDir,
   commandHasExactUserDataDir,
   isDedicatedCollectorChromeCommand,
   killDedicatedCollectorChrome,
@@ -39,10 +40,20 @@ function tmpDir(prefix) {
   return fs.mkdtempSync(path.join(os.tmpdir(), prefix));
 }
 
+function everydayChromeUserDataDir() {
+  return path.join(
+    os.homedir(),
+    "Library",
+    "Application Support",
+    "Google",
+    "Chrome"
+  );
+}
+
 function dedicatedCommand(extra = "") {
   return (
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome " +
-    `--remote-debugging-port=9222 --user-data-dir=${DEFAULT_COLLECTOR_USER_DATA_DIR}` +
+    `--remote-debugging-port=9222 --user-data-dir=${defaultCollectorUserDataDir()}` +
     extra
   );
 }
@@ -67,9 +78,10 @@ function healthyHttp() {
 }
 
 async function main() {
+  assert.strictEqual(COLLECTOR_USER_DATA_DIR_NAME, "x-timeline-chrome");
   assert.strictEqual(
-    DEFAULT_COLLECTOR_USER_DATA_DIR,
-    "/Users/erefanto/x-timeline-chrome"
+    defaultCollectorUserDataDir(),
+    path.join(os.homedir(), "x-timeline-chrome")
   );
   assert.strictEqual(DEFAULT_COLLECT_TIMEOUT_MS, 15 * 60 * 1000);
   assert.strictEqual(DEFAULT_CDP_HTTP_TIMEOUT_MS, 5000);
@@ -85,25 +97,25 @@ async function main() {
     assert.ok(
       commandHasExactUserDataDir(
         dedicatedCommand(),
-        DEFAULT_COLLECTOR_USER_DATA_DIR
+        defaultCollectorUserDataDir()
       )
     );
     assert.ok(
       !commandHasExactUserDataDir(
-        `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --user-data-dir=${DEFAULT_COLLECTOR_USER_DATA_DIR}-other`,
-        DEFAULT_COLLECTOR_USER_DATA_DIR
+        `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --user-data-dir=${defaultCollectorUserDataDir()}-other`,
+        defaultCollectorUserDataDir()
       )
     );
     assert.ok(
       !isDedicatedCollectorChromeCommand(
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-        DEFAULT_COLLECTOR_USER_DATA_DIR
+        defaultCollectorUserDataDir()
       )
     );
     assert.ok(
       !isDedicatedCollectorChromeCommand(
-        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --user-data-dir=/Users/erefanto/Library/Application Support/Google/Chrome",
-        DEFAULT_COLLECTOR_USER_DATA_DIR
+        `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --user-data-dir=${everydayChromeUserDataDir()}`,
+        defaultCollectorUserDataDir()
       )
     );
     assert.ok(!isRestartablePreflightError(X_AUTH_REQUIRED));
@@ -124,19 +136,19 @@ async function main() {
       {
         pid: 101,
         command:
-          "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --user-data-dir=/Users/erefanto/Library/Application Support/Google/Chrome",
+          `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --user-data-dir=${everydayChromeUserDataDir()}`,
       },
       { pid: 102, command: dedicatedCommand() },
       {
         pid: 103,
         command: dedicatedCommand().replace(
-          DEFAULT_COLLECTOR_USER_DATA_DIR,
-          `${DEFAULT_COLLECTOR_USER_DATA_DIR}-backup`
+          defaultCollectorUserDataDir(),
+          `${defaultCollectorUserDataDir()}-backup`
         ),
       },
       {
         pid: 104,
-        command: `node connect.js --user-data-dir=${DEFAULT_COLLECTOR_USER_DATA_DIR}`,
+        command: `node connect.js --user-data-dir=${defaultCollectorUserDataDir()}`,
       },
     ];
     const result = killDedicatedCollectorChrome({
@@ -147,7 +159,7 @@ async function main() {
         killed.push(pid);
       },
       sleep: () => {},
-      userDataDir: DEFAULT_COLLECTOR_USER_DATA_DIR,
+      userDataDir: defaultCollectorUserDataDir(),
     });
     assert.deepStrictEqual(result.pids, [102]);
     assert.deepStrictEqual(killed, [102]);
@@ -170,14 +182,14 @@ async function main() {
       },
       restartWaitMs: 0,
       termWaitMs: 0,
-      userDataDir: DEFAULT_COLLECTOR_USER_DATA_DIR,
+      userDataDir: defaultCollectorUserDataDir(),
     });
     assert.deepStrictEqual(killed, [102]);
     assert.ok(launched);
     assert.ok(!/killall/i.test(launched.bin));
     assert.ok(launched.args.includes("--remote-debugging-port=9222"));
     assert.ok(
-      launched.args.includes(`--user-data-dir=${DEFAULT_COLLECTOR_USER_DATA_DIR}`)
+      launched.args.includes(`--user-data-dir=${defaultCollectorUserDataDir()}`)
     );
     console.log("preflight restart launch flags PASS");
   }
