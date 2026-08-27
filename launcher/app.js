@@ -130,6 +130,11 @@
     setText("ch-login", ch.xLogin != null ? ch.xLogin : "—");
     setText("ch-cdp", ch.cdp != null ? ch.cdp : "—");
     setText("ch-restart", ch.chromeRestart != null ? ch.chromeRestart : "—");
+    setText("ch-scroll", ch.scroll != null ? ch.scroll : "—");
+    setText(
+      "ch-scroll-retry",
+      ch.scrollRetry != null && ch.scrollRetry !== "" ? ch.scrollRetry : "—"
+    );
     setText("ch-last", ch.lastCollect || "—");
     setText(
       "ch-new",
@@ -156,10 +161,14 @@
       if (ch.cdp === "OK" || ch.cdp === "Recovered") cdpEl.classList.add("ok");
       else if (ch.cdp === "Failed") cdpEl.classList.add("failed");
     }
-    if (loginEl) {
-      loginEl.classList.remove("ok", "failed", "warning");
-      if (ch.xLogin === "OK") loginEl.classList.add("ok");
-      else if (ch.xLogin === "Failed") loginEl.classList.add("failed");
+    const scrollEl = $("ch-scroll");
+    if (scrollEl) {
+      scrollEl.classList.remove("ok", "failed", "warning");
+      if (ch.scroll === "OK" || ch.scroll === "Recovered") {
+        scrollEl.classList.add("ok");
+      } else if (ch.scroll === "Failed" || ch.scroll === "FAILED") {
+        scrollEl.classList.add("failed");
+      }
     }
     if (statusEl) {
       statusEl.classList.remove("ok", "failed", "warning");

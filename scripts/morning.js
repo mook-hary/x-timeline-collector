@@ -41,6 +41,7 @@ const {
   CDP_NOT_AVAILABLE,
   CDP_CONNECT_TIMEOUT,
 } = require("../lib/collector-preflight");
+const { SCROLL_TIMEOUT, pickScrollRecovery } = require("../lib/collect-scroll");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -496,8 +497,16 @@ function runMorning(options, deps = {}) {
       }
       const lastStage = parseCollectLastStage(combinedOut);
       if (lastStage) stageRecord.lastStage = lastStage;
+      const scrollRecovery = pickScrollRecovery(health);
+      if (scrollRecovery) stageRecord.scrollRecovery = scrollRecovery;
       if (isCollectAuthFailure(result) || /X_AUTH_REQUIRED/.test(combinedOut)) {
         stageRecord.authError = AUTH_ERROR;
+      }
+      if (
+        /SCROLL_TIMEOUT/.test(combinedOut) ||
+        (health && health.error === SCROLL_TIMEOUT)
+      ) {
+        stageRecord.scrollError = SCROLL_TIMEOUT;
       }
       if (isCollectTimeout(result)) {
         stageRecord.timeoutError = COLLECT_TIMEOUT_CODE;
@@ -516,6 +525,9 @@ function runMorning(options, deps = {}) {
       if (stageRecord.authError) {
         log(`[Morning] ${stageRecord.authError}`);
       }
+      if (stageRecord.scrollError) {
+        log(`[Morning] ${stageRecord.scrollError}`);
+      }
       if (stageRecord.timeoutError) {
         log(`[Morning] ${stageRecord.timeoutError}`);
         log(
@@ -527,16 +539,19 @@ function runMorning(options, deps = {}) {
       const failCode =
         stageRecord.timeoutError ||
         stageRecord.authError ||
+        stageRecord.scrollError ||
         "morning-step";
       const err = new Error(
         stageRecord.timeoutError
           ? `${step.label} failed: ${COLLECT_TIMEOUT_CODE}`
           : stageRecord.authError
             ? `${step.label} failed: ${stageRecord.authError}`
-            : `${step.label} failed (exit ${code}): ${formatCommand(
-                step.script,
-                step.args
-              )}`
+            : stageRecord.scrollError
+              ? `${step.label} failed: ${SCROLL_TIMEOUT}`
+              : `${step.label} failed (exit ${code}): ${formatCommand(
+                  step.script,
+                  step.args
+                )}`
       );
       err.code = failCode;
       err.step = step;
@@ -546,6 +561,7 @@ function runMorning(options, deps = {}) {
       err.collectorHealth = stageRecord.collectorHealth || null;
       err.collectorPreflight = stageRecord.collectorPreflight || null;
       err.lastStage = stageRecord.lastStage || null;
+      err.scrollRecovery = stageRecord.scrollRecovery || null;
       throw err;
     }
 
@@ -652,6 +668,10 @@ function runMorning(options, deps = {}) {
     collectorPreflight:
       collectStage && collectStage.collectorPreflight
         ? collectStage.collectorPreflight
+        : null,
+    scrollRecovery:
+      collectStage && collectStage.scrollRecovery
+        ? collectStage.scrollRecovery
         : null,
   };
 }

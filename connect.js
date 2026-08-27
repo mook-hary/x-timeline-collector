@@ -21,6 +21,11 @@ const {
   CDP_CONNECT_TIMEOUT,
   CDP_NOT_AVAILABLE,
 } = require("./lib/collector-preflight");
+const {
+  SCROLL_TIMEOUT,
+  DEFAULT_SCROLL_ITERATION_TIMEOUT_MS,
+  runScrollingWithRecovery,
+} = require("./lib/collect-scroll");
 
 const CDP_URL = "http://localhost:9222";
 const MAX_POSTS = 50;
@@ -359,7 +364,7 @@ async function scrollDownSlowly(page) {
   }, distance);
 }
 
-async function collectPosts(page, tracker) {
+async function collectPosts(page, tracker, options = {}) {
   await page.waitForSelector("article", { timeout: 30000 });
 
   console.log("スクロール前に2秒待機します...");
@@ -373,20 +378,31 @@ async function collectPosts(page, tracker) {
   console.log(`初期表示・現在${posts.length}件`);
 
   if (tracker) tracker.mark(COLLECT_STAGES.SCROLLING);
-  for (let i = 1; i <= MAX_SCROLLS; i++) {
-    if (posts.length >= MAX_POSTS) {
-      console.log(`${MAX_POSTS}件に達したためスクロールを終了します。`);
-      break;
-    }
+  const { scrollRecovery } = await runScrollingWithRecovery({
+    page,
+    browser: options.browser,
+    posts,
+    seen,
+    maxScrolls: MAX_SCROLLS,
+    maxPosts: MAX_POSTS,
+    iterationTimeoutMs:
+      options.iterationTimeoutMs != null
+        ? options.iterationTimeoutMs
+        : DEFAULT_SCROLL_ITERATION_TIMEOUT_MS,
+    scrollDown: options.scrollDownSlowly || scrollDownSlowly,
+    waitAfterScroll:
+      options.waitAfterScroll || (() => sleep(randomBetween(1500, 2500))),
+    extractPosts: options.extractVisiblePosts || extractVisiblePosts,
+    mergePosts: mergeFetchedPosts,
+    ensureHomePage: options.ensureHomePage || ensureHomePage,
+    assessSession: options.assessXSession || assessXSession,
+    log: (line) => console.log(line),
+  });
 
-    await scrollDownSlowly(page);
-    await sleep(randomBetween(1500, 2500));
-
-    mergeFetchedPosts(posts, seen, await extractVisiblePosts(page));
-    console.log(`スクロール${i}回目・現在${posts.length}件`);
-  }
-
-  return posts.slice(0, MAX_POSTS);
+  return {
+    posts: posts.slice(0, MAX_POSTS),
+    scrollRecovery,
+  };
 }
 
 function escapeCsvValue(value) {
@@ -474,7 +490,9 @@ async function main() {
       process.exit(1);
     }
 
-    const fetchedPosts = await collectPosts(page, tracker);
+    const collected = await collectPosts(page, tracker, { browser });
+    const fetchedPosts = collected.posts;
+    const scrollRecovery = collected.scrollRecovery;
     const collectedAt = new Date().toISOString();
     const { merged, fetchedCount, addedCount, duplicateCount, newPosts } =
       mergeWithExisting(existingPosts, fetchedPosts, collectedAt);
@@ -502,6 +520,7 @@ async function main() {
       collect,
       warnings: freshness.warnings,
       status: freshness.warnings.length ? "warning" : "healthy",
+      scrollRecovery,
     });
 
     printCollectionSummary({
@@ -514,6 +533,11 @@ async function main() {
     if (newest) console.log(`Newest postedAt: ${newest}`);
     if (freshness.warnings.includes("X_TIMELINE_STALE")) {
       console.log(`WARNING: X_TIMELINE_STALE (newestPostAt=${newest})`);
+    }
+    if (scrollRecovery && scrollRecovery.scrollRecovered) {
+      console.log(
+        `Scroll recovered after SCROLL_TIMEOUT iteration=${scrollRecovery.scrollTimeoutAt}`
+      );
     }
     console.log(formatCollectHealthLine(health));
     console.log(`JSON保存先: ${OUTPUT_FILE}`);
@@ -533,9 +557,25 @@ async function main() {
         timelineAvailable: false,
         status: "failed",
         error: AUTH_ERROR,
+        scrollRecovery: error.scrollRecovery || null,
       });
       console.error(formatCollectHealthLine(failedHealth));
       console.error(`ERROR: ${AUTH_ERROR}`);
+      process.exit(1);
+    }
+    if (error && error.code === SCROLL_TIMEOUT) {
+      const failedHealth = buildCollectorHealth({
+        authenticated: true,
+        timelineAvailable: true,
+        status: "failed",
+        error: SCROLL_TIMEOUT,
+        scrollRecovery: error.scrollRecovery || null,
+      });
+      console.error(formatCollectHealthLine(failedHealth));
+      console.error(`ERROR: ${SCROLL_TIMEOUT}`);
+      if (error.iteration != null) {
+        console.error(`SCROLL_TIMEOUT iteration=${error.iteration}`);
+      }
       process.exit(1);
     }
     console.error(`タイムラインの取得に失敗しました: ${error.message}`);
@@ -564,4 +604,7 @@ module.exports = {
   COLLECT_STAGES,
   createCollectStageTracker,
   DEFAULT_CDP_CONNECT_TIMEOUT_MS,
+  SCROLL_TIMEOUT,
+  DEFAULT_SCROLL_ITERATION_TIMEOUT_MS,
+  collectPosts,
 };
