@@ -42,6 +42,10 @@ const {
   CDP_CONNECT_TIMEOUT,
 } = require("../lib/collector-preflight");
 const { SCROLL_TIMEOUT, pickScrollRecovery } = require("../lib/collect-scroll");
+const {
+  HOME_REFRESH_TIMEOUT,
+  pickHomeRefresh,
+} = require("../lib/collect-home-refresh");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -499,6 +503,12 @@ function runMorning(options, deps = {}) {
       if (lastStage) stageRecord.lastStage = lastStage;
       const scrollRecovery = pickScrollRecovery(health);
       if (scrollRecovery) stageRecord.scrollRecovery = scrollRecovery;
+      const homeRefresh = pickHomeRefresh(health);
+      if (homeRefresh) {
+        stageRecord.homeRefresh = homeRefresh;
+        stageRecord.homeRefreshed = homeRefresh.homeRefreshed;
+        stageRecord.homeRefreshedAt = homeRefresh.homeRefreshedAt;
+      }
       if (isCollectAuthFailure(result) || /X_AUTH_REQUIRED/.test(combinedOut)) {
         stageRecord.authError = AUTH_ERROR;
       }
@@ -507,6 +517,12 @@ function runMorning(options, deps = {}) {
         (health && health.error === SCROLL_TIMEOUT)
       ) {
         stageRecord.scrollError = SCROLL_TIMEOUT;
+      }
+      if (
+        /HOME_REFRESH_TIMEOUT/.test(combinedOut) ||
+        (health && health.error === HOME_REFRESH_TIMEOUT)
+      ) {
+        stageRecord.homeRefreshError = HOME_REFRESH_TIMEOUT;
       }
       if (isCollectTimeout(result)) {
         stageRecord.timeoutError = COLLECT_TIMEOUT_CODE;
@@ -528,6 +544,9 @@ function runMorning(options, deps = {}) {
       if (stageRecord.scrollError) {
         log(`[Morning] ${stageRecord.scrollError}`);
       }
+      if (stageRecord.homeRefreshError) {
+        log(`[Morning] ${stageRecord.homeRefreshError}`);
+      }
       if (stageRecord.timeoutError) {
         log(`[Morning] ${stageRecord.timeoutError}`);
         log(
@@ -540,6 +559,7 @@ function runMorning(options, deps = {}) {
         stageRecord.timeoutError ||
         stageRecord.authError ||
         stageRecord.scrollError ||
+        stageRecord.homeRefreshError ||
         "morning-step";
       const err = new Error(
         stageRecord.timeoutError
@@ -548,10 +568,12 @@ function runMorning(options, deps = {}) {
             ? `${step.label} failed: ${stageRecord.authError}`
             : stageRecord.scrollError
               ? `${step.label} failed: ${SCROLL_TIMEOUT}`
-              : `${step.label} failed (exit ${code}): ${formatCommand(
-                  step.script,
-                  step.args
-                )}`
+              : stageRecord.homeRefreshError
+                ? `${step.label} failed: ${HOME_REFRESH_TIMEOUT}`
+                : `${step.label} failed (exit ${code}): ${formatCommand(
+                    step.script,
+                    step.args
+                  )}`
       );
       err.code = failCode;
       err.step = step;
@@ -562,6 +584,7 @@ function runMorning(options, deps = {}) {
       err.collectorPreflight = stageRecord.collectorPreflight || null;
       err.lastStage = stageRecord.lastStage || null;
       err.scrollRecovery = stageRecord.scrollRecovery || null;
+      err.homeRefresh = stageRecord.homeRefresh || null;
       throw err;
     }
 
@@ -672,6 +695,16 @@ function runMorning(options, deps = {}) {
     scrollRecovery:
       collectStage && collectStage.scrollRecovery
         ? collectStage.scrollRecovery
+        : null,
+    homeRefresh:
+      collectStage && collectStage.homeRefresh
+        ? collectStage.homeRefresh
+        : null,
+    homeRefreshed:
+      collectStage && collectStage.homeRefreshed === true,
+    homeRefreshedAt:
+      collectStage && collectStage.homeRefreshedAt
+        ? collectStage.homeRefreshedAt
         : null,
   };
 }

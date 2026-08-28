@@ -26,6 +26,11 @@ const {
   DEFAULT_SCROLL_ITERATION_TIMEOUT_MS,
   runScrollingWithRecovery,
 } = require("./lib/collect-scroll");
+const {
+  HOME_REFRESH_TIMEOUT,
+  refreshXHomePage,
+  refreshHomeThenCheckLogin,
+} = require("./lib/collect-home-refresh");
 
 const CDP_URL = "http://localhost:9222";
 const MAX_POSTS = 50;
@@ -367,9 +372,6 @@ async function scrollDownSlowly(page) {
 async function collectPosts(page, tracker, options = {}) {
   await page.waitForSelector("article", { timeout: 30000 });
 
-  console.log("スクロール前に2秒待機します...");
-  await sleep(2000);
-
   const posts = [];
   const seen = new Set();
 
@@ -466,12 +468,17 @@ async function main() {
     process.exit(1);
   }
 
+  let homeRefresh = null;
   try {
     tracker.mark(COLLECT_STAGES.CONTEXT_ACQUIRED);
     const page = await ensureHomePage(browser);
     tracker.mark(COLLECT_STAGES.X_HOME_SELECTED);
-    const session = await assessXSession(page);
-    tracker.mark(COLLECT_STAGES.LOGIN_CHECKED);
+    const refreshed = await refreshHomeThenCheckLogin(page, {
+      assessXSession,
+      mark: (stage) => tracker.mark(stage),
+    });
+    homeRefresh = refreshed.homeRefresh;
+    const session = refreshed.session;
     if (!session.authenticated || session.error === AUTH_ERROR) {
       const failedHealth = buildCollectorHealth({
         authenticated: false,
@@ -479,6 +486,7 @@ async function main() {
         status: "failed",
         error: AUTH_ERROR,
         reason: session.reason,
+        homeRefresh,
       });
       tracker.writeLast();
       console.error(formatCollectHealthLine(failedHealth));
@@ -521,6 +529,7 @@ async function main() {
       warnings: freshness.warnings,
       status: freshness.warnings.length ? "warning" : "healthy",
       scrollRecovery,
+      homeRefresh,
     });
 
     printCollectionSummary({
@@ -558,9 +567,25 @@ async function main() {
         status: "failed",
         error: AUTH_ERROR,
         scrollRecovery: error.scrollRecovery || null,
+        homeRefresh,
       });
       console.error(formatCollectHealthLine(failedHealth));
       console.error(`ERROR: ${AUTH_ERROR}`);
+      process.exit(1);
+    }
+    if (error && error.code === HOME_REFRESH_TIMEOUT) {
+      const failedHealth = buildCollectorHealth({
+        authenticated: false,
+        timelineAvailable: false,
+        status: "failed",
+        error: HOME_REFRESH_TIMEOUT,
+        homeRefresh: {
+          homeRefreshed: false,
+          homeRefreshedAt: null,
+        },
+      });
+      console.error(formatCollectHealthLine(failedHealth));
+      console.error(`ERROR: ${HOME_REFRESH_TIMEOUT}`);
       process.exit(1);
     }
     if (error && error.code === SCROLL_TIMEOUT) {
@@ -570,6 +595,7 @@ async function main() {
         status: "failed",
         error: SCROLL_TIMEOUT,
         scrollRecovery: error.scrollRecovery || null,
+        homeRefresh,
       });
       console.error(formatCollectHealthLine(failedHealth));
       console.error(`ERROR: ${SCROLL_TIMEOUT}`);
@@ -607,4 +633,7 @@ module.exports = {
   SCROLL_TIMEOUT,
   DEFAULT_SCROLL_ITERATION_TIMEOUT_MS,
   collectPosts,
+  refreshXHomePage,
+  refreshHomeThenCheckLogin,
+  HOME_REFRESH_TIMEOUT,
 };
