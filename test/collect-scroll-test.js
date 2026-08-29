@@ -3,6 +3,8 @@
  * No real Chrome / X. Run: node test/collect-scroll-test.js
  */
 const assert = require("assert");
+const fs = require("fs");
+const path = require("path");
 const {
   SCROLL_TIMEOUT,
   AUTH_ERROR,
@@ -43,6 +45,18 @@ async function main() {
   assert.strictEqual(MAX_SCROLL_RECOVERY, 1);
   assert.strictEqual(DEFAULT_COLLECT_TIMEOUT_MS, 15 * 60 * 1000);
   assert.strictEqual(MAX_CHROME_RESTARTS, 1);
+  {
+    const connectSrc = fs.readFileSync(
+      path.join(__dirname, "../connect.js"),
+      "utf8"
+    );
+    const start = connectSrc.indexOf("async function scrollDownSlowly");
+    const end = connectSrc.indexOf("async function collectPosts");
+    const body = connectSrc.slice(start, end);
+    assert.ok(start >= 0 && end > start);
+    assert.ok(!body.includes("setTimeout"));
+    assert.ok(!/evaluate\(\s*async/.test(body));
+  }
   console.log("scroll constants PASS");
 
   {

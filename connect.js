@@ -354,18 +354,8 @@ function mergeFetchedPosts(posts, seen, rawPosts) {
 
 async function scrollDownSlowly(page) {
   const distance = Math.floor(randomBetween(700, 1000));
-
-  await page.evaluate(async (distance) => {
-    const step = 40;
-    const stepDelayMs = 45;
-    let scrolled = 0;
-
-    while (scrolled < distance) {
-      const amount = Math.min(step, distance - scrolled);
-      window.scrollBy(0, amount);
-      scrolled += amount;
-      await new Promise((resolve) => setTimeout(resolve, stepDelayMs));
-    }
+  await page.evaluate((deltaY) => {
+    window.scrollBy(0, deltaY);
   }, distance);
 }
 
@@ -633,6 +623,7 @@ module.exports = {
   SCROLL_TIMEOUT,
   DEFAULT_SCROLL_ITERATION_TIMEOUT_MS,
   collectPosts,
+  scrollDownSlowly,
   refreshXHomePage,
   refreshHomeThenCheckLogin,
   HOME_REFRESH_TIMEOUT,

@@ -4,6 +4,8 @@
  * Run: node test/connect-test.js
  */
 const assert = require("assert");
+const fs = require("fs");
+const path = require("path");
 const {
   CDP_URL,
   connectToChrome,
@@ -12,6 +14,7 @@ const {
   AUTH_ERROR,
   COLLECT_STAGES,
   createCollectStageTracker,
+  scrollDownSlowly,
 } = require("../connect");
 const { parseCollectLastStage } = require("../lib/collect-stage");
 
@@ -179,6 +182,42 @@ async function run() {
     const parsed = parseCollectLastStage(lines.join("\n"));
     assert.strictEqual(parsed, "context_acquired");
     console.log("collect stage tracker PASS");
+  }
+
+  // --- COLLECT-SCROLL-STABILITY: short scroll, no page-context timer ---
+  {
+    const connectSrc = fs.readFileSync(
+      path.join(__dirname, "../connect.js"),
+      "utf8"
+    );
+    const start = connectSrc.indexOf("async function scrollDownSlowly");
+    const end = connectSrc.indexOf("async function collectPosts");
+    assert.ok(start >= 0 && end > start);
+    const body = connectSrc.slice(start, end);
+    assert.ok(!body.includes("setTimeout"));
+    assert.ok(!body.includes("stepDelayMs"));
+    assert.ok(body.includes("scrollBy"));
+    assert.ok(!body.includes("mouse.wheel"));
+
+    const calls = [];
+    const page = {
+      evaluate: async (fn, arg) => {
+        calls.push({
+          source: Function.prototype.toString.call(fn),
+          arg,
+          ctor: fn.constructor.name,
+        });
+        assert.strictEqual(fn.constructor.name, "Function");
+        return undefined;
+      },
+    };
+    await scrollDownSlowly(page);
+    assert.strictEqual(calls.length, 1);
+    assert.ok(calls[0].arg >= 700 && calls[0].arg <= 1000);
+    assert.ok(!/setTimeout/.test(calls[0].source));
+    assert.ok(!/async\s*\(/.test(calls[0].source));
+    assert.ok(calls[0].source.includes("scrollBy"));
+    console.log("scrollDownSlowly short evaluate PASS");
   }
 
   console.log("connect-test PASS");
