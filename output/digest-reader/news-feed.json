@@ -1,48 +1,27 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-08-30T12:04:35.734Z",
+  "generatedAt": "2026-08-30T18:09:26.153Z",
   "scope": {
     "type": "collect-run",
     "itemCount": 33
   },
   "items": [
     {
-      "id": "2093892190036722166",
-      "title": "NHKが福井県の大雨特別警報を危険警報に引き上げたと速報している。",
-      "summary": "NHKが福井県の大雨特別警報を危険警報に引き上げたと速報している。",
+      "id": "2093926692549226802",
+      "title": "PayPayが約117億円でBinance Japanの40%を取得し、連携で成長を図ると報じている",
+      "summary": "PayPayが約117億円でBinance Japanの40%を取得し、連携で成長を図ると報じている",
       "category": "ニュース・報道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/UN_NERV/status/2093892190036722166",
-      "postedAt": "2026-08-30T02:42:55.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/NewsPicks/status/2093926692549226802",
+      "postedAt": "2026-08-30T05:00:01.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "特務機関NERV",
-        "handle": "@UN_NERV"
+        "name": "NewsPicks [ニューズピックス]",
+        "handle": "@NewsPicks"
       },
       "scores": {
         "informationValue": 5,
-        "personalRelevance": 4,
-        "impact": 5,
-        "attentionSignal": 5,
-        "importance": 5
-      }
-    },
-    {
-      "id": "2093881743187276020",
-      "title": "研究者がチャットボットとの濃密なやり取りで妄想が生じる事例を踏まえ「AI精神病」の病名化を検討していると報告している",
-      "summary": "研究者がチャットボットとの濃密なやり取りで妄想が生じる事例を踏まえ「AI精神病」の病名化を検討していると報告している",
-      "category": "AI",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/ai_database/status/2093881743187276020",
-      "postedAt": "2026-08-30T02:01:24.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "AIDB",
-        "handle": "@ai_database"
-      },
-      "scores": {
-        "informationValue": 4,
         "personalRelevance": 3,
         "impact": 4,
         "attentionSignal": 3,
@@ -50,14 +29,35 @@
       }
     },
     {
-      "id": "2093821506962784408",
-      "title": "医療機関は輸血を極力避けるが、救命に不可欠な場合は輸血する方針が一般的だと指摘している。",
-      "summary": "医療機関は輸血を極力避けるが、救命に不可欠な場合は輸血する方針が一般的だと指摘している。",
-      "category": "生活・健康",
+      "id": "2094027706736533638",
+      "title": "日経記事を引用し、過度な配慮で成長機会を奪う「ホワハラ」が転職要因（経験者15％）だと紹介し、問題を問う。",
+      "summary": "日経記事を引用し、過度な配慮で成長機会を奪う「ホワハラ」が転職要因（経験者15％）だと紹介し、問題を問う。",
+      "category": "仕事・キャリア",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/sasakitoshinao/status/2093821506962784408",
-      "postedAt": "2026-08-29T22:02:03.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/ak_tch/status/2094027706736533638",
+      "postedAt": "2026-08-30T11:41:25.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "橘　玲",
+        "handle": "@ak_tch"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 3,
+        "importance": 4
+      }
+    },
+    {
+      "id": "2093823764513354115",
+      "title": "フェドロフ前国防相がイタリア国防相の顧問に就任し、キーウには留まると伝えている。",
+      "summary": "フェドロフ前国防相がイタリア国防相の顧問に就任し、キーウには留まると伝えている。",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/sasakitoshinao/status/2093823764513354115",
+      "postedAt": "2026-08-29T22:11:01.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
         "name": "佐々木俊尚＠「フラット登山 日本を歩く旅60」発売3週間で増刷決定！",
         "handle": "@sasakitoshinao"
@@ -66,43 +66,85 @@
         "informationValue": 4,
         "personalRelevance": 3,
         "impact": 3,
-        "attentionSignal": 2,
+        "attentionSignal": 3,
         "importance": 4
       }
     },
     {
-      "id": "2093672513087635479",
-      "title": "ステージで左足に体重をかけるのは利き足を自由にし、エフェクターや相手を踏めるようにするという意見",
-      "summary": "ステージで左足に体重をかけるのは利き足を自由にし、エフェクターや相手を踏めるようにするという意見",
-      "category": "エンタメ・イベント",
+      "id": "2093975773551997384",
+      "title": "編集部が注目する8月の関西の展覧会5選（ゴジラ、ISSEY MIYAKE等）を紹介している。",
+      "summary": "編集部が注目する8月の関西の展覧会5選（ゴジラ、ISSEY MIYAKE等）を紹介している。",
+      "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/hirasawa/status/2093672513087635479",
-      "postedAt": "2026-08-29T12:10:00.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/TokyoArtBeat_JP/status/2093975773551997384",
+      "postedAt": "2026-08-30T08:15:03.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "Susumu Hirasawa",
-        "handle": "@hirasawa"
+        "name": "Tokyo Art Beat",
+        "handle": "@TokyoArtBeat_JP"
       },
       "scores": {
         "informationValue": 4,
         "personalRelevance": 3,
         "impact": 2,
-        "attentionSignal": 3,
+        "attentionSignal": 2,
         "importance": 3
       }
     },
     {
-      "id": "2093895034169168158",
-      "title": "アニメーターになるのと実際のアニメ制作は別で、制作は圧倒的に難しいと主張している。",
-      "summary": "アニメーターになるのと実際のアニメ制作は別で、制作は圧倒的に難しいと主張している。",
+      "id": "2093890524763553958",
+      "title": "研究者がLLMがうつ病のような心理的衰退を数学的に示したと報告し、それを「kindling」と呼ぶという内容。",
+      "summary": "研究者がLLMがうつ病のような心理的衰退を数学的に示したと報告し、それを「kindling」と呼ぶという内容。",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/HowToPrompt__/status/2093890524763553958",
+      "postedAt": "2026-08-30T02:36:18.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "How To Prompt",
+        "handle": "@HowToPrompt__"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 4,
+        "attentionSignal": 4,
+        "importance": 3
+      }
+    },
+    {
+      "id": "2093327964025016476",
+      "title": "AIに頼る癖で子どもが自分で考えなくなると危険だと指摘し、大人にも同様の傾向を懸念している。",
+      "summary": "AIに頼る癖で子どもが自分で考えなくなると危険だと指摘し、大人にも同様の傾向を懸念している。",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/mas__yamazaki/status/2093327964025016476",
+      "postedAt": "2026-08-28T13:20:53.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "山崎 雅弘",
+        "handle": "@mas__yamazaki"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 4,
+        "importance": 3
+      }
+    },
+    {
+      "id": "2094042850069798938",
+      "title": "まどマギ新作は画面や顔が立体化し、従来の刹那的で不思議なビジュアルの魅力が薄れたと主張している。",
+      "summary": "まどマギ新作は画面や顔が立体化し、従来の刹那的で不思議なビジュアルの魅力が薄れたと主張している。",
       "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/animesijyuku/status/2093895034169168158",
-      "postedAt": "2026-08-30T02:54:13.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/waiwaiburanko3/status/2094042850069798938",
+      "postedAt": "2026-08-30T12:41:35.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "アニメ私塾",
-        "handle": "@animesijyuku"
+        "name": "ONsama@3巻発売中",
+        "handle": "@waiwaiburanko3"
       },
       "scores": {
         "informationValue": 3,
@@ -113,17 +155,38 @@
       }
     },
     {
-      "id": "2093692647722365117",
-      "title": "職場の人間関係を把握しキーパーソンに近づくため、社内の伝説や武勇伝を聞く有用性を紹介する記事告知。",
-      "summary": "職場の人間関係を把握しキーパーソンに近づくため、社内の伝説や武勇伝を聞く有用性を紹介する記事告知。",
-      "category": "政治・社会",
+      "id": "2094065918548803880",
+      "title": "細かな色より大きな色の塊を先に見ると、途中で混乱せず描けると主張している。",
+      "summary": "細かな色より大きな色の塊を先に見ると、途中で混乱せず描けると主張している。",
+      "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/NewsPicks/status/2093692647722365117",
-      "postedAt": "2026-08-29T13:30:00.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/aka_nuc/status/2094065918548803880",
+      "postedAt": "2026-08-30T14:13:15.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "NewsPicks [ニューズピックス]",
-        "handle": "@NewsPicks"
+        "name": "Naoya Ohtani",
+        "handle": "@aka_nuc"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 4,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      }
+    },
+    {
+      "id": "2094069498605408525",
+      "title": "外ヅラのいい男性は結婚後に幼児性を示すことがあり、結婚前に店員への態度などで見極めるべきだと主張している。",
+      "summary": "外ヅラのいい男性は結婚後に幼児性を示すことがあり、結婚前に店員への態度などで見極めるべきだと主張している。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/PositiveSalon/status/2094069498605408525",
+      "postedAt": "2026-08-30T14:27:29.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "アドラー心理学サロン(アドサロ)",
+        "handle": "@PositiveSalon"
       },
       "scores": {
         "informationValue": 3,
@@ -134,56 +197,14 @@
       }
     },
     {
-      "id": "2093893070165352934",
-      "title": "コーラの「角砂糖18個」に違和感があるとし、食品換算（パン8、ごはん17、スパゲッティ24、カレー40）で見せ方の違いを指摘している",
-      "summary": "コーラの「角砂糖18個」に違和感があるとし、食品換算（パン8、ごはん17、スパゲッティ24、カレー40）で見せ方の違いを指摘している",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/aikidokashi/status/2093893070165352934",
-      "postedAt": "2026-08-30T02:46:25.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "合気道化師マツリ",
-        "handle": "@aikidokashi"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 2,
-        "importance": 3
-      }
-    },
-    {
-      "id": "2093905698304540905",
-      "title": "中国だけ見下すような日本社会の曖昧な空気が将来の弱点になると指摘している意見。",
-      "summary": "中国だけ見下すような日本社会の曖昧な空気が将来の弱点になると指摘している意見。",
-      "category": "政治・社会",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/hirofumi21/status/2093905698304540905",
-      "postedAt": "2026-08-30T03:36:36.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "鳥井 弘文",
-        "handle": "@hirofumi21"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 3,
-        "attentionSignal": 2,
-        "importance": 3
-      }
-    },
-    {
-      "id": "2093891944053457175",
-      "title": "制作進捗報告：手描きラフ、タイムラプス、GPT加工を公開。動画は後日公開と告知。",
-      "summary": "制作進捗報告：手描きラフ、タイムラプス、GPT加工を公開。動画は後日公開と告知。",
+      "id": "2093917333479891338",
+      "title": "制作したイラストの完成版を報告。髪かき上げや尻尾なし、ニーハイの引き上げ表現が再現できたと感謝している。",
+      "summary": "制作したイラストの完成版を報告。髪かき上げや尻尾なし、ニーハイの引き上げ表現が再現できたと感謝している。",
       "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/8co28/status/2093891944053457175",
-      "postedAt": "2026-08-30T02:41:56.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/8co28/status/2093917333479891338",
+      "postedAt": "2026-08-30T04:22:50.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
         "name": "852話(hakoniwa)",
         "handle": "@8co28"
@@ -197,17 +218,38 @@
       }
     },
     {
-      "id": "2093682273371742580",
-      "title": "蒸し暑い中で稽古。来週審査、子供は一人ずつ技確認。大人は審査課題を稽古。次回8/31。",
-      "summary": "蒸し暑い中で稽古。来週審査、子供は一人ずつ技確認。大人は審査課題を稽古。次回8/31。",
-      "category": "合気道・武道",
+      "id": "2094044966855283074",
+      "title": "学習性無力感の相談に対し、平沢さんが「学習性無力感には層がある」と返答した（続く）",
+      "summary": "学習性無力感の相談に対し、平沢さんが「学習性無力感には層がある」と返答した（続く）",
+      "category": "生活・健康",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/HyogoaikiHimeji/status/2093682273371742580",
-      "postedAt": "2026-08-29T12:48:47.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/hirasawa/status/2094044966855283074",
+      "postedAt": "2026-08-30T12:50:00.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "兵庫合気会　姫路道場",
-        "handle": "@HyogoaikiHimeji"
+        "name": "Susumu Hirasawa",
+        "handle": "@hirasawa"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      }
+    },
+    {
+      "id": "2094055222159278107",
+      "title": "石橋を壊して泳いで渡った人に例え、結果さえ出れば手段や過程は問わないという見方を述べている。",
+      "summary": "石橋を壊して泳いで渡った人に例え、結果さえ出れば手段や過程は問わないという見方を述べている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/itoi_shigesato/status/2094055222159278107",
+      "postedAt": "2026-08-30T13:30:45.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "糸井 重里",
+        "handle": "@itoi_shigesato"
       },
       "scores": {
         "informationValue": 3,
@@ -218,308 +260,245 @@
       }
     },
     {
-      "id": "2093620510378844395",
-      "title": "落合陽一が『マタギドライヴ』に至る3部作をまとめて共有している。",
-      "summary": "落合陽一が『マタギドライヴ』に至る3部作をまとめて共有している。",
+      "id": "2094080860345782315",
+      "title": "ショート動画やSNS文化が「自分の成長が待てない」原因と考えているという意見。",
+      "summary": "ショート動画やSNS文化が「自分の成長が待てない」原因と考えているという意見。",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/animesijyuku/status/2094080860345782315",
+      "postedAt": "2026-08-30T15:12:37.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "アニメ私塾",
+        "handle": "@animesijyuku"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2093884242887606704",
+      "title": "マタギドライヴに至る3部作のまとめを紹介。「改札をなくしたかった人が、おみくじを刷っている」",
+      "summary": "マタギドライヴに至る3部作のまとめを紹介。「改札をなくしたかった人が、おみくじを刷っている」",
       "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ochyai/status/2093620510378844395",
-      "postedAt": "2026-08-29T08:43:21.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/ochyai/status/2093884242887606704",
+      "postedAt": "2026-08-30T02:11:20.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
         "name": "落合陽一 Yoichi OCHIAI",
         "handle": "@ochyai"
       },
       "scores": {
-        "informationValue": 3,
+        "informationValue": 2,
         "personalRelevance": 2,
         "impact": 2,
-        "attentionSignal": 2,
-        "importance": 3
+        "attentionSignal": 3,
+        "importance": 2
       }
     },
     {
-      "id": "2093893192689037725",
-      "title": "死後の自分の行動をうさぎの絵で描く創作が、命の整理になっていると述べている。",
-      "summary": "死後の自分の行動をうさぎの絵で描く創作が、命の整理になっていると述べている。",
+      "id": "2093978026669383731",
+      "title": "中高で運動部で鍛えた絵師は体力面で有利そうだと羨む感想・つぶやき。",
+      "summary": "中高で運動部で鍛えた絵師は体力面で有利そうだと羨む感想・つぶやき。",
       "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/K_u___R_o/status/2093893192689037725",
-      "postedAt": "2026-08-30T02:46:54.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "K U R O",
-        "handle": "@K_u___R_o"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 3
-      }
-    },
-    {
-      "id": "2093898589378646232",
-      "title": "GACKTの『魔王シンフォニー 2026 -INFINITY-』全国8都市10公演でハープ演奏を務めたと感謝を伝えている",
-      "summary": "GACKTの『魔王シンフォニー 2026 -INFINITY-』全国8都市10公演でハープ演奏を務めたと感謝を伝えている",
-      "category": "エンタメ・イベント",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/SAKURA__harp/status/2093898589378646232",
-      "postedAt": "2026-08-30T03:08:21.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "吉田 瑳矩果 SakuraYoshida",
-        "handle": "@SAKURA__harp"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 2,
-        "importance": 3
-      }
-    },
-    {
-      "id": "2093901693880816050",
-      "title": "北部で初めてのイベント出店を報告し、来場の感謝と出品内容を列挙している。",
-      "summary": "北部で初めてのイベント出店を報告し、来場の感謝と出品内容を列挙している。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/siozamami/status/2093901693880816050",
-      "postedAt": "2026-08-30T03:20:41.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "座間味",
-        "handle": "@siozamami"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2093577131012010364",
-      "title": "保育園児一人当たりの公金支出額で議論は既に論破されていると主張している。",
-      "summary": "保育園児一人当たりの公金支出額で議論は既に論破されていると主張している。",
-      "category": "政治・社会",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/banabanasan/status/2093577131012010364",
-      "postedAt": "2026-08-29T05:50:59.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "たちばな",
-        "handle": "@banabanasan"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2093641974440194468",
-      "title": "製作者の意図を汲む人物なら、デスマフィン騒動を踏まえ食品衛生法無視の発言はできないと指摘している。法的処分は特になかったらしい、と述べている。",
-      "summary": "製作者の意図を汲む人物なら、デスマフィン騒動を踏まえ食品衛生法無視の発言はできないと指摘している。法的処分は特になかったらしい、と述べている。",
-      "category": "政治・社会",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kagami4432/status/2093641974440194468",
-      "postedAt": "2026-08-29T10:08:39.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "tacosun",
-        "handle": "@kagami4432"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2093902127957770466",
-      "title": "切り抜きで発言が真逆に編集され、意図は古い冷笑が減ったという例えであり困惑して弁明している。",
-      "summary": "切り抜きで発言が真逆に編集され、意図は古い冷笑が減ったという例えであり困惑して弁明している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/Mugen3solider/status/2093902127957770466",
-      "postedAt": "2026-08-30T03:22:24.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "ぐんぴぃ (バキ童・春とヒコーキ)",
-        "handle": "@Mugen3solider"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 2,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2092060256247668790",
-      "title": "ウォーターパックを凍らせれば体を冷やせ、溶けた水を飲めて軽量・コンパクトになると紹介する広告投稿。",
-      "summary": "ウォーターパックを凍らせれば体を冷やせ、溶けた水を飲めて軽量・コンパクトになると紹介する広告投稿。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kapipi_media/status/2092060256247668790",
-      "postedAt": null,
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "カピまる｜お得情報",
-        "handle": "@kapipi_media"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 3
-      }
-    },
-    {
-      "id": "2093297180526498158",
-      "title": "食中毒軽視への反論で、飲食店の衛生管理を擁護し食中毒死を挙げて注意を促すという意見",
-      "summary": "食中毒軽視への反論で、飲食店の衛生管理を擁護し食中毒死を挙げて注意を促すという意見",
-      "category": "生活・健康",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/oy17md/status/2093297180526498158",
-      "postedAt": "2026-08-28T11:18:34.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "フッキー",
-        "handle": "@oy17md"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 5,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2093896509985312811",
-      "title": "ナンシー・グレース・ローマン宇宙望遠鏡の見た目がかっこいいと述べ、NASA広報画像の出来の良さを指摘している。",
-      "summary": "ナンシー・グレース・ローマン宇宙望遠鏡の見た目がかっこいいと述べ、NASA広報画像の出来の良さを指摘している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/Yam_eye/status/2093896509985312811",
-      "postedAt": "2026-08-30T03:00:05.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "山中俊治 Shunji Yam",
-        "handle": "@Yam_eye"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2093904039192699103",
-      "title": "投稿者が「今日の夕方に新しい動画を上げる」と告知している日常的な告知投稿。",
-      "summary": "投稿者が「今日の夕方に新しい動画を上げる」と告知している日常的な告知投稿。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/picasodiary/status/2093904039192699103",
-      "postedAt": "2026-08-30T03:30:00.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "ピカソの日記",
-        "handle": "@picasodiary"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2093892325516956134",
-      "title": "備北サーキットのD1ライツについて「これが備北スタイル」と感じている投稿",
-      "summary": "備北サーキットのD1ライツについて「これが備北スタイル」と感じている投稿",
-      "category": "エンタメ・イベント",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/takahiro_411401/status/2093892325516956134",
-      "postedAt": "2026-08-30T02:43:27.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "たかちゃん",
-        "handle": "@takahiro_411401"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2093653268903940432",
-      "title": "父が「陽気なナス採ってきた」と言い、投稿者も同じ表現で返した家族の一コマ",
-      "summary": "父が「陽気なナス採ってきた」と言い、投稿者も同じ表現で返した家族の一コマ",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/tys03012/status/2093653268903940432",
-      "postedAt": "2026-08-29T10:53:32.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "TYS@",
-        "handle": "@tys03012"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2093653110715785464",
-      "title": "「うまけりゃOK」とだけつぶやいている。",
-      "summary": "「うまけりゃOK」とだけつぶやいている。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/koshian/status/2093653110715785464",
-      "postedAt": "2026-08-29T10:52:54.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/koshian/status/2093978026669383731",
+      "postedAt": "2026-08-30T08:24:00.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
         "name": "(Ǝ)ɐsᴉɥᴉɥso⅄ ,uɐᴉɥsoʞ, ouɐƃnS",
         "handle": "@koshian"
       },
       "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2093544778185216490",
+      "title": "母が加齢で以前できていたことが徐々にできなくなり、長生きを嘆いているという個人的な実感。",
+      "summary": "母が加齢で以前できていたことが徐々にできなくなり、長生きを嘆いているという個人的な実感。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/sakurako_iroha/status/2093544778185216490",
+      "postedAt": "2026-08-29T03:42:25.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "sakurako",
+        "handle": "@sakurako_iroha"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2092052696803184940",
+      "title": "複数デバイス向けの高速で信頼性の高いホームインターネットを提供し、数分で注文可能だと宣伝している。",
+      "summary": "複数デバイス向けの高速で信頼性の高いホームインターネットを提供し、数分で注文可能だと宣伝している。",
+      "category": "ゲーム・ゲーム開発",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Starlink/status/2092052696803184940",
+      "postedAt": null,
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "Starlink",
+        "handle": "@Starlink"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2093943408297652417",
+      "title": "純広告系営業の準備を完了したと報告し、結果を見守ると述べている。",
+      "summary": "純広告系営業の準備を完了したと報告し、結果を見守ると述べている。",
+      "category": "仕事・キャリア",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/tira_tirarin/status/2093943408297652417",
+      "postedAt": "2026-08-30T06:06:26.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "チラーレン@葬送の子育てオワコン個人開発ブロガー",
+        "handle": "@tira_tirarin"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2093989853729894639",
+      "title": "他人にどう思われるかをあまり気にせず、人は相手を見たいようにしか見ないと助言している。",
+      "summary": "他人にどう思われるかをあまり気にせず、人は相手を見たいようにしか見ないと助言している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Japanese_hare/status/2093989853729894639",
+      "postedAt": "2026-08-30T09:11:00.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "わび",
+        "handle": "@Japanese_hare"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094025993065472071",
+      "title": "安定期前に妊娠を報告し、体調不良で伝えざるを得なかったと謝罪している投稿。",
+      "summary": "安定期前に妊娠を報告し、体調不良で伝えざるを得なかったと謝罪している投稿。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/namikishida/status/2094025993065472071",
+      "postedAt": "2026-08-30T11:34:36.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "岸田奈美｜Nami Kishida",
+        "handle": "@namikishida"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094103224165056728",
+      "title": "ハエトリグモが足に乗ったことで、近寄れなかった投稿者が急に手で捕まえられるようになったと驚いている。",
+      "summary": "ハエトリグモが足に乗ったことで、近寄れなかった投稿者が急に手で捕まえられるようになったと驚いている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/oekaki_obasan/status/2094103224165056728",
+      "postedAt": "2026-08-30T16:41:29.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "やまだ",
+        "handle": "@oekaki_obasan"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2093697080560873536",
+      "title": "出産報告に対する配慮要求を皮肉り、スマホ使用中止を例に批判している。",
+      "summary": "出産報告に対する配慮要求を皮肉り、スマホ使用中止を例に批判している。",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/blance_neige7/status/2093697080560873536",
+      "postedAt": "2026-08-29T13:47:37.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "雪乃",
+        "handle": "@blance_neige7"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094001957023408449",
+      "title": "銭湯の強い熱さを求めてしまうとつぶやき、熱さを「チンチン」と表現している。",
+      "summary": "銭湯の強い熱さを求めてしまうとつぶやき、熱さを「チンチン」と表現している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/mojha/status/2094001957023408449",
+      "postedAt": "2026-08-30T09:59:05.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "モジャ五郎さん",
+        "handle": "@mojha"
+      },
+      "scores": {
         "informationValue": 1,
         "personalRelevance": 1,
         "impact": 1,
-        "attentionSignal": 1,
+        "attentionSignal": 3,
         "importance": 1
       }
     },
     {
-      "id": "2093778279505555520",
-      "title": "夫がマッサージしてくれるのでこれから寝ると報告している個人的なつぶやき。",
-      "summary": "夫がマッサージしてくれるのでこれから寝ると報告している個人的なつぶやき。",
+      "id": "2094030749137780776",
+      "title": "気持ちの方向性が見えてきたが、先月末に戻りたいと願っている。",
+      "summary": "気持ちの方向性が見えてきたが、先月末に戻りたいと願っている。",
       "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/H_IIA31/status/2093778279505555520",
-      "postedAt": "2026-08-29T19:10:17.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/H_IIA31/status/2094030749137780776",
+      "postedAt": "2026-08-30T11:53:30.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
         "name": "まりー",
         "handle": "@H_IIA31"
@@ -528,175 +507,196 @@
         "informationValue": 1,
         "personalRelevance": 1,
         "impact": 1,
-        "attentionSignal": 1,
+        "attentionSignal": 2,
         "importance": 1
       }
     },
     {
-      "id": "2092601551080833106",
-      "title": "知識や小ネタ入りのマグカップをお気に入りと紹介し、Amazon購入を促す(PR)",
-      "summary": "知識や小ネタ入りのマグカップをお気に入りと紹介し、Amazon購入を促す(PR)",
+      "id": "2092327265057247612",
+      "title": "Starlinkが地方・遠隔地向けの持ち運べる高速回線機器「Starlink Mini」を紹介し注文を促している。",
+      "summary": "Starlinkが地方・遠隔地向けの持ち運べる高速回線機器「Starlink Mini」を紹介し注文を促している。",
       "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/kita_yama_F2/status/2092601551080833106",
+      "sourceUrl": "https://x.com/Starlink/status/2092327265057247612",
       "postedAt": null,
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "キューラボ｜生活リノベーション",
-        "handle": "@kita_yama_F2"
+        "name": "Starlink",
+        "handle": "@Starlink"
       },
       "scores": {
         "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
+        "personalRelevance": 3,
+        "impact": 2,
         "attentionSignal": 2,
         "importance": 2
       }
     },
     {
-      "id": "2093662159565938863",
-      "title": "整形を「修繕費」、スキンケア・メイクは「維持費」、記念日のプレゼントは「更新費」と表現している。",
-      "summary": "整形を「修繕費」、スキンケア・メイクは「維持費」、記念日のプレゼントは「更新費」と表現している。",
+      "id": "2094024916740034907",
+      "title": "Claude Codeのテクニック改善を謳い、サブスク登録者向け無料セミナー参加を促している。",
+      "summary": "Claude Codeのテクニック改善を謳い、サブスク登録者向け無料セミナー参加を促している。",
       "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/dokkano_4628/status/2093662159565938863",
-      "postedAt": "2026-08-29T11:28:51.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/IHayato/status/2094024916740034907",
+      "postedAt": "2026-08-30T11:30:19.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "どっかの｜毎日戦う女社長",
-        "handle": "@dokkano_4628"
+        "name": "イケハヤ@「月蝕綺譚」開発",
+        "handle": "@IHayato"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
-        "impact": 1,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2076961788420300869",
+      "title": "Uber Eatsが店舗と同価格で人気メニューを配達すると宣伝し、詳細はアプリで確認するよう促している。",
+      "summary": "Uber Eatsが店舗と同価格で人気メニューを配達すると宣伝し、詳細はアプリで確認するよう促している。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/UberEats_JP/status/2076961788420300869",
+      "postedAt": null,
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "Uber Eats Japan（ウーバーイーツ）",
+        "handle": "@UberEats_JP"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
         "attentionSignal": 3,
         "importance": 2
       }
     },
     {
-      "id": "2093639807847309384",
-      "title": "井口裕香のデジタル写真集『TONE』の発売を告知。購入で直筆コメントやアザーカット特典あり",
-      "summary": "井口裕香のデジタル写真集『TONE』の発売を告知。購入で直筆コメントやアザーカット特典あり",
-      "category": "広告・PR",
+      "id": "2093932173623783587",
+      "title": "「最高じゃないですか？！」と短く感想・称賛を述べている。",
+      "summary": "「最高じゃないですか？！」と短く感想・称賛を述べている。",
+      "category": "その他",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/g_youngjump/status/2093639807847309384",
-      "postedAt": "2026-08-29T10:00:02.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/itoi_shigesato/status/2093932173623783587",
+      "postedAt": "2026-08-30T05:21:48.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "ヤングジャンプ@グラビア",
-        "handle": "@g_youngjump"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2090710487856267430",
-      "title": "後ろの車が近くて怖いとして、貼るだけで対策できるステッカーをPRしている投稿",
-      "summary": "後ろの車が近くて怖いとして、貼るだけで対策できるステッカーをPRしている投稿",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/LogTube_Info/status/2090710487856267430",
-      "postedAt": null,
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "ゆい",
-        "handle": "@LogTube_Info"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2083015284970156534",
-      "title": "面白い格言Tシャツを見かけ、PRとしてその商品を紹介している投稿だという意見。",
-      "summary": "面白い格言Tシャツを見かけ、PRとしてその商品を紹介している投稿だという意見。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/endoumamedesuyo/status/2083015284970156534",
-      "postedAt": null,
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "エンドう｜おすすめアイテム紹介",
-        "handle": "@endoumamedesuyo"
+        "name": "糸井 重里",
+        "handle": "@itoi_shigesato"
       },
       "scores": {
         "informationValue": 1,
-        "personalRelevance": 2,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      }
+    },
+    {
+      "id": "2094060249804374262",
+      "title": "「ラブシャ」に感謝を述べ、渋谷からの投稿であることを伝えている短い投稿。",
+      "summary": "「ラブシャ」に感謝を述べ、渋谷からの投稿であることを伝えている短い投稿。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/c_can777/status/2094060249804374262",
+      "postedAt": "2026-08-30T13:50:43.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "カ ノ",
+        "handle": "@c_can777"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      }
+    },
+    {
+      "id": "2093940039411536346",
+      "title": "Greg Tocchiniという人名のみを投稿している。",
+      "summary": "Greg Tocchiniという人名のみを投稿している。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/HoracioAltuna/status/2093940039411536346",
+      "postedAt": "2026-08-30T05:53:03.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "Horacio Altuna",
+        "handle": "@HoracioAltuna"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
         "impact": 1,
         "attentionSignal": 1,
         "importance": 1
       }
     },
     {
-      "id": "2093866292298076663",
-      "title": "偕成社がノンタン50周年を告知し、作品を振り返ることを促す宣伝投稿。",
-      "summary": "偕成社がノンタン50周年を告知し、作品を振り返ることを促す宣伝投稿。",
+      "id": "2093133963862937787",
+      "title": "味ぽんと豆乳を混ぜるだけでまろやかなドレッシングができると紹介している広告投稿。",
+      "summary": "味ぽんと豆乳を混ぜるだけでまろやかなドレッシングができると紹介している広告投稿。",
       "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/kaiseisha_PR/status/2093866292298076663",
-      "postedAt": "2026-08-30T01:00:00.000Z",
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "sourceUrl": "https://x.com/ajipon_mizkan/status/2093133963862937787",
+      "postedAt": null,
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "偕成社【公式】",
-        "handle": "@kaiseisha_PR"
+        "name": "【公式】味ぽん@しあわせ、ぽん！",
+        "handle": "@ajipon_mizkan"
       },
       "scores": {
-        "informationValue": 1,
+        "informationValue": 2,
         "personalRelevance": 2,
         "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
+        "attentionSignal": 1,
+        "importance": 2
       }
     },
     {
-      "id": "2071537041008214224",
-      "title": "箱が開く音が好きだと述べ、共感を募るPR投稿。",
-      "summary": "箱が開く音が好きだと述べ、共感を募るPR投稿。",
+      "id": "2087352584202006749",
+      "title": "楽天が住所不要でリンク送付でき、楽天ポイントが貯まる「楽天ソーシャルギフト」を宣伝している。",
+      "summary": "楽天が住所不要でリンク送付でき、楽天ポイントが貯まる「楽天ソーシャルギフト」を宣伝している。",
       "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/camp_father_h/status/2071537041008214224",
+      "sourceUrl": "https://x.com/RakutenJP/status/2087352584202006749",
       "postedAt": null,
-      "collectedAt": "2026-08-30T03:44:42.427Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
       "author": {
-        "name": "ヒロキ@家族で楽しむゆるキャン",
-        "handle": "@camp_father_h"
+        "name": "楽天市場",
+        "handle": "@RakutenJP"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094057210515251340",
+      "title": "有機野菜を生で食べる自然派富裕層の男性を下品に揶揄している。",
+      "summary": "有機野菜を生で食べる自然派富裕層の男性を下品に揶揄している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/banabanasan/status/2094057210515251340",
+      "postedAt": "2026-08-30T13:38:39.000Z",
+      "collectedAt": "2026-08-30T18:00:38.995Z",
+      "author": {
+        "name": "たちばな",
+        "handle": "@banabanasan"
       },
       "scores": {
         "informationValue": 1,
         "personalRelevance": 1,
         "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2079408680580395054",
-      "title": "製品（ドア）を自信満々に宣伝している投稿（PR）",
-      "summary": "製品（ドア）を自信満々に宣伝している投稿（PR）",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sele_princessm/status/2079408680580395054",
-      "postedAt": null,
-      "collectedAt": "2026-08-30T03:44:42.427Z",
-      "author": {
-        "name": "垢抜け美容・お得ハック｜Princess Media",
-        "handle": "@sele_princessm"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
+        "attentionSignal": 4,
         "importance": 1
       }
     }
