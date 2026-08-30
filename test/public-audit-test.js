@@ -128,11 +128,15 @@ function findingsForLine(line) {
   assert.ok(
     ALLOWED_PUBLIC_OUTPUT_FILES.has("output/digest-reader/style.css")
   );
+  assert.ok(
+    ALLOWED_PUBLIC_OUTPUT_FILES.has("output/digest-reader/news-feed.json")
+  );
   const findings = [];
   checkTrackedPathRules(
     [
       "output/digest-reader/index.html",
       "output/digest-reader/style.css",
+      "output/digest-reader/news-feed.json",
       "output/digest-reader/secret.json",
       "output/timeline.json",
       "output/other/index.html",
@@ -156,6 +160,11 @@ function findingsForLine(line) {
   assert.ok(
     !findings.some(
       (f) => f.path === "output/digest-reader/style.css"
+    )
+  );
+  assert.ok(
+    !findings.some(
+      (f) => f.path === "output/digest-reader/news-feed.json"
     )
   );
   console.log("Case6 PASS");

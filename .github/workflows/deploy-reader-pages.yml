@@ -2,7 +2,7 @@
 # Does not rebuild Reader in CI and does not upload the rest of the repository.
 #
 # Prerequisites:
-# - Track output/digest-reader/index.html + style.css in git (see README)
+# - Track output/digest-reader/index.html + style.css + news-feed.json in git (see README)
 # - Settings → Pages → Source = GitHub Actions
 
 name: Deploy Digest Reader Pages
@@ -36,11 +36,11 @@ jobs:
           set -euo pipefail
           root="output/digest-reader"
           if [ ! -d "$root" ]; then
-            echo "::error::Missing $root. Generate locally (npm run reader), commit index.html + style.css, then retry."
+            echo "::error::Missing $root. Generate locally (npm run reader), commit index.html + style.css + news-feed.json, then retry."
             exit 1
           fi
-          if [ ! -f "$root/index.html" ] || [ ! -f "$root/style.css" ]; then
-            echo "::error::Need $root/index.html and $root/style.css in the repository."
+          if [ ! -f "$root/index.html" ] || [ ! -f "$root/style.css" ] || [ ! -f "$root/news-feed.json" ]; then
+            echo "::error::Need $root/index.html, $root/style.css, and $root/news-feed.json in the repository."
             exit 1
           fi
           # Refuse private intermediates accidentally placed under the publish dir

@@ -306,6 +306,23 @@ async function main() {
     newestPostAt: "2026-08-12T01:00:00.000Z",
   };
   const logs = [];
+  const feedDir = path.join(root, "output", "digest-reader");
+  fs.mkdirSync(feedDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(feedDir, "news-feed.json"),
+    JSON.stringify(
+      {
+        schemaVersion: 1,
+        source: "x-timeline-collector",
+        generatedAt: "2026-08-12T01:05:00.000Z",
+        scope: { type: "collect-run", itemCount: 34 },
+        items: Array.from({ length: 34 }, (_, i) => ({ id: String(i) })),
+      },
+      null,
+      2
+    ),
+    "utf8"
+  );
   const result = await runMorningPipeline(
     { dryRun: false, morningArgv: [] },
     {
@@ -387,6 +404,11 @@ async function main() {
   assert.ok(saved.collectorPreflight);
   assert.strictEqual(saved.collectorPreflight.status, "healthy");
   assert.strictEqual(saved.collectorPreflight.chromeRestarted, false);
+  assert.ok(saved.newsFeed);
+  assert.strictEqual(saved.newsFeed.generated, true);
+  assert.strictEqual(saved.newsFeed.itemCount, 34);
+  assert.ok(logs.some((l) => /News Feed:/.test(l)));
+  assert.ok(logs.some((l) => /34 items/.test(l)));
   console.log("CH001 pipeline-history-success PASS");
 }
 

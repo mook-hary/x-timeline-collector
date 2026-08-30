@@ -209,6 +209,10 @@ function main() {
       config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG),
     });
     assert.strictEqual((reader.digest.todaysPicks || []).length, 0);
+    const emptyFeed = JSON.parse(fs.readFileSync(reader.newsFeedPath, "utf8"));
+    assert.strictEqual(emptyFeed.schemaVersion, 1);
+    assert.strictEqual(emptyFeed.scope.itemCount, 0);
+    assert.deepStrictEqual(emptyFeed.items, []);
     console.log("daily-scope case C PASS");
   }
 

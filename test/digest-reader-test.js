@@ -144,6 +144,12 @@ function dayOptions(extra = {}) {
   });
   assert.ok(fs.existsSync(result.htmlPath));
   assert.ok(fs.existsSync(result.cssPath));
+  assert.ok(fs.existsSync(result.newsFeedPath));
+  const newsFeed = JSON.parse(fs.readFileSync(result.newsFeedPath, "utf8"));
+  assert.strictEqual(newsFeed.schemaVersion, 1);
+  assert.strictEqual(newsFeed.source, "x-timeline-collector");
+  assert.strictEqual(newsFeed.items.length, fixturePosts().length);
+  assert.ok(result.summary.picksCount <= newsFeed.items.length);
   const html = fs.readFileSync(result.htmlPath, "utf8");
 
   assert.ok(html.includes("件解析"));

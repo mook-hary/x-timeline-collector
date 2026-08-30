@@ -59,6 +59,13 @@ function tmpDir(prefix) {
     parseStageItemCount("enrich", "今回処理する件数: 50\n"),
     50
   );
+  assert.strictEqual(
+    parseStageItemCount(
+      "reader",
+      "[build:digest-reader] news-feed items=33 path=output/digest-reader/news-feed.json\n"
+    ),
+    33
+  );
   console.log("EP048 parse-counts PASS");
 }
 
@@ -111,12 +118,19 @@ function tmpDir(prefix) {
       pushed: true,
       pagesPublished: true,
     },
+    newsFeed: {
+      generated: true,
+      itemCount: 33,
+      path: "output/digest-reader/news-feed.json",
+    },
   });
   assert.strictEqual(report.status, "SUCCESS");
   assert.strictEqual(report.durationMs, 252000);
   assert.strictEqual(report.counts.collect, 247);
   assert.strictEqual(report.counts.analyzeAi, 50);
   assert.strictEqual(report.failure, null);
+  assert.ok(report.newsFeed);
+  assert.strictEqual(report.newsFeed.itemCount, 33);
 
   const saved = saveMorningHealthReport(root, report, {
     now: () => new Date(2026, 6, 24, 7, 12, 33),
@@ -135,6 +149,8 @@ function tmpDir(prefix) {
   assert.ok(summary.includes("247 items") || summary.includes("X Collector"));
   assert.ok(summary.includes("AI Analyze:"));
   assert.ok(summary.includes("Publish:"));
+  assert.ok(summary.includes("News Feed:"));
+  assert.ok(summary.includes("33 items"));
   assert.ok(summary.includes("Git Push: Success") || summary.includes("Success"));
   assert.ok(summary.includes(saved.relativePath));
   // Legacy reports gain collect.totalStored from counts; collectorHealth stays null.

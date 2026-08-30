@@ -5,6 +5,7 @@
  */
 const path = require("path");
 const { buildDigestReader, DEFAULT_TOP } = require("../lib/digest-reader");
+const { formatNewsFeedBuildLine } = require("../lib/news-feed");
 const { parseArgs, loadConfig } = require("../digest");
 
 function printHelp() {
@@ -15,7 +16,7 @@ Usage:
   node scripts/build-digest-reader.js [digest options]
 
 Reads output/timeline_enriched.json via existing digest selection.
-Writes output/digest-reader/index.html + style.css.
+Writes output/digest-reader/index.html + style.css + news-feed.json.
 
 Accepted options (same family as digest.js):
   --today
@@ -91,6 +92,7 @@ function main() {
     process.stdout.write(
       `[build:digest-reader] total=${result.summary.total} selected=${result.summary.selected} date=${result.summary.dateLabel}\n`
     );
+    process.stdout.write(`${formatNewsFeedBuildLine(result.newsFeed)}\n`);
   } catch (error) {
     process.stderr.write(`[build:digest-reader] failed: ${error.message}\n`);
     process.exit(1);

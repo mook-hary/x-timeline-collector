@@ -22,6 +22,7 @@ const {
   parseStageItemCount,
   parseCollectHealthFromOutput,
 } = require("../lib/morning-health");
+const { parseNewsFeedFromOutput } = require("../lib/news-feed");
 const { collectDetailFromHealth } = require("../lib/x-collector-health");
 const { parseCollectLastStage } = require("../lib/collect-stage");
 const {
@@ -542,6 +543,11 @@ function runMorning(options, deps = {}) {
       }
     }
 
+    if (step.id === "reader") {
+      const newsFeed = parseNewsFeedFromOutput(combinedOut);
+      if (newsFeed) stageRecord.newsFeed = newsFeed;
+    }
+
     const status = result.status;
     if (status !== 0 || result.error) {
       const code = result.error ? 1 : status == null ? 1 : status;
@@ -686,6 +692,7 @@ function runMorning(options, deps = {}) {
 
   log("[Morning] Done");
   const collectStage = stages.find((s) => s && s.id === "collect") || null;
+  const readerStage = stages.find((s) => s && s.id === "reader") || null;
   return {
     ok: true,
     stepsRun,
@@ -725,6 +732,8 @@ function runMorning(options, deps = {}) {
         : pickDailyScope({
             collect: collectStage && collectStage.collect,
           }),
+    newsFeed:
+      readerStage && readerStage.newsFeed ? readerStage.newsFeed : null,
   };
 }
 

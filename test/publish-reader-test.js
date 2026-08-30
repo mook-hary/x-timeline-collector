@@ -31,6 +31,7 @@ async function main() {
     assert.deepStrictEqual(PUBLISH_REL_FILES, [
       path.join("output", "digest-reader", "index.html"),
       path.join("output", "digest-reader", "style.css"),
+      path.join("output", "digest-reader", "news-feed.json"),
     ]);
     assert.strictEqual(REQUIRED_BRANCH, "main");
     console.log("EP045 message PASS");
@@ -180,6 +181,11 @@ async function main() {
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "index.html"), "<html></html>", "utf8");
     fs.writeFileSync(path.join(dir, "style.css"), "body{}", "utf8");
+    fs.writeFileSync(
+      path.join(dir, "news-feed.json"),
+      '{"schemaVersion":1,"items":[]}\n',
+      "utf8"
+    );
 
     const calls = [];
     const spawn = (command, args) => {
@@ -267,6 +273,11 @@ async function main() {
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "index.html"), "<html></html>", "utf8");
     fs.writeFileSync(path.join(dir, "style.css"), "body{}", "utf8");
+    fs.writeFileSync(
+      path.join(dir, "news-feed.json"),
+      '{"schemaVersion":1,"items":[]}\n',
+      "utf8"
+    );
 
     const calls = [];
     const spawn = (command, args) => {
@@ -322,6 +333,11 @@ async function main() {
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "index.html"), "<html></html>", "utf8");
     fs.writeFileSync(path.join(dir, "style.css"), "body{}", "utf8");
+    fs.writeFileSync(
+      path.join(dir, "news-feed.json"),
+      '{"schemaVersion":1,"items":[]}\n',
+      "utf8"
+    );
 
     const calls = [];
     const spawn = (command, args) => {
