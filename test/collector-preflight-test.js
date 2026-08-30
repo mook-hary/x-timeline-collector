@@ -416,7 +416,7 @@ async function main() {
     const root = tmpDir("preflight-morning-ok-");
     fs.mkdirSync(path.join(root, "output"), { recursive: true });
     fs.writeFileSync(
-      path.join(root, "output", "timeline_enriched.json"),
+      path.join(root, "output", "daily-enriched.json"),
       "[]\n",
       "utf8"
     );
@@ -462,7 +462,7 @@ async function main() {
     const root = tmpDir("preflight-morning-fail-");
     fs.mkdirSync(path.join(root, "output"), { recursive: true });
     fs.writeFileSync(
-      path.join(root, "output", "timeline_enriched.json"),
+      path.join(root, "output", "daily-enriched.json"),
       "[]\n",
       "utf8"
     );
@@ -499,7 +499,7 @@ async function main() {
     const root = tmpDir("preflight-morning-auth-");
     fs.mkdirSync(path.join(root, "output"), { recursive: true });
     fs.writeFileSync(
-      path.join(root, "output", "timeline_enriched.json"),
+      path.join(root, "output", "daily-enriched.json"),
       "[]\n",
       "utf8"
     );

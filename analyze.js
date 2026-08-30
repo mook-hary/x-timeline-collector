@@ -2,10 +2,14 @@ const fs = require("fs");
 const path = require("path");
 const {
   ensureDir,
-  readJsonArrayRequired,
   readJsonObjectRequired,
   writeJsonAtomic,
 } = require("./lib/pipeline-io");
+const {
+  readEditorialPosts,
+  parseIoFlags,
+  resolveOptionalPath,
+} = require("./lib/daily-scope");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline.json");
 const OUTPUT_FILE = path.join(__dirname, "output", "timeline_analyzed.json");
@@ -28,10 +32,13 @@ Usage:
   npm run analyze
 
 Options:
-  --help, -h  Show this help (does not analyze)
+  --help, -h     Show this help (does not analyze)
+  --input PATH   Posts JSON (array or daily-scope object). Default: output/timeline.json
+  --output PATH  Analyzed JSON. Default: output/timeline_analyzed.json
 
 Input:
-  output/timeline.json
+  output/timeline.json  (standalone / Archive)
+  output/daily-scope.json  (Morning Daily Scope)
   config/categories.json
 
 Output:
@@ -50,14 +57,18 @@ Chrome:
 }
 
 function parseAnalyzeArgs(argv) {
-  for (const token of argv) {
+  const { input, output, rest } = parseIoFlags(argv, (message) => {
+    console.error(message);
+    process.exit(1);
+  });
+  for (const token of rest) {
     if (token === "--help" || token === "-h") {
-      return { help: true };
+      return { help: true, input: null, output: null };
     }
     console.error(`不明なオプション: ${token}`);
     process.exit(1);
   }
-  return { help: false };
+  return { help: false, input, output };
 }
 
 function buildSearchText(post, category) {
@@ -419,7 +430,12 @@ function main() {
   }
 
   const categories = readJsonObjectRequired(CATEGORIES_FILE, "カテゴリ設定");
-  const posts = readJsonArrayRequired(INPUT_FILE, "output/timeline.json");
+  const inputFile = resolveOptionalPath(cli.input, INPUT_FILE);
+  const outputFile = resolveOptionalPath(cli.output, OUTPUT_FILE);
+  const posts = readEditorialPosts(
+    inputFile,
+    cli.input ? cli.input : "output/timeline.json"
+  );
 
   const analyzedAt = new Date().toISOString();
   const categoryNames = Object.keys(categories);
@@ -475,7 +491,7 @@ function main() {
 
   const allCategoryNames = Object.keys(counts);
 
-  writeJsonAtomic(OUTPUT_FILE, analyzedPosts);
+  writeJsonAtomic(outputFile, analyzedPosts);
   writeJsonAtomic(UNCATEGORIZED_JSON, uncategorizedPosts);
   fs.writeFileSync(UNCATEGORIZED_TXT, toUncategorizedTxt(uncategorizedPosts), "utf8");
   writeReviewFiles(analyzedPosts, allCategoryNames);
@@ -490,7 +506,7 @@ function main() {
   for (const level of ["high", "medium", "low"]) {
     console.log(`  ${level}: ${confidenceCounts[level] || 0}`);
   }
-  console.log(`保存先: ${OUTPUT_FILE}`);
+  console.log(`保存先: ${outputFile}`);
   console.log(`その他一覧: ${uncategorizedPosts.length} 件`);
   console.log(`  JSON: ${UNCATEGORIZED_JSON}`);
   console.log(`  TXT: ${UNCATEGORIZED_TXT}`);
@@ -502,3 +518,7 @@ function main() {
 if (require.main === module) {
   main();
 }
+
+module.exports = {
+  parseAnalyzeArgs,
+};

@@ -31,6 +31,7 @@ const {
   refreshXHomePage,
   refreshHomeThenCheckLogin,
 } = require("./lib/collect-home-refresh");
+const { saveDailyScope, buildDailyScope } = require("./lib/daily-scope");
 
 const CDP_URL = "http://localhost:9222";
 const MAX_POSTS = 50;
@@ -497,6 +498,15 @@ async function main() {
 
     tracker.mark(COLLECT_STAGES.SAVE);
     savePosts(merged);
+    saveDailyScope(__dirname, buildDailyScope({
+      collectedAt,
+      fetchedFromScreen: fetchedCount,
+      newPosts: addedCount,
+      duplicateUrlsSkipped: duplicateCount,
+      totalStored: merged.length,
+      posts: newPosts,
+    }));
+    console.log(`Daily editorial scope: ${addedCount}`);
 
     const newest = newestPostedAt(fetchedPosts) || newestPostedAt(newPosts);
     const collect = buildCollectMetrics({

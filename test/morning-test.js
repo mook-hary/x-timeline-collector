@@ -62,8 +62,32 @@ function runHelp(scriptArgs) {
     ["collect", "analyze", "analyze-ai", "enrich", "reader"]
   );
   assert.deepStrictEqual(def.steps[0].args, ["--once"]);
-  assert.deepStrictEqual(def.steps[2].args, ["--limit", AI_LIMIT]);
-  assert.deepStrictEqual(def.steps[3].args, ["--limit", AI_LIMIT]);
+  assert.deepStrictEqual(def.steps[1].args, [
+    "--input",
+    "output/daily-scope.json",
+    "--output",
+    "output/daily-analyzed.json",
+  ]);
+  assert.deepStrictEqual(def.steps[2].args, [
+    "--limit",
+    AI_LIMIT,
+    "--input",
+    "output/daily-analyzed.json",
+    "--output",
+    "output/daily-ai.json",
+  ]);
+  assert.deepStrictEqual(def.steps[3].args, [
+    "--limit",
+    AI_LIMIT,
+    "--input",
+    "output/daily-ai.json",
+    "--output",
+    "output/daily-enriched.json",
+  ]);
+  assert.deepStrictEqual(def.steps[4].args, [
+    "--input",
+    "output/daily-enriched.json",
+  ]);
 
   const skipCollect = buildMorningPlan(
     parseMorningArgs(["--skip-collect", "--today", "--top", "3"])
@@ -73,6 +97,8 @@ function runHelp(scriptArgs) {
     ["analyze", "analyze-ai", "enrich", "reader"]
   );
   assert.deepStrictEqual(skipCollect.steps.at(-1).args, [
+    "--input",
+    "output/daily-enriched.json",
     "--today",
     "--top",
     "3",
@@ -93,7 +119,11 @@ function runHelp(scriptArgs) {
     fromEnriched.steps.map((s) => s.id),
     ["reader"]
   );
-  assert.deepStrictEqual(fromEnriched.steps[0].args, ["--full"]);
+  assert.deepStrictEqual(fromEnriched.steps[0].args, [
+    "--input",
+    "output/daily-enriched.json",
+    "--full",
+  ]);
   assert.strictEqual(fromEnriched.requireEnriched, true);
 
   console.log("Parse/plan PASS");
@@ -119,7 +149,7 @@ function mockSpawnOk() {
   const root = tmpDir("morning-from-enriched-");
   fs.mkdirSync(path.join(root, "output"), { recursive: true });
   fs.writeFileSync(
-    path.join(root, "output", "timeline_enriched.json"),
+    path.join(root, "output", "daily-enriched.json"),
     "[]\n",
     "utf8"
   );
@@ -148,7 +178,7 @@ function mockSpawnOk() {
   assert.strictEqual(result.ok, true);
   assert.deepStrictEqual(result.stepsRun, ["reader"]);
   assert.strictEqual(result.opened, true);
-  assert.ok(logs.some((l) => l.includes("既存の timeline_enriched.json")));
+  assert.ok(logs.some((l) => l.includes("既存の daily-enriched.json")));
   assert.ok(logs.some((l) => l.includes("最新データではない可能性があります")));
   assert.ok(logs.includes("OPEN_CALLED"));
   assert.strictEqual(calls.length, 1);
@@ -188,7 +218,7 @@ function mockSpawnOk() {
   fs.mkdirSync(path.join(root, "output"), { recursive: true });
   fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
   fs.writeFileSync(
-    path.join(root, "output", "timeline_enriched.json"),
+    path.join(root, "output", "daily-enriched.json"),
     "[]\n",
     "utf8"
   );
@@ -275,7 +305,7 @@ function mockSpawnOk() {
   fs.mkdirSync(path.join(root, "output"), { recursive: true });
   fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
   fs.writeFileSync(
-    path.join(root, "output", "timeline_enriched.json"),
+    path.join(root, "output", "daily-enriched.json"),
     "[]\n",
     "utf8"
   );
@@ -300,6 +330,8 @@ function mockSpawnOk() {
     { rootDir: root, spawn, log: () => {} }
   );
   assert.deepStrictEqual(calls[0].args.slice(1), [
+    "--input",
+    "output/daily-enriched.json",
     "--from",
     "2026-07-01",
     "--to",
@@ -323,7 +355,7 @@ function mockSpawnOk() {
   fs.mkdirSync(path.join(root, "site"), { recursive: true });
   fs.writeFileSync(path.join(root, "site", "marker.txt"), "keep\n", "utf8");
   fs.writeFileSync(
-    path.join(root, "output", "timeline_enriched.json"),
+    path.join(root, "output", "daily-enriched.json"),
     "[]\n",
     "utf8"
   );
@@ -497,7 +529,7 @@ function mockSpawnOk() {
   fs.mkdirSync(path.join(root, "output"), { recursive: true });
   fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
   fs.writeFileSync(
-    path.join(root, "output", "timeline_enriched.json"),
+    path.join(root, "output", "daily-enriched.json"),
     "[]\n",
     "utf8"
   );

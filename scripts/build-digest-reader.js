@@ -48,9 +48,25 @@ function main() {
     }
   }
 
+  const filteredArgv = [];
+  let inputPath = null;
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--input") {
+      const value = argv[i + 1];
+      if (!value || String(value).startsWith("-")) {
+        process.stderr.write("[build:digest-reader] --input にはパスを指定してください。\n");
+        process.exit(1);
+      }
+      inputPath = value;
+      i += 1;
+      continue;
+    }
+    filteredArgv.push(argv[i]);
+  }
+
   let digestOptions;
   try {
-    digestOptions = parseArgs(argv);
+    digestOptions = parseArgs(filteredArgv);
   } catch (error) {
     process.stderr.write(`[build:digest-reader] ${error.message}\n`);
     process.exit(1);
@@ -67,6 +83,7 @@ function main() {
     const result = buildDigestReader({
       rootDir: process.cwd(),
       digestOptions,
+      ...(inputPath ? { inputPath } : {}),
     });
     process.stdout.write(
       `[build:digest-reader] wrote ${path.relative(process.cwd(), result.htmlPath)}\n`

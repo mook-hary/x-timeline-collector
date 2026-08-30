@@ -381,6 +381,9 @@ async function main() {
   assert.strictEqual(saved.collectorHealth.status, "healthy");
   assert.strictEqual(saved.collect.newPosts, 34);
   assert.strictEqual(saved.counts.collect, 638);
+  assert.ok(saved.dailyScope);
+  assert.strictEqual(saved.dailyScope.itemCount, 34);
+  assert.strictEqual(saved.archiveTotal, 638);
   assert.ok(saved.collectorPreflight);
   assert.strictEqual(saved.collectorPreflight.status, "healthy");
   assert.strictEqual(saved.collectorPreflight.chromeRestarted, false);

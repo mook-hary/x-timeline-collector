@@ -22,6 +22,7 @@ const {
   addUsage,
   printUsageSummary,
 } = require("./lib/api-usage");
+const { parseIoFlags, resolveOptionalPath } = require("./lib/daily-scope");
 const { normalizeEnrichAxesResult, AXIS_KEYS } = require("./lib/enrichment-axes");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_ai.json");
@@ -172,12 +173,15 @@ function sleep(ms) {
 
 function parseArgs(argv) {
   if (argv.includes("--help") || argv.includes("-h")) {
-    return { help: true, cacheStats: false, limit: DEFAULT_LIMIT };
+    return { help: true, cacheStats: false, limit: DEFAULT_LIMIT, input: null, output: null };
   }
+  const { input, output, rest } = parseIoFlags(argv, fail);
   return {
     help: false,
-    cacheStats: argv.includes("--cache-stats"),
-    limit: parseLimit(argv),
+    cacheStats: rest.includes("--cache-stats"),
+    limit: parseLimit(rest),
+    input,
+    output,
   };
 }
 
@@ -576,7 +580,7 @@ function printCacheStats(cache) {
 }
 
 async function main() {
-  const { help, cacheStats, limit } = parseArgs(process.argv.slice(2));
+  const { help, cacheStats, limit, input, output } = parseArgs(process.argv.slice(2));
   if (help) {
     printHelp();
     return;
@@ -590,8 +594,10 @@ async function main() {
 
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL || "gpt-5-mini";
+  const inputFile = resolveOptionalPath(input, INPUT_FILE);
+  const outputFile = resolveOptionalPath(output, OUTPUT_FILE);
 
-  const posts = readJsonArrayRequired(INPUT_FILE, "output/timeline_ai.json");
+  const posts = readJsonArrayRequired(inputFile, input || "output/timeline_ai.json");
 
   const progress = loadProgress();
   const contractDoneTargets = posts.filter((post) => {
@@ -638,7 +644,7 @@ async function main() {
 
   if (toProcess.length === 0) {
     const outputPosts = buildOutputPosts(posts, progress, model);
-    writeJsonAtomic(OUTPUT_FILE, outputPosts);
+    writeJsonAtomic(outputFile, outputPosts);
     const pendingCount = outputPosts.filter(
       (post) => post.enrichment?.source === "pending"
     ).length;
@@ -650,7 +656,7 @@ async function main() {
     console.log(`API失敗件数: 0`);
     console.log(`未処理件数: ${pendingCount}`);
     console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
-    console.log(`保存先: ${OUTPUT_FILE}`);
+    console.log(`保存先: ${outputFile}`);
     printUsageSummary("Enrich", usageTotals);
     return;
   }
@@ -740,7 +746,7 @@ async function main() {
       }
     }
 
-    writeJsonAtomic(OUTPUT_FILE, buildOutputPosts(posts, progress, model));
+    writeJsonAtomic(outputFile, buildOutputPosts(posts, progress, model));
 
     if (i < toProcess.length - 1 && consecutiveFailures < MAX_CONSECUTIVE_FAILURES) {
       const upcoming = toProcess[i + 1];
@@ -760,7 +766,7 @@ async function main() {
   }
 
   const outputPosts = buildOutputPosts(posts, progress, model);
-  writeJsonAtomic(OUTPUT_FILE, outputPosts);
+  writeJsonAtomic(outputFile, outputPosts);
   const remainingPending = outputPosts.filter(
     (post) => post.enrichment?.source === "pending"
   ).length;
@@ -772,7 +778,7 @@ async function main() {
   console.log(`API失敗件数: ${apiFailureCount}`);
   console.log(`未処理件数: ${remainingPending}`);
   console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
-  console.log(`保存先: ${OUTPUT_FILE}`);
+  console.log(`保存先: ${outputFile}`);
   console.log(`進捗ファイル: ${PROGRESS_FILE}`);
   console.log(`キャッシュファイル: ${CACHE_FILE}`);
   printUsageSummary("Enrich", usageTotals);

@@ -46,6 +46,14 @@ const {
   HOME_REFRESH_TIMEOUT,
   pickHomeRefresh,
 } = require("../lib/collect-home-refresh");
+const {
+  DAILY_ENRICHED_REL,
+  morningAnalyzeArgs,
+  morningAnalyzeAiArgs,
+  morningEnrichArgs,
+  morningReaderInputArgs,
+  pickDailyScope,
+} = require("../lib/daily-scope");
 
 const AI_LIMIT = "50";
 const ENRICHED_REL = path.join("output", "timeline_enriched.json");
@@ -77,9 +85,9 @@ Default steps:
 Options:
   --skip-collect     Skip Collect
   --skip-ai          Collect (unless skipped) → Analyze → Reader
-                     (uses existing timeline_enriched.json)
+                     (uses existing output/daily-enriched.json)
   --skip-reader      Stop after Enrich (no Digest Reader step)
-  --from-enriched    Reader only (uses existing timeline_enriched.json)
+  --from-enriched    Reader only (uses existing output/daily-enriched.json)
   --open             open output/digest-reader/index.html after success
   --help, -h         Show this help (does nothing else)
 
@@ -188,7 +196,7 @@ function buildMorningPlan(options) {
       id: "reader",
       label: "Digest Reader",
       script: path.join("scripts", "build-digest-reader.js"),
-      args: [...options.readerArgs],
+      args: [...morningReaderInputArgs(), ...options.readerArgs],
     });
     return {
       steps,
@@ -210,7 +218,7 @@ function buildMorningPlan(options) {
     id: "analyze",
     label: "Analyze",
     script: "analyze.js",
-    args: [],
+    args: morningAnalyzeArgs(),
   });
 
   if (!options.skipAi) {
@@ -218,13 +226,13 @@ function buildMorningPlan(options) {
       id: "analyze-ai",
       label: "AI Analyze",
       script: "analyze_ai.js",
-      args: ["--limit", AI_LIMIT],
+      args: morningAnalyzeAiArgs(AI_LIMIT),
     });
     steps.push({
       id: "enrich",
       label: "AI Enrich",
       script: "enrich_ai.js",
-      args: ["--limit", AI_LIMIT],
+      args: morningEnrichArgs(AI_LIMIT),
     });
   }
 
@@ -233,7 +241,7 @@ function buildMorningPlan(options) {
       id: "reader",
       label: "Digest Reader",
       script: path.join("scripts", "build-digest-reader.js"),
-      args: [...options.readerArgs],
+      args: [...morningReaderInputArgs(), ...options.readerArgs],
     });
   }
 
@@ -326,19 +334,19 @@ function runMorning(options, deps = {}) {
   const startedAt = now();
 
   const plan = buildMorningPlan(options);
-  const enrichedPath = path.join(rootDir, ENRICHED_REL);
+  const enrichedPath = path.join(rootDir, DAILY_ENRICHED_REL);
 
   if (plan.requireEnriched && !existsSync(enrichedPath)) {
-    log("[Morning] ERROR: timeline_enriched.json が見つかりません。");
-    log(`[Morning] 期待パス: ${ENRICHED_REL}`);
-    const err = new Error("timeline_enriched.json missing");
+    log("[Morning] ERROR: daily-enriched.json が見つかりません。");
+    log(`[Morning] 期待パス: ${DAILY_ENRICHED_REL}`);
+    const err = new Error("daily-enriched.json missing");
     err.code = "morning-missing-enriched";
     err.exitCode = 1;
     throw err;
   }
 
   if (plan.warnStaleEnriched) {
-    log("既存の timeline_enriched.json を使用します。");
+    log("既存の daily-enriched.json を使用します。");
     log("最新データではない可能性があります。");
   }
 
@@ -509,6 +517,11 @@ function runMorning(options, deps = {}) {
         stageRecord.homeRefreshed = homeRefresh.homeRefreshed;
         stageRecord.homeRefreshedAt = homeRefresh.homeRefreshedAt;
       }
+      const dailyScope = pickDailyScope({
+        collect: stageRecord.collect,
+        dailyScope: health && health.dailyScope,
+      });
+      if (dailyScope) stageRecord.dailyScope = dailyScope;
       if (isCollectAuthFailure(result) || /X_AUTH_REQUIRED/.test(combinedOut)) {
         stageRecord.authError = AUTH_ERROR;
       }
@@ -706,6 +719,12 @@ function runMorning(options, deps = {}) {
       collectStage && collectStage.homeRefreshedAt
         ? collectStage.homeRefreshedAt
         : null,
+    dailyScope:
+      collectStage && collectStage.dailyScope
+        ? collectStage.dailyScope
+        : pickDailyScope({
+            collect: collectStage && collectStage.collect,
+          }),
   };
 }
 
