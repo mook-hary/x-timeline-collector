@@ -96,6 +96,19 @@ function sortOnlyUrls(posts) {
     itemCount: 33,
     path: "output/digest-reader/news-feed.json",
   });
+  const skippedLine = formatNewsFeedBuildLine({
+    generated: false,
+    itemCount: 0,
+  });
+  assert.strictEqual(
+    skippedLine,
+    "[build:digest-reader] news-feed skipped path=output/digest-reader/news-feed.json"
+  );
+  assert.deepStrictEqual(parseNewsFeedFromOutput(`${skippedLine}\n`), {
+    generated: false,
+    itemCount: 0,
+    path: "output/digest-reader/news-feed.json",
+  });
   console.log("news-feed helpers PASS");
 }
 
@@ -462,7 +475,7 @@ function sortOnlyUrls(posts) {
     JSON.stringify(stale, null, 2),
     "utf8"
   );
-  buildDigestReader({
+  const archiveResult = buildDigestReader({
     rootDir: root,
     inputPath: archivePath,
     outputDir,
@@ -474,7 +487,75 @@ function sortOnlyUrls(posts) {
   );
   assert.deepStrictEqual(kept.items, []);
   assert.ok(!JSON.stringify(kept).includes("archive must not publish"));
+  assert.strictEqual(archiveResult.newsFeed.generated, false);
+  const skippedLine = formatNewsFeedBuildLine(archiveResult.newsFeed);
+  assert.match(skippedLine, /news-feed skipped/);
+  assert.deepStrictEqual(parseNewsFeedFromOutput(skippedLine), {
+    generated: false,
+    itemCount: 0,
+    path: NEWS_FEED_REL,
+  });
   console.log("news-feed archive-input-guard PASS");
+}
+
+// --- Case M: Archive input skips Feed; parser reports generated=false ---
+{
+  const root = tmpDir("news-feed-m-");
+  const outputDir = path.join(root, "output", "digest-reader");
+  const archivePath = path.join(root, "output", "timeline_enriched.json");
+  fs.mkdirSync(path.dirname(archivePath), { recursive: true });
+  fs.writeFileSync(
+    archivePath,
+    JSON.stringify(
+      [dailyPost(1, { url: "https://x.com/old/status/9001" })],
+      null,
+      2
+    ),
+    "utf8"
+  );
+  const result = buildDigestReader({
+    rootDir: root,
+    inputPath: archivePath,
+    outputDir,
+    config,
+    profile: false,
+  });
+  assert.strictEqual(result.newsFeed.generated, false);
+  assert.ok(!fs.existsSync(path.join(outputDir, "news-feed.json")));
+  const parsed = parseNewsFeedFromOutput(
+    formatNewsFeedBuildLine(result.newsFeed)
+  );
+  assert.strictEqual(parsed.generated, false);
+  assert.strictEqual(parsed.itemCount, 0);
+  console.log("news-feed case M PASS");
+}
+
+// --- Case N: Daily Enriched input writes Feed; parser reports generated=true ---
+{
+  const root = tmpDir("news-feed-n-");
+  const outputDir = path.join(root, "output", "digest-reader");
+  const dailyPath = path.join(root, "output", "daily-enriched.json");
+  const posts = Array.from({ length: 7 }, (_, i) => dailyPost(i));
+  fs.mkdirSync(path.dirname(dailyPath), { recursive: true });
+  fs.writeFileSync(dailyPath, JSON.stringify(posts, null, 2), "utf8");
+  const result = buildDigestReader({
+    rootDir: root,
+    inputPath: dailyPath,
+    outputDir,
+    config,
+    profile: false,
+  });
+  assert.strictEqual(result.newsFeed.generated, true);
+  assert.strictEqual(result.newsFeed.itemCount, posts.length);
+  const written = JSON.parse(fs.readFileSync(result.newsFeedPath, "utf8"));
+  assert.strictEqual(written.scope.itemCount, 7);
+  assert.strictEqual(written.items.length, 7);
+  const parsed = parseNewsFeedFromOutput(
+    formatNewsFeedBuildLine(result.newsFeed)
+  );
+  assert.strictEqual(parsed.generated, true);
+  assert.strictEqual(parsed.itemCount, 7);
+  console.log("news-feed case N PASS");
 }
 
 console.log("news-feed-test: ALL PASS");
