@@ -1,150 +1,213 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-08-31T18:04:48.898Z",
+  "generatedAt": "2026-09-01T18:03:37.340Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 8
+    "itemCount": 11
   },
   "items": [
     {
-      "id": "2094389953212059789",
-      "title": "作画監督として、若手アニメーターの高い画力と吸収力に驚き、日々刺激を受けていると述べている。",
-      "summary": "作画監督として、若手アニメーターの高い画力と吸収力に驚き、日々刺激を受けていると述べている。",
+      "id": "2094621767994319241",
+      "title": "アニメ制作現場の取引適正化指針に関する問い合わせ窓口と公正取引委員会の連絡先を案内している。",
+      "summary": "アニメ制作現場の取引適正化指針に関する問い合わせ窓口と公正取引委員会の連絡先を案内している。",
       "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ky_anime_lab/status/2094389953212059789",
-      "postedAt": "2026-08-31T11:40:51.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
+      "sourceUrl": "https://x.com/NAFCA_official/status/2094621767994319241",
+      "postedAt": "2026-09-01T03:02:00.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
       "author": {
-        "name": "横山健次 - アニメーター Kenji Yokoyama",
-        "handle": "@ky_anime_lab"
+        "name": "日本アニメフィルム文化連盟 -NAFCA-",
+        "handle": "@NAFCA_official"
       },
       "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 3,
         "attentionSignal": 1,
-        "importance": 3
+        "importance": 4
       }
     },
     {
-      "id": "2094416881327411356",
-      "title": "植芝盛平と合気道の中身は異なるようだと述べ、最初の師範が掲載されていると指摘している。",
-      "summary": "植芝盛平と合気道の中身は異なるようだと述べ、最初の師範が掲載されていると指摘している。",
+      "id": "2094620543001731279",
+      "title": "ちいかわのバリアフリー字幕上映が3日間しかなく、さらに1日1回しか上映されないと指摘している。",
+      "summary": "ちいかわのバリアフリー字幕上映が3日間しかなく、さらに1日1回しか上映されないと指摘している。",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/usasa21/status/2094620543001731279",
+      "postedAt": "2026-09-01T02:57:08.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "うささꪔ̤̫ ｜耳がきこえない漫画家｜書籍発売中",
+        "handle": "@usasa21"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 4,
+        "importance": 4
+      }
+    },
+    {
+      "id": "2094805653579771947",
+      "title": "Xの「アニメーターは40歳で画力低下」論に対し、父・岡田敏靖の代表作と当時の年齢を列挙して反論している。",
+      "summary": "Xの「アニメーターは40歳で画力低下」論に対し、父・岡田敏靖の代表作と当時の年齢を列挙して反論している。",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/IkiruOkada/status/2094805653579771947",
+      "postedAt": "2026-09-01T15:12:42.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "岡田生",
+        "handle": "@IkiruOkada"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 3,
+        "importance": 4
+      }
+    },
+    {
+      "id": "2094549296779551000",
+      "title": "千葉市は53mm想定の下水対策が115mmの豪雨で限界に。流域全体で森林・農地・湿地の役割を評価すべきだと主張している。",
+      "summary": "千葉市は53mm想定の下水対策が115mmの豪雨で限界に。流域全体で森林・農地・湿地の役割を評価すべきだと主張している。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/sasakitoshinao/status/2094549296779551000",
+      "postedAt": "2026-08-31T22:14:01.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "佐々木俊尚＠「フラット登山 日本を歩く旅60」発売3週間で増刷決定！",
+        "handle": "@sasakitoshinao"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 2,
+        "importance": 4
+      }
+    },
+    {
+      "id": "2092052696878473227",
+      "title": "複数デバイス向けの高速で信頼性の高いホームインターネットを提供し、数分で注文可能だと宣伝している。",
+      "summary": "複数デバイス向けの高速で信頼性の高いホームインターネットを提供し、数分で注文可能だと宣伝している。",
+      "category": "ゲーム・ゲーム開発",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Starlink/status/2092052696878473227",
+      "postedAt": null,
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "Starlink",
+        "handle": "@Starlink"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094829886041186728",
+      "title": "ネタバレが視聴体験に影響する作品でのSNS対応の難しさを指摘している。",
+      "summary": "ネタバレが視聴体験に影響する作品でのSNS対応の難しさを指摘している。",
+      "category": "エンタメ・イベント",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/nekoruri/status/2094829886041186728",
+      "postedAt": "2026-09-01T16:48:59.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "Aki(本物)＠めもおきば",
+        "handle": "@nekoruri"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094611432373649501",
+      "title": "コロナで高熱の親が、3歳娘の医者ごっこで「ちにました」と言われた体験談",
+      "summary": "コロナで高熱の親が、3歳娘の医者ごっこで「ちにました」と言われた体験談",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/muri112233/status/2094611432373649501",
+      "postedAt": "2026-09-01T02:20:56.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "無",
+        "handle": "@muri112233"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094828620762300540",
+      "title": "体調不良で欠席し自然治癒を期待、めいさ様生誕で手振付ができないかもしれないと謝罪している。",
+      "summary": "体調不良で欠席し自然治癒を期待、めいさ様生誕で手振付ができないかもしれないと謝罪している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/u_ume7/status/2094828620762300540",
+      "postedAt": "2026-09-01T16:43:57.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "柑橘めたる",
+        "handle": "@u_ume7"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      }
+    },
+    {
+      "id": "2094810025395208397",
+      "title": "「ちいかわは反則すぎるだろ！」と作品の魅力を感嘆する意見を述べている",
+      "summary": "「ちいかわは反則すぎるだろ！」と作品の魅力を感嘆する意見を述べている",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/itoi_shigesato/status/2094810025395208397",
+      "postedAt": "2026-09-01T15:30:04.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "author": {
+        "name": "糸井 重里",
+        "handle": "@itoi_shigesato"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 1
+      }
+    },
+    {
+      "id": "2094824583606288502",
+      "title": "夜10時から夜勤中だが、頭痛と胃痛がひどいと訴えている。",
+      "summary": "夜10時から夜勤中だが、頭痛と胃痛がひどいと訴えている。",
       "category": "合気道・武道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/uonikaeritai/status/2094416881327411356",
-      "postedAt": "2026-08-31T13:27:51.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
+      "sourceUrl": "https://x.com/makimaki_aiki55/status/2094824583606288502",
+      "postedAt": "2026-09-01T16:27:55.000Z",
+      "collectedAt": "2026-09-01T18:00:44.100Z",
       "author": {
-        "name": "大豆",
-        "handle": "@uonikaeritai"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094394907737931840",
-      "title": "人の心をつかむ人望力についての秘訣を紹介する、3回シリーズの第1回として告知している投稿",
-      "summary": "人の心をつかむ人望力についての秘訣を紹介する、3回シリーズの第1回として告知している投稿",
-      "category": "仕事・キャリア",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/B_B_Sergeant/status/2094394907737931840",
-      "postedAt": "2026-08-31T12:00:32.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
-      "author": {
-        "name": "B.B軍曹",
-        "handle": "@B_B_Sergeant"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094259382989308050",
-      "title": "孤児院育ちの来訪者が『親ガチャは中身が空っぽだった』と冗談を言い、作者と爆笑した日常エピソード。",
-      "summary": "孤児院育ちの来訪者が『親ガチャは中身が空っぽだった』と冗談を言い、作者と爆笑した日常エピソード。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/proogo/status/2094259382989308050",
-      "postedAt": "2026-08-31T03:02:01.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
-      "author": {
-        "name": "奢られ屋の日記",
-        "handle": "@proogo"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094393018388475940",
-      "title": "SNSは承認欲求の場ではなく、排泄欲求のようなものだと主張している意見。",
-      "summary": "SNSは承認欲求の場ではなく、排泄欲求のようなものだと主張している意見。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/satou_rco/status/2094393018388475940",
-      "postedAt": "2026-08-31T11:53:02.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
-      "author": {
-        "name": "サトマイ",
-        "handle": "@satou_rco"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094440086930649505",
-      "title": "ローソンが「月見フェア」を告知。弁当〜スイーツ全19種（沖縄は14種）、診断企画や発売日情報あり。",
-      "summary": "ローソンが「月見フェア」を告知。弁当〜スイーツ全19種（沖縄は14種）、診断企画や発売日情報あり。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/akiko_lawson/status/2094440086930649505",
-      "postedAt": null,
-      "collectedAt": "2026-08-31T18:00:41.087Z",
-      "author": {
-        "name": "ローソン",
-        "handle": "@akiko_lawson"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094369973330399610",
-      "title": "「エロ垢じゃない」と短く主張している投稿",
-      "summary": "「エロ垢じゃない」と短く主張している投稿",
-      "category": "その他",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/mtmt_death/status/2094369973330399610",
-      "postedAt": "2026-08-31T10:21:27.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
-      "author": {
-        "name": "丹生",
-        "handle": "@mtmt_death"
+        "name": "真気　合気道家",
+        "handle": "@makimaki_aiki55"
       },
       "scores": {
         "informationValue": 1,
@@ -155,24 +218,24 @@
       }
     },
     {
-      "id": "2094424841726365721",
-      "title": "感嘆符と疑問符のみの短文投稿。意味は不明で反応・困惑の表現にとどまる。",
-      "summary": "感嘆符と疑問符のみの短文投稿。意味は不明で反応・困惑の表現にとどまる。",
-      "category": "その他",
+      "id": "2092980132676030944",
+      "title": "傘に貼って識別しやすくするステッカーをPRで紹介。曲面に貼りやすく可愛くアレンジできると説明している。",
+      "summary": "傘に貼って識別しやすくするステッカーをPRで紹介。曲面に貼りやすく可愛くアレンジできると説明している。",
+      "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/shoeshineoknw/status/2094424841726365721",
-      "postedAt": "2026-08-31T13:59:29.000Z",
-      "collectedAt": "2026-08-31T18:00:41.087Z",
+      "sourceUrl": "https://x.com/makimakidesun/status/2092980132676030944",
+      "postedAt": null,
+      "collectedAt": "2026-09-01T18:00:44.100Z",
       "author": {
-        "name": "仲程 秀之@沖縄の出張靴磨き屋",
-        "handle": "@shoeshineoknw"
+        "name": "キューラボ｜お買い物ログ",
+        "handle": "@makimakidesun"
       },
       "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
+        "informationValue": 2,
+        "personalRelevance": 2,
         "impact": 1,
-        "attentionSignal": 4,
-        "importance": 1
+        "attentionSignal": 1,
+        "importance": 2
       }
     }
   ]
