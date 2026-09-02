@@ -1,108 +1,87 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-01T18:03:37.340Z",
+  "generatedAt": "2026-09-02T18:02:06.614Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 11
+    "itemCount": 7
   },
   "items": [
     {
-      "id": "2094621767994319241",
-      "title": "アニメ制作現場の取引適正化指針に関する問い合わせ窓口と公正取引委員会の連絡先を案内している。",
-      "summary": "アニメ制作現場の取引適正化指針に関する問い合わせ窓口と公正取引委員会の連絡先を案内している。",
-      "category": "アニメ・漫画",
+      "id": "2095141879201542248",
+      "title": "AI時代の開発では「何を作らないか」が重要だとする記事を投稿したと告知している。",
+      "summary": "AI時代の開発では「何を作らないか」が重要だとする記事を投稿したと告知している。",
+      "category": "AI",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/NAFCA_official/status/2094621767994319241",
-      "postedAt": "2026-09-01T03:02:00.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "sourceUrl": "https://x.com/kensuu/status/2095141879201542248",
+      "postedAt": "2026-09-02T13:28:44.000Z",
+      "collectedAt": "2026-09-02T18:00:42.601Z",
       "author": {
-        "name": "日本アニメフィルム文化連盟 -NAFCA-",
-        "handle": "@NAFCA_official"
+        "name": "けんすう",
+        "handle": "@kensuu"
       },
       "scores": {
-        "informationValue": 4,
-        "personalRelevance": 4,
-        "impact": 3,
-        "attentionSignal": 1,
-        "importance": 4
-      }
-    },
-    {
-      "id": "2094620543001731279",
-      "title": "ちいかわのバリアフリー字幕上映が3日間しかなく、さらに1日1回しか上映されないと指摘している。",
-      "summary": "ちいかわのバリアフリー字幕上映が3日間しかなく、さらに1日1回しか上映されないと指摘している。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/usasa21/status/2094620543001731279",
-      "postedAt": "2026-09-01T02:57:08.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "うささꪔ̤̫ ｜耳がきこえない漫画家｜書籍発売中",
-        "handle": "@usasa21"
-      },
-      "scores": {
-        "informationValue": 4,
-        "personalRelevance": 4,
-        "impact": 3,
-        "attentionSignal": 4,
-        "importance": 4
-      }
-    },
-    {
-      "id": "2094805653579771947",
-      "title": "Xの「アニメーターは40歳で画力低下」論に対し、父・岡田敏靖の代表作と当時の年齢を列挙して反論している。",
-      "summary": "Xの「アニメーターは40歳で画力低下」論に対し、父・岡田敏靖の代表作と当時の年齢を列挙して反論している。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/IkiruOkada/status/2094805653579771947",
-      "postedAt": "2026-09-01T15:12:42.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "岡田生",
-        "handle": "@IkiruOkada"
-      },
-      "scores": {
-        "informationValue": 4,
-        "personalRelevance": 4,
-        "impact": 3,
-        "attentionSignal": 3,
-        "importance": 4
-      }
-    },
-    {
-      "id": "2094549296779551000",
-      "title": "千葉市は53mm想定の下水対策が115mmの豪雨で限界に。流域全体で森林・農地・湿地の役割を評価すべきだと主張している。",
-      "summary": "千葉市は53mm想定の下水対策が115mmの豪雨で限界に。流域全体で森林・農地・湿地の役割を評価すべきだと主張している。",
-      "category": "生活・健康",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sasakitoshinao/status/2094549296779551000",
-      "postedAt": "2026-08-31T22:14:01.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "佐々木俊尚＠「フラット登山 日本を歩く旅60」発売3週間で増刷決定！",
-        "handle": "@sasakitoshinao"
-      },
-      "scores": {
-        "informationValue": 4,
+        "informationValue": 3,
         "personalRelevance": 3,
         "impact": 3,
         "attentionSignal": 2,
-        "importance": 4
+        "importance": 3
       }
     },
     {
-      "id": "2092052696878473227",
-      "title": "複数デバイス向けの高速で信頼性の高いホームインターネットを提供し、数分で注文可能だと宣伝している。",
-      "summary": "複数デバイス向けの高速で信頼性の高いホームインターネットを提供し、数分で注文可能だと宣伝している。",
-      "category": "ゲーム・ゲーム開発",
+      "id": "2095178291808276781",
+      "title": "Ulas SarikayaによるBlenderを用いた非写実的な3Dレンダリング作品を紹介している。",
+      "summary": "Ulas SarikayaによるBlenderを用いた非写実的な3Dレンダリング作品を紹介している。",
+      "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/Starlink/status/2092052696878473227",
-      "postedAt": null,
-      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "sourceUrl": "https://x.com/catsuka/status/2095178291808276781",
+      "postedAt": "2026-09-02T15:53:25.000Z",
+      "collectedAt": "2026-09-02T18:00:42.601Z",
       "author": {
-        "name": "Starlink",
-        "handle": "@Starlink"
+        "name": "Catsuka",
+        "handle": "@catsuka"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      }
+    },
+    {
+      "id": "2094570287844966718",
+      "title": "Appleが日本時間9月10日午前2時からの特別イベント開催を告知。リマインダー設定が可能と案内している。",
+      "summary": "Appleが日本時間9月10日午前2時からの特別イベント開催を告知。リマインダー設定が可能と案内している。",
+      "category": "エンタメ・イベント",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Apple/status/2094570287844966718",
+      "postedAt": null,
+      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "author": {
+        "name": "Apple",
+        "handle": "@Apple"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      }
+    },
+    {
+      "id": "2082633101650599977",
+      "title": "リクルートエージェントがハイクラス転職を宣伝し、転職決定数No.1だと謳っている広告投稿。",
+      "summary": "リクルートエージェントがハイクラス転職を宣伝し、転職決定数No.1だと謳っている広告投稿。",
+      "category": "仕事・キャリア",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/recruit_agent/status/2082633101650599977",
+      "postedAt": null,
+      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "author": {
+        "name": "リクルートエージェント",
+        "handle": "@recruit_agent"
       },
       "scores": {
         "informationValue": null,
@@ -113,129 +92,66 @@
       }
     },
     {
-      "id": "2094829886041186728",
-      "title": "ネタバレが視聴体験に影響する作品でのSNS対応の難しさを指摘している。",
-      "summary": "ネタバレが視聴体験に影響する作品でのSNS対応の難しさを指摘している。",
-      "category": "エンタメ・イベント",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/nekoruri/status/2094829886041186728",
-      "postedAt": "2026-09-01T16:48:59.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "Aki(本物)＠めもおきば",
-        "handle": "@nekoruri"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094611432373649501",
-      "title": "コロナで高熱の親が、3歳娘の医者ごっこで「ちにました」と言われた体験談",
-      "summary": "コロナで高熱の親が、3歳娘の医者ごっこで「ちにました」と言われた体験談",
+      "id": "2095185806675542166",
+      "title": "森博嗣『恋恋蓮歩の演習』の一節引用。愛の思い込みが微風のように人を動かすと描写している。",
+      "summary": "森博嗣『恋恋蓮歩の演習』の一節引用。愛の思い込みが微風のように人を動かすと描写している。",
       "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/muri112233/status/2094611432373649501",
-      "postedAt": "2026-09-01T02:20:56.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "sourceUrl": "https://x.com/sAndm_select/status/2095185806675542166",
+      "postedAt": "2026-09-02T16:23:17.000Z",
+      "collectedAt": "2026-09-02T18:00:42.601Z",
       "author": {
-        "name": "無",
-        "handle": "@muri112233"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094828620762300540",
-      "title": "体調不良で欠席し自然治癒を期待、めいさ様生誕で手振付ができないかもしれないと謝罪している。",
-      "summary": "体調不良で欠席し自然治癒を期待、めいさ様生誕で手振付ができないかもしれないと謝罪している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/u_ume7/status/2094828620762300540",
-      "postedAt": "2026-09-01T16:43:57.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "柑橘めたる",
-        "handle": "@u_ume7"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      }
-    },
-    {
-      "id": "2094810025395208397",
-      "title": "「ちいかわは反則すぎるだろ！」と作品の魅力を感嘆する意見を述べている",
-      "summary": "「ちいかわは反則すぎるだろ！」と作品の魅力を感嘆する意見を述べている",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/itoi_shigesato/status/2094810025395208397",
-      "postedAt": "2026-09-01T15:30:04.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "糸井 重里",
-        "handle": "@itoi_shigesato"
+        "name": "森博嗣ミステリbot",
+        "handle": "@sAndm_select"
       },
       "scores": {
         "informationValue": 1,
         "personalRelevance": 2,
         "impact": 1,
-        "attentionSignal": 3,
+        "attentionSignal": 1,
         "importance": 1
       }
     },
     {
-      "id": "2094824583606288502",
-      "title": "夜10時から夜勤中だが、頭痛と胃痛がひどいと訴えている。",
-      "summary": "夜10時から夜勤中だが、頭痛と胃痛がひどいと訴えている。",
-      "category": "合気道・武道",
+      "id": "2095195216206762353",
+      "title": "投稿者は整理整頓が苦手で、レイヤーの整理も苦手だと自覚し、意識して気をつける必要があると述べている。",
+      "summary": "投稿者は整理整頓が苦手で、レイヤーの整理も苦手だと自覚し、意識して気をつける必要があると述べている。",
+      "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/makimaki_aiki55/status/2094824583606288502",
-      "postedAt": "2026-09-01T16:27:55.000Z",
-      "collectedAt": "2026-09-01T18:00:44.100Z",
+      "sourceUrl": "https://x.com/nimroid/status/2095195216206762353",
+      "postedAt": "2026-09-02T17:00:41.000Z",
+      "collectedAt": "2026-09-02T18:00:42.601Z",
       "author": {
-        "name": "真気　合気道家",
-        "handle": "@makimaki_aiki55"
+        "name": "諸貫哲朗 ☺︎ TETSURO MORONUKI",
+        "handle": "@nimroid"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      }
+    },
+    {
+      "id": "2095202354211729859",
+      "title": "本文が空の投稿で、追加情報や主張は含まれていない。",
+      "summary": "本文が空の投稿で、追加情報や主張は含まれていない。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/cyjalway/status/2095202354211729859",
+      "postedAt": "2026-09-02T17:29:02.000Z",
+      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "author": {
+        "name": "貴子",
+        "handle": "@cyjalway"
       },
       "scores": {
         "informationValue": 1,
         "personalRelevance": 1,
         "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2092980132676030944",
-      "title": "傘に貼って識別しやすくするステッカーをPRで紹介。曲面に貼りやすく可愛くアレンジできると説明している。",
-      "summary": "傘に貼って識別しやすくするステッカーをPRで紹介。曲面に貼りやすく可愛くアレンジできると説明している。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/makimakidesun/status/2092980132676030944",
-      "postedAt": null,
-      "collectedAt": "2026-09-01T18:00:44.100Z",
-      "author": {
-        "name": "キューラボ｜お買い物ログ",
-        "handle": "@makimakidesun"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
         "attentionSignal": 1,
-        "importance": 2
+        "importance": 1
       }
     }
   ]
