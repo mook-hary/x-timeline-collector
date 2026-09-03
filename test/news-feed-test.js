@@ -56,6 +56,7 @@ function dailyPost(index, extra = {}) {
     enrichment: extra.enrichment || axisEnrichment(
       extra.summary ? { summary: extra.summary } : {}
     ),
+    ...(extra.media ? { media: extra.media } : {}),
   };
 }
 
@@ -125,6 +126,9 @@ function sortOnlyUrls(posts) {
   assert.deepStrictEqual(feed.scope, { type: "collect-run", itemCount: 10 });
   assert.strictEqual(feed.items.length, 10);
   assert.strictEqual(feed.scope.itemCount, posts.length);
+  for (const item of feed.items) {
+    assert.deepStrictEqual(item.media, []);
+  }
   console.log("news-feed case A PASS");
 }
 
@@ -229,6 +233,7 @@ function sortOnlyUrls(posts) {
     attentionSignal: 2,
     importance: 5,
   });
+  assert.deepStrictEqual(item.media, []);
   console.log("news-feed case D/E PASS");
 }
 
@@ -251,6 +256,7 @@ function sortOnlyUrls(posts) {
     attentionSignal: null,
     importance: null,
   });
+  assert.deepStrictEqual(item.media, []);
   const raw = JSON.stringify(feed);
   JSON.parse(raw);
   console.log("news-feed case F PASS");
@@ -556,6 +562,75 @@ function sortOnlyUrls(posts) {
   assert.strictEqual(parsed.generated, true);
   assert.strictEqual(parsed.itemCount, 7);
   console.log("news-feed case N PASS");
+}
+
+// --- media metadata is additive; schemaVersion stays 1 ---
+{
+  const photo =
+    "https://pbs.twimg.com/media/example.jpg?format=jpg&name=orig";
+  const posts = [
+    dailyPost(1, {
+      enrichment: axisEnrichment({
+        informationValue: 1,
+        personalRelevance: 1,
+        impact: 1,
+        importance: 1,
+        summary: "low",
+      }),
+    }),
+    dailyPost(2, {
+      enrichment: axisEnrichment({
+        informationValue: 5,
+        personalRelevance: 5,
+        impact: 5,
+        importance: 5,
+        summary: "high",
+      }),
+      media: [
+        {
+          type: "image",
+          url: photo,
+          previewUrl: photo,
+          altText: null,
+          width: null,
+          height: null,
+        },
+      ],
+    }),
+  ];
+  const withoutMedia = posts.map(({ media: _m, ...rest }) => rest);
+  const feed = buildNewsFeed(posts, { config });
+  const baseline = buildNewsFeed(withoutMedia, { config });
+  assert.strictEqual(feed.schemaVersion, 1);
+  assert.strictEqual(feed.schemaVersion, SCHEMA_VERSION);
+  assert.strictEqual(feed.scope.itemCount, posts.length);
+  assert.strictEqual(feed.items.length, posts.length);
+  assert.deepStrictEqual(
+    feed.items.map((item) => item.sourceUrl),
+    baseline.items.map((item) => item.sourceUrl)
+  );
+  assert.deepStrictEqual(
+    feed.items.map((item) => item.scores),
+    baseline.items.map((item) => item.scores)
+  );
+  assert.deepStrictEqual(
+    feed.items.map((item) => item.title),
+    baseline.items.map((item) => item.title)
+  );
+  assert.deepStrictEqual(feed.items[1].media, []);
+  const withPhoto = feed.items.find(
+    (item) => item.sourceUrl === posts[1].url
+  );
+  const withoutPhoto = feed.items.find(
+    (item) => item.sourceUrl === posts[0].url
+  );
+  assert.ok(withPhoto);
+  assert.ok(withoutPhoto);
+  assert.deepStrictEqual(withoutPhoto.media, []);
+  assert.strictEqual(withPhoto.media.length, 1);
+  assert.strictEqual(withPhoto.media[0].type, "image");
+  assert.strictEqual(withPhoto.media[0].url, photo);
+  console.log("news-feed media additive PASS");
 }
 
 console.log("news-feed-test: ALL PASS");

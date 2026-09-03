@@ -32,6 +32,12 @@ const {
   refreshHomeThenCheckLogin,
 } = require("./lib/collect-home-refresh");
 const { saveDailyScope, buildDailyScope } = require("./lib/daily-scope");
+const { canonicalizeMediaList } = require("./lib/tweet-media");
+
+const TWEET_MEDIA_JS = fs.readFileSync(
+  path.join(__dirname, "lib", "tweet-media.js"),
+  "utf8"
+);
 
 const CDP_URL = "http://localhost:9222";
 const MAX_POSTS = 50;
@@ -154,8 +160,8 @@ function loadExistingPosts() {
 
 /**
  * Canonical Raw post for newly collected items.
- * Always includes all six keys; missing values become "".
- * Does not mutate or upgrade existing/legacy posts.
+ * Always includes the original six keys; missing values become "".
+ * `media` is always an array (empty when none). Legacy stored posts are not backfilled.
  */
 function toCanonicalNewPost(post, collectedAt) {
   return {
@@ -165,6 +171,7 @@ function toCanonicalNewPost(post, collectedAt) {
     text: post.text == null ? "" : String(post.text),
     url: post.url == null ? "" : String(post.url),
     collectedAt: collectedAt == null ? "" : String(collectedAt),
+    media: canonicalizeMediaList(post && post.media),
   };
 }
 
@@ -273,7 +280,18 @@ async function connectToChrome(browserType = chromium, cdpUrl = CDP_URL, options
 }
 
 async function extractVisiblePosts(page) {
+  try {
+    await page.evaluate(TWEET_MEDIA_JS);
+  } catch (_error) {
+    // Media helpers are optional; text collection still proceeds.
+  }
+
   return page.evaluate(() => {
+    const extractMedia =
+      globalThis.__xTweetMedia &&
+      typeof globalThis.__xTweetMedia.extractMediaFromArticle === "function"
+        ? globalThis.__xTweetMedia.extractMediaFromArticle
+        : () => [];
     const articles = Array.from(document.querySelectorAll("article"));
     const results = [];
 
@@ -329,6 +347,7 @@ async function extractVisiblePosts(page) {
         postedAt,
         text,
         url,
+        media: extractMedia(article),
       });
     }
 
@@ -349,6 +368,7 @@ function mergeFetchedPosts(posts, seen, rawPosts) {
       postedAt: post.postedAt == null ? "" : String(post.postedAt),
       text: post.text == null ? "" : String(post.text),
       url,
+      media: canonicalizeMediaList(post.media),
     });
   }
 }
@@ -622,6 +642,7 @@ module.exports = {
   parseConnectArgs,
   assessXSession,
   mergeWithExisting,
+  mergeFetchedPosts,
   toCanonicalNewPost,
   buildCollectMetrics,
   newestPostedAt,
