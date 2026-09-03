@@ -1,45 +1,282 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-02T18:02:06.614Z",
+  "generatedAt": "2026-09-03T18:06:28.417Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 7
+    "itemCount": 34
   },
   "items": [
     {
-      "id": "2095141879201542248",
-      "title": "AI時代の開発では「何を作らないか」が重要だとする記事を投稿したと告知している。",
-      "summary": "AI時代の開発では「何を作らないか」が重要だとする記事を投稿したと告知している。",
-      "category": "AI",
+      "id": "2093263165433974900",
+      "title": "Takumi RunnerがGitHub Actions実行トレース取り込みとサプライチェーン脅威検出機能をリリースしたと発表している。",
+      "summary": "Takumi RunnerがGitHub Actions実行トレース取り込みとサプライチェーン脅威検出機能をリリースしたと発表している。",
+      "category": "プログラミング・IT",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/kensuu/status/2095141879201542248",
-      "postedAt": "2026-09-02T13:28:44.000Z",
-      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "sourceUrl": "https://x.com/flatt_security/status/2093263165433974900",
+      "postedAt": null,
+      "collectedAt": "2026-09-03T18:00:41.290Z",
       "author": {
-        "name": "けんすう",
-        "handle": "@kensuu"
+        "name": "GMO Flatt Security株式会社",
+        "handle": "@flatt_security"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 4,
+        "attentionSignal": 2,
+        "importance": 4
+      },
+      "media": []
+    },
+    {
+      "id": "2095316114125549830",
+      "title": "総務省がSNSの偽情報や投資・ロマンス詐欺、セクストーション等を体験学習できるゲーム教材「リテプロ」を公開と案内している。",
+      "summary": "総務省がSNSの偽情報や投資・ロマンス詐欺、セクストーション等を体験学習できるゲーム教材「リテプロ」を公開と案内している。",
+      "category": "ゲーム・ゲーム開発",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/MIC_JAPAN/status/2095316114125549830",
+      "postedAt": "2026-09-03T01:01:05.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "総務省",
+        "handle": "@MIC_JAPAN"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 1,
+        "importance": 4
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095316075944845312/img/lLCmOz0-oOyB9U4c.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095570165685494167",
+      "title": "YouTuber Cr1TiKaL原作の映画『Godslap』最初のティーザー公開。PowerhouseとLyrical制作、監督Kellan Stover、2",
+      "summary": "YouTuber Cr1TiKaL原作の映画『Godslap』最初のティーザー公開。PowerhouseとLyrical制作、監督Kellan Stover、2",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/catsuka/status/2095570165685494167",
+      "postedAt": "2026-09-03T17:50:35.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Catsuka",
+        "handle": "@catsuka"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095568494654083072/img/E1C_boV1afKlOy4I.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095490013589028877",
+      "title": "ゲーム開発者を取材し記事化、PNGTuberが解説動画化する案件を1件1万円で提案している",
+      "summary": "ゲーム開発者を取材し記事化、PNGTuberが解説動画化する案件を1件1万円で提案している",
+      "category": "ゲーム・ゲーム開発",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/IHayato/status/2095490013589028877",
+      "postedAt": "2026-09-03T12:32:06.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "🍺 イケハヤ@「月蝕綺譚」開発",
+        "handle": "@IHayato"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": []
+    },
+    {
+      "id": "2095317164643487768",
+      "title": "吉野彰氏と約80分、電池について語った落合陽一の対談記事を紹介している。",
+      "summary": "吉野彰氏と約80分、電池について語った落合陽一の対談記事を紹介している。",
+      "category": "ニュース・報道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/ochyai/status/2095317164643487768",
+      "postedAt": "2026-09-03T01:05:15.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "落合陽一 Yoichi OCHIAI",
+        "handle": "@ochyai"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 2,
+        "importance": 4
+      },
+      "media": []
+    },
+    {
+      "id": "2095448000713683150",
+      "title": "笹岡由梨子展『渦巻』の展示レポート。市原湖畔美術館で7/18〜9/23開催、記事リンク。",
+      "summary": "笹岡由梨子展『渦巻』の展示レポート。市原湖畔美術館で7/18〜9/23開催、記事リンク。",
+      "category": "イラスト・美術",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/TokyoArtBeat_JP/status/2095448000713683150",
+      "postedAt": "2026-09-03T09:45:09.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Tokyo Art Beat",
+        "handle": "@TokyoArtBeat_JP"
       },
       "scores": {
         "informationValue": 3,
         "personalRelevance": 3,
-        "impact": 3,
+        "impact": 2,
         "attentionSignal": 2,
         "importance": 3
-      }
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRSG2buXgAI7Kgt?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRSG2buXgAI7Kgt?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRSG2iBXEAIAMGD?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRSG2iBXEAIAMGD?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRSG2b7XEAECl9Q?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRSG2b7XEAECl9Q?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRSG2gUW8AImLI6?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRSG2gUW8AImLI6?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
     },
     {
-      "id": "2095178291808276781",
-      "title": "Ulas SarikayaによるBlenderを用いた非写実的な3Dレンダリング作品を紹介している。",
-      "summary": "Ulas SarikayaによるBlenderを用いた非写実的な3Dレンダリング作品を紹介している。",
-      "category": "イラスト・美術",
+      "id": "2095469434567852160",
+      "title": "穴に落ちたスターは上から取れると示す、ゲームの小技・攻略の投稿。",
+      "summary": "穴に落ちたスターは上から取れると示す、ゲームの小技・攻略の投稿。",
+      "category": "ゲーム・ゲーム開発",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/catsuka/status/2095178291808276781",
-      "postedAt": "2026-09-02T15:53:25.000Z",
-      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "sourceUrl": "https://x.com/wiz4_werdna/status/2095469434567852160",
+      "postedAt": "2026-09-03T11:10:19.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
       "author": {
-        "name": "Catsuka",
-        "handle": "@catsuka"
+        "name": "ワードナ",
+        "handle": "@wiz4_werdna"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/amplify_video_thumb/2094756269173473281/img/lZylCz9PgCwtsecT?format=jpg&name=360x360",
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2094756269173473281/img/lZylCz9PgCwtsecT?format=jpg&name=360x360",
+          "altText": "埋め込み動画",
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095478984557682819",
+      "title": "人間関係は「好かれよう」ではなく、良い関係作りを自己満足的に楽しむことで築かれると主張。見捨てられ不安の克服を提案。",
+      "summary": "人間関係は「好かれよう」ではなく、良い関係作りを自己満足的に楽しむことで築かれると主張。見捨てられ不安の克服を提案。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/PositiveSalon/status/2095478984557682819",
+      "postedAt": "2026-09-03T11:48:16.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "アドラー心理学サロン(アドサロ)",
+        "handle": "@PositiveSalon"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": []
+    },
+    {
+      "id": "2095413727445278823",
+      "title": "自分の不遇を笑いに変える処世術と、それが通用しなくなったときの戸惑いを美しいと語っている。",
+      "summary": "自分の不遇を笑いに変える処世術と、それが通用しなくなったときの戸惑いを美しいと語っている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/taichinakaj/status/2095413727445278823",
+      "postedAt": "2026-09-03T07:28:58.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "プロ奢ラレヤー🍣",
+        "handle": "@taichinakaj"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 3
+      },
+      "media": []
+    },
+    {
+      "id": "2095386752445780000",
+      "title": "未発生の問題は存在しないと仮定して挑む、直面時は存在を認め解決を模索すべきだと主張している。",
+      "summary": "未発生の問題は存在しないと仮定して挑む、直面時は存在を認め解決を模索すべきだと主張している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/_NaokiSaito/status/2095386752445780000",
+      "postedAt": "2026-09-03T05:41:46.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "さいとう なおき🍀",
+        "handle": "@_NaokiSaito"
       },
       "scores": {
         "informationValue": 3,
@@ -47,104 +284,518 @@
         "impact": 2,
         "attentionSignal": 1,
         "importance": 3
-      }
+      },
+      "media": []
     },
     {
-      "id": "2094570287844966718",
-      "title": "Appleが日本時間9月10日午前2時からの特別イベント開催を告知。リマインダー設定が可能と案内している。",
-      "summary": "Appleが日本時間9月10日午前2時からの特別イベント開催を告知。リマインダー設定が可能と案内している。",
+      "id": "2095507588683309089",
+      "title": "つらい時に自殺や過度な自己犠牲を選ばず、生き残ってほしいと励ましている。",
+      "summary": "つらい時に自殺や過度な自己犠牲を選ばず、生き残ってほしいと励ましている。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/paya_paya_kun/status/2095507588683309089",
+      "postedAt": "2026-09-03T13:41:56.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "ぱやぱやくん",
+        "handle": "@paya_paya_kun"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": []
+    },
+    {
+      "id": "2095482917023862890",
+      "title": "「男は外で頑張ってるから家では甘やかせ」という性別役割の主張に疑問を呈している。",
+      "summary": "「男は外で頑張ってるから家では甘やかせ」という性別役割の主張に疑問を呈している。",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/yuki000521/status/2095482917023862890",
+      "postedAt": "2026-09-03T12:03:54.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "佐藤ゆきこ＠コミュニケーション設計",
+        "handle": "@yuki000521"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095206276623986935",
+      "title": "Appleが日本時間9月10日午前2時に特別イベントを予告し、ハートで通知を案内している",
+      "summary": "Appleが日本時間9月10日午前2時に特別イベントを予告し、ハートで通知を案内している",
       "category": "エンタメ・イベント",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/Apple/status/2094570287844966718",
+      "sourceUrl": "https://x.com/Apple/status/2095206276623986935",
       "postedAt": null,
-      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
       "author": {
         "name": "Apple",
         "handle": "@Apple"
       },
       "scores": {
-        "informationValue": 3,
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095446491527827540",
+      "title": "リゼロのミニアニメに見慣れない映像があり、生成AIで作られたのか疑問にしている",
+      "summary": "リゼロのミニアニメに見慣れない映像があり、生成AIで作られたのか疑問にしている",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/koshian/status/2095446491527827540",
+      "postedAt": "2026-09-03T09:39:09.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "(Ǝ)ɐsᴉɥᴉɥso⅄ ,uɐᴉɥsoʞ, ouɐƃnS",
+        "handle": "@koshian"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095465855371120958",
+      "title": "相手が頼りなさそうでも完全に信用せず、個人情報を全部渡さないよう注意喚起している",
+      "summary": "相手が頼りなさそうでも完全に信用せず、個人情報を全部渡さないよう注意喚起している",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Kazneedscaffein/status/2095465855371120958",
+      "postedAt": "2026-09-03T10:56:06.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Kaz™︎",
+        "handle": "@Kazneedscaffein"
+      },
+      "scores": {
+        "informationValue": 2,
         "personalRelevance": 3,
         "impact": 2,
         "attentionSignal": 2,
-        "importance": 3
-      }
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRSXFqwbwAAG1a-?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRSXFqwbwAAG1a-?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
     },
     {
-      "id": "2082633101650599977",
-      "title": "リクルートエージェントがハイクラス転職を宣伝し、転職決定数No.1だと謳っている広告投稿。",
-      "summary": "リクルートエージェントがハイクラス転職を宣伝し、転職決定数No.1だと謳っている広告投稿。",
-      "category": "仕事・キャリア",
+      "id": "2095291853516267566",
+      "title": "矢沢永吉の「社長なんてやりたくない…金銭管理してくれる人がいない」という発言の重さを指摘している",
+      "summary": "矢沢永吉の「社長なんてやりたくない…金銭管理してくれる人がいない」という発言の重さを指摘している",
+      "category": "エンタメ・イベント",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/recruit_agent/status/2082633101650599977",
-      "postedAt": null,
-      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "sourceUrl": "https://x.com/mako_0722/status/2095291853516267566",
+      "postedAt": "2026-09-02T23:24:41.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
       "author": {
-        "name": "リクルートエージェント",
-        "handle": "@recruit_agent"
+        "name": "まこ",
+        "handle": "@mako_0722"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095487188565950968",
+      "title": "深井さんと中長期的合理性の重要性を語り盛り上がったが、会計で深井さんの財布にほぼ金がなかったと伝えている。",
+      "summary": "深井さんと中長期的合理性の重要性を語り盛り上がったが、会計で深井さんの財布にほぼ金がなかったと伝えている。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/kensuu/status/2095487188565950968",
+      "postedAt": "2026-09-03T12:20:52.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "けんすう",
+        "handle": "@kensuu"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095492333030777320",
+      "title": "やや水っぽい口調で「おねぇさん、お先しまーっす」と話しかける表現を提案している。",
+      "summary": "やや水っぽい口調で「おねぇさん、お先しまーっす」と話しかける表現を提案している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/itoi_shigesato/status/2095492333030777320",
+      "postedAt": "2026-09-03T12:41:19.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "糸井 重里",
+        "handle": "@itoi_shigesato"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095403050999713877",
+      "title": "クリスタ（CLIP STUDIO PAINT）が便利だと述べている投稿。",
+      "summary": "クリスタ（CLIP STUDIO PAINT）が便利だと述べている投稿。",
+      "category": "イラスト・美術",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Kuvshinov_Ilya/status/2095403050999713877",
+      "postedAt": "2026-09-03T06:46:32.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "イリヤ・クブシノブ",
+        "handle": "@Kuvshinov_Ilya"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      },
+      "media": []
+    },
+    {
+      "id": "2095488004785885534",
+      "title": "Geminiは実際に使うと評価と実態が異なると主張し、不満を表明している",
+      "summary": "Geminiは実際に使うと評価と実態が異なると主張し、不満を表明している",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/mojha/status/2095488004785885534",
+      "postedAt": "2026-09-03T12:24:07.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "モジャ五郎さん",
+        "handle": "@mojha"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HROXKTmaIAAbC3p?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HROXKTmaIAAbC3p?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095357007884914844",
+      "title": "赤みのある茶髪が多いことに疑問を呈し、地毛の方がましだと主張している。",
+      "summary": "赤みのある茶髪が多いことに疑問を呈し、地毛の方がましだと主張している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/banabanasan/status/2095357007884914844",
+      "postedAt": "2026-09-03T03:43:35.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "たちばな",
+        "handle": "@banabanasan"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRLi3OPaMAAb-rw?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRLi3OPaMAAb-rw?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095402831817965862",
+      "title": "東京の混雑で暮らしにくさを嘆き、福岡を恋しがっている個人的な愚痴。",
+      "summary": "東京の混雑で暮らしにくさを嘆き、福岡を恋しがっている個人的な愚痴。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/GAMI20220916/status/2095402831817965862",
+      "postedAt": "2026-09-03T06:45:40.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "GAMI",
+        "handle": "@GAMI20220916"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": []
+    },
+    {
+      "id": "2095502177079017776",
+      "title": "Astraが歴史的転換点なのに皆が無関心でいると指摘している意見投稿",
+      "summary": "Astraが歴史的転換点なのに皆が無関心でいると指摘している意見投稿",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/yugen_matuni/status/2095502177079017776",
+      "postedAt": "2026-09-03T13:20:26.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "まつにぃ",
+        "handle": "@yugen_matuni"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095384449479520764",
+      "title": "T. Rexはただの巨大なふわふわチキンだったらしいと冗談めかしている投稿。",
+      "summary": "T. Rexはただの巨大なふわふわチキンだったらしいと冗談めかしている投稿。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/SagarGaonkar23/status/2095384449479520764",
+      "postedAt": "2026-09-03T05:32:37.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Sagar",
+        "handle": "@SagarGaonkar23"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRRNCl8bIAAXmLn?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRRNCl8bIAAXmLn?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2091819295919751411",
+      "title": "Uber Eatsが「お店と同じ価格」で配達すると宣伝し、アプリ利用を促している。",
+      "summary": "Uber Eatsが「お店と同じ価格」で配達すると宣伝し、アプリ利用を促している。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/UberEats_JP/status/2091819295919751411",
+      "postedAt": null,
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Uber Eats Japan（ウーバーイーツ）",
+        "handle": "@UberEats_JP"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2076960507056259072/img/EKLXN--O_EVJ5z6L.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2076960507056259072/img/EKLXN--O_EVJ5z6L.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095409954177872152",
+      "title": "本文が空の投稿。内容・主張がなく評価できない。",
+      "summary": "本文が空の投稿。内容・主張がなく評価できない。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/FLICTERIA/status/2095409954177872152",
+      "postedAt": "2026-09-03T07:13:58.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎",
+        "handle": "@FLICTERIA"
       },
       "scores": {
         "informationValue": null,
         "personalRelevance": null,
         "impact": null,
         "attentionSignal": null,
+        "importance": 1
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HRRkPwEbgAAdrs_?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HRRkPwEbgAAdrs_?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095311060819730602",
+      "title": "SEOやアフィリエイト、AIスパムの対立を否定しつつ、皮肉交じりに「みんなカス」と主張している",
+      "summary": "SEOやアフィリエイト、AIスパムの対立を否定しつつ、皮肉交じりに「みんなカス」と主張している",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/tira_tirarin/status/2095311060819730602",
+      "postedAt": "2026-09-03T00:41:00.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "FX戦士ちらみちゃん@子育てオワコンで人生含み損ひよこ",
+        "handle": "@tira_tirarin"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 4,
+        "importance": 1
+      },
+      "media": []
+    },
+    {
+      "id": "2094261618431660188",
+      "title": "iPadで手描き作字を学ぶ講座の宣伝。和風漢字やひらがな・カタカナロゴ制作を謳う。",
+      "summary": "iPadで手描き作字を学ぶ講座の宣伝。和風漢字やひらがな・カタカナロゴ制作を謳う。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Coloso_japan/status/2094261618431660188",
+      "postedAt": null,
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Coloso | コロソ",
+        "handle": "@Coloso_japan"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 3,
         "importance": 2
-      }
-    },
-    {
-      "id": "2095185806675542166",
-      "title": "森博嗣『恋恋蓮歩の演習』の一節引用。愛の思い込みが微風のように人を動かすと描写している。",
-      "summary": "森博嗣『恋恋蓮歩の演習』の一節引用。愛の思い込みが微風のように人を動かすと描写している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sAndm_select/status/2095185806675542166",
-      "postedAt": "2026-09-02T16:23:17.000Z",
-      "collectedAt": "2026-09-02T18:00:42.601Z",
-      "author": {
-        "name": "森博嗣ミステリbot",
-        "handle": "@sAndm_select"
       },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 1
-      }
+      "media": []
     },
     {
-      "id": "2095195216206762353",
-      "title": "投稿者は整理整頓が苦手で、レイヤーの整理も苦手だと自覚し、意識して気をつける必要があると述べている。",
-      "summary": "投稿者は整理整頓が苦手で、レイヤーの整理も苦手だと自覚し、意識して気をつける必要があると述べている。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/nimroid/status/2095195216206762353",
-      "postedAt": "2026-09-02T17:00:41.000Z",
-      "collectedAt": "2026-09-02T18:00:42.601Z",
-      "author": {
-        "name": "諸貫哲朗 ☺︎ TETSURO MORONUKI",
-        "handle": "@nimroid"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 1
-      }
-    },
-    {
-      "id": "2095202354211729859",
-      "title": "本文が空の投稿で、追加情報や主張は含まれていない。",
-      "summary": "本文が空の投稿で、追加情報や主張は含まれていない。",
+      "id": "2095417554110181567",
+      "title": "自分が生きていなかったかもしれないと短くつぶやいている。",
+      "summary": "自分が生きていなかったかもしれないと短くつぶやいている。",
       "category": "その他",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/cyjalway/status/2095202354211729859",
-      "postedAt": "2026-09-02T17:29:02.000Z",
-      "collectedAt": "2026-09-02T18:00:42.601Z",
+      "sourceUrl": "https://x.com/yashi09/status/2095417554110181567",
+      "postedAt": "2026-09-03T07:44:10.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
       "author": {
-        "name": "貴子",
-        "handle": "@cyjalway"
+        "name": "やしろあずき",
+        "handle": "@yashi09"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 1
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095417524666204160/img/AJkgCdWRIp4vAVGl.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/amplify_video_thumb/2095008009806307329/img/I7YoMZC_XnUUSRLy?format=jpg&name=360x360",
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095008009806307329/img/I7YoMZC_XnUUSRLy?format=jpg&name=360x360",
+          "altText": "埋め込み動画",
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2086457062222188988",
+      "title": "投稿本文が空で内容・主張は不明。追加情報が必要。",
+      "summary": "投稿本文が空で内容・主張は不明。追加情報が必要。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/_207207/status/2086457062222188988",
+      "postedAt": "2026-08-09T14:18:22.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "207",
+        "handle": "@_207207"
       },
       "scores": {
         "informationValue": 1,
@@ -152,7 +803,114 @@
         "impact": 1,
         "attentionSignal": 1,
         "importance": 1
-      }
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2086456718943461376/img/rIcqzJK-Gmm3EBMf.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2095509091825390019",
+      "title": "まだいけるとわかり安心したという短い安堵の感想を述べている。",
+      "summary": "まだいけるとわかり安心したという短い安堵の感想を述べている。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/9iurouS1muM1FMn/status/2095509091825390019",
+      "postedAt": "2026-09-03T13:47:54.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "宮本託自 Takuji Miyamoto 🇯🇵",
+        "handle": "@9iurouS1muM1FMn"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      },
+      "media": []
+    },
+    {
+      "id": "2088176945129529768",
+      "title": "パルミーの学習スタイル診断を受け、結果は「チャレンジタイプ」。練習法整理の参考になると紹介している（PR）。",
+      "summary": "パルミーの学習スタイル診断を受け、結果は「チャレンジタイプ」。練習法整理の参考になると紹介している（PR）。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/kanbe_oekaki/status/2088176945129529768",
+      "postedAt": null,
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "かんべ",
+        "handle": "@kanbe_oekaki"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2095361143158223144",
+      "title": "キャンペーン参加への感謝。Wチャンス当選者へは後日チャットで連絡、次は新製品プレゼントを予告している。",
+      "summary": "キャンペーン参加への感謝。Wチャンス当選者へは後日チャットで連絡、次は新製品プレゼントを予告している。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/CaramelCorn1971/status/2095361143158223144",
+      "postedAt": "2026-09-03T04:00:01.000Z",
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "キャラメルコーン【東ハト公式】",
+        "handle": "@CaramelCorn1971"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HQuGiyuboAA_skA?format=png&name=900x900",
+          "previewUrl": "https://pbs.twimg.com/media/HQuGiyuboAA_skA?format=png&name=900x900",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2092327264704930213",
+      "title": "Starlinkが地方・遠隔地向けの持ち運べる高速回線機器「Starlink Mini」を紹介し注文を促している。",
+      "summary": "Starlinkが地方・遠隔地向けの持ち運べる高速回線機器「Starlink Mini」を紹介し注文を促している。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Starlink/status/2092327264704930213",
+      "postedAt": null,
+      "collectedAt": "2026-09-03T18:00:41.290Z",
+      "author": {
+        "name": "Starlink",
+        "handle": "@Starlink"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 2
+      },
+      "media": []
     }
   ]
 }
