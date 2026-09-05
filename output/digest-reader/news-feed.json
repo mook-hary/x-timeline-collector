@@ -1,163 +1,159 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-04T18:02:13.303Z",
+  "generatedAt": "2026-09-05T18:02:18.748Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 7
+    "itemCount": 6
   },
   "items": [
     {
-      "id": "2095846220522549697",
-      "title": "歩幅とテンポを変えるだけで、巨人や子供などキャラの個性を表現できると述べている意見。",
-      "summary": "歩幅とテンポを変えるだけで、巨人や子供などキャラの個性を表現できると述べている意見。",
-      "category": "アニメ・漫画",
+      "id": "2096270117185212541",
+      "title": "光そのものを描き、反射光・環境光遮蔽・質感まで捉えれば何でも描けると主張している。",
+      "summary": "光そのものを描き、反射光・環境光遮蔽・質感まで捉えれば何でも描けると主張している。",
+      "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ky_anime_lab/status/2095846220522549697",
-      "postedAt": "2026-09-04T12:07:32.000Z",
-      "collectedAt": "2026-09-04T18:00:44.664Z",
+      "sourceUrl": "https://x.com/Easterhandz/status/2096270117185212541",
+      "postedAt": "2026-09-05T16:11:57.000Z",
+      "collectedAt": "2026-09-05T18:00:42.177Z",
       "author": {
-        "name": "横山健次 - アニメーター Kenji Yokoyama",
-        "handle": "@ky_anime_lab"
+        "name": "Easterhands (I POST ART)",
+        "handle": "@Easterhandz"
       },
       "scores": {
         "informationValue": 4,
         "personalRelevance": 4,
-        "impact": 3,
-        "attentionSignal": 1,
+        "impact": 2,
+        "attentionSignal": 2,
         "importance": 4
       },
-      "media": []
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2096205375544639488/img/tTVWBrmP8nF3Rtjd.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
     },
     {
-      "id": "2095757959045452228",
-      "title": "妊娠中は目立たないよう行動し、逆ギレで暴力を受ける危険を避けるべきだと主張している。",
-      "summary": "妊娠中は目立たないよう行動し、逆ギレで暴力を受ける危険を避けるべきだと主張している。",
-      "category": "生活・健康",
+      "id": "2096248894648881613",
+      "title": "日本の教育学では成績不振を親子関係＝遺伝のせいとするのが常識だと皮肉っている。",
+      "summary": "日本の教育学では成績不振を親子関係＝遺伝のせいとするのが常識だと皮肉っている。",
+      "category": "政治・社会",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/banabanasan/status/2095757959045452228",
-      "postedAt": "2026-09-04T06:16:49.000Z",
-      "collectedAt": "2026-09-04T18:00:44.664Z",
+      "sourceUrl": "https://x.com/ak_tch/status/2096248894648881613",
+      "postedAt": "2026-09-05T14:47:37.000Z",
+      "collectedAt": "2026-09-05T18:00:42.177Z",
       "author": {
-        "name": "たちばな",
-        "handle": "@banabanasan"
+        "name": "橘　玲",
+        "handle": "@ak_tch"
       },
       "scores": {
-        "informationValue": 3,
-        "personalRelevance": 4,
+        "informationValue": 2,
+        "personalRelevance": 2,
         "impact": 2,
-        "attentionSignal": 4,
-        "importance": 3
-      },
-      "media": []
-    },
-    {
-      "id": "2095862408602649027",
-      "title": "『そばっかす！（１）』のカバー絵を紹介している投稿。少年チャンピオンコミックス／秋田書店刊。",
-      "summary": "『そばっかす！（１）』のカバー絵を紹介している投稿。少年チャンピオンコミックス／秋田書店刊。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/shota_kikuchi/status/2095862408602649027",
-      "postedAt": "2026-09-04T13:11:52.000Z",
-      "collectedAt": "2026-09-04T18:00:44.664Z",
-      "author": {
-        "name": "きくち正太",
-        "handle": "@shota_kikuchi"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": []
-    },
-    {
-      "id": "2095833848064147570",
-      "title": "言語化すると記号化し、本当に信じることはできないと主張している。",
-      "summary": "言語化すると記号化し、本当に信じることはできないと主張している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/ochyai/status/2095833848064147570",
-      "postedAt": "2026-09-04T11:18:22.000Z",
-      "collectedAt": "2026-09-04T18:00:44.664Z",
-      "author": {
-        "name": "落合陽一 Yoichi OCHIAI",
-        "handle": "@ochyai"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
         "attentionSignal": 3,
         "importance": 2
       },
       "media": []
     },
     {
-      "id": "2095900762526322911",
-      "title": "鬱で「ころすよ」の感情が強く、アンチの開示請求をして裁判しリスナーを招待したいと述べている",
-      "summary": "鬱で「ころすよ」の感情が強く、アンチの開示請求をして裁判しリスナーを招待したいと述べている",
+      "id": "2096195711566274975",
+      "title": "実家が快適すぎて実家暮らしなら結婚できなかったと主張しつつ、自分は15歳で実家を出たという雑談。",
+      "summary": "実家が快適すぎて実家暮らしなら結婚できなかったと主張しつつ、自分は15歳で実家を出たという雑談。",
       "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/u_ume7/status/2095900762526322911",
-      "postedAt": "2026-09-04T15:44:16.000Z",
-      "collectedAt": "2026-09-04T18:00:44.664Z",
+      "sourceUrl": "https://x.com/SAKURA__harp/status/2096195711566274975",
+      "postedAt": "2026-09-05T11:16:17.000Z",
+      "collectedAt": "2026-09-05T18:00:42.177Z",
       "author": {
-        "name": "柑橘めたる",
-        "handle": "@u_ume7"
+        "name": "吉田 瑳矩果 SakuraYoshida",
+        "handle": "@SAKURA__harp"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 4,
+        "impact": 1,
+        "attentionSignal": 2,
         "importance": 2
       },
       "media": []
     },
     {
-      "id": "2036783516789202962",
-      "title": "npmで悪意あるパッケージが降ってくる時代に、Takumiはnpm設定を1行変えるだけでブロック可能と宣伝し、無料提供を告知している。",
-      "summary": "npmで悪意あるパッケージが降ってくる時代に、Takumiはnpm設定を1行変えるだけでブロック可能と宣伝し、無料提供を告知している。",
+      "id": "2096157500416639104",
+      "title": "「生まれつきモテすぎる」という女性のエピソード。誤解を避けて冷笑キャラを演じ、SNSでは匿名で褒めて発散していると語っている。",
+      "summary": "「生まれつきモテすぎる」という女性のエピソード。誤解を避けて冷笑キャラを演じ、SNSでは匿名で褒めて発散していると語っている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/proogo/status/2096157500416639104",
+      "postedAt": "2026-09-05T08:44:27.000Z",
+      "collectedAt": "2026-09-05T18:00:42.177Z",
+      "author": {
+        "name": "奢られ屋の日記",
+        "handle": "@proogo"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": []
+    },
+    {
+      "id": "2096267068761120956",
+      "title": "大塚伸治さんに、動画時代から多くの示唆を得たことへの感謝と腕前への賛辞を伝えている",
+      "summary": "大塚伸治さんに、動画時代から多くの示唆を得たことへの感謝と腕前への賛辞を伝えている",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/gallo44_yoshida/status/2096267068761120956",
+      "postedAt": "2026-09-05T15:59:50.000Z",
+      "collectedAt": "2026-09-05T18:00:42.177Z",
+      "author": {
+        "name": "吉田健一",
+        "handle": "@gallo44_yoshida"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095791896123846656/img/OKfpjLIIYTY-o6P4.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ]
+    },
+    {
+      "id": "2092804227479564690",
+      "title": "9月6日を「クロコくんの日」として、グッズプレゼントと9.6秒計測チャレンジを開催すると告知。詳細はプロフィール参照。",
+      "summary": "9月6日を「クロコくんの日」として、グッズプレゼントと9.6秒計測チャレンジを開催すると告知。詳細はプロフィール参照。",
       "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/flatt_security/status/2036783516789202962",
+      "sourceUrl": "https://x.com/kuroko_NGK/status/2092804227479564690",
       "postedAt": null,
-      "collectedAt": "2026-09-04T18:00:44.664Z",
+      "collectedAt": "2026-09-05T18:00:42.177Z",
       "author": {
-        "name": "GMO Flatt Security株式会社",
-        "handle": "@flatt_security"
+        "name": "NGKのクロコくん公式",
+        "handle": "@kuroko_NGK"
       },
       "scores": {
         "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
+        "personalRelevance": 2,
+        "impact": 1,
         "attentionSignal": 3,
         "importance": 2
-      },
-      "media": []
-    },
-    {
-      "id": "2095861783852687412",
-      "title": "本文が空の投稿で、具体的な情報や主張は含まれていない。",
-      "summary": "本文が空の投稿で、具体的な情報や主張は含まれていない。",
-      "category": "その他",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/zawamekipien/status/2095861783852687412",
-      "postedAt": "2026-09-04T13:09:23.000Z",
-      "collectedAt": "2026-09-04T18:00:44.664Z",
-      "author": {
-        "name": "ざわめき🌪🥺",
-        "handle": "@zawamekipien"
-      },
-      "scores": {
-        "informationValue": null,
-        "personalRelevance": null,
-        "impact": null,
-        "attentionSignal": null,
-        "importance": 1
       },
       "media": []
     }
