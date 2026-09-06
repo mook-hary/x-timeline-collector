@@ -67,7 +67,10 @@ async function main() {
     assert.equal(failed.summary.failed, 1); assert.deepStrictEqual(cache, {});
     assert.deepStrictEqual(failed.posts[0], {...p, visual:v.emptyVisual()});
   }
-  assert.deepStrictEqual(require('../lib/news-feed').toNewsFeedItem(p), require('../lib/news-feed').toNewsFeedItem(result.posts[0]));
+  const { visual: _baseVisual, ...basePublic } = require('../lib/news-feed').toNewsFeedItem(p);
+  const { visual: exportedVisual, ...evaluatedPublic } = require('../lib/news-feed').toNewsFeedItem(result.posts[0]);
+  assert.deepStrictEqual(basePublic, evaluatedPublic);
+  assert.deepStrictEqual(exportedVisual, result.posts[0].visual);
   const { createOpenAiRequestFn } = require('../vision_ai');
   let adapterCalls = 0;
   const request = createOpenAiRequestFn({responses:{create:async body => {
