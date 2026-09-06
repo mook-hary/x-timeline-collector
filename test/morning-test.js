@@ -60,7 +60,7 @@ function runHelp(scriptArgs) {
   const def = buildMorningPlan(parseMorningArgs([]));
   assert.deepStrictEqual(
     def.steps.map((s) => s.id),
-    ["collect", "analyze", "vision", "analyze-ai", "enrich", "reader"]
+    ["collect", "analyze", "vision", "visual-value", "analyze-ai", "enrich", "reader"]
   );
   assert.deepStrictEqual(def.steps[0].args, ["--once"]);
   assert.deepStrictEqual(def.steps[1].args, [
@@ -76,15 +76,15 @@ function runHelp(scriptArgs) {
     "--output",
     "output/daily-vision.json",
   ]);
-  assert.deepStrictEqual(def.steps[3].args, [
+  assert.deepStrictEqual(def.steps[4].args, [
     "--limit",
     AI_LIMIT,
     "--input",
-    "output/daily-vision.json",
+    "output/daily-visual.json",
     "--output",
     "output/daily-ai.json",
   ]);
-  assert.deepStrictEqual(def.steps[4].args, [
+  assert.deepStrictEqual(def.steps[5].args, [
     "--limit",
     AI_LIMIT,
     "--input",
@@ -92,7 +92,7 @@ function runHelp(scriptArgs) {
     "--output",
     "output/daily-enriched.json",
   ]);
-  assert.deepStrictEqual(def.steps[5].args, [
+  assert.deepStrictEqual(def.steps[6].args, [
     "--input",
     "output/daily-enriched.json",
   ]);
@@ -102,7 +102,7 @@ function runHelp(scriptArgs) {
   );
   assert.deepStrictEqual(
     skipCollect.steps.map((s) => s.id),
-    ["analyze", "vision", "analyze-ai", "enrich", "reader"]
+    ["analyze", "vision", "visual-value", "analyze-ai", "enrich", "reader"]
   );
   assert.deepStrictEqual(skipCollect.steps.at(-1).args, [
     "--input",
@@ -214,6 +214,7 @@ function mockSpawnOk() {
   assert.deepStrictEqual(result.stepsRun, [
     "analyze",
     "vision",
+    "visual-value",
     "analyze-ai",
     "enrich",
     "reader",
@@ -657,7 +658,7 @@ function stubMorningScripts(root, extras) {
   assert.strictEqual(result.visionDegraded, false);
   const analyzeAi = calls.find((c) => String(c.args[0]).endsWith("analyze_ai.js"));
   assert.ok(analyzeAi);
-  assert.ok(analyzeAi.args.includes("output/daily-vision.json"));
+  assert.ok(analyzeAi.args.includes("output/daily-visual.json"));
   assert.ok(!analyzeAi.args.includes("output/daily-analyzed.json"));
   console.log("vision success uses daily-vision PASS");
 }
@@ -684,6 +685,7 @@ function stubMorningScripts(root, extras) {
   assert.deepStrictEqual(result.stepsRun, [
     "analyze",
     "vision",
+    "visual-value",
     "analyze-ai",
     "enrich",
     "reader",
@@ -693,7 +695,7 @@ function stubMorningScripts(root, extras) {
   assert.strictEqual(visionStage.degraded, true);
   assert.strictEqual(visionStage.fallback, "text-only");
   const analyzeAi = calls.find((c) => String(c.args[0]).endsWith("analyze_ai.js"));
-  assert.ok(analyzeAi.args.includes("output/daily-analyzed.json"));
+  assert.ok(analyzeAi.args.includes("output/daily-visual.json"));
   assert.ok(!analyzeAi.args.includes("output/daily-vision.json"));
   assert.ok(calls.some((c) => String(c.args[0]).endsWith("enrich_ai.js")));
   assert.ok(

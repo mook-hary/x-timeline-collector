@@ -485,6 +485,7 @@ function buildFinalAnalysis(post, progress, model) {
 function buildOutputPosts(posts, progress, model) {
   return posts.map((post) => ({
     ...post,
+    visual: post.visual || { value: null, roles: [] },
     finalAnalysis: buildFinalAnalysis(post, progress, model),
   }));
 }
@@ -782,6 +783,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  buildOutputPosts,
   ANALYZE_AI_PROMPT_VERSION,
   ANALYZE_AI_VISION_PROMPT_VERSION,
   ANALYZE_AI_SCHEMA_VERSION,

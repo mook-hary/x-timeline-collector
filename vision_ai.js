@@ -166,6 +166,10 @@ function createOpenAiRequestFn(client, usageHolder) {
       },
     });
 
+    // Optional lifecycle notification for internal evaluator diagnostics.
+    if (typeof request.onResponse === "function") {
+      request.onResponse({ requestId: response && response._request_id });
+    }
     usageHolder.usage = addUsage(
       usageHolder.usage,
       extractUsageFromResponse(response)

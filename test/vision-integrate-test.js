@@ -319,6 +319,7 @@ function post(overrides) {
     "collect",
     "analyze",
     "vision",
+    "visual-value",
     "analyze-ai",
     "enrich",
     "reader",
@@ -405,13 +406,13 @@ function post(overrides) {
     (s) => s.id === "analyze-ai"
   );
   assert.deepStrictEqual(analyzeAi.args, morningAnalyzeAiArgs("50"));
-  assert.ok(analyzeAi.args.includes("output/daily-vision.json"));
+  assert.ok(analyzeAi.args.includes("output/daily-visual.json"));
   assert.deepStrictEqual(
-    resolveRuntimeStepArgs(analyzeAi, true),
+    resolveRuntimeStepArgs(analyzeAi, true, true),
     morningAnalyzeAiFallbackArgs("50")
   );
   assert.ok(
-    resolveRuntimeStepArgs(analyzeAi, true).includes("output/daily-analyzed.json")
+    resolveRuntimeStepArgs(analyzeAi, true, true).includes("output/daily-analyzed.json")
   );
   assert.strictEqual(VISION_DEGRADED_WARNING, "VISION_DEGRADED");
   console.log("vision stage fallback args PASS");

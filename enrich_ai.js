@@ -509,6 +509,7 @@ function buildOutputPosts(posts, progress, model) {
     const { enrichment: _ignored, ...rest } = post;
     return {
       ...rest,
+      visual: post.visual || { value: null, roles: [] },
       enrichment: buildEnrichment(post, progress, model),
     };
   });
@@ -812,6 +813,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  buildOutputPosts,
   ENRICH_AI_PROMPT_VERSION,
   ENRICH_AI_VISION_PROMPT_VERSION,
   ENRICH_AI_SCHEMA_VERSION,

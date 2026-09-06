@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * EP-026 — Safe Morning Runner.
- * Orchestrates Collect → Analyze → Vision → AI Analyze → Enrich → Digest Reader.
+ * Orchestrates Collect → Analyze → Vision → Visual Value → AI Analyze → Enrich → Digest Reader.
  * Vision is non-fatal: stage failure falls back to text-only AI Analyze.
  * Does not call pipeline.js, site/, Writer, Knowledge, or git.
  */
@@ -52,6 +52,7 @@ const {
   DAILY_ENRICHED_REL,
   morningAnalyzeArgs,
   morningVisionArgs,
+  morningVisualValueArgs,
   morningAnalyzeAiArgs,
   morningAnalyzeAiFallbackArgs,
   morningEnrichArgs,
@@ -83,6 +84,7 @@ Default steps:
   1. node connect.js --once
   2. node analyze.js
   3. node vision_ai.js --apply
+     node visual_value_ai.js --apply
   4. node analyze_ai.js --limit ${AI_LIMIT}
   5. node enrich_ai.js --limit ${AI_LIMIT}
   6. node scripts/build-digest-reader.js [reader options]
@@ -235,6 +237,12 @@ function buildMorningPlan(options) {
       args: morningVisionArgs(),
     });
     steps.push({
+      id: "visual-value",
+      label: "Visual Value",
+      script: "visual_value_ai.js",
+      args: morningVisualValueArgs(),
+    });
+    steps.push({
       id: "analyze-ai",
       label: "AI Analyze",
       script: "analyze_ai.js",
@@ -268,9 +276,13 @@ function formatCommand(script, args) {
   return ["node", script, ...args].join(" ");
 }
 
-function resolveRuntimeStepArgs(step, visionDegraded) {
-  if (step && step.id === "analyze-ai" && visionDegraded) {
-    return morningAnalyzeAiFallbackArgs(AI_LIMIT);
+function resolveRuntimeStepArgs(step, visionDegraded, visualValueDegraded = false) {
+  if (step?.id === "visual-value" && visionDegraded) {
+    return step.args.map(arg => arg === "output/daily-vision.json" ? "output/daily-analyzed.json" : arg);
+  }
+  if (step?.id === "analyze-ai" && visualValueDegraded) {
+    return visionDegraded ? morningAnalyzeAiFallbackArgs(AI_LIMIT) :
+      step.args.map(arg => arg === "output/daily-visual.json" ? "output/daily-vision.json" : arg);
   }
   return step && Array.isArray(step.args) ? step.args : [];
 }
@@ -385,10 +397,12 @@ function runMorning(options, deps = {}) {
   /** @type {object[]} */
   const stages = [];
   let visionDegraded = false;
+  let visualValueDegraded = false;
   const usageByStep = {
     analyze: emptyUsage(),
     enrich: emptyUsage(),
     vision: emptyUsage(),
+    visualValue: emptyUsage(),
   };
 
   for (let i = 0; i < plan.steps.length; i++) {
@@ -496,8 +510,13 @@ function runMorning(options, deps = {}) {
         if (!shouldRetryCollect(result, attempt)) break;
       }
     } else {
-      const runtimeArgs = resolveRuntimeStepArgs(step, visionDegraded);
-      result = spawn(process.execPath, [scriptPath, ...runtimeArgs], spawnOptsBase);
+      const runtimeArgs = resolveRuntimeStepArgs(step, visionDegraded, visualValueDegraded);
+      try {
+        result = spawn(process.execPath, [scriptPath, ...runtimeArgs], spawnOptsBase);
+      } catch (error) {
+        if (step.id !== "visual-value") throw error;
+        result = { status: 1, error };
+      }
     }
 
     const stageFinishedAt = now();
@@ -572,6 +591,16 @@ function runMorning(options, deps = {}) {
     const status = result.status;
     if (status !== 0 || result.error) {
       const code = result.error ? 1 : status == null ? 1 : status;
+      if (step.id === "visual-value") {
+        visualValueDegraded = true;
+        stageRecord.ok = false;
+        stageRecord.degraded = true;
+        stageRecord.fallback = visionDegraded ? "text-only" : "vision-without-visual-value";
+        log(`[Morning] VISUAL_VALUE_DEGRADED: stage failed (exit ${code}); continuing without Visual Value`);
+        stages.push(stageRecord);
+        stepsRun.push(step.id);
+        continue;
+      }
       if (step.id === "vision") {
         visionDegraded = true;
         stageRecord.ok = false;
@@ -583,7 +612,7 @@ function runMorning(options, deps = {}) {
           log(`[Morning] spawn error=${result.error.message}`);
         }
         log(
-          "[Morning] AI Analyze will use output/daily-analyzed.json (no Vision context)."
+          "[Morning] Visual Value will use output/daily-analyzed.json (no Vision context)."
         );
         stages.push(stageRecord);
         stepsRun.push(step.id);
@@ -645,12 +674,18 @@ function runMorning(options, deps = {}) {
       throw err;
     }
 
+    if (step.id === "visual-value" && /VISUAL_VALUE_DEGRADED/.test(combinedOut)) {
+      stageRecord.degraded = true;
+      log("[Morning] VISUAL_VALUE_DEGRADED: individual evaluations failed");
+    }
     const parsedUsage = parseUsageFromOutput(combinedOut);
     if (parsedUsage) {
       if (step.id === "analyze-ai") {
         usageByStep.analyze = parsedUsage;
       } else if (step.id === "enrich") {
         usageByStep.enrich = parsedUsage;
+      } else if (step.id === "visual-value") {
+        usageByStep.visualValue = parsedUsage;
       } else if (step.id === "vision") {
         usageByStep.vision = parsedUsage;
       }
@@ -737,6 +772,7 @@ function runMorning(options, deps = {}) {
     ok: true,
     stepsRun,
     visionDegraded,
+    visualValueDegraded,
     stages,
     opened,
     plan,

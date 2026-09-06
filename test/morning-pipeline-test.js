@@ -26,7 +26,7 @@ function tmpDir(prefix) {
   const plan = buildMorningPlan(parseMorningArgs(["--skip-reader"]));
   assert.deepStrictEqual(
     plan.steps.map((s) => s.id),
-    ["collect", "analyze", "vision", "analyze-ai", "enrich"]
+    ["collect", "analyze", "vision", "visual-value", "analyze-ai", "enrich"]
   );
   assert.ok(!plan.steps.some((s) => s.id === "reader"));
   console.log("EP046 skip-reader PASS");
@@ -255,7 +255,7 @@ async function main() {
       runMorning: () => ({
         ok: true,
         visionDegraded: true,
-        stepsRun: ["analyze", "vision", "analyze-ai", "enrich"],
+        stepsRun: ["analyze", "vision", "visual-value", "analyze-ai", "enrich"],
         stages: [
           { id: "analyze", label: "Analyze", ok: true, itemCount: 6 },
           {
