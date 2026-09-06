@@ -25,6 +25,8 @@
     "analyze": "node analyze.js",
     "analyze:ai": "node analyze_ai.js",
     "enrich": "node enrich_ai.js",
+    "vision": "node vision_ai.js",
+    "vision:dry-run": "node vision_ai.js --dry-run",
     "aikido:collect:web": "node scripts/aikido-collect-web.js",
     "aikido:source:list": "node scripts/aikido-session.js source",
     "aikido:review:list": "node scripts/aikido-session.js review",
