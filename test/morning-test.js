@@ -36,6 +36,7 @@ function runHelp(scriptArgs) {
     ["analyze.js", "--help"],
     ["analyze_ai.js", "--help"],
     ["enrich_ai.js", "--help"],
+    ["vision_ai.js", "--help"],
   ];
   for (const args of helps) {
     const result = runHelp(args);
@@ -59,7 +60,7 @@ function runHelp(scriptArgs) {
   const def = buildMorningPlan(parseMorningArgs([]));
   assert.deepStrictEqual(
     def.steps.map((s) => s.id),
-    ["collect", "analyze", "analyze-ai", "enrich", "reader"]
+    ["collect", "analyze", "vision", "analyze-ai", "enrich", "reader"]
   );
   assert.deepStrictEqual(def.steps[0].args, ["--once"]);
   assert.deepStrictEqual(def.steps[1].args, [
@@ -69,14 +70,21 @@ function runHelp(scriptArgs) {
     "output/daily-analyzed.json",
   ]);
   assert.deepStrictEqual(def.steps[2].args, [
-    "--limit",
-    AI_LIMIT,
+    "--apply",
     "--input",
     "output/daily-analyzed.json",
     "--output",
-    "output/daily-ai.json",
+    "output/daily-vision.json",
   ]);
   assert.deepStrictEqual(def.steps[3].args, [
+    "--limit",
+    AI_LIMIT,
+    "--input",
+    "output/daily-vision.json",
+    "--output",
+    "output/daily-ai.json",
+  ]);
+  assert.deepStrictEqual(def.steps[4].args, [
     "--limit",
     AI_LIMIT,
     "--input",
@@ -84,7 +92,7 @@ function runHelp(scriptArgs) {
     "--output",
     "output/daily-enriched.json",
   ]);
-  assert.deepStrictEqual(def.steps[4].args, [
+  assert.deepStrictEqual(def.steps[5].args, [
     "--input",
     "output/daily-enriched.json",
   ]);
@@ -94,7 +102,7 @@ function runHelp(scriptArgs) {
   );
   assert.deepStrictEqual(
     skipCollect.steps.map((s) => s.id),
-    ["analyze", "analyze-ai", "enrich", "reader"]
+    ["analyze", "vision", "analyze-ai", "enrich", "reader"]
   );
   assert.deepStrictEqual(skipCollect.steps.at(-1).args, [
     "--input",
@@ -192,6 +200,7 @@ function mockSpawnOk() {
   fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
   fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
   fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "vision_ai.js"), "", "utf8");
   fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
   fs.writeFileSync(path.join(root, "enrich_ai.js"), "", "utf8");
 
@@ -204,6 +213,7 @@ function mockSpawnOk() {
   });
   assert.deepStrictEqual(result.stepsRun, [
     "analyze",
+    "vision",
     "analyze-ai",
     "enrich",
     "reader",
@@ -236,6 +246,7 @@ function mockSpawnOk() {
   assert.deepStrictEqual(result.stepsRun, ["analyze", "reader"]);
   assert.ok(!calls.some((c) => /analyze_ai\.js$/.test(c.args[0])));
   assert.ok(!calls.some((c) => /enrich_ai\.js$/.test(c.args[0])));
+  assert.ok(!calls.some((c) => /vision_ai\.js$/.test(c.args[0])));
   assert.ok(logs.some((l) => l.includes("最新データではない可能性があります")));
   assert.ok(logs.some((l) => l.includes("Morning Summary")));
   assert.ok(logs.some((l) => l.includes("Grand Total")));
@@ -621,6 +632,77 @@ function mockSpawnOk() {
   );
   assert.strictEqual(historyCalls, 0);
   console.log("mid-fail no history PASS");
+}
+
+function stubMorningScripts(root, extras) {
+  fs.mkdirSync(path.join(root, "scripts"), { recursive: true });
+  fs.writeFileSync(path.join(root, "analyze.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "vision_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "analyze_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "enrich_ai.js"), "", "utf8");
+  fs.writeFileSync(path.join(root, "scripts", "build-digest-reader.js"), "", "utf8");
+  if (extras) extras();
+}
+
+{
+  const root = tmpDir("morning-vision-ok-");
+  stubMorningScripts(root);
+  const { calls, spawn } = mockSpawnOk();
+  const result = runMorning(parseMorningArgs(["--skip-collect"]), {
+    rootDir: root,
+    spawn,
+    log: () => {},
+  });
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(result.visionDegraded, false);
+  const analyzeAi = calls.find((c) => String(c.args[0]).endsWith("analyze_ai.js"));
+  assert.ok(analyzeAi);
+  assert.ok(analyzeAi.args.includes("output/daily-vision.json"));
+  assert.ok(!analyzeAi.args.includes("output/daily-analyzed.json"));
+  console.log("vision success uses daily-vision PASS");
+}
+
+{
+  const root = tmpDir("morning-vision-degrade-");
+  stubMorningScripts(root);
+  const calls = [];
+  const logs = [];
+  const spawn = (_cmd, args) => {
+    calls.push({ args: [...args] });
+    if (String(args[0]).endsWith("vision_ai.js")) {
+      return { status: 2, error: null, stdout: "", stderr: "vision boom" };
+    }
+    return { status: 0, error: null, stdout: "", stderr: "" };
+  };
+  const result = runMorning(parseMorningArgs(["--skip-collect"]), {
+    rootDir: root,
+    spawn,
+    log: (line) => logs.push(line),
+  });
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(result.visionDegraded, true);
+  assert.deepStrictEqual(result.stepsRun, [
+    "analyze",
+    "vision",
+    "analyze-ai",
+    "enrich",
+    "reader",
+  ]);
+  const visionStage = result.stages.find((s) => s.id === "vision");
+  assert.strictEqual(visionStage.ok, false);
+  assert.strictEqual(visionStage.degraded, true);
+  assert.strictEqual(visionStage.fallback, "text-only");
+  const analyzeAi = calls.find((c) => String(c.args[0]).endsWith("analyze_ai.js"));
+  assert.ok(analyzeAi.args.includes("output/daily-analyzed.json"));
+  assert.ok(!analyzeAi.args.includes("output/daily-vision.json"));
+  assert.ok(calls.some((c) => String(c.args[0]).endsWith("enrich_ai.js")));
+  assert.ok(
+    calls.some((c) => String(c.args[0]).endsWith("build-digest-reader.js"))
+  );
+  assert.ok(logs.some((l) => /Vision failed/.test(l)));
+  assert.ok(logs.some((l) => /daily-analyzed\.json/.test(l)));
+  assert.ok(!logs.some((l) => l === "[Morning] Vision complete"));
+  console.log("vision catastrophic fallback continues PASS");
 }
 
 console.log("morning-test: ALL PASS");

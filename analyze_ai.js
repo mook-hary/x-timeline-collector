@@ -24,6 +24,12 @@ const {
   printUsageSummary,
 } = require("./lib/api-usage");
 const { parseIoFlags, resolveOptionalPath } = require("./lib/daily-scope");
+const {
+  attachVisionFingerprint,
+  attachVisionContextToPayload,
+  resolveVisionAwarePromptVersion,
+  withVisionInstructions,
+} = require("./lib/vision-context");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_analyzed.json");
 const OUTPUT_FILE = path.join(__dirname, "output", "timeline_ai.json");
@@ -34,6 +40,7 @@ const CACHE_FILE = path.join(__dirname, "output", "ai_cache.json");
 const CATEGORIES = getCategoryOrder();
 
 const ANALYZE_AI_PROMPT_VERSION = "1";
+const ANALYZE_AI_VISION_PROMPT_VERSION = "1.vision";
 const ANALYZE_AI_SCHEMA_VERSION = "1";
 
 const DEFAULT_LIMIT = 10;
@@ -213,21 +220,30 @@ function normalizeMatchedKeywords(matchedKeywords) {
 
 function computeInputFingerprint(post) {
   const analysis = post.analysis || {};
-  return hashStable({
-    authorHandle: normalizeHandle(post.authorHandle),
-    text: normalizeText(post.text),
-    keywordCategory: analysis.category || "",
-    keywordConfidence: analysis.confidence || "",
-    categoryScores: analysis.categoryScores || {},
-    matchedKeywords: normalizeMatchedKeywords(analysis.matchedKeywords),
-  });
+  return hashStable(
+    attachVisionFingerprint(
+      {
+        authorHandle: normalizeHandle(post.authorHandle),
+        text: normalizeText(post.text),
+        keywordCategory: analysis.category || "",
+        keywordConfidence: analysis.confidence || "",
+        categoryScores: analysis.categoryScores || {},
+        matchedKeywords: normalizeMatchedKeywords(analysis.matchedKeywords),
+      },
+      post
+    )
+  );
+}
+
+function resolveAnalyzePromptVersion(post) {
+  return resolveVisionAwarePromptVersion(ANALYZE_AI_PROMPT_VERSION, post);
 }
 
 function buildExecutionContract(post, model) {
   return {
     inputFingerprint: computeInputFingerprint(post),
     model,
-    promptVersion: ANALYZE_AI_PROMPT_VERSION,
+    promptVersion: resolveAnalyzePromptVersion(post),
     schemaVersion: ANALYZE_AI_SCHEMA_VERSION,
   };
 }
@@ -255,16 +271,19 @@ function keywordConfidenceValue(level) {
 
 function buildAiPayload(post) {
   const analysis = post.analysis || {};
-  return {
-    authorName: post.authorName || "",
-    authorHandle: post.authorHandle || "",
-    text: post.text || "",
-    url: post.url || "",
-    keywordCategory: analysis.category || "",
-    keywordConfidence: analysis.confidence || "",
-    categoryScores: analysis.categoryScores || {},
-    matchedKeywords: analysis.matchedKeywords || [],
-  };
+  return attachVisionContextToPayload(
+    {
+      authorName: post.authorName || "",
+      authorHandle: post.authorHandle || "",
+      text: post.text || "",
+      url: post.url || "",
+      keywordCategory: analysis.category || "",
+      keywordConfidence: analysis.confidence || "",
+      categoryScores: analysis.categoryScores || {},
+      matchedKeywords: analysis.matchedKeywords || [],
+    },
+    post
+  );
 }
 
 function truncateReason(reason) {
@@ -338,7 +357,7 @@ async function classifyWithAi(client, model, post) {
 
   const response = await client.responses.create({
     model,
-    instructions: SYSTEM_PROMPT,
+    instructions: withVisionInstructions(SYSTEM_PROMPT, post),
     input: JSON.stringify(payload, null, 2),
     text: {
       format: {
@@ -764,13 +783,17 @@ if (require.main === module) {
 
 module.exports = {
   ANALYZE_AI_PROMPT_VERSION,
+  ANALYZE_AI_VISION_PROMPT_VERSION,
   ANALYZE_AI_SCHEMA_VERSION,
+  SYSTEM_PROMPT,
   computeInputFingerprint,
+  resolveAnalyzePromptVersion,
   buildExecutionContract,
   isProgressCompleteForContract,
   findMatchingCacheEntry,
   writeProgressFromResult,
   writeCacheEntry,
   needsAi,
+  buildAiPayload,
   buildFinalAnalysis,
 };

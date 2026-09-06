@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * EP-026 — Safe Morning Runner.
- * Orchestrates Collect → Analyze → AI Analyze → Enrich → Digest Reader only.
+ * Orchestrates Collect → Analyze → Vision → AI Analyze → Enrich → Digest Reader.
+ * Vision is non-fatal: stage failure falls back to text-only AI Analyze.
  * Does not call pipeline.js, site/, Writer, Knowledge, or git.
  */
 const fs = require("fs");
@@ -50,7 +51,9 @@ const {
 const {
   DAILY_ENRICHED_REL,
   morningAnalyzeArgs,
+  morningVisionArgs,
   morningAnalyzeAiArgs,
+  morningAnalyzeAiFallbackArgs,
   morningEnrichArgs,
   morningReaderInputArgs,
   pickDailyScope,
@@ -79,9 +82,10 @@ Usage:
 Default steps:
   1. node connect.js --once
   2. node analyze.js
-  3. node analyze_ai.js --limit ${AI_LIMIT}
-  4. node enrich_ai.js --limit ${AI_LIMIT}
-  5. node scripts/build-digest-reader.js [reader options]
+  3. node vision_ai.js --apply
+  4. node analyze_ai.js --limit ${AI_LIMIT}
+  5. node enrich_ai.js --limit ${AI_LIMIT}
+  6. node scripts/build-digest-reader.js [reader options]
 
 Options:
   --skip-collect     Skip Collect
@@ -105,7 +109,8 @@ Input / Output:
   Private files under output/ only. Does not write site/.
 
 API:
-  analyze_ai / enrich need OPENAI_API_KEY when those steps run.
+  vision / analyze_ai / enrich need OPENAI_API_KEY when those steps
+  actually call OpenAI (cache hits and non-candidates do not).
 
 Chrome:
   Required for Collect (CDP port 9222, logged in to x.com/home).
@@ -224,6 +229,12 @@ function buildMorningPlan(options) {
 
   if (!options.skipAi) {
     steps.push({
+      id: "vision",
+      label: "Vision",
+      script: "vision_ai.js",
+      args: morningVisionArgs(),
+    });
+    steps.push({
       id: "analyze-ai",
       label: "AI Analyze",
       script: "analyze_ai.js",
@@ -255,6 +266,13 @@ function buildMorningPlan(options) {
 
 function formatCommand(script, args) {
   return ["node", script, ...args].join(" ");
+}
+
+function resolveRuntimeStepArgs(step, visionDegraded) {
+  if (step && step.id === "analyze-ai" && visionDegraded) {
+    return morningAnalyzeAiFallbackArgs(AI_LIMIT);
+  }
+  return step && Array.isArray(step.args) ? step.args : [];
 }
 
 function healthyPreflightStub() {
@@ -366,9 +384,11 @@ function runMorning(options, deps = {}) {
   const stepsRun = [];
   /** @type {object[]} */
   const stages = [];
+  let visionDegraded = false;
   const usageByStep = {
     analyze: emptyUsage(),
     enrich: emptyUsage(),
+    vision: emptyUsage(),
   };
 
   for (let i = 0; i < plan.steps.length; i++) {
@@ -476,7 +496,8 @@ function runMorning(options, deps = {}) {
         if (!shouldRetryCollect(result, attempt)) break;
       }
     } else {
-      result = spawn(process.execPath, [scriptPath, ...step.args], spawnOptsBase);
+      const runtimeArgs = resolveRuntimeStepArgs(step, visionDegraded);
+      result = spawn(process.execPath, [scriptPath, ...runtimeArgs], spawnOptsBase);
     }
 
     const stageFinishedAt = now();
@@ -551,6 +572,23 @@ function runMorning(options, deps = {}) {
     const status = result.status;
     if (status !== 0 || result.error) {
       const code = result.error ? 1 : status == null ? 1 : status;
+      if (step.id === "vision") {
+        visionDegraded = true;
+        stageRecord.ok = false;
+        stageRecord.degraded = true;
+        stageRecord.fallback = "text-only";
+        log(`[Morning] WARNING: Vision failed (exit ${code}); continuing text-only`);
+        log(`[Morning] command=${formatCommand(step.script, step.args)}`);
+        if (result.error) {
+          log(`[Morning] spawn error=${result.error.message}`);
+        }
+        log(
+          "[Morning] AI Analyze will use output/daily-analyzed.json (no Vision context)."
+        );
+        stages.push(stageRecord);
+        stepsRun.push(step.id);
+        continue;
+      }
       log(`[Morning] ERROR step=${step.label}`);
       log(`[Morning] command=${formatCommand(step.script, step.args)}`);
       log(`[Morning] exit code=${code}`);
@@ -613,6 +651,8 @@ function runMorning(options, deps = {}) {
         usageByStep.analyze = parsedUsage;
       } else if (step.id === "enrich") {
         usageByStep.enrich = parsedUsage;
+      } else if (step.id === "vision") {
+        usageByStep.vision = parsedUsage;
       }
     }
 
@@ -696,6 +736,7 @@ function runMorning(options, deps = {}) {
   return {
     ok: true,
     stepsRun,
+    visionDegraded,
     stages,
     opened,
     plan,
@@ -765,6 +806,7 @@ module.exports = {
   HISTORY_REL,
   parseMorningArgs,
   buildMorningPlan,
+  resolveRuntimeStepArgs,
   runMorning,
   printHelp,
   formatCommand,

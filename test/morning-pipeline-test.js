@@ -26,7 +26,7 @@ function tmpDir(prefix) {
   const plan = buildMorningPlan(parseMorningArgs(["--skip-reader"]));
   assert.deepStrictEqual(
     plan.steps.map((s) => s.id),
-    ["collect", "analyze", "analyze-ai", "enrich"]
+    ["collect", "analyze", "vision", "analyze-ai", "enrich"]
   );
   assert.ok(!plan.steps.some((s) => s.id === "reader"));
   console.log("EP046 skip-reader PASS");
@@ -240,6 +240,62 @@ async function main() {
   assert.strictEqual(result.healthReport.publish.pagesPublished, true);
   assert.strictEqual(result.healthReport.counts.analyzeAi, 50);
   console.log("EP046 happy-path PASS");
+}
+
+{
+  const root = tmpDir("morning-pipeline-vision-degrade-");
+  let publishCalls = 0;
+  const result = await runMorningPipeline(
+    { dryRun: false, morningArgv: ["--skip-collect"] },
+    {
+      rootDir: root,
+      log: () => {},
+      logErr: () => {},
+      historyNow: () => new Date(2026, 6, 24, 7, 12, 33),
+      runMorning: () => ({
+        ok: true,
+        visionDegraded: true,
+        stepsRun: ["analyze", "vision", "analyze-ai", "enrich"],
+        stages: [
+          { id: "analyze", label: "Analyze", ok: true, itemCount: 6 },
+          {
+            id: "vision",
+            label: "Vision",
+            ok: false,
+            degraded: true,
+            fallback: "text-only",
+          },
+          { id: "analyze-ai", label: "AI Analyze", ok: true, itemCount: 6 },
+          { id: "enrich", label: "AI Enrich", ok: true, itemCount: 6 },
+        ],
+      }),
+      createPublishRunner: () => ({
+        runPublish: async () => {
+          publishCalls += 1;
+          return {
+            ok: true,
+            committed: true,
+            skippedPush: false,
+            pagesPublished: true,
+            pagesDeploymentStarted: true,
+            pagesDeployment: { status: "success", attempts: 1 },
+          };
+        },
+      }),
+    }
+  );
+  assert.strictEqual(result.ok, true);
+  assert.strictEqual(publishCalls, 1);
+  assert.deepStrictEqual(result.stagesRun, [
+    "collect-analyze-enrich",
+    "publish",
+  ]);
+  assert.strictEqual(result.healthReport.status, "SUCCESS");
+  assert.ok(result.healthReport.warnings.includes("VISION_DEGRADED"));
+  const vision = result.healthReport.stages.find((s) => s.id === "vision");
+  assert.strictEqual(vision.ok, false);
+  assert.strictEqual(vision.degraded, true);
+  console.log("EP046 vision-degraded still publishes PASS");
 }
 
 // --- history save failure does not fail pipeline ---

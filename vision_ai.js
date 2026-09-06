@@ -261,14 +261,19 @@ async function main() {
 
   if (!dryRun) {
     const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      fail(
-        "OPENAI_API_KEY が設定されていません。\n" +
-          ".env.example をコピーして .env を作成し、APIキーを設定してください。"
-      );
-    }
-    const client = new OpenAI({ apiKey });
-    requestFn = createOpenAiRequestFn(client, usageHolder);
+    let requestImpl = null;
+    requestFn = async (request) => {
+      if (!apiKey) {
+        fail(
+          "OPENAI_API_KEY が設定されていません。\n" +
+            ".env.example をコピーして .env を作成し、APIキーを設定してください。"
+        );
+      }
+      if (!requestImpl) {
+        requestImpl = createOpenAiRequestFn(new OpenAI({ apiKey }), usageHolder);
+      }
+      return requestImpl(request);
+    };
   }
 
   const result = await analyzeVisionPosts(posts, {

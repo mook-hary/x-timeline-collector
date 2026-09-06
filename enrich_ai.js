@@ -24,6 +24,12 @@ const {
 } = require("./lib/api-usage");
 const { parseIoFlags, resolveOptionalPath } = require("./lib/daily-scope");
 const { normalizeEnrichAxesResult, AXIS_KEYS } = require("./lib/enrichment-axes");
+const {
+  attachVisionFingerprint,
+  attachVisionContextToPayload,
+  resolveVisionAwarePromptVersion,
+  withVisionInstructions,
+} = require("./lib/vision-context");
 
 const INPUT_FILE = path.join(__dirname, "output", "timeline_ai.json");
 const OUTPUT_FILE = path.join(__dirname, "output", "timeline_enriched.json");
@@ -31,6 +37,7 @@ const PROGRESS_FILE = path.join(__dirname, "output", "enrich_progress.json");
 const CACHE_FILE = path.join(__dirname, "output", "enrich_cache.json");
 
 const ENRICH_AI_PROMPT_VERSION = "2";
+const ENRICH_AI_VISION_PROMPT_VERSION = "2.vision";
 const ENRICH_AI_SCHEMA_VERSION = "2";
 
 const DEFAULT_LIMIT = 10;
@@ -268,23 +275,32 @@ function normalizeTags(tags) {
 
 function computeInputFingerprint(post) {
   const finalAnalysis = post.finalAnalysis || {};
-  return hashStable({
-    authorHandle: normalizeHandle(post.authorHandle),
-    text: normalizeText(post.text),
-    finalCategory: getCategory(post),
-    classificationSource: finalAnalysis.source || "",
-    classificationConfidence:
-      finalAnalysis.confidence === undefined ? null : finalAnalysis.confidence,
-    classificationReason: finalAnalysis.reason || "",
-    classificationTags: normalizeTags(finalAnalysis.tags),
-  });
+  return hashStable(
+    attachVisionFingerprint(
+      {
+        authorHandle: normalizeHandle(post.authorHandle),
+        text: normalizeText(post.text),
+        finalCategory: getCategory(post),
+        classificationSource: finalAnalysis.source || "",
+        classificationConfidence:
+          finalAnalysis.confidence === undefined ? null : finalAnalysis.confidence,
+        classificationReason: finalAnalysis.reason || "",
+        classificationTags: normalizeTags(finalAnalysis.tags),
+      },
+      post
+    )
+  );
+}
+
+function resolveEnrichPromptVersion(post) {
+  return resolveVisionAwarePromptVersion(ENRICH_AI_PROMPT_VERSION, post);
 }
 
 function buildExecutionContract(post, model) {
   return {
     inputFingerprint: computeInputFingerprint(post),
     model,
-    promptVersion: ENRICH_AI_PROMPT_VERSION,
+    promptVersion: resolveEnrichPromptVersion(post),
     schemaVersion: ENRICH_AI_SCHEMA_VERSION,
   };
 }
@@ -307,17 +323,20 @@ function truncateChars(value, max) {
 
 function buildEnrichPayload(post) {
   const finalAnalysis = post.finalAnalysis || {};
-  return {
-    authorName: post.authorName || "",
-    authorHandle: post.authorHandle || "",
-    text: post.text || "",
-    url: post.url || "",
-    category: getCategory(post),
-    classificationSource: finalAnalysis.source || "",
-    classificationConfidence: finalAnalysis.confidence ?? null,
-    classificationReason: finalAnalysis.reason || "",
-    classificationTags: Array.isArray(finalAnalysis.tags) ? finalAnalysis.tags : [],
-  };
+  return attachVisionContextToPayload(
+    {
+      authorName: post.authorName || "",
+      authorHandle: post.authorHandle || "",
+      text: post.text || "",
+      url: post.url || "",
+      category: getCategory(post),
+      classificationSource: finalAnalysis.source || "",
+      classificationConfidence: finalAnalysis.confidence ?? null,
+      classificationReason: finalAnalysis.reason || "",
+      classificationTags: Array.isArray(finalAnalysis.tags) ? finalAnalysis.tags : [],
+    },
+    post
+  );
 }
 
 function validateEnrichResult(data) {
@@ -361,7 +380,7 @@ async function enrichWithAi(client, model, post) {
 
   const response = await client.responses.create({
     model,
-    instructions: SYSTEM_PROMPT,
+    instructions: withVisionInstructions(SYSTEM_PROMPT, post),
     input: JSON.stringify(payload, null, 2),
     text: {
       format: {
@@ -794,15 +813,18 @@ if (require.main === module) {
 
 module.exports = {
   ENRICH_AI_PROMPT_VERSION,
+  ENRICH_AI_VISION_PROMPT_VERSION,
   ENRICH_AI_SCHEMA_VERSION,
   SYSTEM_PROMPT,
   RESPONSE_SCHEMA,
   computeInputFingerprint,
+  resolveEnrichPromptVersion,
   buildExecutionContract,
   isProgressCompleteForContract,
   findMatchingCacheEntry,
   writeProgressFromResult,
   writeCacheEntry,
   buildEnrichment,
+  buildEnrichPayload,
   validateEnrichResult,
 };

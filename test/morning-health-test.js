@@ -16,6 +16,7 @@ const {
   publishResultFromRunner,
   formatMorningPipelineSummary,
   morningPublishForDashboard,
+  VISION_DEGRADED_WARNING,
 } = require("../lib/morning-health");
 
 function tmpDir(prefix) {
@@ -283,6 +284,54 @@ function tmpDir(prefix) {
   assert.strictEqual(dash.pagesDeployReason, "GitHub 503");
 
   console.log("EP048 publish-flags PASS");
+}
+
+{
+  const report = buildMorningHealthReport({
+    startedAt: "2026-09-06T04:00:00.000Z",
+    finishedAt: "2026-09-06T04:05:00.000Z",
+    status: "SUCCESS",
+    stages: [
+      {
+        id: "analyze",
+        label: "Analyze",
+        ok: true,
+        itemCount: 6,
+      },
+      {
+        id: "vision",
+        label: "Vision",
+        ok: false,
+        degraded: true,
+        fallback: "text-only",
+        itemCount: null,
+      },
+      {
+        id: "analyze-ai",
+        label: "AI Analyze",
+        ok: true,
+        itemCount: 6,
+      },
+      {
+        id: "enrich",
+        label: "AI Enrich",
+        ok: true,
+        itemCount: 6,
+      },
+    ],
+  });
+  assert.strictEqual(report.status, "SUCCESS");
+  assert.strictEqual(VISION_DEGRADED_WARNING, "VISION_DEGRADED");
+  assert.ok(report.warnings.includes(VISION_DEGRADED_WARNING));
+  const vision = report.stages.find((s) => s.id === "vision");
+  assert.strictEqual(vision.ok, false);
+  assert.strictEqual(vision.degraded, true);
+  assert.strictEqual(vision.fallback, "text-only");
+  const summary = formatMorningPipelineSummary(report, null);
+  assert.ok(summary.includes("[degraded]"));
+  assert.ok(summary.includes("VISION_DEGRADED"));
+  assert.ok(summary.includes("Status: SUCCESS"));
+  console.log("EP048 vision-degraded PASS");
 }
 
 console.log("morning-health-test: all PASS");
