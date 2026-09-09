@@ -1,83 +1,57 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-08T18:02:16.877Z",
+  "generatedAt": "2026-09-09T18:03:18.224Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 5
+    "itemCount": 9
   },
   "items": [
     {
-      "id": "2097217418498310296",
-      "title": "風俗嬢になっても親は泣かなかったが、証券会社で鬱で休職した際、元上司が親へ毎日詰め電話をし許せないと主張している",
-      "summary": "風俗嬢になっても親は泣かなかったが、証券会社で鬱で休職した際、元上司が親へ毎日詰め電話をし許せないと主張している",
+      "id": "2097469920506434007",
+      "title": "遅刻を容認する採用でADHDや体調不良の優秀な応募者が集まり、店が良くなったと主張している",
+      "summary": "遅刻を容認する採用でADHDや体調不良の優秀な応募者が集まり、店が良くなったと主張している",
       "category": "仕事・キャリア",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/banabanasan/status/2097217418498310296",
-      "postedAt": "2026-09-08T06:56:11.000Z",
-      "collectedAt": "2026-09-08T18:00:47.681Z",
+      "sourceUrl": "https://x.com/muri_hirune/status/2097469920506434007",
+      "postedAt": "2026-09-08T23:39:32.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
       "author": {
-        "name": "たちばな",
-        "handle": "@banabanasan"
+        "name": "人生無理だねひるねちゃん😾",
+        "handle": "@muri_hirune"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 4,
+        "attentionSignal": 2,
+        "importance": 4
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2097683630692893097",
+      "title": "Economistは、コーディングでAI活用が急速な理由を、学習データの豊富さ・作業のデジタル性・生成物をテストで機械検証できる点だと指摘している。",
+      "summary": "Economistは、コーディングでAI活用が急速な理由を、学習データの豊富さ・作業のデジタル性・生成物をテストで機械検証できる点だと指摘している。",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/kaz_ataka/status/2097683630692893097",
+      "postedAt": "2026-09-09T13:48:45.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
+      "author": {
+        "name": "Kaz Ataka / 安宅和人",
+        "handle": "@kaz_ataka"
       },
       "scores": {
         "informationValue": 3,
         "personalRelevance": 3,
         "impact": 3,
-        "attentionSignal": 4,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2097312624572867015",
-      "title": "AIニュースは音声を聞きながら記事で補足する『ながらAI』を勧めている（今週のニュース紹介）",
-      "summary": "AIニュースは音声を聞きながら記事で補足する『ながらAI』を勧めている（今週のニュース紹介）",
-      "category": "ニュース・報道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kensuu/status/2097312624572867015",
-      "postedAt": "2026-09-08T13:14:30.000Z",
-      "collectedAt": "2026-09-08T18:00:47.681Z",
-      "author": {
-        "name": "けんすう",
-        "handle": "@kensuu"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2095750665159209112",
-      "title": "リクルートエージェントがハイクラス転職対応を宣伝し、転職決定数No.1でスカウトから内定まで支援すると伝えている。",
-      "summary": "リクルートエージェントがハイクラス転職対応を宣伝し、転職決定数No.1でスカウトから内定まで支援すると伝えている。",
-      "category": "仕事・キャリア",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/recruit_agent/status/2095750665159209112",
-      "postedAt": null,
-      "collectedAt": "2026-09-08T18:00:47.681Z",
-      "author": {
-        "name": "リクルートエージェント",
-        "handle": "@recruit_agent"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
         "attentionSignal": 2,
-        "importance": 2
+        "importance": 3
       },
       "media": [],
       "visual": {
@@ -86,22 +60,74 @@
       }
     },
     {
-      "id": "2097376454816211272",
-      "title": "心を物質の移動に例え、質量のないものでも加速度制限を受けるように心にも鈍重さがあると述べている。",
-      "summary": "心を物質の移動に例え、質量のないものでも加速度制限を受けるように心にも鈍重さがあると述べている。",
-      "category": "日常・雑談",
+      "id": "2097523291774927074",
+      "title": "AIで儲けた「AI社長」が『人間いらない』と言い、投稿者が仕事は社交の言い訳と返すと恥ずかしがった、という観察・意見。",
+      "summary": "AIで儲けた「AI社長」が『人間いらない』と言い、投稿者が仕事は社交の言い訳と返すと恥ずかしがった、という観察・意見。",
+      "category": "AI",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/sAndm_select/status/2097376454816211272",
-      "postedAt": "2026-09-08T17:28:08.000Z",
-      "collectedAt": "2026-09-08T18:00:47.681Z",
+      "sourceUrl": "https://x.com/proogo/status/2097523291774927074",
+      "postedAt": "2026-09-09T03:11:37.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
       "author": {
-        "name": "森博嗣ミステリbot",
-        "handle": "@sAndm_select"
+        "name": "奢られ屋の日記",
+        "handle": "@proogo"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
         "impact": 1,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2097581831491400094",
+      "title": "内面を深掘りする際は必ず性的同意を取るべきだと主張している投稿。",
+      "summary": "内面を深掘りする際は必ず性的同意を取るべきだと主張している投稿。",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/taichinakaj/status/2097581831491400094",
+      "postedAt": "2026-09-09T07:04:14.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
+      "author": {
+        "name": "プロ奢ラレヤー🍣",
+        "handle": "@taichinakaj"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2097615831303909617",
+      "title": "個人開発を始めた当時は『自分だけの作品を作りたかった』が、今はコードを書かず寂しいと述べている",
+      "summary": "個人開発を始めた当時は『自分だけの作品を作りたかった』が、今はコードを書かず寂しいと述べている",
+      "category": "プログラミング・IT",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/choo_s/status/2097615831303909617",
+      "postedAt": "2026-09-09T09:19:20.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
+      "author": {
+        "name": "choo",
+        "handle": "@choo_s"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 1,
         "attentionSignal": 1,
         "importance": 2
       },
@@ -112,24 +138,102 @@
       }
     },
     {
-      "id": "2097198008089948319",
-      "title": "自分が軽んじられたと感じていると述べている。",
-      "summary": "自分が軽んじられたと感じていると述べている。",
-      "category": "その他",
+      "id": "2097600833512952160",
+      "title": "独立開業を検討する人向けに、投資回収期間・在庫リスク・人件費の確認を促す広告投稿。",
+      "summary": "独立開業を検討する人向けに、投資回収期間・在庫リスク・人件費の確認を促す広告投稿。",
+      "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/shoeshineoknw/status/2097198008089948319",
-      "postedAt": "2026-09-08T05:39:03.000Z",
-      "collectedAt": "2026-09-08T18:00:47.681Z",
+      "sourceUrl": "https://x.com/oa_daikichi/status/2097600833512952160",
+      "postedAt": null,
+      "collectedAt": "2026-09-09T18:00:44.466Z",
       "author": {
-        "name": "仲程 秀之@沖縄の出張靴磨き屋",
-        "handle": "@shoeshineoknw"
+        "name": "買取大吉【公式】",
+        "handle": "@oa_daikichi"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 4,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2097678622333288641",
+      "title": "夏の終わりに50歳の誕生日を迎え、多くの祝いに感謝している報告。",
+      "summary": "夏の終わりに50歳の誕生日を迎え、多くの祝いに感謝している報告。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/mieko_kawakami/status/2097678622333288641",
+      "postedAt": "2026-09-09T13:28:51.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
+      "author": {
+        "name": "川上未映子 Mieko Kawakami",
+        "handle": "@mieko_kawakami"
       },
       "scores": {
         "informationValue": 1,
         "personalRelevance": 1,
         "impact": 1,
-        "attentionSignal": 3,
+        "attentionSignal": 2,
         "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2097695807118123036",
+      "title": "投稿本文が空で内容を判定できない",
+      "summary": "投稿本文が空で内容を判定できない",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/okinawanogori/status/2097695807118123036",
+      "postedAt": "2026-09-09T14:37:08.000Z",
+      "collectedAt": "2026-09-09T18:00:44.466Z",
+      "author": {
+        "name": "霊長類お兄さん",
+        "handle": "@okinawanogori"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2096901289414119833",
+      "title": "9/10(水)16時の超RIZIN配信告知と、サイン入りグッズのプレゼント応募方法を案内している投稿。",
+      "summary": "9/10(水)16時の超RIZIN配信告知と、サイン入りグッズのプレゼント応募方法を案内している投稿。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Abema_Fight/status/2096901289414119833",
+      "postedAt": null,
+      "collectedAt": "2026-09-09T18:00:44.466Z",
+      "author": {
+        "name": "ABEMA格闘",
+        "handle": "@Abema_Fight"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 2
       },
       "media": [],
       "visual": {
