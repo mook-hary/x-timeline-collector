@@ -1,30 +1,30 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-11T18:02:48.907Z",
+  "generatedAt": "2026-09-12T18:02:01.248Z",
   "scope": {
     "type": "collect-run",
     "itemCount": 5
   },
   "items": [
     {
-      "id": "2098411256495435928",
-      "title": "植芝盛平が合気道は愛と和であり、日本人を立て直すべきだと主張している",
-      "summary": "植芝盛平が合気道は愛と和であり、日本人を立て直すべきだと主張している",
-      "category": "合気道・武道",
+      "id": "2098789984656322663",
+      "title": "TVアニメ『天幕のジャードゥーガル』第12幕の線撮と本撮比較動画公開を告知、原画クレジットあり。",
+      "summary": "TVアニメ『天幕のジャードゥーガル』第12幕の線撮と本撮比較動画公開を告知、原画クレジットあり。",
+      "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/Morihei_bot/status/2098411256495435928",
-      "postedAt": "2026-09-11T14:00:04.000Z",
-      "collectedAt": "2026-09-11T18:00:42.064Z",
+      "sourceUrl": "https://x.com/sciencesaru/status/2098789984656322663",
+      "postedAt": "2026-09-12T15:05:00.000Z",
+      "collectedAt": "2026-09-12T18:00:39.944Z",
       "author": {
-        "name": "植芝盛平（引用要約）bot",
-        "handle": "@Morihei_bot"
+        "name": "サイエンスSARU",
+        "handle": "@sciencesaru"
       },
       "scores": {
         "informationValue": 3,
         "personalRelevance": 3,
         "impact": 2,
-        "attentionSignal": 3,
+        "attentionSignal": 2,
         "importance": 3
       },
       "media": [],
@@ -34,49 +34,75 @@
       }
     },
     {
-      "id": "2098397805840851150",
-      "title": "正義を盾に怒りを正当化する人は『正義の暗黒部分』に取り込まれ、得るものが少ないと主張している。",
-      "summary": "正義を盾に怒りを正当化する人は『正義の暗黒部分』に取り込まれ、得るものが少ないと主張している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/taichinakaj/status/2098397805840851150",
-      "postedAt": "2026-09-11T13:06:37.000Z",
-      "collectedAt": "2026-09-11T18:00:42.064Z",
-      "author": {
-        "name": "プロ奢ラレヤー🍣",
-        "handle": "@taichinakaj"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2098236962968842412",
-      "title": "2ヶ月の展示で全く壊れなかったことに驚き、杉原さんを天才と称賛している投稿。",
-      "summary": "2ヶ月の展示で全く壊れなかったことに驚き、杉原さんを天才と称賛している投稿。",
+      "id": "2098790227003507049",
+      "title": "向いている仕事は多くが「いい加減で済む」作業を、パラノイア的にこだわり続ける人向きだと考えているという意見。",
+      "summary": "向いている仕事は多くが「いい加減で済む」作業を、パラノイア的にこだわり続ける人向きだと考えているという意見。",
       "category": "仕事・キャリア",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/Yam_eye/status/2098236962968842412",
-      "postedAt": "2026-09-11T02:27:29.000Z",
-      "collectedAt": "2026-09-11T18:00:42.064Z",
+      "sourceUrl": "https://x.com/kensuu/status/2098790227003507049",
+      "postedAt": "2026-09-12T15:05:58.000Z",
+      "collectedAt": "2026-09-12T18:00:39.944Z",
       "author": {
-        "name": "山中俊治 Shunji Yam",
-        "handle": "@Yam_eye"
+        "name": "けんすう",
+        "handle": "@kensuu"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2098677671450595658",
+      "title": "手術を終え無事に回復したと報告。腫れているが痛みはないという状態を伝えている。",
+      "summary": "手術を終え無事に回復したと報告。腫れているが痛みはないという状態を伝えている。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/u_ume7/status/2098677671450595658",
+      "postedAt": "2026-09-12T07:38:43.000Z",
+      "collectedAt": "2026-09-12T18:00:39.944Z",
+      "author": {
+        "name": "柑橘めたるｯﾋﾟ",
+        "handle": "@u_ume7"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2098763474373652859",
+      "title": "成功している人は「いいかげん」で、責任感ある人は大きな役割に関与できないと主張している。",
+      "summary": "成功している人は「いいかげん」で、責任感ある人は大きな役割に関与できないと主張している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/ELDERZ_ECHO/status/2098763474373652859",
+      "postedAt": "2026-09-12T13:19:40.000Z",
+      "collectedAt": "2026-09-12T18:00:39.944Z",
+      "author": {
+        "name": "ᘮょƕד֝ժ՝こ೬™",
+        "handle": "@ELDERZ_ECHO"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
         "impact": 2,
-        "attentionSignal": 2,
+        "attentionSignal": 4,
         "importance": 2
       },
       "media": [],
@@ -86,50 +112,24 @@
       }
     },
     {
-      "id": "2098254991299682759",
-      "title": "4歳の子が「最初の人は誰が赤ちゃんのお世話をしたの？」と疑問を投げかけた日常投稿",
-      "summary": "4歳の子が「最初の人は誰が赤ちゃんのお世話をしたの？」と疑問を投げかけた日常投稿",
-      "category": "日常・雑談",
+      "id": "2098776386957889626",
+      "title": "サントリーの隠岐を舞台にしたCMを称賛。山口智子の笑顔や海、摩天崖、カバー曲にしみじみ感じた",
+      "summary": "サントリーの隠岐を舞台にしたCMを称賛。山口智子の笑顔や海、摩天崖、カバー曲にしみじみ感じた",
+      "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/omochi3183/status/2098254991299682759",
-      "postedAt": "2026-09-11T03:39:08.000Z",
-      "collectedAt": "2026-09-11T18:00:42.064Z",
+      "sourceUrl": "https://x.com/kaz_ataka/status/2098776386957889626",
+      "postedAt": "2026-09-12T14:10:58.000Z",
+      "collectedAt": "2026-09-12T18:00:39.944Z",
       "author": {
-        "name": "ちみ☺︎",
-        "handle": "@omochi3183"
+        "name": "Kaz Ataka / 安宅和人",
+        "handle": "@kaz_ataka"
       },
       "scores": {
         "informationValue": 2,
-        "personalRelevance": 3,
+        "personalRelevance": 2,
         "impact": 1,
-        "attentionSignal": 2,
+        "attentionSignal": 1,
         "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2098329924407071160",
-      "title": "久しぶりに「大丈夫だ問題ない」「一番いいのを頼む」構文を使ったと自称する日常的な一言投稿",
-      "summary": "久しぶりに「大丈夫だ問題ない」「一番いいのを頼む」構文を使ったと自称する日常的な一言投稿",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/ochyai/status/2098329924407071160",
-      "postedAt": "2026-09-11T08:36:53.000Z",
-      "collectedAt": "2026-09-11T18:00:42.064Z",
-      "author": {
-        "name": "落合陽一 Yoichi OCHIAI",
-        "handle": "@ochyai"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
       },
       "media": [],
       "visual": {
