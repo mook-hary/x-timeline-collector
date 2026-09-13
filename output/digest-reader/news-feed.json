@@ -1,83 +1,31 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-12T18:02:01.248Z",
+  "generatedAt": "2026-09-13T18:01:52.483Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 5
+    "itemCount": 6
   },
   "items": [
     {
-      "id": "2098789984656322663",
-      "title": "TVアニメ『天幕のジャードゥーガル』第12幕の線撮と本撮比較動画公開を告知、原画クレジットあり。",
-      "summary": "TVアニメ『天幕のジャードゥーガル』第12幕の線撮と本撮比較動画公開を告知、原画クレジットあり。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sciencesaru/status/2098789984656322663",
-      "postedAt": "2026-09-12T15:05:00.000Z",
-      "collectedAt": "2026-09-12T18:00:39.944Z",
-      "author": {
-        "name": "サイエンスSARU",
-        "handle": "@sciencesaru"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 2,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2098790227003507049",
-      "title": "向いている仕事は多くが「いい加減で済む」作業を、パラノイア的にこだわり続ける人向きだと考えているという意見。",
-      "summary": "向いている仕事は多くが「いい加減で済む」作業を、パラノイア的にこだわり続ける人向きだと考えているという意見。",
-      "category": "仕事・キャリア",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kensuu/status/2098790227003507049",
-      "postedAt": "2026-09-12T15:05:58.000Z",
-      "collectedAt": "2026-09-12T18:00:39.944Z",
-      "author": {
-        "name": "けんすう",
-        "handle": "@kensuu"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 2,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2098677671450595658",
-      "title": "手術を終え無事に回復したと報告。腫れているが痛みはないという状態を伝えている。",
-      "summary": "手術を終え無事に回復したと報告。腫れているが痛みはないという状態を伝えている。",
+      "id": "2099088709148950635",
+      "title": "山手線沿線の賃貸物件の駅別分布を、全物件・家賃12万以下・6万以下で示している。",
+      "summary": "山手線沿線の賃貸物件の駅別分布を、全物件・家賃12万以下・6万以下で示している。",
       "category": "生活・健康",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/u_ume7/status/2098677671450595658",
-      "postedAt": "2026-09-12T07:38:43.000Z",
-      "collectedAt": "2026-09-12T18:00:39.944Z",
+      "sourceUrl": "https://x.com/choo_s/status/2099088709148950635",
+      "postedAt": "2026-09-13T10:52:02.000Z",
+      "collectedAt": "2026-09-13T18:00:42.683Z",
       "author": {
-        "name": "柑橘めたるｯﾋﾟ",
-        "handle": "@u_ume7"
+        "name": "choo",
+        "handle": "@choo_s"
       },
       "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 1
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 1,
+        "importance": 4
       },
       "media": [],
       "visual": {
@@ -86,50 +34,128 @@
       }
     },
     {
-      "id": "2098763474373652859",
-      "title": "成功している人は「いいかげん」で、責任感ある人は大きな役割に関与できないと主張している。",
-      "summary": "成功している人は「いいかげん」で、責任感ある人は大きな役割に関与できないと主張している。",
-      "category": "日常・雑談",
+      "id": "2099088198010044731",
+      "title": "OpenAIのナビエ・ストークスとフィールズ賞受賞者25人の宣言についての考察をブログで示し、自問の重要性に触れている。",
+      "summary": "OpenAIのナビエ・ストークスとフィールズ賞受賞者25人の宣言についての考察をブログで示し、自問の重要性に触れている。",
+      "category": "AI",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ELDERZ_ECHO/status/2098763474373652859",
-      "postedAt": "2026-09-12T13:19:40.000Z",
-      "collectedAt": "2026-09-12T18:00:39.944Z",
-      "author": {
-        "name": "ᘮょƕד֝ժ՝こ೬™",
-        "handle": "@ELDERZ_ECHO"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 4,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2098776386957889626",
-      "title": "サントリーの隠岐を舞台にしたCMを称賛。山口智子の笑顔や海、摩天崖、カバー曲にしみじみ感じた",
-      "summary": "サントリーの隠岐を舞台にしたCMを称賛。山口智子の笑顔や海、摩天崖、カバー曲にしみじみ感じた",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kaz_ataka/status/2098776386957889626",
-      "postedAt": "2026-09-12T14:10:58.000Z",
-      "collectedAt": "2026-09-12T18:00:39.944Z",
+      "sourceUrl": "https://x.com/kaz_ataka/status/2099088198010044731",
+      "postedAt": "2026-09-13T10:50:00.000Z",
+      "collectedAt": "2026-09-13T18:00:42.683Z",
       "author": {
         "name": "Kaz Ataka / 安宅和人",
         "handle": "@kaz_ataka"
       },
       "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099066715342815506",
+      "title": "人気インフルエンサーるるたんとの後編対談。エロでの総収入10億円超の主張と、性を売ることが尊厳や権利に与える影響を議論している。",
+      "summary": "人気インフルエンサーるるたんとの後編対談。エロでの総収入10億円超の主張と、性を売ることが尊厳や権利に与える影響を議論している。",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/ak_tch/status/2099066715342815506",
+      "postedAt": "2026-09-13T09:24:38.000Z",
+      "collectedAt": "2026-09-13T18:00:42.683Z",
+      "author": {
+        "name": "橘　玲",
+        "handle": "@ak_tch"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 4,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099061813732372966",
+      "title": "結婚したいが相手がいない男性の多くは、自分が求めるものを理解していないと主張している。",
+      "summary": "結婚したいが相手がいない男性の多くは、自分が求めるものを理解していないと主張している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/taichinakaj/status/2099061813732372966",
+      "postedAt": "2026-09-13T09:05:09.000Z",
+      "collectedAt": "2026-09-13T18:00:42.683Z",
+      "author": {
+        "name": "プロ奢ラレヤー🍣",
+        "handle": "@taichinakaj"
+      },
+      "scores": {
         "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
         "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2098751747380707815",
+      "title": "iPhone 18 Pro発売中。ドコモの「いつでもカエドキプログラム」でお得に買替えできると案内。",
+      "summary": "iPhone 18 Pro発売中。ドコモの「いつでもカエドキプログラム」でお得に買替えできると案内。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/docomo/status/2098751747380707815",
+      "postedAt": null,
+      "collectedAt": "2026-09-13T18:00:42.683Z",
+      "author": {
+        "name": "NTTドコモ",
+        "handle": "@docomo"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099184904068293035",
+      "title": "投稿本文が空で内容を判定できない",
+      "summary": "投稿本文が空で内容を判定できない",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/okinawanogori/status/2099184904068293035",
+      "postedAt": "2026-09-13T17:14:16.000Z",
+      "collectedAt": "2026-09-13T18:00:42.683Z",
+      "author": {
+        "name": "霊長類お兄さん",
+        "handle": "@okinawanogori"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 1
       },
       "media": [],
       "visual": {
