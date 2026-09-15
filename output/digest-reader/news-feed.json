@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-14T18:02:26.166Z",
+  "generatedAt": "2026-09-15T18:21:01.399Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 5
+    "itemCount": 41
   },
   "items": [
     {
-      "id": "2099464155724202202",
-      "title": "トレスや類似模写は原則著作権侵害で私的利用に留め、SNSでの公開は避け非公開を勧めている",
-      "summary": "トレスや類似模写は原則著作権侵害で私的利用に留め、SNSでの公開は避け非公開を勧めている",
-      "category": "イラスト・美術",
+      "id": "2097151071760363661",
+      "title": "GMO Flatt SecurityがTakumi Runnerとcicd-sensor連携、毎月3,000分の無料枠提供を発表。",
+      "summary": "GMO Flatt SecurityがTakumi Runnerとcicd-sensor連携、毎月3,000分の無料枠提供を発表。",
+      "category": "プログラミング・IT",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ONDAplusDot/status/2099464155724202202",
-      "postedAt": "2026-09-14T11:43:55.000Z",
-      "collectedAt": "2026-09-14T18:00:44.125Z",
+      "sourceUrl": "https://x.com/flatt_security/status/2097151071760363661",
+      "postedAt": null,
+      "collectedAt": "2026-09-15T18:00:43.666Z",
       "author": {
-        "name": "ONDA+.（オンダプラスドット）",
-        "handle": "@ONDAplusDot"
+        "name": "GMO Flatt Security株式会社",
+        "handle": "@flatt_security"
       },
       "scores": {
         "informationValue": 4,
@@ -34,17 +34,422 @@
       }
     },
     {
-      "id": "2099438008013574289",
-      "title": "『アズールレーン』9周年PVに総作監による修正が入ると告知している。",
-      "summary": "『アズールレーン』9周年PVに総作監による修正が入ると告知している。",
+      "id": "2099655262634443147",
+      "title": "劇場版『あしたのジョー』の有名ポスター画は窪詔之が担当。作品本編には参加せず、現役アニメーターで『マッハGoGoGo』OP原画等。",
+      "summary": "劇場版『あしたのジョー』の有名ポスター画は窪詔之が担当。作品本編には参加せず、現役アニメーターで『マッハGoGoGo』OP原画等。",
       "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/sasurainopink/status/2099438008013574289",
-      "postedAt": "2026-09-14T10:00:01.000Z",
-      "collectedAt": "2026-09-14T18:00:44.125Z",
+      "sourceUrl": "https://x.com/Chom2Start/status/2099655262634443147",
+      "postedAt": "2026-09-15T00:23:18.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
       "author": {
-        "name": "牧茶",
-        "handle": "@sasurainopink"
+        "name": "野口征恒(ノグチマサツネ)",
+        "handle": "@Chom2Start"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSN4N8paAAA_6F9?format=jpg&name=small",
+          "previewUrl": "https://pbs.twimg.com/media/HSN4N8paAAA_6F9?format=jpg&name=small",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSN4Oo7bUAASFBk?format=jpg&name=900x900",
+          "previewUrl": "https://pbs.twimg.com/media/HSN4Oo7bUAASFBk?format=jpg&name=900x900",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSN4POIacAE4map?format=jpg&name=900x900",
+          "previewUrl": "https://pbs.twimg.com/media/HSN4POIacAE4map?format=jpg&name=900x900",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099829506567721417",
+      "title": "指の連動を示す模式図。複数の手図で各指の連動箇所を赤い矢印で示している。",
+      "summary": "指の連動を示す模式図。複数の手図で各指の連動箇所を赤い矢印で示している。",
+      "category": "イラスト・美術",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/kato_anatomy/status/2099829506567721417",
+      "postedAt": "2026-09-15T11:55:41.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "伊豆の美術解剖学者",
+        "handle": "@kato_anatomy"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 4,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 4
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQXqOhbkAAXxpD?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQXqOhbkAAXxpD?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "The image shows six simple line drawings of a hand arranged in two rows of three. Each hand drawing has a gray shadow behind it and one or more small red triangular arrows placed near different fingertips. The placement of the red arrows varies across the drawings, indicating different highlighted fingers in each illustration.",
+        "visibleText": null
+      },
+      "visual": {
+        "value": 3,
+        "roles": [
+          "reference",
+          "diagram",
+          "artwork"
+        ]
+      }
+    },
+    {
+      "id": "2099694704988131786",
+      "title": "大澤喜三郎が、昭和17年ごろ植芝盛平の体調が悪化したが回復し、岩間道場へ移ったと述べている。",
+      "summary": "大澤喜三郎が、昭和17年ごろ植芝盛平の体調が悪化したが回復し、岩間道場へ移ったと述べている。",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Morihei_bot/status/2099694704988131786",
+      "postedAt": "2026-09-15T03:00:02.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "植芝盛平（引用要約）bot",
+        "handle": "@Morihei_bot"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099852703858139567",
+      "title": "四ヶ条（二）の「上げる」動作は、痛めずに肘肩と受けの踵を上げさせて不安定化させることを目的とする指導だと説明している。",
+      "summary": "四ヶ条（二）の「上げる」動作は、痛めずに肘肩と受けの踵を上げさせて不安定化させることを目的とする指導だと説明している。",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/AikidoShibuya/status/2099852703858139567",
+      "postedAt": "2026-09-15T13:27:52.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "合気道_渋谷",
+        "handle": "@AikidoShibuya"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2099852199388233728/img/RKBBrJwsGXK6LpS8.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099845696291590188",
+      "title": "田中万川の戦前の道場荒らし逸話と植芝盛平の教え『隙を絶対与えるな』",
+      "summary": "田中万川の戦前の道場荒らし逸話と植芝盛平の教え『隙を絶対与えるな』",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/Morihei_bot/status/2099845696291590188",
+      "postedAt": "2026-09-15T13:00:01.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "植芝盛平（引用要約）bot",
+        "handle": "@Morihei_bot"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099818697133273097",
+      "title": "Comfyが家賃相場のヒートマップ機能を開発中。新宿・渋谷・大手町・東京の30分圏を可視化、近日リリース予定。",
+      "summary": "Comfyが家賃相場のヒートマップ機能を開発中。新宿・渋谷・大手町・東京の30分圏を可視化、近日リリース予定。",
+      "category": "エンタメ・イベント",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/choo_s/status/2099818697133273097",
+      "postedAt": "2026-09-15T11:12:44.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "choo",
+        "handle": "@choo_s"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQNucrbgAAfVBS?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQNucrbgAAfVBS?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQNudEa4AA_ET2?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQNudEa4AA_ET2?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQNudea0AAGbof?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQNudea0AAGbof?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQNud2bYAEvIvN?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQNud2bYAEvIvN?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099766695854526791",
+      "title": "投稿者は生成AI時代でもプログラマー求人が予想ほど減っていないと観察している。",
+      "summary": "投稿者は生成AI時代でもプログラマー求人が予想ほど減っていないと観察している。",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/koshian/status/2099766695854526791",
+      "postedAt": "2026-09-15T07:46:06.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "(Ǝ)ɐsᴉɥᴉɥso⅄ ,uɐᴉɥsoʞ, ouɐƃnS",
+        "handle": "@koshian"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 4,
+        "impact": 3,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099703919748473333",
+      "title": "絵が下手でもアニメーターになれると述べつつ、人手不足で誰でも作監にするのは困ると主張している。",
+      "summary": "絵が下手でもアニメーターになれると述べつつ、人手不足で誰でも作監にするのは困ると主張している。",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/oekaki_obasan/status/2099703919748473333",
+      "postedAt": "2026-09-15T03:36:39.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "やまだ",
+        "handle": "@oekaki_obasan"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 3,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099828331554230653",
+      "title": "ウクライナのアニメーター、ナタ・メトルフの短編『オフ・タイム』が広島AIR支援で制作され、オンライン公開されたと伝えている。",
+      "summary": "ウクライナのアニメーター、ナタ・メトルフの短編『オフ・タイム』が広島AIR支援で制作され、オンライン公開されたと伝えている。",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/catsuka/status/2099828331554230653",
+      "postedAt": "2026-09-15T11:51:01.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "Catsuka",
+        "handle": "@catsuka"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2099828198628306944/img/NyWkVxVJ1nQovkjP.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/Gq18hwQWwAMq9RE?format=jpg&name=360x360",
+          "previewUrl": "https://pbs.twimg.com/media/Gq18hwQWwAMq9RE?format=jpg&name=360x360",
+          "altText": "埋め込み動画",
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2098282121274233221",
+      "title": "トークン消費やコスト増を課題とし、開発速度・品質・費用を両立する自動モデル選択ツール「IBM Bob」を紹介している",
+      "summary": "トークン消費やコスト増を課題とし、開発速度・品質・費用を両立する自動モデル選択ツール「IBM Bob」を紹介している",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/IBM_JAPAN/status/2098282121274233221",
+      "postedAt": null,
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "日本IBM",
+        "handle": "@IBM_JAPAN"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098280644598276096/img/ojNGZJk46sjBCEFf.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098280644598276096/img/ojNGZJk46sjBCEFf.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099606431968411704",
+      "title": "6年間デマ訂正を続けたが、そのために『反ワク叩き』と呼ばれたと驚きを述べている。",
+      "summary": "6年間デマ訂正を続けたが、そのために『反ワク叩き』と呼ばれたと驚きを述べている。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/yfuruse/status/2099606431968411704",
+      "postedAt": "2026-09-14T21:09:16.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "Offside🌻",
+        "handle": "@yfuruse"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 3,
+        "attentionSignal": 3,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099843173090832773",
+      "title": "「自分はおじさん（おばさん）」と言い続けると本当に老ける、身体は思考の翻訳だと回答している。",
+      "summary": "「自分はおじさん（おばさん）」と言い続けると本当に老ける、身体は思考の翻訳だと回答している。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/hirasawa/status/2099843173090832773",
+      "postedAt": "2026-09-15T12:50:00.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "Susumu Hirasawa",
+        "handle": "@hirasawa"
       },
       "scores": {
         "informationValue": 3,
@@ -60,21 +465,213 @@
       }
     },
     {
-      "id": "2099476858324861001",
-      "title": "小2の娘が「頭・身体・心・言葉で考えることは全部ちがう」と答え、父が「自分はどこにいるの？」と問う会話。",
-      "summary": "小2の娘が「頭・身体・心・言葉で考えることは全部ちがう」と答え、父が「自分はどこにいるの？」と問う会話。",
-      "category": "日常・雑談",
+      "id": "2099823651600367862",
+      "title": "『タイガーマスク』を見返し、名手が並ぶ中で窪さんの作画回が別次元に感じられたと述べている。",
+      "summary": "『タイガーマスク』を見返し、名手が並ぶ中で窪さんの作画回が別次元に感じられたと述べている。",
+      "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/suzuki_junjun/status/2099476858324861001",
-      "postedAt": "2026-09-14T12:34:24.000Z",
-      "collectedAt": "2026-09-14T18:00:44.125Z",
+      "sourceUrl": "https://x.com/nobuteruyuuki/status/2099823651600367862",
+      "postedAt": "2026-09-15T11:32:26.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
       "author": {
-        "name": "鈴木純｜新刊絵本『たねはいのちのおわりとはじまり』（ブロンズ新社）、発売中！",
-        "handle": "@suzuki_junjun"
+        "name": "結城信輝",
+        "handle": "@nobuteruyuuki"
       },
       "scores": {
         "informationValue": 3,
         "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099734536967819691",
+      "title": "「ジョルジョ・バローニ」と記されたINKTOBER 2019の白黒サイバーパンク風キャラ絵二点の投稿",
+      "summary": "「ジョルジョ・バローニ」と記されたINKTOBER 2019の白黒サイバーパンク風キャラ絵二点の投稿",
+      "category": "イラスト・美術",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/HoracioAltuna/status/2099734536967819691",
+      "postedAt": "2026-09-15T05:38:19.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "Horacio Altuna",
+        "handle": "@HoracioAltuna"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSPBbQ4WUAAmtVp?format=jpg&name=small",
+          "previewUrl": "https://pbs.twimg.com/media/HSPBbQ4WUAAmtVp?format=jpg&name=small",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSPBbllW0AAWinj?format=jpg&name=small",
+          "previewUrl": "https://pbs.twimg.com/media/HSPBbllW0AAWinj?format=jpg&name=small",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "Two black-and-white ink illustrations show the same single character in futuristic/cyberpunk gear — one front/three-quarter view (lifting a shirt to reveal the midriff) and one rear/three-quarter view. The character has short, windblown hair, a hoop earring, harnesses and belts with pouches, patterned leggings and knee pads, and various mechanical or armored elements on the arms, back, and boots. Each drawing has text at the bottom that appears as a dated label.",
+        "visibleText": "INKTOBER 2019"
+      },
+      "visual": {
+        "value": 4,
+        "roles": [
+          "reference",
+          "artwork",
+          "production-material"
+        ]
+      }
+    },
+    {
+      "id": "2099758997637157328",
+      "title": "「忙しさは感情をネグレクトする状態だ」と自分が述べ、資本家との会話を綴っている。",
+      "summary": "「忙しさは感情をネグレクトする状態だ」と自分が述べ、資本家との会話を綴っている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/taichinakaj/status/2099758997637157328",
+      "postedAt": "2026-09-15T07:15:31.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "プロ奢ラレヤー🍣",
+        "handle": "@taichinakaj"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099782893463810429",
+      "title": "スキャン時に紙の下地の色（紙の黄みなど）をどう消すか方法を尋ねている質問。",
+      "summary": "スキャン時に紙の下地の色（紙の黄みなど）をどう消すか方法を尋ねている質問。",
+      "category": "イラスト・美術",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/noobboy_02/status/2099782893463810429",
+      "postedAt": "2026-09-15T08:50:28.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "noobboy",
+        "handle": "@noobboy_02"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 4,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSPtYSvaAAEj7Aq?format=png&name=small",
+          "previewUrl": "https://pbs.twimg.com/media/HSPtYSvaAAEj7Aq?format=png&name=small",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "A sheet of paper fills the image and is largely blank in the top and center. Along the lower-left edge there is a faint dark line that curves toward the right. The paper surface shows visible fibers/texture and small speckles or imperfections.",
+        "visibleText": null
+      },
+      "visual": {
+        "value": 3,
+        "roles": [
+          "evidence",
+          "reference",
+          "photo"
+        ]
+      }
+    },
+    {
+      "id": "2099809093418693090",
+      "title": "AIトレス疑惑を晴らしてほしいと訴える漫画。作業ファイルやタイムラプス提示を求められる場面を描く。",
+      "summary": "AIトレス疑惑を晴らしてほしいと訴える漫画。作業ファイルやタイムラプス提示を求められる場面を描く。",
+      "category": "AI",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/nukosama/status/2099809093418693090",
+      "postedAt": "2026-09-15T10:34:35.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "ぬこー様ちゃん@samachan",
+        "handle": "@nukosama"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQD3kWbQAApFdn?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQD3kWbQAApFdn?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "A black-and-white Japanese comic with six panels shows two simple cartoon characters talking. Speech bubbles mention an \"AI\" suspicion about an illustration, checking a phone, asking to see work files, and someone saying they'll tidy layers while another says \"wait.\" The panels show one character kneeling and pleading, another lying on their stomach using a device, then standing and reacting while handling files.",
+        "visibleText": "某ちゃんDMにてこういう相談よく受けます\n\nフォロー外から失礼します\nおれのイラスト\nAI疑惑持たれて\n困ってるので\n助けてください\n\nタイムラプスを\n公開しても\n疑いが晴れなくて\n\nちょっと\n確認しますね\n\n……うーん\n\n限りなく\n黒だなぁ……\n作業ファイル\n見せてもらって\nいいですか？\n\nえっ！\nあ…\n\nちょっとレイヤーが汚いので\n整理してきます\n\nちょっと待て！"
+      },
+      "visual": {
+        "value": 3,
+        "roles": [
+          "evidence",
+          "reference",
+          "artwork"
+        ]
+      }
+    },
+    {
+      "id": "2099862551710593368",
+      "title": "不安を和らげるため『心配しても不安の9割は実現しない』と主張している。",
+      "summary": "不安を和らげるため『心配しても不安の9割は実現しない』と主張している。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/PositiveSalon/status/2099862551710593368",
+      "postedAt": "2026-09-15T14:07:00.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "アドラー心理学サロン(アドサロ)",
+        "handle": "@PositiveSalon"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 4,
         "impact": 2,
         "attentionSignal": 1,
         "importance": 3
@@ -86,17 +683,130 @@
       }
     },
     {
-      "id": "2099487859392872686",
-      "title": "エロ文学を研究する女性に奢られ、彼女が「文学を読む男は仕事中に萎える／文学を読むと無職になる」と主張したと投稿者が述べている。",
-      "summary": "エロ文学を研究する女性に奢られ、彼女が「文学を読む男は仕事中に萎える／文学を読むと無職になる」と主張したと投稿者が述べている。",
+      "id": "2099700466171179354",
+      "title": "合気道を知らない人と稽古して、楽しんでもらえたと報告している。",
+      "summary": "合気道を知らない人と稽古して、楽しんでもらえたと報告している。",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/aikidokashi/status/2099700466171179354",
+      "postedAt": "2026-09-15T03:22:56.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "合気道化師マツリ",
+        "handle": "@aikidokashi"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2096874481344242035",
+      "title": "リクルートエージェントがハイクラス転職対応を宣伝し、転職決定数No.1でスカウトから内定まで支援すると伝えている。",
+      "summary": "リクルートエージェントがハイクラス転職対応を宣伝し、転職決定数No.1でスカウトから内定まで支援すると伝えている。",
+      "category": "仕事・キャリア",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/recruit_agent/status/2096874481344242035",
+      "postedAt": null,
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "リクルートエージェント",
+        "handle": "@recruit_agent"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2096873909228601344/img/ay3KMHGB0BjOcigI.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2096873909228601344/img/ay3KMHGB0BjOcigI.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099855931614150839",
+      "title": "作者がSNSに最初に投稿した手描きの落書きを紹介している",
+      "summary": "作者がSNSに最初に投稿した手描きの落書きを紹介している",
+      "category": "イラスト・美術",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/nimroid/status/2099855931614150839",
+      "postedAt": "2026-09-15T13:40:42.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "諸貫哲朗 ☺︎ TETSURO MORONUKI",
+        "handle": "@nimroid"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQv1vbakAEMZpX?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQv1vbakAEMZpX?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "A pencil sketch on a sheet of paper depicts a person with short, tousled hair and a downward/forward gaze; the hair is shaded and the facial features (eyes, nose, mouth) are drawn in detail. The sheet shows a round hole punch near the top center and a narrow rectangular slot near the top right. There are stray pencil marks and small geometric marks scattered around the figure.",
+        "visibleText": null
+      },
+      "visual": {
+        "value": 3,
+        "roles": [
+          "reference",
+          "artwork",
+          "photo"
+        ]
+      }
+    },
+    {
+      "id": "2099742257700315159",
+      "title": "投稿者が、アラフォー婚活女性が「120人会ったが全員ダメ」と愚痴り、話を聞いてくれない点を不満にしていると報告している。",
+      "summary": "投稿者が、アラフォー婚活女性が「120人会ったが全員ダメ」と愚痴り、話を聞いてくれない点を不満にしていると報告している。",
       "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/taichinakaj/status/2099487859392872686",
-      "postedAt": "2026-09-14T13:18:06.000Z",
-      "collectedAt": "2026-09-14T18:00:44.125Z",
+      "sourceUrl": "https://x.com/proogo/status/2099742257700315159",
+      "postedAt": "2026-09-15T06:09:00.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
       "author": {
-        "name": "プロ奢ラレヤー🍣",
-        "handle": "@taichinakaj"
+        "name": "奢られ屋の日記",
+        "handle": "@proogo"
       },
       "scores": {
         "informationValue": 2,
@@ -112,29 +822,558 @@
       }
     },
     {
-      "id": "2099302108210380991",
-      "title": "新CM公開記念でプレミアムガーナを100名にプレゼント。フォロー＋リポストで応募、9/21締切。",
-      "summary": "新CM公開記念でプレミアムガーナを100名にプレゼント。フォロー＋リポストで応募、9/21締切。",
-      "category": "広告・PR",
+      "id": "2099815899230609697",
+      "title": "ハエの脳をデータ化してネットに移植、ロボット義体を与えるというアイデアだと主張している。",
+      "summary": "ハエの脳をデータ化してネットに移植、ロボット義体を与えるというアイデアだと主張している。",
+      "category": "AI",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ghana_recipe/status/2099302108210380991",
-      "postedAt": null,
-      "collectedAt": "2026-09-14T18:00:44.125Z",
+      "sourceUrl": "https://x.com/Yam_eye/status/2099815899230609697",
+      "postedAt": "2026-09-15T11:01:37.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
       "author": {
-        "name": "ガーナチョコレート🍫公式",
-        "handle": "@ghana_recipe"
+        "name": "山中俊治 Shunji Yam",
+        "handle": "@Yam_eye"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 4,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2099121962450579460/img/gHYPKqYQ1HXMrjXt.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099853272224022920",
+      "title": "けんすうが週刊エッセイを投稿し「自分のサイコロに偏りがあると結果も偏る」と述べているという告知",
+      "summary": "けんすうが週刊エッセイを投稿し「自分のサイコロに偏りがあると結果も偏る」と述べているという告知",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/kensuu/status/2099853272224022920",
+      "postedAt": "2026-09-15T13:30:08.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "けんすう",
+        "handle": "@kensuu"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
         "impact": 1,
-        "attentionSignal": 3,
+        "attentionSignal": 1,
         "importance": 2
       },
       "media": [],
       "visual": {
         "value": null,
         "roles": []
+      }
+    },
+    {
+      "id": "2099739747782734136",
+      "title": "投稿者が『ちらブログマガジン』執筆の機運が高まっているとつぶやいている。",
+      "summary": "投稿者が『ちらブログマガジン』執筆の機運が高まっているとつぶやいている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/tira_tirarin/status/2099739747782734136",
+      "postedAt": "2026-09-15T05:59:01.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "FX戦士ちらみちゃん@子育てオワコンで人生含み損ひよこ",
+        "handle": "@tira_tirarin"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099879218473800034",
+      "title": "落合陽一さんが39歳になったと報告し、全力で頑張ると意気込みを示している。",
+      "summary": "落合陽一さんが39歳になったと報告し、全力で頑張ると意気込みを示している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/ochyai/status/2099879218473800034",
+      "postedAt": "2026-09-15T15:13:14.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "落合陽一 Yoichi OCHIAI",
+        "handle": "@ochyai"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099670980499255389",
+      "title": "AV女優の死を想定し、その作品を面白おかしく消費する層の倫理観を批判している意見投稿",
+      "summary": "AV女優の死を想定し、その作品を面白おかしく消費する層の倫理観を批判している意見投稿",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/banabanasan/status/2099670980499255389",
+      "postedAt": "2026-09-15T01:25:46.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "たちばな",
+        "handle": "@banabanasan"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2095683484190921083",
+      "title": "スピルバーグ新作映画『ディスクロージャー・デイ』が10月1日公開と宣伝している。",
+      "summary": "スピルバーグ新作映画『ディスクロージャー・デイ』が10月1日公開と宣伝している。",
+      "category": "エンタメ・イベント",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/universal_eiga/status/2095683484190921083",
+      "postedAt": null,
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "ユニバーサル・ピクチャーズ公式",
+        "handle": "@universal_eiga"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2094728748012834816/img/v-UU65y7_xHZSiu0.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2094728748012834816/img/v-UU65y7_xHZSiu0.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099664035507789957",
+      "title": "久しぶりに一人で合気道の稽古をし、その様子を投稿している。",
+      "summary": "久しぶりに一人で合気道の稽古をし、その様子を投稿している。",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/rollingsato/status/2099664035507789957",
+      "postedAt": "2026-09-15T00:58:10.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "うけみ",
+        "handle": "@rollingsato"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099301588590276687",
+      "title": "彼氏に「世界中が敵でも味方になる？」と聞いたら『さあ、何したかによる』と言われたと投稿している",
+      "summary": "彼氏に「世界中が敵でも味方になる？」と聞いたら『さあ、何したかによる』と言われたと投稿している",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/lue_ca_/status/2099301588590276687",
+      "postedAt": "2026-09-14T00:57:56.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "lue_ca🇨🇦大学院1年目",
+        "handle": "@lue_ca_"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099681300299071932",
+      "title": "節約志向の女性は若いうちに婚活市場で奪われ、30代では出回らないと主張している。",
+      "summary": "節約志向の女性は若いうちに婚活市場で奪われ、30代では出回らないと主張している。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/banabanasan/status/2099681300299071932",
+      "postedAt": "2026-09-15T02:06:46.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "たちばな",
+        "handle": "@banabanasan"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099839856654598153",
+      "title": "明確に断られているのに執着する行動を問題視しているという意見。",
+      "summary": "明確に断られているのに執着する行動を問題視しているという意見。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/eraitencho/status/2099839856654598153",
+      "postedAt": "2026-09-15T12:36:49.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "えらいてんちょう(矢内　東紀)",
+        "handle": "@eraitencho"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099839054313664924",
+      "title": "「恋心は静かに抱きましょうね、僕みたいに」と自分を例にした個人的なつぶやき。",
+      "summary": "「恋心は静かに抱きましょうね、僕みたいに」と自分を例にした個人的なつぶやき。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/sotetsu_SI/status/2099839054313664924",
+      "postedAt": "2026-09-15T12:33:38.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "しと",
+        "handle": "@sotetsu_SI"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099875901773418794",
+      "title": "にんにく醤油チキンと超にんにく醤油マヨの発売を告知し、抽選で300名に1,000円分のKFCカードを配ると宣伝している。",
+      "summary": "にんにく醤油チキンと超にんにく醤油マヨの発売を告知し、抽選で300名に1,000円分のKFCカードを配ると宣伝している。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/KFC_jp/status/2099875901773418794",
+      "postedAt": null,
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "ケンタッキーフライドチキン🍗",
+        "handle": "@KFC_jp"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098214895611514881/img/EQqfYVrfmW9Y9wTX.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098214895611514881/img/EQqfYVrfmW9Y9wTX.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099773952516059575",
+      "title": "参加者が少ないままイベントを強行するつもりかと問いかけている短文の投稿",
+      "summary": "参加者が少ないままイベントを強行するつもりかと問いかけている短文の投稿",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/kensuu/status/2099773952516059575",
+      "postedAt": "2026-09-15T08:14:56.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "けんすう",
+        "handle": "@kensuu"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 3,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099790746362728733",
+      "title": "何かが失われ、景色が消えることを残念がる短いつぶやきという感想。",
+      "summary": "何かが失われ、景色が消えることを残念がる短いつぶやきという感想。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/shoeshineoknw/status/2099790746362728733",
+      "postedAt": "2026-09-15T09:21:40.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "仲程 秀之@沖縄の出張靴磨き屋",
+        "handle": "@shoeshineoknw"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099716055346417999",
+      "title": "本文が空の投稿（リンクのみ）。内容や主張は不明。",
+      "summary": "本文が空の投稿（リンクのみ）。内容や主張は不明。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/ak_tch/status/2099716055346417999",
+      "postedAt": "2026-09-15T04:24:53.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "橘　玲",
+        "handle": "@ak_tch"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2095362736817639479",
+      "title": "楽天が住所不要でリンクで贈れる「楽天ソーシャルギフト」を紹介する広告投稿。",
+      "summary": "楽天が住所不要でリンクで贈れる「楽天ソーシャルギフト」を紹介する広告投稿。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/RakutenJP/status/2095362736817639479",
+      "postedAt": null,
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "楽天市場",
+        "handle": "@RakutenJP"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095362353118515200/img/GpOnR0o0MQ2y2Thh.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2095362353118515200/img/GpOnR0o0MQ2y2Thh.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099831425881031027",
+      "title": "IDEA Academyの元学生の作品やインスピレーションを紹介する宣伝リンクを共有している。",
+      "summary": "IDEA Academyの元学生の作品やインスピレーションを紹介する宣伝リンクを共有している。",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/CDReferences/status/2099831425881031027",
+      "postedAt": "2026-09-15T12:03:19.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "Character Design References",
+        "handle": "@CDReferences"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/ext_tw_video_thumb/2099831384655249408/pu/img/ravXUsR3bE9UUN7G.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2099845422789628086",
+      "title": "コンクリートの室内で成人男性4人が裸で写っている画像が投稿されている",
+      "summary": "コンクリートの室内で成人男性4人が裸で写っている画像が投稿されている",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/zawamekipien/status/2099845422789628086",
+      "postedAt": "2026-09-15T12:58:56.000Z",
+      "collectedAt": "2026-09-15T18:00:43.666Z",
+      "author": {
+        "name": "ざわめき🌪🥺",
+        "handle": "@zawamekipien"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 4,
+        "importance": 1
+      },
+      "media": [
+        {
+          "type": "image",
+          "url": "https://pbs.twimg.com/media/HSQmR8eawAA31PY?format=jpg&name=medium",
+          "previewUrl": "https://pbs.twimg.com/media/HSQmR8eawAA31PY?format=jpg&name=medium",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "Four adult men are naked and posing in a concrete-walled room or basement; three stand while one squats in the front center. Several of the men wear slippers or sandals, and a pair of black boots sits on the floor to the right. A timestamp and Japanese text are overlaid on the image.",
+        "visibleText": "8:00\n連続テレビ小説\n字幕放送\n解説放送（副音声）"
+      },
+      "visual": {
+        "value": 3,
+        "roles": [
+          "evidence",
+          "reference",
+          "photo"
+        ]
       }
     }
   ]
