@@ -1,28 +1,80 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-17T18:02:41.559Z",
+  "generatedAt": "2026-09-18T18:03:20.401Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 7
+    "itemCount": 10
   },
   "items": [
     {
-      "id": "2100349216937951665",
-      "title": "新しい水着のポーズ資料を公開。回転台で別角度から背骨や体のラインを確認できると案内している。",
-      "summary": "新しい水着のポーズ資料を公開。回転台で別角度から背骨や体のラインを確認できると案内している。",
+      "id": "2100939142771409356",
+      "title": "森佳祐さんが原画作業で使う機材（iPad Pro・テンキー）とクリスタのGペン設定を紹介している",
+      "summary": "森佳祐さんが原画作業で使う機材（iPad Pro・テンキー）とクリスタのGペン設定を紹介している",
       "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ruchikapose/status/2100349216937951665",
-      "postedAt": "2026-09-16T22:20:50.000Z",
-      "collectedAt": "2026-09-17T18:00:42.877Z",
+      "sourceUrl": "https://x.com/TOEIANIME_TKT/status/2100939142771409356",
+      "postedAt": "2026-09-18T13:24:59.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
       "author": {
-        "name": "るちかポーズ💜作画資料",
-        "handle": "@ruchikapose"
+        "name": "大泉スタジオたんけんたい！＠東映アニメーション",
+        "handle": "@TOEIANIME_TKT"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2100603396818600337",
+      "title": "横納刀の流派は型以外でも横で納刀するか疑問を投げ、自分は普段は斜め気味で納刀すると述べている。",
+      "summary": "横納刀の流派は型以外でも横で納刀するか疑問を投げ、自分は普段は斜め気味で納刀すると述べている。",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/katanahoshiina/status/2100603396818600337",
+      "postedAt": "2026-09-17T15:10:51.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
+      "author": {
+        "name": "ささやか",
+        "handle": "@katanahoshiina"
       },
       "scores": {
         "informationValue": 3,
         "personalRelevance": 4,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2100822701216801122",
+      "title": "一番くじ『BLEACH Stirring Souls vol.5』が本日発売。黒崎一護らのMASTERLISEフィギュア等をラインナップと告知。",
+      "summary": "一番くじ『BLEACH Stirring Souls vol.5』が本日発売。黒崎一護らのMASTERLISEフィギュア等をラインナップと告知。",
+      "category": "エンタメ・イベント",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/ichibanKUJI/status/2100822701216801122",
+      "postedAt": null,
+      "collectedAt": "2026-09-18T18:00:42.764Z",
+      "author": {
+        "name": "一番くじ（BANDAI SPIRITS）",
+        "handle": "@ichibanKUJI"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
         "impact": 2,
         "attentionSignal": 2,
         "importance": 3
@@ -34,24 +86,24 @@
       }
     },
     {
-      "id": "2100537725082587455",
-      "title": "しぐれういがロリコン揶揄の歌で激しく批判されていることに驚いている",
-      "summary": "しぐれういがロリコン揶揄の歌で激しく批判されていることに驚いている",
-      "category": "日常・雑談",
+      "id": "2100973802914189590",
+      "title": "投稿者が自身の流派における納刀（刀の納め方）を紹介している。",
+      "summary": "投稿者が自身の流派における納刀（刀の納め方）を紹介している。",
+      "category": "合気道・武道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/naniwadou999/status/2100537725082587455",
-      "postedAt": "2026-09-17T10:49:54.000Z",
-      "collectedAt": "2026-09-17T18:00:42.877Z",
+      "sourceUrl": "https://x.com/aprilone__78/status/2100973802914189590",
+      "postedAt": "2026-09-18T15:42:43.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
       "author": {
-        "name": "浪花道またたび@新作発売中!!",
-        "handle": "@naniwadou999"
+        "name": "くにぴょん",
+        "handle": "@aprilone__78"
       },
       "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 2
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 3
       },
       "media": [],
       "visual": {
@@ -60,22 +112,65 @@
       }
     },
     {
-      "id": "2098224710979064039",
-      "title": "『灼眼のシャナ』がゲーム化、1000連ガチャと5万円分アイテム無料を告知する広告投稿",
-      "summary": "『灼眼のシャナ』がゲーム化、1000連ガチャと5万円分アイテム無料を告知する広告投稿",
-      "category": "ゲーム・ゲーム開発",
+      "id": "2100872456382939560",
+      "title": "パースを使って絵を描いてみることを提案している投稿",
+      "summary": "パースを使って絵を描いてみることを提案している投稿",
+      "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/shanaBE_Ads/status/2098224710979064039",
-      "postedAt": null,
-      "collectedAt": "2026-09-17T18:00:42.877Z",
+      "sourceUrl": "https://x.com/KawaiiSensei_jp/status/2100872456382939560",
+      "postedAt": "2026-09-18T09:00:00.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
       "author": {
-        "name": "灼眼のシャナ ブレイズエッジ【デベロッパー】",
-        "handle": "@shanaBE_Ads"
+        "name": "KawaiiSensei@イラストアカデミア",
+        "handle": "@KawaiiSensei_jp"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 3,
-        "impact": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2100869747328118784/img/IuGnWd7nTf-8qKTU.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "vision": {
+        "status": "ok",
+        "observations": "The image is almost entirely white with a small diamond-shaped mark near the center. Pink script text appears in the lower-left corner above smaller pink uppercase text. Gray text appears in the lower-right corner.",
+        "visibleText": "KawaiiSensei\nANIME MANGA DRAWING\nDraw by Noromu"
+      },
+      "visual": {
+        "value": 1,
+        "roles": [
+          "evidence",
+          "screenshot"
+        ]
+      }
+    },
+    {
+      "id": "2100854194794373162",
+      "title": "エロサイト創業者が労働と性産業を比較し「労働は身体を売る」「エロが正義」と主張している。",
+      "summary": "エロサイト創業者が労働と性産業を比較し「労働は身体を売る」「エロが正義」と主張している。",
+      "category": "仕事・キャリア",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/proogo/status/2100854194794373162",
+      "postedAt": "2026-09-18T07:47:26.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
+      "author": {
+        "name": "奢られ屋の日記",
+        "handle": "@proogo"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
         "attentionSignal": 4,
         "importance": 2
       },
@@ -86,69 +181,17 @@
       }
     },
     {
-      "id": "2100485268746969346",
-      "title": "テレビドラマの“売れっ子イラストレーター”描写に対し『こんな人どこにいるの？』と疑問を呈している。",
-      "summary": "テレビドラマの“売れっ子イラストレーター”描写に対し『こんな人どこにいるの？』と疑問を呈している。",
-      "category": "イラスト・美術",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/_NaokiSaito/status/2100485268746969346",
-      "postedAt": "2026-09-17T07:21:27.000Z",
-      "collectedAt": "2026-09-17T18:00:42.877Z",
-      "author": {
-        "name": "さいとう なおき🍀",
-        "handle": "@_NaokiSaito"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2100539084863307843",
-      "title": "AIとクラウド対応を宣伝し、会社名「サテライトオフィス」を強調している広告投稿。",
-      "summary": "AIとクラウド対応を宣伝し、会社名「サテライトオフィス」を強調している広告投稿。",
-      "category": "AI",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sateraito_jp/status/2100539084863307843",
-      "postedAt": null,
-      "collectedAt": "2026-09-17T18:00:42.877Z",
-      "author": {
-        "name": "サテライトオフィス",
-        "handle": "@sateraito_jp"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2100523272702173680",
-      "title": "投稿者は画像の動物を吉本新喜劇に出る“おじさんキャラ”のようだと感想を述べている。",
-      "summary": "投稿者は画像の動物を吉本新喜劇に出る“おじさんキャラ”のようだと感想を述べている。",
+      "id": "2100927838035783930",
+      "title": "エロメイド関連のウィッシュリストに反応し、感謝を述べている投稿。",
+      "summary": "エロメイド関連のウィッシュリストに反応し、感謝を述べている投稿。",
       "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/itoi_shigesato/status/2100523272702173680",
-      "postedAt": "2026-09-17T09:52:28.000Z",
-      "collectedAt": "2026-09-17T18:00:42.877Z",
+      "sourceUrl": "https://x.com/mtmt_death/status/2100927838035783930",
+      "postedAt": "2026-09-18T12:40:04.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
       "author": {
-        "name": "糸井 重里",
-        "handle": "@itoi_shigesato"
+        "name": "丹生",
+        "handle": "@mtmt_death"
       },
       "scores": {
         "informationValue": 1,
@@ -156,12 +199,90 @@
         "impact": 1,
         "attentionSignal": 2,
         "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2100960497147539649",
+      "title": "対象を可愛くないと評し、良く言ってヤモリに見えると述べている。",
+      "summary": "対象を可愛くないと評し、良く言ってヤモリに見えると述べている。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/u_ume7/status/2100960497147539649",
+      "postedAt": "2026-09-18T14:49:51.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
+      "author": {
+        "name": "柑橘めたるｯﾋﾟ",
+        "handle": "@u_ume7"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2100926577349660916",
+      "title": "本文が空の投稿で、具体的な情報や主張は含まれていない。",
+      "summary": "本文が空の投稿で、具体的な情報や主張は含まれていない。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/zawamekipien/status/2100926577349660916",
+      "postedAt": "2026-09-18T12:35:04.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
+      "author": {
+        "name": "ざわめき🌪🥺",
+        "handle": "@zawamekipien"
+      },
+      "scores": {
+        "informationValue": null,
+        "personalRelevance": null,
+        "impact": null,
+        "attentionSignal": null,
+        "importance": 1
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2100830313165550020",
+      "title": "次のメゾピアノとのコラボらしきビジュアルを示す告知ツイート",
+      "summary": "次のメゾピアノとのコラボらしきビジュアルを示す告知ツイート",
+      "category": "広告・PR",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/banabanasan/status/2100830313165550020",
+      "postedAt": "2026-09-18T06:12:32.000Z",
+      "collectedAt": "2026-09-18T18:00:42.764Z",
+      "author": {
+        "name": "たちばな",
+        "handle": "@banabanasan"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
       },
       "media": [
         {
           "type": "video",
           "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2100189746647470080/img/0O_dH4KB--l9YYt-.jpg",
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2100535417720451073/img/7XkGjHk_jPOr7aGN.jpg",
           "altText": null,
           "width": null,
           "height": null
@@ -169,7 +290,7 @@
       ],
       "vision": {
         "status": "ok",
-        "observations": "A small wet infant primate (monkey) is being bathed in a sink or tub while human hands with soap lather its head. A yellow rubber duck floats in the water and a faucet, a lit candle, flowers, and a decorative lantern are visible in the background.",
+        "observations": "A shirtless person with short blond hair and defined abdominal muscles is shown against a blurred background of colored lights; water droplets are visible on their skin. Two small white adhesive patches with printed marks cover the chest near the nipples, and a dark triangular/chevron-style tattoo is visible on the upper left arm. Their right arm is extended to the right and appears to be holding the hair of another person whose head is turned away and who wears a white top.",
         "visibleText": null
       },
       "visual": {
@@ -177,35 +298,8 @@
         "roles": [
           "evidence",
           "reference",
-          "screenshot",
           "photo"
         ]
-      }
-    },
-    {
-      "id": "2100537144448332164",
-      "title": "投稿者が自身であると短く自己申告している反応的な一文。",
-      "summary": "投稿者が自身であると短く自己申告している反応的な一文。",
-      "category": "その他",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/banabanasan/status/2100537144448332164",
-      "postedAt": "2026-09-17T10:47:35.000Z",
-      "collectedAt": "2026-09-17T18:00:42.877Z",
-      "author": {
-        "name": "たちばな",
-        "handle": "@banabanasan"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
       }
     }
   ]
