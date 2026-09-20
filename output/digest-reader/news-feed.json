@@ -1,103 +1,25 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-19T18:01:40.429Z",
-  "collectionCompletedAt": "2026-09-19T18:00:43.063Z",
+  "generatedAt": "2026-09-20T18:01:45.442Z",
+  "collectionCompletedAt": "2026-09-20T18:00:40.477Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 5
+    "itemCount": 6
   },
   "items": [
     {
-      "id": "2101316189897240824",
-      "title": "7/20の稽古は後ろ両手取り十字投げ・三教。川崎の家族道場で体験歓迎、学生以下無料と案内。",
-      "summary": "7/20の稽古は後ろ両手取り十字投げ・三教。川崎の家族道場で体験歓迎、学生以下無料と案内。",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/katohdojo/status/2101316189897240824",
-      "postedAt": "2026-09-19T14:23:14.000Z",
-      "collectedAt": "2026-09-19T18:00:43.019Z",
-      "author": {
-        "name": "Aikido Katoh Dojo/合気道加藤道場",
-        "handle": "@katohdojo"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2101310183301640542",
-      "title": "単行本未収録の『私のアイザック』表紙イラストを蔵出し。雑誌『ヤングキング別冊KINGDOM』の表紙だったと思う、と投稿。",
-      "summary": "単行本未収録の『私のアイザック』表紙イラストを蔵出し。雑誌『ヤングキング別冊KINGDOM』の表紙だったと思う、と投稿。",
+      "id": "2101643081854423401",
+      "title": "WimsAnimationsのMotion Labを高品質なアニメーション参考資料として紹介し、リサーチの高速化を勧めている。",
+      "summary": "WimsAnimationsのMotion Labを高品質なアニメーション参考資料として紹介し、リサーチの高速化を勧めている。",
       "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/shota_kikuchi/status/2101310183301640542",
-      "postedAt": "2026-09-19T13:59:22.000Z",
-      "collectedAt": "2026-09-19T18:00:43.019Z",
+      "sourceUrl": "https://x.com/CDReferences/status/2101643081854423401",
+      "postedAt": "2026-09-20T12:02:12.000Z",
+      "collectedAt": "2026-09-20T18:00:40.445Z",
       "author": {
-        "name": "きくち正太",
-        "handle": "@shota_kikuchi"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2101343015436784072",
-      "title": "トルネコで強化したドラゴンキラーをリレミトで戻り売ってしまい嘆く私的なプレイ報告。",
-      "summary": "トルネコで強化したドラゴンキラーをリレミトで戻り売ってしまい嘆く私的なプレイ報告。",
-      "category": "ゲーム・ゲーム開発",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kano9x/status/2101343015436784072",
-      "postedAt": "2026-09-19T16:09:50.000Z",
-      "collectedAt": "2026-09-19T18:00:43.019Z",
-      "author": {
-        "name": "狩野英孝",
-        "handle": "@kano9x"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2098296833630183754",
-      "title": "ヴァイスシュヴァルツの新ブースターパック『勝利の女神：NIKKE Vol.2』が本日発売と告知している。",
-      "summary": "ヴァイスシュヴァルツの新ブースターパック『勝利の女神：NIKKE Vol.2』が本日発売と告知している。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/wstcg/status/2098296833630183754",
-      "postedAt": null,
-      "collectedAt": "2026-09-19T18:00:43.019Z",
-      "author": {
-        "name": "ヴァイスシュヴァルツ公式",
-        "handle": "@wstcg"
+        "name": "Character Design References",
+        "handle": "@CDReferences"
       },
       "scores": {
         "informationValue": 2,
@@ -113,23 +35,144 @@
       }
     },
     {
-      "id": "2101367179077980422",
-      "title": "投稿本文が空で内容が不明。追加情報や文脈がない状態。",
-      "summary": "投稿本文が空で内容が不明。追加情報や文脈がない状態。",
-      "category": "その他",
+      "id": "2101628192855622043",
+      "title": "剣の稽古で試行錯誤する中、昔の癖が出てきたと気づき、注意する必要があると述べている。",
+      "summary": "剣の稽古で試行錯誤する中、昔の癖が出てきたと気づき、注意する必要があると述べている。",
+      "category": "合気道・武道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/Vercreek/status/2101367179077980422",
-      "postedAt": "2026-09-19T17:45:51.000Z",
-      "collectedAt": "2026-09-19T18:00:43.019Z",
+      "sourceUrl": "https://x.com/misamisa_aikido/status/2101628192855622043",
+      "postedAt": "2026-09-20T11:03:02.000Z",
+      "collectedAt": "2026-09-20T18:00:40.445Z",
       "author": {
-        "name": "Vercreek",
-        "handle": "@Vercreek"
+        "name": "misamisa",
+        "handle": "@misamisa_aikido"
       },
       "scores": {
-        "informationValue": null,
-        "personalRelevance": null,
-        "impact": null,
-        "attentionSignal": null,
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 1,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2101508671998173546",
+      "title": "夜職の女性が昼職の女性の生活や容姿を嫉妬して怒る構図は同じだと指摘する意見投稿。",
+      "summary": "夜職の女性が昼職の女性の生活や容姿を嫉妬して怒る構図は同じだと指摘する意見投稿。",
+      "category": "日常・雑談",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/banabanasan/status/2101508671998173546",
+      "postedAt": "2026-09-20T03:08:06.000Z",
+      "collectedAt": "2026-09-20T18:00:40.445Z",
+      "author": {
+        "name": "たちばな",
+        "handle": "@banabanasan"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 3,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2101687829222789282",
+      "title": "ジョージアが新商品「カフェウォーター ブラック」を紹介し、ウォーターの軽さとコーヒーの満足感があると宣伝している。",
+      "summary": "ジョージアが新商品「カフェウォーター ブラック」を紹介し、ウォーターの軽さとコーヒーの満足感があると宣伝している。",
+      "category": "生活・健康",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/GEORGIA_JAPAN/status/2101687829222789282",
+      "postedAt": null,
+      "collectedAt": "2026-09-20T18:00:40.445Z",
+      "author": {
+        "name": "ジョージア",
+        "handle": "@GEORGIA_JAPAN"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
+        "attentionSignal": 2,
+        "importance": 2
+      },
+      "media": [
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098223068481208320/img/L4qX30AZjhWRHWhg.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        },
+        {
+          "type": "video",
+          "url": null,
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098223068481208320/img/L4qX30AZjhWRHWhg.jpg",
+          "altText": null,
+          "width": null,
+          "height": null
+        }
+      ],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2101322385152692337",
+      "title": "「58歳で京大合格した人は若者に席を譲るべきだ」という意見を確認し、投稿者は存在を批判している",
+      "summary": "「58歳で京大合格した人は若者に席を譲るべきだ」という意見を確認し、投稿者は存在を批判している",
+      "category": "政治・社会",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/arunecos/status/2101322385152692337",
+      "postedAt": "2026-09-19T14:47:51.000Z",
+      "collectedAt": "2026-09-20T18:00:40.445Z",
+      "author": {
+        "name": "arune",
+        "handle": "@arunecos"
+      },
+      "scores": {
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 2,
+        "attentionSignal": 4,
+        "importance": 2
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2101641163505827985",
+      "title": "現場にいたとだけ述べる短い目撃・参加表明。具体的な状況や詳細は示されていない。",
+      "summary": "現場にいたとだけ述べる短い目撃・参加表明。具体的な状況や詳細は示されていない。",
+      "category": "その他",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/gallo44_yoshida/status/2101641163505827985",
+      "postedAt": "2026-09-20T11:54:34.000Z",
+      "collectedAt": "2026-09-20T18:00:40.445Z",
+      "author": {
+        "name": "吉田健一",
+        "handle": "@gallo44_yoshida"
+      },
+      "scores": {
+        "informationValue": 1,
+        "personalRelevance": 1,
+        "impact": 1,
+        "attentionSignal": 2,
         "importance": 1
       },
       "media": [],
