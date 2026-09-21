@@ -1,30 +1,82 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-20T18:01:45.442Z",
-  "collectionCompletedAt": "2026-09-20T18:00:40.477Z",
+  "generatedAt": "2026-09-21T18:01:32.852Z",
+  "collectionCompletedAt": "2026-09-21T18:00:47.298Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 6
+    "itemCount": 4
   },
   "items": [
     {
-      "id": "2101643081854423401",
-      "title": "WimsAnimationsのMotion Labを高品質なアニメーション参考資料として紹介し、リサーチの高速化を勧めている。",
-      "summary": "WimsAnimationsのMotion Labを高品質なアニメーション参考資料として紹介し、リサーチの高速化を勧めている。",
-      "category": "アニメ・漫画",
+      "id": "2101986651887276430",
+      "title": "納刀の動きが縦抜きの逆で、どのタイミングの斬りにも即応できる太刀筋だと説明している",
+      "summary": "納刀の動きが縦抜きの逆で、どのタイミングの斬りにも即応できる太刀筋だと説明している",
+      "category": "合気道・武道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/CDReferences/status/2101643081854423401",
-      "postedAt": "2026-09-20T12:02:12.000Z",
-      "collectedAt": "2026-09-20T18:00:40.445Z",
+      "sourceUrl": "https://x.com/aprilone__78/status/2101986651887276430",
+      "postedAt": "2026-09-21T10:47:25.000Z",
+      "collectedAt": "2026-09-21T18:00:47.261Z",
       "author": {
-        "name": "Character Design References",
-        "handle": "@CDReferences"
+        "name": "くにぴょん",
+        "handle": "@aprilone__78"
+      },
+      "scores": {
+        "informationValue": 4,
+        "personalRelevance": 3,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2101765822071075317",
+      "title": "無我一念法と連想行の研究と毎日の規則的訓練が技の上達に重要だと述べている。",
+      "summary": "無我一念法と連想行の研究と毎日の規則的訓練が技の上達に重要だと述べている。",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/tadahiroshibot/status/2101765822071075317",
+      "postedAt": "2026-09-20T20:09:55.000Z",
+      "collectedAt": "2026-09-21T18:00:47.261Z",
+      "author": {
+        "name": "合気道 多田宏師範のお言葉 bot",
+        "handle": "@tadahiroshibot"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 4,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2101920946999427087",
+      "title": "合気道でも流派や人によって価値観が大きく違い、面白くも時に困惑すると主張している",
+      "summary": "合気道でも流派や人によって価値観が大きく違い、面白くも時に困惑すると主張している",
+      "category": "合気道・武道",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/aikidokashi/status/2101920946999427087",
+      "postedAt": "2026-09-21T06:26:20.000Z",
+      "collectedAt": "2026-09-21T18:00:47.261Z",
+      "author": {
+        "name": "合気道化師マツリ",
+        "handle": "@aikidokashi"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 3,
-        "impact": 2,
+        "impact": 1,
         "attentionSignal": 2,
         "importance": 2
       },
@@ -35,145 +87,24 @@
       }
     },
     {
-      "id": "2101628192855622043",
-      "title": "剣の稽古で試行錯誤する中、昔の癖が出てきたと気づき、注意する必要があると述べている。",
-      "summary": "剣の稽古で試行錯誤する中、昔の癖が出てきたと気づき、注意する必要があると述べている。",
-      "category": "合気道・武道",
+      "id": "2102050218254451000",
+      "title": "ローソンが一点突破・贅沢メニューのキャンペーン開始を告知。ソーセージ敷き詰めごはんや肉づくし冷し中華を紹介している。",
+      "summary": "ローソンが一点突破・贅沢メニューのキャンペーン開始を告知。ソーセージ敷き詰めごはんや肉づくし冷し中華を紹介している。",
+      "category": "広告・PR",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/misamisa_aikido/status/2101628192855622043",
-      "postedAt": "2026-09-20T11:03:02.000Z",
-      "collectedAt": "2026-09-20T18:00:40.445Z",
+      "sourceUrl": "https://x.com/akiko_lawson/status/2102050218254451000",
+      "postedAt": null,
+      "collectedAt": "2026-09-21T18:00:47.261Z",
       "author": {
-        "name": "misamisa",
-        "handle": "@misamisa_aikido"
+        "name": "ローソン",
+        "handle": "@akiko_lawson"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
         "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2101508671998173546",
-      "title": "夜職の女性が昼職の女性の生活や容姿を嫉妬して怒る構図は同じだと指摘する意見投稿。",
-      "summary": "夜職の女性が昼職の女性の生活や容姿を嫉妬して怒る構図は同じだと指摘する意見投稿。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/banabanasan/status/2101508671998173546",
-      "postedAt": "2026-09-20T03:08:06.000Z",
-      "collectedAt": "2026-09-20T18:00:40.445Z",
-      "author": {
-        "name": "たちばな",
-        "handle": "@banabanasan"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
         "attentionSignal": 3,
         "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2101687829222789282",
-      "title": "ジョージアが新商品「カフェウォーター ブラック」を紹介し、ウォーターの軽さとコーヒーの満足感があると宣伝している。",
-      "summary": "ジョージアが新商品「カフェウォーター ブラック」を紹介し、ウォーターの軽さとコーヒーの満足感があると宣伝している。",
-      "category": "生活・健康",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/GEORGIA_JAPAN/status/2101687829222789282",
-      "postedAt": null,
-      "collectedAt": "2026-09-20T18:00:40.445Z",
-      "author": {
-        "name": "ジョージア",
-        "handle": "@GEORGIA_JAPAN"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098223068481208320/img/L4qX30AZjhWRHWhg.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2098223068481208320/img/L4qX30AZjhWRHWhg.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2101322385152692337",
-      "title": "「58歳で京大合格した人は若者に席を譲るべきだ」という意見を確認し、投稿者は存在を批判している",
-      "summary": "「58歳で京大合格した人は若者に席を譲るべきだ」という意見を確認し、投稿者は存在を批判している",
-      "category": "政治・社会",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/arunecos/status/2101322385152692337",
-      "postedAt": "2026-09-19T14:47:51.000Z",
-      "collectedAt": "2026-09-20T18:00:40.445Z",
-      "author": {
-        "name": "arune",
-        "handle": "@arunecos"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 4,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2101641163505827985",
-      "title": "現場にいたとだけ述べる短い目撃・参加表明。具体的な状況や詳細は示されていない。",
-      "summary": "現場にいたとだけ述べる短い目撃・参加表明。具体的な状況や詳細は示されていない。",
-      "category": "その他",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/gallo44_yoshida/status/2101641163505827985",
-      "postedAt": "2026-09-20T11:54:34.000Z",
-      "collectedAt": "2026-09-20T18:00:40.445Z",
-      "author": {
-        "name": "吉田健一",
-        "handle": "@gallo44_yoshida"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
       },
       "media": [],
       "visual": {
