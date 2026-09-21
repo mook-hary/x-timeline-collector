@@ -24,6 +24,40 @@ function isNodeScriptCall(command, args, scriptRel) {
 }
 
 async function main() {
+  // Real Reader generation in a temporary directory; all publish commands mocked.
+  {
+    const { createArtifactWriter } = require("../lib/collection-provenance");
+    const { buildDigestReader } = require("../lib/digest-reader");
+    const { DEFAULT_DIGEST_CONFIG, mergeDigestConfig } = require("../lib/digest-core");
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "publish-provenance-"));
+    const input = path.join(root, "output/daily-enriched.json");
+    const timestamp = "2026-08-30T03:00:00.000Z";
+    const writer = createArtifactWriter(input, { collection: true, now: () => timestamp });
+    try { writer.writeJson([]); writer.complete(); } finally { writer.release(); }
+    const runner = createRunner({
+      rootDir: root,
+      log() {},
+      spawn(command, args) {
+        assert.strictEqual(command, "git");
+        assert.ok(["rev-parse", "status"].includes(args[0]));
+        return { status: 0, stdout: args[0] === "rev-parse" ? "main\n" : "", stderr: "" };
+      },
+      generateReader(actualRoot) {
+        assert.strictEqual(actualRoot, root);
+        buildDigestReader({ rootDir: root, inputPath: input, config: mergeDigestConfig(DEFAULT_DIGEST_CONFIG) });
+        return { status: 0 };
+      },
+    });
+    try {
+      for (let i = 0; i < 2; i++) {
+        await runner.runPublish({ skipTest: true, skipAudit: true, skipPagesVerify: true });
+        const feed = JSON.parse(fs.readFileSync(path.join(root, "output/digest-reader/news-feed.json")));
+        assert.strictEqual(feed.collectionCompletedAt, timestamp);
+      }
+    } finally { fs.rmSync(root, { recursive: true, force: true }); }
+    console.log("publish collection provenance preserved across reruns PASS");
+  }
+
   // --- commit message ---
   {
     const msg = formatPublishCommitMessage(new Date(2026, 6, 24, 15, 5));

@@ -348,3 +348,22 @@ function main() {
 }
 
 main();
+
+
+{
+  const { createArtifactWriter, readArtifactSnapshot } = require("../lib/collection-provenance");
+  const root = tmpDir("daily-scope-provenance-");
+  const file = path.join(root, DAILY_SCOPE_REL);
+  const writer = createArtifactWriter(file, { collection: true, now: () => "2026-08-30T03:01:00.000Z" });
+  try {
+    saveDailyScope(root, { collectedAt: "2026-08-30T03:00:00.000Z", posts: [], newPosts: 0 }, {
+      writeJsonAtomic: (_file, data) => writer.writeJson(data),
+    });
+    assert.strictEqual(readArtifactSnapshot(file).provenance, null);
+    writer.complete();
+    const snapshot = readArtifactSnapshot(file);
+    assert.strictEqual(snapshot.provenance.collectionCompletedAt, "2026-08-30T03:01:00.000Z");
+    assert.strictEqual(JSON.parse(snapshot.bytes).collectedAt, "2026-08-30T03:00:00.000Z");
+  } finally { writer.release(); fs.rmSync(root, { recursive: true, force: true }); }
+  console.log("daily-scope persistence precedes successful collection receipt PASS");
+}

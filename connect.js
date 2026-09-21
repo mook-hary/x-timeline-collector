@@ -1,3 +1,4 @@
+const { createArtifactWriter } = require("./lib/collection-provenance");
 const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
@@ -453,180 +454,185 @@ async function main() {
     process.exit(0);
   }
 
-  const existingPosts = loadExistingPosts();
-  console.log(`既存投稿: ${existingPosts.length} 件`);
-
-  const tracker = createCollectStageTracker((line) => console.error(line));
-  let browser;
-
-  tracker.mark(COLLECT_STAGES.CDP_CONNECT);
+  const scopeWriter = createArtifactWriter(path.join(__dirname, "output", "daily-scope.json"), { collection: true });
   try {
-    browser = await connectToChrome();
-  } catch (error) {
-    tracker.writeLast();
-    const msg = String((error && error.message) || "");
-    const code = /timeout|timed out/i.test(msg)
-      ? CDP_CONNECT_TIMEOUT
-      : /ECONNREFUSED|ENOTFOUND|EHOSTUNREACH/i.test(msg)
-        ? CDP_NOT_AVAILABLE
-        : null;
-    console.error(
-      "Chrome への接続に失敗しました。リモートデバッグモードで起動しているか確認してください。\n" +
-        `接続先: ${CDP_URL}\n` +
-        `詳細: ${error.message}`
-    );
-    if (code) console.error(`ERROR: ${code}`);
-    process.exit(1);
-  }
+    const existingPosts = loadExistingPosts();
+    console.log(`既存投稿: ${existingPosts.length} 件`);
 
-  let homeRefresh = null;
-  try {
-    tracker.mark(COLLECT_STAGES.CONTEXT_ACQUIRED);
-    const page = await ensureHomePage(browser);
-    tracker.mark(COLLECT_STAGES.X_HOME_SELECTED);
-    const refreshed = await refreshHomeThenCheckLogin(page, {
-      assessXSession,
-      mark: (stage) => tracker.mark(stage),
-    });
-    homeRefresh = refreshed.homeRefresh;
-    const session = refreshed.session;
-    if (!session.authenticated || session.error === AUTH_ERROR) {
-      const failedHealth = buildCollectorHealth({
-        authenticated: false,
-        timelineAvailable: false,
-        status: "failed",
-        error: AUTH_ERROR,
-        reason: session.reason,
-        homeRefresh,
-      });
+    const tracker = createCollectStageTracker((line) => console.error(line));
+    let browser;
+
+    tracker.mark(COLLECT_STAGES.CDP_CONNECT);
+    try {
+      browser = await connectToChrome();
+    } catch (error) {
       tracker.writeLast();
-      console.error(formatCollectHealthLine(failedHealth));
-      console.error(`ERROR: ${AUTH_ERROR}`);
+      const msg = String((error && error.message) || "");
+      const code = /timeout|timed out/i.test(msg)
+        ? CDP_CONNECT_TIMEOUT
+        : /ECONNREFUSED|ENOTFOUND|EHOSTUNREACH/i.test(msg)
+          ? CDP_NOT_AVAILABLE
+          : null;
       console.error(
-        "X にログインしていないか、Home Timeline を取得できません。" +
-          "古い timeline.json は更新せず終了します。"
+        "Chrome への接続に失敗しました。リモートデバッグモードで起動しているか確認してください。\n" +
+          `接続先: ${CDP_URL}\n` +
+          `詳細: ${error.message}`
       );
+      if (code) console.error(`ERROR: ${code}`);
       process.exit(1);
     }
 
-    const collected = await collectPosts(page, tracker, { browser });
-    const fetchedPosts = collected.posts;
-    const scrollRecovery = collected.scrollRecovery;
-    const collectedAt = new Date().toISOString();
-    const { merged, fetchedCount, addedCount, duplicateCount, newPosts } =
-      mergeWithExisting(existingPosts, fetchedPosts, collectedAt);
-
-    tracker.mark(COLLECT_STAGES.SAVE);
-    savePosts(merged);
-    saveDailyScope(__dirname, buildDailyScope({
-      collectedAt,
-      fetchedFromScreen: fetchedCount,
-      newPosts: addedCount,
-      duplicateUrlsSkipped: duplicateCount,
-      totalStored: merged.length,
-      posts: newPosts,
-    }));
-    console.log(`Daily editorial scope: ${addedCount}`);
-
-    const newest = newestPostedAt(fetchedPosts) || newestPostedAt(newPosts);
-    const collect = buildCollectMetrics({
-      fetchedFromScreen: fetchedCount,
-      newPosts: addedCount,
-      duplicateUrlsSkipped: duplicateCount,
-      totalStored: merged.length,
-      missingPostedAt: countEmptyField(newPosts, "postedAt"),
-      newestPostAt: newest,
-    });
-    const staleMs =
-      process.env.X_TIMELINE_STALE_MS != null
-        ? Number(process.env.X_TIMELINE_STALE_MS)
-        : DEFAULT_STALE_MS;
-    const freshness = assessTimelineFreshness(newest, collectedAt, staleMs);
-    const health = buildCollectorHealth({
-      authenticated: true,
-      timelineAvailable: true,
-      collect,
-      warnings: freshness.warnings,
-      status: freshness.warnings.length ? "warning" : "healthy",
-      scrollRecovery,
-      homeRefresh,
-    });
-
-    printCollectionSummary({
-      fetchedCount,
-      newPosts,
-      duplicateCount,
-      totalCount: merged.length,
-    });
-    console.log(`今回新しく追加した件数: ${addedCount}`);
-    if (newest) console.log(`Newest postedAt: ${newest}`);
-    if (freshness.warnings.includes("X_TIMELINE_STALE")) {
-      console.log(`WARNING: X_TIMELINE_STALE (newestPostAt=${newest})`);
-    }
-    if (scrollRecovery && scrollRecovery.scrollRecovered) {
-      console.log(
-        `Scroll recovered after SCROLL_TIMEOUT iteration=${scrollRecovery.scrollTimeoutAt}`
-      );
-    }
-    console.log(formatCollectHealthLine(health));
-    console.log(`JSON保存先: ${OUTPUT_FILE}`);
-    console.log(`CSV保存先: ${OUTPUT_CSV_FILE}`);
-
-    if (cli.once) {
-      process.exit(0);
-    }
-
-    // Do not close the browser; keep the Node process alive
-    await new Promise(() => {});
-  } catch (error) {
-    tracker.writeLast();
-    if (error && error.code === AUTH_ERROR) {
-      const failedHealth = buildCollectorHealth({
-        authenticated: false,
-        timelineAvailable: false,
-        status: "failed",
-        error: AUTH_ERROR,
-        scrollRecovery: error.scrollRecovery || null,
-        homeRefresh,
+    let homeRefresh = null;
+    try {
+      tracker.mark(COLLECT_STAGES.CONTEXT_ACQUIRED);
+      const page = await ensureHomePage(browser);
+      tracker.mark(COLLECT_STAGES.X_HOME_SELECTED);
+      const refreshed = await refreshHomeThenCheckLogin(page, {
+        assessXSession,
+        mark: (stage) => tracker.mark(stage),
       });
-      console.error(formatCollectHealthLine(failedHealth));
-      console.error(`ERROR: ${AUTH_ERROR}`);
-      process.exit(1);
-    }
-    if (error && error.code === HOME_REFRESH_TIMEOUT) {
-      const failedHealth = buildCollectorHealth({
-        authenticated: false,
-        timelineAvailable: false,
-        status: "failed",
-        error: HOME_REFRESH_TIMEOUT,
-        homeRefresh: {
-          homeRefreshed: false,
-          homeRefreshedAt: null,
-        },
+      homeRefresh = refreshed.homeRefresh;
+      const session = refreshed.session;
+      if (!session.authenticated || session.error === AUTH_ERROR) {
+        const failedHealth = buildCollectorHealth({
+          authenticated: false,
+          timelineAvailable: false,
+          status: "failed",
+          error: AUTH_ERROR,
+          reason: session.reason,
+          homeRefresh,
+        });
+        tracker.writeLast();
+        console.error(formatCollectHealthLine(failedHealth));
+        console.error(`ERROR: ${AUTH_ERROR}`);
+        console.error(
+          "X にログインしていないか、Home Timeline を取得できません。" +
+            "古い timeline.json は更新せず終了します。"
+        );
+        process.exit(1);
+      }
+
+      const collected = await collectPosts(page, tracker, { browser });
+      const fetchedPosts = collected.posts;
+      const scrollRecovery = collected.scrollRecovery;
+      const collectedAt = new Date().toISOString();
+      const { merged, fetchedCount, addedCount, duplicateCount, newPosts } =
+        mergeWithExisting(existingPosts, fetchedPosts, collectedAt);
+
+      tracker.mark(COLLECT_STAGES.SAVE);
+      savePosts(merged);
+      saveDailyScope(__dirname, buildDailyScope({
+        collectedAt,
+        fetchedFromScreen: fetchedCount,
+        newPosts: addedCount,
+        duplicateUrlsSkipped: duplicateCount,
+        totalStored: merged.length,
+        posts: newPosts,
+      }), { writeJsonAtomic: (_file, data) => scopeWriter.writeJson(data) });
+      console.log(`Daily editorial scope: ${addedCount}`);
+
+      const newest = newestPostedAt(fetchedPosts) || newestPostedAt(newPosts);
+      const collect = buildCollectMetrics({
+        fetchedFromScreen: fetchedCount,
+        newPosts: addedCount,
+        duplicateUrlsSkipped: duplicateCount,
+        totalStored: merged.length,
+        missingPostedAt: countEmptyField(newPosts, "postedAt"),
+        newestPostAt: newest,
       });
-      console.error(formatCollectHealthLine(failedHealth));
-      console.error(`ERROR: ${HOME_REFRESH_TIMEOUT}`);
-      process.exit(1);
-    }
-    if (error && error.code === SCROLL_TIMEOUT) {
-      const failedHealth = buildCollectorHealth({
+      const staleMs =
+        process.env.X_TIMELINE_STALE_MS != null
+          ? Number(process.env.X_TIMELINE_STALE_MS)
+          : DEFAULT_STALE_MS;
+      const freshness = assessTimelineFreshness(newest, collectedAt, staleMs);
+      const health = buildCollectorHealth({
         authenticated: true,
         timelineAvailable: true,
-        status: "failed",
-        error: SCROLL_TIMEOUT,
-        scrollRecovery: error.scrollRecovery || null,
+        collect,
+        warnings: freshness.warnings,
+        status: freshness.warnings.length ? "warning" : "healthy",
+        scrollRecovery,
         homeRefresh,
       });
-      console.error(formatCollectHealthLine(failedHealth));
-      console.error(`ERROR: ${SCROLL_TIMEOUT}`);
-      if (error.iteration != null) {
-        console.error(`SCROLL_TIMEOUT iteration=${error.iteration}`);
+
+      printCollectionSummary({
+        fetchedCount,
+        newPosts,
+        duplicateCount,
+        totalCount: merged.length,
+      });
+      console.log(`今回新しく追加した件数: ${addedCount}`);
+      if (newest) console.log(`Newest postedAt: ${newest}`);
+      if (freshness.warnings.includes("X_TIMELINE_STALE")) {
+        console.log(`WARNING: X_TIMELINE_STALE (newestPostAt=${newest})`);
       }
+      if (scrollRecovery && scrollRecovery.scrollRecovered) {
+        console.log(
+          `Scroll recovered after SCROLL_TIMEOUT iteration=${scrollRecovery.scrollTimeoutAt}`
+        );
+      }
+      console.log(formatCollectHealthLine(health));
+      console.log(`JSON保存先: ${OUTPUT_FILE}`);
+      console.log(`CSV保存先: ${OUTPUT_CSV_FILE}`);
+
+      scopeWriter.complete();
+      scopeWriter.release();
+      if (cli.once) {
+        process.exit(0);
+      }
+
+      // Do not close the browser; keep the Node process alive
+      await new Promise(() => {});
+    } catch (error) {
+      tracker.writeLast();
+      if (error && error.code === AUTH_ERROR) {
+        const failedHealth = buildCollectorHealth({
+          authenticated: false,
+          timelineAvailable: false,
+          status: "failed",
+          error: AUTH_ERROR,
+          scrollRecovery: error.scrollRecovery || null,
+          homeRefresh,
+        });
+        console.error(formatCollectHealthLine(failedHealth));
+        console.error(`ERROR: ${AUTH_ERROR}`);
+        process.exit(1);
+      }
+      if (error && error.code === HOME_REFRESH_TIMEOUT) {
+        const failedHealth = buildCollectorHealth({
+          authenticated: false,
+          timelineAvailable: false,
+          status: "failed",
+          error: HOME_REFRESH_TIMEOUT,
+          homeRefresh: {
+            homeRefreshed: false,
+            homeRefreshedAt: null,
+          },
+        });
+        console.error(formatCollectHealthLine(failedHealth));
+        console.error(`ERROR: ${HOME_REFRESH_TIMEOUT}`);
+        process.exit(1);
+      }
+      if (error && error.code === SCROLL_TIMEOUT) {
+        const failedHealth = buildCollectorHealth({
+          authenticated: true,
+          timelineAvailable: true,
+          status: "failed",
+          error: SCROLL_TIMEOUT,
+          scrollRecovery: error.scrollRecovery || null,
+          homeRefresh,
+        });
+        console.error(formatCollectHealthLine(failedHealth));
+        console.error(`ERROR: ${SCROLL_TIMEOUT}`);
+        if (error.iteration != null) {
+          console.error(`SCROLL_TIMEOUT iteration=${error.iteration}`);
+        }
+        process.exit(1);
+      }
+      console.error(`タイムラインの取得に失敗しました: ${error.message}`);
       process.exit(1);
     }
-    console.error(`タイムラインの取得に失敗しました: ${error.message}`);
-    process.exit(1);
-  }
+  } finally { scopeWriter.release(); }
 }
 
 if (require.main === module) {

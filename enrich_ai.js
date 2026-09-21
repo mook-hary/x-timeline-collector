@@ -1,3 +1,4 @@
+const { withArtifactProvenance } = require("./lib/collection-provenance");
 require("dotenv").config({ quiet: true });
 
 const path = require("path");
@@ -12,7 +13,6 @@ const {
 } = require("./lib/ai-contract");
 const {
   fail,
-  readJsonArrayRequired,
   readJsonObjectOptional,
   writeJsonAtomic,
 } = require("./lib/pipeline-io");
@@ -617,191 +617,193 @@ async function main() {
   const inputFile = resolveOptionalPath(input, INPUT_FILE);
   const outputFile = resolveOptionalPath(output, OUTPUT_FILE);
 
-  const posts = readJsonArrayRequired(inputFile, input || "output/timeline_ai.json");
+  return withArtifactProvenance({ inputPath: inputFile, outputPath: outputFile }, async (artifact) => {
+    const posts = artifact.data;
 
-  const progress = loadProgress();
-  const contractDoneTargets = posts.filter((post) => {
-    if (!post.url) return false;
-    const contract = buildExecutionContract(post, model);
-    return isProgressCompleteForContract(progress[post.url], contract);
-  });
-  const pendingTargets = posts.filter((post) => {
-    if (!post.url) return true;
-    const contract = buildExecutionContract(post, model);
-    return !isProgressCompleteForContract(progress[post.url], contract);
-  });
-  const toProcess = pendingTargets.slice(0, limit);
+    const progress = loadProgress();
+    const contractDoneTargets = posts.filter((post) => {
+      if (!post.url) return false;
+      const contract = buildExecutionContract(post, model);
+      return isProgressCompleteForContract(progress[post.url], contract);
+    });
+    const pendingTargets = posts.filter((post) => {
+      if (!post.url) return true;
+      const contract = buildExecutionContract(post, model);
+      return !isProgressCompleteForContract(progress[post.url], contract);
+    });
+    const toProcess = pendingTargets.slice(0, limit);
 
-  console.log(`全投稿数: ${posts.length}`);
-  console.log(`契約一致の進捗済み件数: ${contractDoneTargets.length}`);
-  console.log(`キャッシュ登録件数: ${Object.keys(cache).length}`);
-  console.log(`今回の処理上限: ${limit}`);
-  console.log(`今回処理する件数: ${toProcess.length}`);
-  console.log(`モデル: ${model}`);
-  console.log(
-    `promptVersion=${ENRICH_AI_PROMPT_VERSION} schemaVersion=${ENRICH_AI_SCHEMA_VERSION}`
-  );
-
-  let apiAttemptCount = 0;
-  let apiSuccessCount = 0;
-  let apiFailureCount = 0;
-  let cacheHitCount = 0;
-  let consecutiveFailures = 0;
-  let client = null;
-  let usageTotals = emptyUsage();
-
-  const needsApi = toProcess.some((post) => {
-    const contract = buildExecutionContract(post, model);
-    return !findMatchingCacheEntry(cache, contract).entry;
-  });
-  if (needsApi && !apiKey) {
-    fail(
-      "OPENAI_API_KEY が設定されていません。\n" +
-        ".env.example をコピーして .env を作成し、APIキーを設定してください。\n" +
-        "例: cp .env.example .env"
+    console.log(`全投稿数: ${posts.length}`);
+    console.log(`契約一致の進捗済み件数: ${contractDoneTargets.length}`);
+    console.log(`キャッシュ登録件数: ${Object.keys(cache).length}`);
+    console.log(`今回の処理上限: ${limit}`);
+    console.log(`今回処理する件数: ${toProcess.length}`);
+    console.log(`モデル: ${model}`);
+    console.log(
+      `promptVersion=${ENRICH_AI_PROMPT_VERSION} schemaVersion=${ENRICH_AI_SCHEMA_VERSION}`
     );
-  }
 
-  if (toProcess.length === 0) {
-    const outputPosts = buildOutputPosts(posts, progress, model);
-    writeJsonAtomic(outputFile, outputPosts);
-    const pendingCount = outputPosts.filter(
-      (post) => post.enrichment?.source === "pending"
-    ).length;
-    console.log("今回処理する対象はありません。");
-    console.log(`今回API実行件数: 0`);
-    console.log(`今回キャッシュ使用件数: 0`);
-    console.log(`契約一致の進捗再利用件数: ${contractDoneTargets.length}`);
-    console.log(`API成功件数: 0`);
-    console.log(`API失敗件数: 0`);
-    console.log(`未処理件数: ${pendingCount}`);
-    console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
-    console.log(`保存先: ${outputFile}`);
-    printUsageSummary("Enrich", usageTotals);
-    return;
-  }
+    let apiAttemptCount = 0;
+    let apiSuccessCount = 0;
+    let apiFailureCount = 0;
+    let cacheHitCount = 0;
+    let consecutiveFailures = 0;
+    let client = null;
+    let usageTotals = emptyUsage();
 
-  for (let i = 0; i < toProcess.length; i++) {
-    const post = toProcess[i];
-    const label = `${i + 1}/${toProcess.length}`;
-    const handle = displayHandle(post);
-    const contract = buildExecutionContract(post, model);
+    const needsApi = toProcess.some((post) => {
+      const contract = buildExecutionContract(post, model);
+      return !findMatchingCacheEntry(cache, contract).entry;
+    });
+    if (needsApi && !apiKey) {
+      fail(
+        "OPENAI_API_KEY が設定されていません。\n" +
+          ".env.example をコピーして .env を作成し、APIキーを設定してください。\n" +
+          "例: cp .env.example .env"
+      );
+    }
 
-    try {
-      if (!post.url) {
-        throw new Error("投稿URLがないため進捗キーを保存できません");
-      }
+    if (toProcess.length === 0) {
+      const outputPosts = buildOutputPosts(posts, progress, model);
+      artifact.writeJson(outputPosts);
+      const pendingCount = outputPosts.filter(
+        (post) => post.enrichment?.source === "pending"
+      ).length;
+      console.log("今回処理する対象はありません。");
+      console.log(`今回API実行件数: 0`);
+      console.log(`今回キャッシュ使用件数: 0`);
+      console.log(`契約一致の進捗再利用件数: ${contractDoneTargets.length}`);
+      console.log(`API成功件数: 0`);
+      console.log(`API失敗件数: 0`);
+      console.log(`未処理件数: ${pendingCount}`);
+      console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
+      console.log(`保存先: ${outputFile}`);
+      printUsageSummary("Enrich", usageTotals);
+      return;
+    }
 
-      if (isProgressCompleteForContract(progress[post.url], contract)) {
-        console.log(`[${label}] 契約一致の進捗を使用: ${handle}`);
-        continue;
-      }
+    for (let i = 0; i < toProcess.length; i++) {
+      const post = toProcess[i];
+      const label = `${i + 1}/${toProcess.length}`;
+      const handle = displayHandle(post);
+      const contract = buildExecutionContract(post, model);
 
-      const { cacheKey, entry: cached } = findMatchingCacheEntry(cache, contract);
-      if (cached) {
-        touchCacheEntry(cache, cacheKey);
-        writeJsonAtomic(CACHE_FILE, cache);
-
-        const result = getEnrichCacheResult(cached);
-        writeProgressFromResult(
-          progress,
-          post.url,
-          contract,
-          {
-            importance: result.importance,
-            summary: result.summary,
-            tags: Array.isArray(result.tags) ? result.tags : [],
-            reason: result.reason,
-          },
-          "ai-cache",
-          cached.cachedAt ||
-            cached.createdAt ||
-            cached.lastUsedAt ||
-            new Date().toISOString()
-        );
-        writeJsonAtomic(PROGRESS_FILE, progress);
-        cacheHitCount++;
-        console.log(`[${label}] キャッシュ使用: ${handle}`);
-      } else {
-        if (!client) {
-          client = new OpenAI({ apiKey });
+      try {
+        if (!post.url) {
+          throw new Error("投稿URLがないため進捗キーを保存できません");
         }
 
-        console.log(`[${label}] API実行: ${handle}`);
-        apiAttemptCount++;
-        const { result, usage } = await enrichWithAi(client, model, post);
-        usageTotals = addUsage(usageTotals, usage);
-        const now = new Date().toISOString();
+        if (isProgressCompleteForContract(progress[post.url], contract)) {
+          console.log(`[${label}] 契約一致の進捗を使用: ${handle}`);
+          continue;
+        }
 
-        writeCacheEntry(cache, cacheKey, contract, result, now);
-        writeJsonAtomic(CACHE_FILE, cache);
+        const { cacheKey, entry: cached } = findMatchingCacheEntry(cache, contract);
+        if (cached) {
+          touchCacheEntry(cache, cacheKey);
+          writeJsonAtomic(CACHE_FILE, cache);
 
-        writeProgressFromResult(
-          progress,
-          post.url,
-          contract,
-          result,
-          "ai",
-          now
-        );
-        writeJsonAtomic(PROGRESS_FILE, progress);
+          const result = getEnrichCacheResult(cached);
+          writeProgressFromResult(
+            progress,
+            post.url,
+            contract,
+            {
+              importance: result.importance,
+              summary: result.summary,
+              tags: Array.isArray(result.tags) ? result.tags : [],
+              reason: result.reason,
+            },
+            "ai-cache",
+            cached.cachedAt ||
+              cached.createdAt ||
+              cached.lastUsedAt ||
+              new Date().toISOString()
+          );
+          writeJsonAtomic(PROGRESS_FILE, progress);
+          cacheHitCount++;
+          console.log(`[${label}] キャッシュ使用: ${handle}`);
+        } else {
+          if (!client) {
+            client = new OpenAI({ apiKey });
+          }
 
-        apiSuccessCount++;
-        consecutiveFailures = 0;
-        console.log(
-          `[${label}] 成功: importance=${result.importance} summary=${result.summary}`
-        );
+          console.log(`[${label}] API実行: ${handle}`);
+          apiAttemptCount++;
+          const { result, usage } = await enrichWithAi(client, model, post);
+          usageTotals = addUsage(usageTotals, usage);
+          const now = new Date().toISOString();
+
+          writeCacheEntry(cache, cacheKey, contract, result, now);
+          writeJsonAtomic(CACHE_FILE, cache);
+
+          writeProgressFromResult(
+            progress,
+            post.url,
+            contract,
+            result,
+            "ai",
+            now
+          );
+          writeJsonAtomic(PROGRESS_FILE, progress);
+
+          apiSuccessCount++;
+          consecutiveFailures = 0;
+          console.log(
+            `[${label}] 成功: importance=${result.importance} summary=${result.summary}`
+          );
+        }
+      } catch (error) {
+        apiFailureCount++;
+        consecutiveFailures++;
+        const message = error && error.message ? error.message : String(error);
+        console.error(`[${label}] 失敗: ${message}`);
+
+        if (consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
+          console.error(
+            `連続 ${MAX_CONSECUTIVE_FAILURES} 件失敗したため処理を中止します。`
+          );
+          break;
+        }
       }
-    } catch (error) {
-      apiFailureCount++;
-      consecutiveFailures++;
-      const message = error && error.message ? error.message : String(error);
-      console.error(`[${label}] 失敗: ${message}`);
 
-      if (consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
-        console.error(
-          `連続 ${MAX_CONSECUTIVE_FAILURES} 件失敗したため処理を中止します。`
+      artifact.writeJson(buildOutputPosts(posts, progress, model));
+
+      if (i < toProcess.length - 1 && consecutiveFailures < MAX_CONSECUTIVE_FAILURES) {
+        const upcoming = toProcess[i + 1];
+        if (!upcoming) continue;
+        const upcomingContract = buildExecutionContract(upcoming, model);
+        const upcomingHasProgress = Boolean(
+          upcoming.url &&
+            isProgressCompleteForContract(progress[upcoming.url], upcomingContract)
         );
-        break;
+        const upcomingHasCache = Boolean(
+          findMatchingCacheEntry(cache, upcomingContract).entry
+        );
+        if (!upcomingHasProgress && !upcomingHasCache) {
+          await sleep(MIN_INTERVAL_MS);
+        }
       }
     }
 
-    writeJsonAtomic(outputFile, buildOutputPosts(posts, progress, model));
+    const outputPosts = buildOutputPosts(posts, progress, model);
+    artifact.writeJson(outputPosts);
+    const remainingPending = outputPosts.filter(
+      (post) => post.enrichment?.source === "pending"
+    ).length;
 
-    if (i < toProcess.length - 1 && consecutiveFailures < MAX_CONSECUTIVE_FAILURES) {
-      const upcoming = toProcess[i + 1];
-      if (!upcoming) continue;
-      const upcomingContract = buildExecutionContract(upcoming, model);
-      const upcomingHasProgress = Boolean(
-        upcoming.url &&
-          isProgressCompleteForContract(progress[upcoming.url], upcomingContract)
-      );
-      const upcomingHasCache = Boolean(
-        findMatchingCacheEntry(cache, upcomingContract).entry
-      );
-      if (!upcomingHasProgress && !upcomingHasCache) {
-        await sleep(MIN_INTERVAL_MS);
-      }
-    }
-  }
-
-  const outputPosts = buildOutputPosts(posts, progress, model);
-  writeJsonAtomic(outputFile, outputPosts);
-  const remainingPending = outputPosts.filter(
-    (post) => post.enrichment?.source === "pending"
-  ).length;
-
-  console.log(`今回API実行件数: ${apiAttemptCount}`);
-  console.log(`今回キャッシュ使用件数: ${cacheHitCount}`);
-  console.log(`契約一致の進捗再利用件数: ${contractDoneTargets.length}`);
-  console.log(`API成功件数: ${apiSuccessCount}`);
-  console.log(`API失敗件数: ${apiFailureCount}`);
-  console.log(`未処理件数: ${remainingPending}`);
-  console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
-  console.log(`保存先: ${outputFile}`);
-  console.log(`進捗ファイル: ${PROGRESS_FILE}`);
-  console.log(`キャッシュファイル: ${CACHE_FILE}`);
-  printUsageSummary("Enrich", usageTotals);
+    console.log(`今回API実行件数: ${apiAttemptCount}`);
+    console.log(`今回キャッシュ使用件数: ${cacheHitCount}`);
+    console.log(`契約一致の進捗再利用件数: ${contractDoneTargets.length}`);
+    console.log(`API成功件数: ${apiSuccessCount}`);
+    console.log(`API失敗件数: ${apiFailureCount}`);
+    console.log(`未処理件数: ${remainingPending}`);
+    console.log(`キャッシュ総件数: ${Object.keys(cache).length}`);
+    console.log(`保存先: ${outputFile}`);
+    console.log(`進捗ファイル: ${PROGRESS_FILE}`);
+    console.log(`キャッシュファイル: ${CACHE_FILE}`);
+    printUsageSummary("Enrich", usageTotals);
+  });
 }
 
 if (require.main === module) {

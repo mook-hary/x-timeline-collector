@@ -1,10 +1,10 @@
+const { withArtifactProvenance } = require("./lib/collection-provenance");
 require("dotenv").config({ quiet: true });
 
 const path = require("path");
 const OpenAI = require("openai");
 const {
   fail,
-  readJsonRequired,
   readJsonObjectOptional,
   writeJsonAtomic,
 } = require("./lib/pipeline-io");
@@ -94,17 +94,6 @@ function parseArgs(argv) {
     cache: parsePathFlag(argv, "--cache"),
     progress: parsePathFlag(argv, "--progress"),
   };
-}
-
-function loadPosts(inputFile, label) {
-  const data = readJsonRequired(inputFile, label);
-  if (Array.isArray(data)) {
-    return { input: data, posts: data };
-  }
-  if (data && typeof data === "object" && Array.isArray(data.posts)) {
-    return { input: data, posts: data.posts };
-  }
-  fail(`${label} は投稿配列または { posts: [] } ではありません`);
 }
 
 function loadCache(cacheFile) {
@@ -249,80 +238,80 @@ async function main() {
   const outputFile = resolveOptionalPath(args.output, OUTPUT_FILE);
   const progressFile = resolveOptionalPath(args.progress, PROGRESS_FILE);
 
-  const { input, posts } = loadPosts(
-    inputFile,
-    args.input || "output/daily-scope.json"
-  );
+  return withArtifactProvenance({ inputPath: inputFile, outputPath: outputFile, shape: "editorial", dryRun }, async (output) => {
+    const input = output.data;
+    const posts = Array.isArray(input) ? input : input.posts;
 
-  console.log(`モデル: ${model}`);
-  console.log(
-    `promptVersion=${VISION_PROMPT_VERSION} schemaVersion=${VISION_SCHEMA_VERSION}`
-  );
-  console.log(`mode: ${dryRun ? "dry-run" : "apply"}`);
+    console.log(`モデル: ${model}`);
+    console.log(
+      `promptVersion=${VISION_PROMPT_VERSION} schemaVersion=${VISION_SCHEMA_VERSION}`
+    );
+    console.log(`mode: ${dryRun ? "dry-run" : "apply"}`);
 
-  let requestFn = null;
-  const usageHolder = { usage: emptyUsage() };
+    let requestFn = null;
+    const usageHolder = { usage: emptyUsage() };
 
-  if (!dryRun) {
-    const apiKey = process.env.OPENAI_API_KEY;
-    let requestImpl = null;
-    requestFn = async (request) => {
-      if (!apiKey) {
-        fail(
-          "OPENAI_API_KEY が設定されていません。\n" +
-            ".env.example をコピーして .env を作成し、APIキーを設定してください。"
-        );
-      }
-      if (!requestImpl) {
-        requestImpl = createOpenAiRequestFn(new OpenAI({ apiKey }), usageHolder);
-      }
-      return requestImpl(request);
-    };
-  }
-
-  const result = await analyzeVisionPosts(posts, {
-    dryRun,
-    model,
-    cache,
-    requestFn,
-  });
-
-  if (dryRun) {
-    printDryRunReport(result.summary);
-    return;
-  }
-
-  const completedAt = new Date().toISOString();
-  const artifact = buildDailyVisionArtifact(input, result.posts, {
-    model,
-    analyzedAt: completedAt,
-    apiRequests: result.summary.apiRequests,
-    cacheHits: result.summary.cacheHits,
-    aborted: result.aborted,
-  });
-  writeJsonAtomic(outputFile, artifact);
-  writeJsonAtomic(cacheFile, result.cache);
-
-  const progress = readJsonObjectOptional(progressFile, {}, path.basename(progressFile));
-  writeProgressFromPosts(progress, result.posts, model, completedAt);
-  writeJsonAtomic(progressFile, progress);
-
-  console.log(`全投稿数: ${result.summary.inputCount}`);
-  console.log(`候補数: ${result.summary.candidates}`);
-  console.log(`skipped: ${result.summary.skipped}`);
-  console.log(`ok: ${result.summary.ok}`);
-  console.log(`failed: ${result.summary.failed}`);
-  console.log(`今回API実行件数: ${result.summary.apiRequests}`);
-  console.log(`今回キャッシュ使用件数: ${result.summary.cacheHits}`);
-  console.log(`保存先: ${outputFile}`);
-  console.log(`進捗ファイル: ${progressFile}`);
-  console.log(`キャッシュファイル: ${cacheFile}`);
-  if (result.internalErrors.length) {
-    for (const err of result.internalErrors) {
-      console.error(`[vision] ${err.category}: ${err.message}`);
+    if (!dryRun) {
+      const apiKey = process.env.OPENAI_API_KEY;
+      let requestImpl = null;
+      requestFn = async (request) => {
+        if (!apiKey) {
+          fail(
+            "OPENAI_API_KEY が設定されていません。\n" +
+              ".env.example をコピーして .env を作成し、APIキーを設定してください。"
+          );
+        }
+        if (!requestImpl) {
+          requestImpl = createOpenAiRequestFn(new OpenAI({ apiKey }), usageHolder);
+        }
+        return requestImpl(request);
+      };
     }
-  }
-  printUsageSummary("Vision", usageHolder.usage);
+
+    const result = await analyzeVisionPosts(posts, {
+      dryRun,
+      model,
+      cache,
+      requestFn,
+    });
+
+    if (dryRun) {
+      printDryRunReport(result.summary);
+      return;
+    }
+
+    const completedAt = new Date().toISOString();
+    const artifact = buildDailyVisionArtifact(input, result.posts, {
+      model,
+      analyzedAt: completedAt,
+      apiRequests: result.summary.apiRequests,
+      cacheHits: result.summary.cacheHits,
+      aborted: result.aborted,
+    });
+    output.writeJson(artifact);
+    writeJsonAtomic(cacheFile, result.cache);
+
+    const progress = readJsonObjectOptional(progressFile, {}, path.basename(progressFile));
+    writeProgressFromPosts(progress, result.posts, model, completedAt);
+    writeJsonAtomic(progressFile, progress);
+
+    console.log(`全投稿数: ${result.summary.inputCount}`);
+    console.log(`候補数: ${result.summary.candidates}`);
+    console.log(`skipped: ${result.summary.skipped}`);
+    console.log(`ok: ${result.summary.ok}`);
+    console.log(`failed: ${result.summary.failed}`);
+    console.log(`今回API実行件数: ${result.summary.apiRequests}`);
+    console.log(`今回キャッシュ使用件数: ${result.summary.cacheHits}`);
+    console.log(`保存先: ${outputFile}`);
+    console.log(`進捗ファイル: ${progressFile}`);
+    console.log(`キャッシュファイル: ${cacheFile}`);
+    if (result.internalErrors.length) {
+      for (const err of result.internalErrors) {
+        console.error(`[vision] ${err.category}: ${err.message}`);
+      }
+    }
+    printUsageSummary("Vision", usageHolder.usage);
+  });
 }
 
 if (require.main === module) {

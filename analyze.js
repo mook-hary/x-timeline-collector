@@ -1,3 +1,4 @@
+const { withArtifactProvenance } = require("./lib/collection-provenance");
 const fs = require("fs");
 const path = require("path");
 const {
@@ -6,7 +7,6 @@ const {
   writeJsonAtomic,
 } = require("./lib/pipeline-io");
 const {
-  readEditorialPosts,
   parseIoFlags,
   resolveOptionalPath,
 } = require("./lib/daily-scope");
@@ -432,44 +432,24 @@ function main() {
   const categories = readJsonObjectRequired(CATEGORIES_FILE, "カテゴリ設定");
   const inputFile = resolveOptionalPath(cli.input, INPUT_FILE);
   const outputFile = resolveOptionalPath(cli.output, OUTPUT_FILE);
-  const posts = readEditorialPosts(
-    inputFile,
-    cli.input ? cli.input : "output/timeline.json"
-  );
+  return withArtifactProvenance({ inputPath: inputFile, outputPath: outputFile, shape: "editorial" }, (artifact) => {
+    const posts = Array.isArray(artifact.data) ? artifact.data : artifact.data.posts;
 
-  const analyzedAt = new Date().toISOString();
-  const categoryNames = Object.keys(categories);
-  const counts = {};
-  const confidenceCounts = { high: 0, medium: 0, low: 0 };
+    const analyzedAt = new Date().toISOString();
+    const categoryNames = Object.keys(categories);
+    const counts = {};
+    const confidenceCounts = { high: 0, medium: 0, low: 0 };
 
-  for (const category of categoryNames) {
-    counts[category] = 0;
-  }
-  if (!("その他" in counts)) {
-    counts["その他"] = 0;
-    categoryNames.push("その他");
-  }
+    for (const category of categoryNames) {
+      counts[category] = 0;
+    }
+    if (!("その他" in counts)) {
+      counts["その他"] = 0;
+      categoryNames.push("その他");
+    }
 
-  const analyzedPosts = posts.map((post) => {
-    const {
-      category,
-      score,
-      secondCategory,
-      secondScore,
-      scoreMargin,
-      confidence,
-      tiedByOrder,
-      categoryScores,
-      matchedKeywords,
-      categoryEligible,
-    } = classify(post, categories);
-
-    counts[category] = (counts[category] || 0) + 1;
-    confidenceCounts[confidence] = (confidenceCounts[confidence] || 0) + 1;
-
-    return {
-      ...post,
-      analysis: {
+    const analyzedPosts = posts.map((post) => {
+      const {
         category,
         score,
         secondCategory,
@@ -480,39 +460,58 @@ function main() {
         categoryScores,
         matchedKeywords,
         categoryEligible,
-        analyzedAt,
-      },
-    };
+      } = classify(post, categories);
+
+      counts[category] = (counts[category] || 0) + 1;
+      confidenceCounts[confidence] = (confidenceCounts[confidence] || 0) + 1;
+
+      return {
+        ...post,
+        analysis: {
+          category,
+          score,
+          secondCategory,
+          secondScore,
+          scoreMargin,
+          confidence,
+          tiedByOrder,
+          categoryScores,
+          matchedKeywords,
+          categoryEligible,
+          analyzedAt,
+        },
+      };
+    });
+
+    const uncategorizedPosts = sortNewestFirst(
+      analyzedPosts.filter((post) => post.analysis.category === "その他")
+    ).map(toUncategorizedEntry);
+
+    const allCategoryNames = Object.keys(counts);
+
+    artifact.writeJson(analyzedPosts);
+    writeJsonAtomic(UNCATEGORIZED_JSON, uncategorizedPosts);
+    fs.writeFileSync(UNCATEGORIZED_TXT, toUncategorizedTxt(uncategorizedPosts), "utf8");
+    writeReviewFiles(analyzedPosts, allCategoryNames);
+    const lowConfidenceCount = writeLowConfidenceFile(analyzedPosts, allCategoryNames);
+
+    console.log(`分析対象: ${posts.length} 件`);
+    console.log("カテゴリ別件数:");
+    for (const [category, count] of Object.entries(counts)) {
+      console.log(`  ${category}: ${count}`);
+    }
+    console.log("確信度別件数:");
+    for (const level of ["high", "medium", "low"]) {
+      console.log(`  ${level}: ${confidenceCounts[level] || 0}`);
+    }
+    console.log(`保存先: ${outputFile}`);
+    console.log(`その他一覧: ${uncategorizedPosts.length} 件`);
+    console.log(`  JSON: ${UNCATEGORIZED_JSON}`);
+    console.log(`  TXT: ${UNCATEGORIZED_TXT}`);
+    console.log(`レビュー用: ${REVIEW_DIR}`);
+    console.log(`低確信度レビュー: ${lowConfidenceCount} 件`);
+    console.log(`  ${LOW_CONFIDENCE_FILE}`);
   });
-
-  const uncategorizedPosts = sortNewestFirst(
-    analyzedPosts.filter((post) => post.analysis.category === "その他")
-  ).map(toUncategorizedEntry);
-
-  const allCategoryNames = Object.keys(counts);
-
-  writeJsonAtomic(outputFile, analyzedPosts);
-  writeJsonAtomic(UNCATEGORIZED_JSON, uncategorizedPosts);
-  fs.writeFileSync(UNCATEGORIZED_TXT, toUncategorizedTxt(uncategorizedPosts), "utf8");
-  writeReviewFiles(analyzedPosts, allCategoryNames);
-  const lowConfidenceCount = writeLowConfidenceFile(analyzedPosts, allCategoryNames);
-
-  console.log(`分析対象: ${posts.length} 件`);
-  console.log("カテゴリ別件数:");
-  for (const [category, count] of Object.entries(counts)) {
-    console.log(`  ${category}: ${count}`);
-  }
-  console.log("確信度別件数:");
-  for (const level of ["high", "medium", "low"]) {
-    console.log(`  ${level}: ${confidenceCounts[level] || 0}`);
-  }
-  console.log(`保存先: ${outputFile}`);
-  console.log(`その他一覧: ${uncategorizedPosts.length} 件`);
-  console.log(`  JSON: ${UNCATEGORIZED_JSON}`);
-  console.log(`  TXT: ${UNCATEGORIZED_TXT}`);
-  console.log(`レビュー用: ${REVIEW_DIR}`);
-  console.log(`低確信度レビュー: ${lowConfidenceCount} 件`);
-  console.log(`  ${LOW_CONFIDENCE_FILE}`);
 }
 
 if (require.main === module) {

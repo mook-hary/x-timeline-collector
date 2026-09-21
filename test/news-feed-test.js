@@ -634,3 +634,56 @@ function sortOnlyUrls(posts) {
 }
 
 console.log("news-feed-test: ALL PASS");
+
+
+// Collection provenance is independent of export time, including empty editions.
+{
+  const provenance = require("../lib/collection-provenance");
+  const root = tmpDir("feed-provenance-");
+  const input = path.join(root, "output", "daily-enriched.json");
+  const collectionTime = "2026-08-30T03:00:00.000Z";
+  const writer = provenance.createArtifactWriter(input, { collection: true, now: () => collectionTime });
+  try { writer.writeJson([]); writer.complete(); } finally { writer.release(); }
+  const warnings = [];
+  const build = extra => {
+    const result = buildDigestReader({ rootDir: root, inputPath: input, config, provenanceWarn: value => warnings.push(value), ...extra });
+    return JSON.parse(fs.readFileSync(result.newsFeedPath, "utf8"));
+  };
+  try {
+    const RealDate = Date;
+    let exportTime = "2026-08-30T04:00:00.000Z";
+    let first, rerun;
+    try {
+      global.Date = class extends RealDate {
+        constructor(...args) { super(...(args.length ? args : [exportTime])); }
+        static now() { return RealDate.parse(exportTime); }
+      };
+      first = build();
+      exportTime = "2026-08-31T04:00:00.000Z";
+      rerun = build();
+    } finally { global.Date = RealDate; }
+    assert.notStrictEqual(first.generatedAt, rerun.generatedAt);
+    assert.strictEqual(first.collectionCompletedAt, collectionTime);
+    assert.strictEqual(rerun.collectionCompletedAt, collectionTime);
+    assert.strictEqual(rerun.scope.itemCount, 0);
+    assert.strictEqual(rerun.schemaVersion, 1);
+    assert.strictEqual(build({ posts: [] }).collectionCompletedAt, null);
+    const publicKeys = ["schemaVersion", "source", "generatedAt", "collectionCompletedAt", "scope", "items"];
+    assert.deepStrictEqual(Object.keys(first), publicKeys);
+    for (const key of ["artifactSha256", "generationId", "inputPath", "provenance", "lock", "reason"]) assert.ok(!Object.hasOwn(first, key));
+    const a = buildNewsFeed([], { generatedAt: "2026-08-30T04:00:00.000Z", collectionCompletedAt: collectionTime });
+    const b = buildNewsFeed([], { generatedAt: "2026-08-31T04:00:00.000Z", collectionCompletedAt: collectionTime });
+    assert.notStrictEqual(a.generatedAt, b.generatedAt);
+    assert.strictEqual(a.collectionCompletedAt, b.collectionCompletedAt);
+    fs.writeFileSync(input, "[ ]\n");
+    assert.strictEqual(build().collectionCompletedAt, null);
+    fs.writeFileSync(provenance.provenancePath(input), "broken");
+    assert.strictEqual(build().collectionCompletedAt, null);
+    fs.unlinkSync(provenance.provenancePath(input));
+    assert.strictEqual(build().collectionCompletedAt, null);
+    assert.ok(warnings.every(line => !line.includes(root)));
+    assert.strictEqual(buildNewsFeed([]).collectionCompletedAt, null);
+    assert.strictEqual(buildNewsFeed([], { collectionCompletedAt: "yesterday" }).collectionCompletedAt, null);
+  } finally { fs.rmSync(root, { recursive: true, force: true }); }
+  console.log("news-feed verified collection / historical null / rerun / public allowlist PASS");
+}
