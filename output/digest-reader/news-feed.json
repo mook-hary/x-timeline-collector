@@ -1,143 +1,55 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-24T18:11:06.658Z",
-  "collectionCompletedAt": "2026-09-24T18:00:37.118Z",
+  "generatedAt": "2026-09-25T18:02:34.016Z",
+  "collectionCompletedAt": "2026-09-25T18:00:39.216Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 32
+    "itemCount": 8
   },
   "items": [
     {
-      "id": "2102912614884057545",
-      "title": "石狩・空知・後志地方で竜巻など突風の恐れ、24日10:20までの注意喚起",
-      "summary": "石狩・空知・後志地方で竜巻など突風の恐れ、24日10:20までの注意喚起",
-      "category": "ニュース・報道",
+      "id": "2103366558085255620",
+      "title": "東映動画は枚数縛りで、20分尺の口パクに800枚使い、残り2200枚で平均7枚／カットにしなければならなかったと語っている。",
+      "summary": "東映動画は枚数縛りで、20分尺の口パクに800枚使い、残り2200枚で平均7枚／カットにしなければならなかったと語っている。",
+      "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/UN_NERV/status/2102912614884057545",
-      "postedAt": "2026-09-24T00:06:52.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/kozuma_/status/2103366558085255620",
+      "postedAt": "2026-09-25T06:10:40.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
-        "name": "特務機関NERV",
-        "handle": "@UN_NERV"
+        "name": "上妻晋作 KOZUMA Shinsaku",
+        "handle": "@kozuma_"
       },
       "scores": {
-        "informationValue": 5,
+        "informationValue": 4,
         "personalRelevance": 4,
-        "impact": 4,
-        "attentionSignal": 4,
-        "importance": 5
+        "impact": 2,
+        "attentionSignal": 2,
+        "importance": 4
       },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS8L4OoboAAliln?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS8L4OoboAAliln?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
+      "media": [],
       "visual": {
         "value": null,
         "roles": []
       }
     },
     {
-      "id": "2103175766666293566",
-      "title": "高木選手の配信書き起こしで、若手プロへの一般化批判や支援、意見表明の重要性を述べている。",
-      "summary": "高木選手の配信書き起こしで、若手プロへの一般化批判や支援、意見表明の重要性を述べている。",
-      "category": "ゲーム・ゲーム開発",
+      "id": "2103493312607134172",
+      "title": "罪宝2話でキャラクターデザイン兼総作画監督を担当したと報告している。",
+      "summary": "罪宝2話でキャラクターデザイン兼総作画監督を担当したと報告している。",
+      "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/waiwaiburanko3/status/2103175766666293566",
-      "postedAt": "2026-09-24T17:32:32.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/yatanekko/status/2103493312607134172",
+      "postedAt": "2026-09-25T14:34:21.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
-        "name": "ONsama@3巻発売中‼",
-        "handle": "@waiwaiburanko3"
+        "name": "Yataneko （越後光崇）",
+        "handle": "@yatanekko"
       },
       "scores": {
         "informationValue": 4,
         "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 3
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-MFb9aEAAIVZR?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS-MFb9aEAAIVZR?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "A screenshot of a long block of Japanese text with a headline reading \"高木選手が配信で言ってたこと\" followed by many quoted lines of spoken remarks. The image contains multiple paragraphs and quotation marks indicating direct speech.",
-        "visibleText": "高木選手が配信で言ってたこと\n\n「大前提としてぺぺさんのことは嫌いじゃない。」\n「だからみんなに攻撃的なことはしないでほしい。」\n「ただみんなが思っている以上に固まった関係値があるわけでもない。」\n「ぺぺさんに切られたら俺は逃げる。謝りはしない。」\n「俺が切れるのは当然だよね。」\n「プロが黙れネジィなんてつぶやいたらそら叩かれるよね。」\n「俺が言いたいのは、くらああかってぺぺさんが個人的意見言ったとしても、DFMのぱっとみ偉そうな人偉そうな人がモダンをああやって一括りにして基礎力って言ったらそれが大衆の意見に見えちゃうよね。他の人もそうじゃないかなあってなったら今までタンクで頑張ってる若手達がいちいちそうだとはいわない気持ちになるじゃん。俺はそう思うんだよね。」\n「それに対して見てる若手のチームの人が、うちはモダンは価値があると思って、ツイートしないじゃん。しない方が得じゃん。だから俺がフルスイングした。」\n「俺がこんなにまで、ここまでいろいろで長々と語るのも良くないじゃん。だから画像のせてちょっと冗談って分かる範囲内での俺の思ってることを載せたんだっけど、想像以上のことになったね。」\n「で絶対言って良かったと思う。俺は。」\n「思ってることを言えて、理解できた人もいる、でも基礎力って言葉が俺は嫌だった。」\n「あれを大衆の意見だと思ってほしくないね。」\n「若手があれを自分の価値だと思わなくて良いよ。」\n「みんなのもやもやを少しでも払拭したい」\n「この長文で個人的な意見って言ったけど、そうは思えないよ。個人の意見は良いんだけど、それに噛みつく若者が出ても良いと思う。ただってあれ見て明らかに海底丼の言っててさ、石井プロのツイートとかみんな見た？茶化すようなツイートしてたじゃん。あれこそなんか根本の悪い雰囲気がよくなくなっている気がするよね、俺は。」\n「それを言ってるのは、みんな黙ってくれって言ってるわけじゃない。言ってるのは別に悪いことだし。」\n「若手がこれからプロになりたいって思ってる人が色々言えない状況になるのは良くないと思う。」\n「俺はそれが悲しいし、嫌だよ。俺は思う。」\n「かみんな先生みたいに真剣に聞いてくれる人はすごい大事にすべきだと思うんだけどさ、具体的な改善点も言わずに、ただただ物足りないって言うだけなのは違うと思う。」\n「俺はそれが良いって思う人も居る。プロやってる人とかリスペクト持ってる。この業界作ってくれてありがとう。」\n「まあああいう人達にとってのヘイトは買うだろうな。若者はおじさんからのヘイト買うよな。」\n「だからおじさんが黙って物言わないでああいうツイートするのは別に良いんだと、言い返せてほしい。」\n「実際お前見た若手達、プロに入りづらいって思ったり、こいつって思われたりするんだよなって。」\n「これは俺の勝手な意見なんだけど、俺は今の若手プロ達に対する意見っていうのは、俺らが良いとか悪いとか言うよりも、良い方向に戻るように、って思うんだよね。」\n「俺は、そんなに若手達が先行して悪いとも思わないよ。だから消えますよ。」\n「ただ俺は若手達に対してこういう風に怒ったままにするのは良くないし、俺が言い過ぎだと思ったから、ここで一応言ったんだ。」\n「俺は言いたいことが言えないような流れになるのは嫌だ。」\n「俺は若手の事を肯定しないわけじゃない。でも、ひとつ思うのは、若手のやり方もあるし、俺らのやり方もある。どっちが正しいとかないじゃん。」\n「俺も若手に対して言いたいことあるよ。」\n「俺が思っているのはさ、プロってもう少しだけ気持ちをもってて、真面目にしろって思うところがある。」\n「俺が若手に言ってるのは、ちょっとは心を入れてやれってこと。」\n「今のプロって自由すぎるって感じるんだよね。」\n「まあ、見てる側が許さない人いるけど。」\n「だからって誰も悪くないって思ってるわけじゃない。」\n「俺はただ、もっと良くなってほしいって思っているだけだよ。」\n「若手っていう世代がちょっと違うから仕方ないんだよな。」\n「みんなそれならそれでいいけど、違う方向に行ってほしくない。」\n「俺は若手には夢を持ってほしい。」\n「職業人としてもっと尊敬されるようになってほしい。」\n「でもね、今のままだとどうなんだろうね。」\n「まぁ、俺は変わらず応援してるよ。」\n「ただ、もう一回言っとくけど、俺はぺぺさんのことは嫌いじゃない。」\n「それだけははっきりしておきたい。」"
-      },
-      "visual": {
-        "value": 4,
-        "roles": [
-          "evidence",
-          "reference",
-          "screenshot"
-        ]
-      }
-    },
-    {
-      "id": "2102951818573849002",
-      "title": "栗林孝典師範が9月17〜22日にオスロで講習会を実施、欧州各国から約100名が参加したと報告している。",
-      "summary": "栗林孝典師範が9月17〜22日にオスロで講習会を実施、欧州各国から約100名が参加したと報告している。",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/AikidoHombuDojo/status/2102951818573849002",
-      "postedAt": "2026-09-24T02:42:39.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "公益財団法人合気会【公式】",
-        "handle": "@AikidoHombuDojo"
-      },
-      "scores": {
-        "informationValue": 4,
-        "personalRelevance": 2,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS8vh5qboAAqMmI?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS8vh5qboAAqMmI?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103110330339721678",
-      "title": "秋季錬成大会と昇級昇段審査の実施報告。高校生の一般初審査や懇親会の様子、次回は9/26。",
-      "summary": "秋季錬成大会と昇級昇段審査の実施報告。高校生の一般初審査や懇親会の様子、次回は9/26。",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/HyogoaikiHimeji/status/2103110330339721678",
-      "postedAt": "2026-09-24T13:12:31.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "兵庫合気会　姫路道場",
-        "handle": "@HyogoaikiHimeji"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 4,
         "impact": 2,
         "attentionSignal": 2,
         "importance": 3
@@ -149,185 +61,21 @@
       }
     },
     {
-      "id": "2102951940405817451",
-      "title": "栗林孝則合気会師範が9月17〜22日にオスロのOslo Aikido Clubでセミナーを指導したと告知している。",
-      "summary": "栗林孝則合気会師範が9月17〜22日にオスロのOslo Aikido Clubでセミナーを指導したと告知している。",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/AikidoHombuDojo/status/2102951940405817451",
-      "postedAt": "2026-09-24T02:43:08.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "公益財団法人合気会【公式】",
-        "handle": "@AikidoHombuDojo"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS8vh5qboAAqMmI?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS8vh5qboAAqMmI?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2102956398040563890",
-      "title": "冨井大裕の個展「像の条件」が慶應義塾大学アート・センターで10/5〜12/18開催と告知",
-      "summary": "冨井大裕の個展「像の条件」が慶應義塾大学アート・センターで10/5〜12/18開催と告知",
+      "id": "2103125468962832750",
+      "title": "ゴッホの言葉を受け、自己否定感があるときにとりあえず描いてみたら静まったという経験を述べている。",
+      "summary": "ゴッホの言葉を受け、自己否定感があるときにとりあえず描いてみたら静まったという経験を述べている。",
       "category": "イラスト・美術",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/TokyoArtBeat_JP/status/2102956398040563890",
-      "postedAt": "2026-09-24T03:00:50.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/zm_zmfhzl/status/2103125468962832750",
+      "postedAt": "2026-09-24T14:12:40.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
-        "name": "Tokyo Art Beat",
-        "handle": "@TokyoArtBeat_JP"
+        "name": "ZM",
+        "handle": "@zm_zmfhzl"
       },
       "scores": {
         "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS8zs0tWkAAbhrl?format=jpg&name=small",
-          "previewUrl": "https://pbs.twimg.com/media/HS8zs0tWkAAbhrl?format=jpg&name=small",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2102931394481864858",
-      "title": "タンスに足指をぶつけたら剥離骨折で、治せず後遺症が残ると言われたと報告している。",
-      "summary": "タンスに足指をぶつけたら剥離骨折で、治せず後遺症が残ると言われたと報告している。",
-      "category": "生活・健康",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kensuu/status/2102931394481864858",
-      "postedAt": "2026-09-24T01:21:29.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "けんすう",
-        "handle": "@kensuu"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 3,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2102961470103339120",
-      "title": "4枚のイラストで、炎を纏う黒い翼と角を持つ裸身の人型（杖を持つ姿など）が描かれている。",
-      "summary": "4枚のイラストで、炎を纏う黒い翼と角を持つ裸身の人型（杖を持つ姿など）が描かれている。",
-      "category": "イラスト・美術",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/FLICTERIA/status/2102961470103339120",
-      "postedAt": "2026-09-24T03:21:00.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎︎ ︎︎ ︎︎ ︎︎ ︎︎ ︎︎",
-        "handle": "@FLICTERIA"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 1,
-        "attentionSignal": 4,
-        "importance": 3
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS83-hjX0AAcj-m?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS83-hjX0AAcj-m?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS84AWAWIAAxCel?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS84AWAWIAAxCel?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS84GfKXIAAzi5O?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS84GfKXIAAzi5O?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS84H8gXYAAGwGh?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS84H8gXYAAGwGh?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "Four vertical images show a dark, winged humanoid figure with large black wings and horn-like protrusions. Bright orange flames and embers emanate from the figure's head, wings, and lower body; the figure has glowing eyes, a bare muscular torso, and dark drapery, and in one image holds a long rod or staff. A close-up shows flame forming a crown around the head and red streaks running down from the eye area onto the chest.",
-        "visibleText": null
-      },
-      "visual": {
-        "value": 4,
-        "roles": [
-          "evidence",
-          "reference",
-          "artwork"
-        ]
-      }
-    },
-    {
-      "id": "2102951978792059162",
-      "title": "合気道セミナーにノルウェーなど複数国から約100名が参加したと報告している",
-      "summary": "合気道セミナーにノルウェーなど複数国から約100名が参加したと報告している",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/AikidoHombuDojo/status/2102951978792059162",
-      "postedAt": "2026-09-24T02:43:17.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "公益財団法人合気会【公式】",
-        "handle": "@AikidoHombuDojo"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 2,
+        "personalRelevance": 4,
         "impact": 2,
         "attentionSignal": 1,
         "importance": 3
@@ -339,57 +87,14 @@
       }
     },
     {
-      "id": "2103123050334199900",
-      "title": "ファン依頼で、秋田芝桜フェスタのサイン会向けに成島和紙と手漉き和紙へ描き下ろした報告",
-      "summary": "ファン依頼で、秋田芝桜フェスタのサイン会向けに成島和紙と手漉き和紙へ描き下ろした報告",
-      "category": "イラスト・美術",
+      "id": "2103525294359654810",
+      "title": "カミーユ・ブルータン作の仏漫画『YON』最終巻のアニメーション予告編を紹介している。",
+      "summary": "カミーユ・ブルータン作の仏漫画『YON』最終巻のアニメーション予告編を紹介している。",
+      "category": "アニメ・漫画",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/shota_kikuchi/status/2103123050334199900",
-      "postedAt": "2026-09-24T14:03:03.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "きくち正太",
-        "handle": "@shota_kikuchi"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS_LJjMbEAA8DR1?format=jpg&name=small",
-          "previewUrl": "https://pbs.twimg.com/media/HS_LJjMbEAA8DR1?format=jpg&name=small",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS_LJjLbwAAuLck?format=jpg&name=small",
-          "previewUrl": "https://pbs.twimg.com/media/HS_LJjLbwAAuLck?format=jpg&name=small",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103078265594229076",
-      "title": "韓国の学生短編『The Lion Mask』はムン・ウンジュ監督・単独アニメ制作、英語字幕付きでYouTubeで視聴可能。",
-      "summary": "韓国の学生短編『The Lion Mask』はムン・ウンジュ監督・単独アニメ制作、英語字幕付きでYouTubeで視聴可能。",
-      "category": "エンタメ・イベント",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/catsuka/status/2103078265594229076",
-      "postedAt": "2026-09-24T11:05:06.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/catsuka/status/2103525294359654810",
+      "postedAt": "2026-09-25T16:41:26.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
         "name": "Catsuka",
         "handle": "@catsuka"
@@ -397,7 +102,33 @@
       "scores": {
         "informationValue": 3,
         "personalRelevance": 3,
-        "impact": 1,
+        "impact": 2,
+        "attentionSignal": 1,
+        "importance": 3
+      },
+      "media": [],
+      "visual": {
+        "value": null,
+        "roles": []
+      }
+    },
+    {
+      "id": "2103183232988483911",
+      "title": "Andrew Chesworthによる『Klaus』（2019）の鉛筆テスト・アニメーションを紹介している投稿。",
+      "summary": "Andrew Chesworthによる『Klaus』（2019）の鉛筆テスト・アニメーションを紹介している投稿。",
+      "category": "アニメ・漫画",
+      "sourceType": "x",
+      "sourceUrl": "https://x.com/CDReferences/status/2103183232988483911",
+      "postedAt": "2026-09-24T18:02:12.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
+      "author": {
+        "name": "Character Design References",
+        "handle": "@CDReferences"
+      },
+      "scores": {
+        "informationValue": 3,
+        "personalRelevance": 3,
+        "impact": 2,
         "attentionSignal": 1,
         "importance": 3
       },
@@ -405,7 +136,7 @@
         {
           "type": "video",
           "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2103077922756087808/img/8-0vu6UxpHJ_R3pV.jpg",
+          "previewUrl": "https://pbs.twimg.com/ext_tw_video_thumb/2103183226344726528/pu/img/bClI-VcybcK1nz7_.jpg",
           "altText": null,
           "width": null,
           "height": null
@@ -417,214 +148,22 @@
       }
     },
     {
-      "id": "2103005686728946153",
-      "title": "AI一般化から約4年、便利だが社会がつまらなくなったと感じるという意見",
-      "summary": "AI一般化から約4年、便利だが社会がつまらなくなったと感じるという意見",
-      "category": "AI",
+      "id": "2103294119863042353",
+      "title": "「起きている能力が高いのではなく長時間眠る能力が低い」と指摘され、睡眠能力を高めようと考えていると述べている。",
+      "summary": "「起きている能力が高いのではなく長時間眠る能力が低い」と指摘され、睡眠能力を高めようと考えていると述べている。",
+      "category": "生活・健康",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/hakuikisiroi/status/2103005686728946153",
-      "postedAt": "2026-09-24T06:16:42.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/ochyai/status/2103294119863042353",
+      "postedAt": "2026-09-25T01:22:50.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
-        "name": "はくいきしろい",
-        "handle": "@hakuikisiroi"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103160168716382373",
-      "title": "アニメーターのハミルを紹介し、Re:Zero最新シーズンのアクション演出の王と称している。",
-      "summary": "アニメーターのハミルを紹介し、Re:Zero最新シーズンのアクション演出の王と称している。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/DanKantori/status/2103160168716382373",
-      "postedAt": "2026-09-24T16:30:33.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "D.K.",
-        "handle": "@DanKantori"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2103160105931780096/img/PTBaZjpxStLI2din.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2041171859648167968",
-      "title": "MAEDAX先生にこの背景イラストが何分で描かれたかを尋ねている質問投稿。",
-      "summary": "MAEDAX先生にこの背景イラストが何分で描かれたかを尋ねている質問投稿。",
-      "category": "イラスト・美術",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/wakanuchi_neko/status/2041171859648167968",
-      "postedAt": "2026-04-06T15:11:09.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "【螢ねこ】",
-        "handle": "@wakanuchi_neko"
+        "name": "落合陽一 Yoichi OCHIAI",
+        "handle": "@ochyai"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 3,
         "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HFOEHQ3a4AAoVYL?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HFOEHQ3a4AAoVYL?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "Black-and-white architectural line drawing of an interior showing a large curved central staircase, several round and rectangular tables with chairs, exposed ceiling beams, hanging light fixtures, arched windows and doorways, and patterned wood flooring. There is a small handwritten date/signature in the lower-right corner of the image.",
-        "visibleText": "令和二年七月\nmaeda"
-      },
-      "visual": {
-        "value": 4,
-        "roles": [
-          "evidence",
-          "reference",
-          "artwork",
-          "production-material"
-        ]
-      }
-    },
-    {
-      "id": "2096874526080663913",
-      "title": "リクルートエージェントがハイクラス転職対応を宣伝し、転職決定数No.1でスカウトから内定まで支援すると伝えている。",
-      "summary": "リクルートエージェントがハイクラス転職対応を宣伝し、転職決定数No.1でスカウトから内定まで支援すると伝えている。",
-      "category": "仕事・キャリア",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/recruit_agent/status/2096874526080663913",
-      "postedAt": null,
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "リクルートエージェント",
-        "handle": "@recruit_agent"
-      },
-      "scores": {
-        "informationValue": null,
-        "personalRelevance": null,
-        "impact": null,
-        "attentionSignal": null,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2096874378881646592/img/AfRdnp-oXwExKRN5.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2096874378881646592/img/AfRdnp-oXwExKRN5.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2096824018750062732",
-      "title": "求人ボックスが転職サービスを宣伝し、掲載求人数2,000万件超や未経験歓迎などをうたっている。",
-      "summary": "求人ボックスが転職サービスを宣伝し、掲載求人数2,000万件超や未経験歓迎などをうたっている。",
-      "category": "仕事・キャリア",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/kyujinbox/status/2096824018750062732",
-      "postedAt": null,
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "求人ボックス",
-        "handle": "@kyujinbox"
-      },
-      "scores": {
-        "informationValue": null,
-        "personalRelevance": null,
-        "impact": null,
-        "attentionSignal": null,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2092805348356964353/img/BS8Td2koTsDfYB7O.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2092805348356964353/img/BS8Td2koTsDfYB7O.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103057800532562344",
-      "title": "今日嬉しかったことをSNSで共有し、叩き合いより幸せを広げようと呼びかけている投稿。",
-      "summary": "今日嬉しかったことをSNSで共有し、叩き合いより幸せを広げようと呼びかけている投稿。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/paya_paya_kun/status/2103057800532562344",
-      "postedAt": "2026-09-24T09:43:47.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "ぱやぱやくん",
-        "handle": "@paya_paya_kun"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 2,
         "attentionSignal": 2,
         "importance": 2
       },
@@ -635,170 +174,23 @@
       }
     },
     {
-      "id": "2103087559153004614",
-      "title": "琉大祭まであと2日とカウントダウンを兼ねた告知投稿。",
-      "summary": "琉大祭まであと2日とカウントダウンを兼ねた告知投稿。",
-      "category": "合気道・武道",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/RyudaiAiki/status/2103087559153004614",
-      "postedAt": "2026-09-24T11:42:02.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "琉大合気道部(琉球大学合氣道部)",
-        "handle": "@RyudaiAiki"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-q_FragAExQ8y?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS-q_FragAExQ8y?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-q_FqboAA8rC0?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS-q_FqboAA8rC0?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-q_FoacAAothK?format=jpg&name=large",
-          "previewUrl": "https://pbs.twimg.com/media/HS-q_FoacAAothK?format=jpg&name=large",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "Two people are standing barefoot on mats inside a high-ceilinged room with wooden-paneled walls and large windows; each person is holding a wooden staff and their faces are covered by smiling face emoji overlays. Another image shows a wooden table with several bowls of ramen (with sliced pork, seaweed, and green onions), a large dark pitcher/thermos in the center, glasses of tea, jars of condiments, and people using chopsticks.",
-        "visibleText": "Ryukyu"
-      },
-      "visual": {
-        "value": 3,
-        "roles": [
-          "evidence",
-          "reference",
-          "photo"
-        ]
-      }
-    },
-    {
-      "id": "2103106908022612267",
-      "title": "腕を上げると背中側にも服のシワができるとつぶやいている。",
-      "summary": "腕を上げると背中側にも服のシワができるとつぶやいている。",
+      "id": "2103440011979005999",
+      "title": "「明日暇？」は用件次第だと主張し、高尾山の誘いなら暇ではないと述べている。",
+      "summary": "「明日暇？」は用件次第だと主張し、高尾山の誘いなら暇ではないと述べている。",
       "category": "日常・雑談",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/__NopiA/status/2103106908022612267",
-      "postedAt": "2026-09-24T12:58:55.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/SAKURA__harp/status/2103440011979005999",
+      "postedAt": "2026-09-25T11:02:33.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
-        "name": "NopiA",
-        "handle": "@__NopiA"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/amplify_video_thumb/2103051127210364928/img/qety8nJvLgjL9L1s?format=jpg&name=240x240",
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2103051127210364928/img/qety8nJvLgjL9L1s?format=jpg&name=240x240",
-          "altText": "埋め込み動画",
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "Simple cartoon-style line drawing of a person in side profile facing left, with a round head and a small smiling face. The figure wears a long-sleeved garment and a curved line is drawn across the upper back/shoulder area. The background is a pale yellow color.",
-        "visibleText": null
-      },
-      "visual": {
-        "value": 2,
-        "roles": [
-          "reference",
-          "artwork"
-        ]
-      }
-    },
-    {
-      "id": "2103024568990585253",
-      "title": "投げられた自転車の持ち主が現れれば完璧だと冗談めかしている。",
-      "summary": "投げられた自転車の持ち主が現れれば完璧だと冗談めかしている。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/IsoMitsuo/status/2103024568990585253",
-      "postedAt": "2026-09-24T07:31:44.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "磯光雄IsoMitsuo 仕事本三冊目発売中",
-        "handle": "@IsoMitsuo"
+        "name": "吉田 瑳矩果 SakuraYoshida",
+        "handle": "@SAKURA__harp"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 2,
         "impact": 1,
         "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS36679bMAA66zc?format=png&name=900x900",
-          "previewUrl": "https://pbs.twimg.com/media/HS36679bMAA66zc?format=png&name=900x900",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "Screenshot of a Japanese social media post showing the username めぐたん@ (@megutan21), a short multi-line message mentioning 富野由悠季 and Vガン, a hashtag, a timestamp and view count, and engagement metrics (comment/retweet/like/bookmark counts).",
-        "visibleText": "JSFさんがリポスト\n\nめぐたん@\n@megutan21\n\n35年ほど前、富野由悠季が隣に住んでた\nVガンの頃で本人認めるレベルで病んでて、駅前で元気に自転車ぶん投げてた\n\n#フォロワーの8割が体験した事無さそうなこと\n\n午後11:44・2026年9月22日・37.6万 件の表示\n\n25   1,738   6,890   594"
-      },
-      "visual": {
-        "value": 4,
-        "roles": [
-          "evidence",
-          "reference",
-          "screenshot"
-        ]
-      }
-    },
-    {
-      "id": "2103052999023366542",
-      "title": "noteに切ないエッセイを投稿。筆者は「ソフトウェアエンジニアとしての自分はもう死んでいた」と綴っている。",
-      "summary": "noteに切ないエッセイを投稿。筆者は「ソフトウェアエンジニアとしての自分はもう死んでいた」と綴っている。",
-      "category": "仕事・キャリア",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/choo_s/status/2103052999023366542",
-      "postedAt": "2026-09-24T09:24:42.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "choo",
-        "handle": "@choo_s"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 4,
         "importance": 2
       },
       "media": [],
@@ -808,397 +200,23 @@
       }
     },
     {
-      "id": "2102744799279264130",
-      "title": "アニメのモーション（作画）を「INSANE MOTION」と感嘆して称賛している投稿。",
-      "summary": "アニメのモーション（作画）を「INSANE MOTION」と感嘆して称賛している投稿。",
-      "category": "アニメ・漫画",
+      "id": "2103288554420048038",
+      "title": "アカウント停止に対し「またバンされた　死ね」と感情的に罵倒している投稿",
+      "summary": "アカウント停止に対し「またバンされた　死ね」と感情的に罵倒している投稿",
+      "category": "その他",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/AnimeBasee/status/2102744799279264130",
-      "postedAt": "2026-09-23T13:00:01.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
+      "sourceUrl": "https://x.com/mtmt_death/status/2103288554420048038",
+      "postedAt": "2026-09-25T01:00:43.000Z",
+      "collectedAt": "2026-09-25T18:00:39.175Z",
       "author": {
-        "name": "Anime",
-        "handle": "@AnimeBasee"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 3,
-        "impact": 1,
-        "attentionSignal": 4,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2102510501183836160/img/hKVMgZzznrT61gWA.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "An animated, dark scene shows a bright white-blue beam or flash of light extending from the center toward the right. A humanoid figure on the left wears armor with a red cloth and has long dark hair or a trailing cloak, while two other illuminated humanoid figures on the right include one with a decorative headdress and another with circular details on the chest.",
-        "visibleText": null
-      },
-      "visual": {
-        "value": 3,
-        "roles": [
-          "reference",
-          "artwork",
-          "production-material"
-        ]
-      }
-    },
-    {
-      "id": "2103030612466847782",
-      "title": "声優業界が終わりかもしれないと嘆く短い感想投稿。",
-      "summary": "声優業界が終わりかもしれないと嘆く短い感想投稿。",
-      "category": "エンタメ・イベント",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/taichinakaj/status/2103030612466847782",
-      "postedAt": "2026-09-24T07:55:45.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "プロ奢ラレヤー🍣",
-        "handle": "@taichinakaj"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 3,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103091926241313149",
-      "title": "赤いロープで装飾的に縛られ、花を配したポートレート風の芸術写真。",
-      "summary": "赤いロープで装飾的に縛られ、花を配したポートレート風の芸術写真。",
-      "category": "イラスト・美術",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/zawamekipien/status/2103091926241313149",
-      "postedAt": "2026-09-24T11:59:23.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "ざわめき🌪🥺",
-        "handle": "@zawamekipien"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 4,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-u9SjbIAAFzfu?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS-u9SjbIAAFzfu?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "A person with long dark hair lies on white bed sheets with thick red rope tied in decorative knot patterns around their torso and hips. Multiple red, spidery flowers with long greenish stems are placed across and around the person's body, with some stems laid over the rope. The person's face is partially obscured by hair and parts of the lower body are not fully visible.",
-        "visibleText": null
-      },
-      "visual": {
-        "value": 4,
-        "roles": [
-          "reference",
-          "artwork",
-          "photo"
-        ]
-      }
-    },
-    {
-      "id": "2103142482150293567",
-      "title": "アイナ・ジ・エンドが自宅で白い長毛の猫と並んだ私的な写真を投稿している",
-      "summary": "アイナ・ジ・エンドが自宅で白い長毛の猫と並んだ私的な写真を投稿している",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/aina_BiSH/status/2103142482150293567",
-      "postedAt": "2026-09-24T15:20:16.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "アイナ・ジ・エンド",
-        "handle": "@aina_BiSH"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS_c8JUa4AAM7-J?format=jpg&name=medium",
-          "previewUrl": "https://pbs.twimg.com/media/HS_c8JUa4AAM7-J?format=jpg&name=medium",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "A woman with long red hair and bangs is leaning on her hand and looking toward the camera. Next to her is a long-haired white cat with brown facial markings, blue eyes, and a pink nose; both are photographed indoors against a light-colored wall.",
-        "visibleText": null
-      },
-      "visual": {
-        "value": 3,
-        "roles": [
-          "evidence",
-          "reference",
-          "photo"
-        ]
-      }
-    },
-    {
-      "id": "2102916240528515492",
-      "title": "投稿者が光文社による東出昌大の扱いを「ひどい」と批判している投稿",
-      "summary": "投稿者が光文社による東出昌大の扱いを「ひどい」と批判している投稿",
-      "category": "エンタメ・イベント",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/arya_director/status/2102916240528515492",
-      "postedAt": "2026-09-24T00:21:16.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "坂上祐生🎥ディレクター",
-        "handle": "@arya_director"
+        "name": "丹生",
+        "handle": "@mtmt_death"
       },
       "scores": {
         "informationValue": 1,
         "personalRelevance": 1,
         "impact": 1,
-        "attentionSignal": 3,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103106087092376018",
-      "title": "初の金髪ロング姿を報告するセルフィー投稿。",
-      "summary": "初の金髪ロング姿を報告するセルフィー投稿。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/u_ume7/status/2103106087092376018",
-      "postedAt": "2026-09-24T12:55:39.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "柑橘めたる",
-        "handle": "@u_ume7"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      },
-      "media": [
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-71qbbwAA8cet?format=jpg&name=900x900",
-          "previewUrl": "https://pbs.twimg.com/media/HS-71qbbwAA8cet?format=jpg&name=900x900",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "image",
-          "url": "https://pbs.twimg.com/media/HS-71qPboAA7d7Z?format=jpg&name=900x900",
-          "previewUrl": "https://pbs.twimg.com/media/HS-71qPboAA7d7Z?format=jpg&name=900x900",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "vision": {
-        "status": "ok",
-        "observations": "A person with long blonde hair and straight bangs is seated indoors wearing a light-blue, long-sleeve, patterned henley-style top with buttons and a dark skirt. In the first image the person faces the camera with eyes open; in the second image the person’s eyes are closed and head is tilted slightly downward. The background shows a blurred indoor setting with warm lighting and a light-colored chair is partially visible.",
-        "visibleText": null
-      },
-      "visual": {
-        "value": 3,
-        "roles": [
-          "evidence",
-          "reference",
-          "photo"
-        ]
-      }
-    },
-    {
-      "id": "2102956742405681346",
-      "title": "くじでちくわや二日酔い、酒免許証などに当選したと報告している。",
-      "summary": "くじでちくわや二日酔い、酒免許証などに当選したと報告している。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sasurainopink/status/2102956742405681346",
-      "postedAt": "2026-09-24T03:02:13.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "牧茶",
-        "handle": "@sasurainopink"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2102994012630323390",
-      "title": "外が暑すぎると短くつぶやいている。",
-      "summary": "外が暑すぎると短くつぶやいている。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/taru153/status/2102994012630323390",
-      "postedAt": "2026-09-24T05:30:19.000Z",
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "taru🪅",
-        "handle": "@taru153"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 1,
-        "importance": 1
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103137387463192909",
-      "title": "住友生命が新CMを告知。楽曲はフレデリック「オドループ」、軽めのPR投稿。",
-      "summary": "住友生命が新CMを告知。楽曲はフレデリック「オドループ」、軽めのPR投稿。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/sumitomolife_v/status/2103137387463192909",
-      "postedAt": null,
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "住友生命「Vitality」",
-        "handle": "@sumitomolife_v"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2100094797021351936/img/d_LZJwDM3rYloD99.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2100094797021351936/img/d_LZJwDM3rYloD99.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2094721505183809945",
-      "title": "Uber Eatsがマクドナルドの月見バーガーを自宅で楽しむよう勧める季節の販促投稿。",
-      "summary": "Uber Eatsがマクドナルドの月見バーガーを自宅で楽しむよう勧める季節の販促投稿。",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/UberEats_JP/status/2094721505183809945",
-      "postedAt": null,
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "Uber Eats Japan（ウーバーイーツ）",
-        "handle": "@UberEats_JP"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 1
-      },
-      "media": [
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2094353036525371392/img/deF_IHqHZCnNqh_3.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        },
-        {
-          "type": "video",
-          "url": null,
-          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2094353036525371392/img/deF_IHqHZCnNqh_3.jpg",
-          "altText": null,
-          "width": null,
-          "height": null
-        }
-      ],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2102885712035205151",
-      "title": "昔憧れていた先輩のオンオフの差が意外だと伝えるPR投稿",
-      "summary": "昔憧れていた先輩のオンオフの差が意外だと伝えるPR投稿",
-      "category": "広告・PR",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/Oshi_creatorpic/status/2102885712035205151",
-      "postedAt": null,
-      "collectedAt": "2026-09-24T18:00:37.073Z",
-      "author": {
-        "name": "推し沼｜沼るクリエイターのスクープ🔍",
-        "handle": "@Oshi_creatorpic"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 3,
+        "attentionSignal": 5,
         "importance": 1
       },
       "media": [],
