@@ -1,31 +1,31 @@
 {
   "schemaVersion": 1,
   "source": "x-timeline-collector",
-  "generatedAt": "2026-09-25T18:02:34.016Z",
-  "collectionCompletedAt": "2026-09-25T18:00:39.216Z",
+  "generatedAt": "2026-09-26T18:01:31.142Z",
+  "collectionCompletedAt": "2026-09-26T18:00:44.779Z",
   "scope": {
     "type": "collect-run",
-    "itemCount": 8
+    "itemCount": 4
   },
   "items": [
     {
-      "id": "2103366558085255620",
-      "title": "東映動画は枚数縛りで、20分尺の口パクに800枚使い、残り2200枚で平均7枚／カットにしなければならなかったと語っている。",
-      "summary": "東映動画は枚数縛りで、20分尺の口パクに800枚使い、残り2200枚で平均7枚／カットにしなければならなかったと語っている。",
-      "category": "アニメ・漫画",
+      "id": "2103801765195853954",
+      "title": "遠藤征四郎は、合気道の動きは剣・杖と同じで、素手稽古でも武器を想定すべきだと述べている。",
+      "summary": "遠藤征四郎は、合気道の動きは剣・杖と同じで、素手稽古でも武器を想定すべきだと述べている。",
+      "category": "合気道・武道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/kozuma_/status/2103366558085255620",
-      "postedAt": "2026-09-25T06:10:40.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
+      "sourceUrl": "https://x.com/Morihei_bot/status/2103801765195853954",
+      "postedAt": "2026-09-26T11:00:02.000Z",
+      "collectedAt": "2026-09-26T18:00:44.738Z",
       "author": {
-        "name": "上妻晋作 KOZUMA Shinsaku",
-        "handle": "@kozuma_"
+        "name": "植芝盛平（引用要約）bot",
+        "handle": "@Morihei_bot"
       },
       "scores": {
         "informationValue": 4,
         "personalRelevance": 4,
         "impact": 2,
-        "attentionSignal": 2,
+        "attentionSignal": 1,
         "importance": 4
       },
       "media": [],
@@ -35,23 +35,23 @@
       }
     },
     {
-      "id": "2103493312607134172",
-      "title": "罪宝2話でキャラクターデザイン兼総作画監督を担当したと報告している。",
-      "summary": "罪宝2話でキャラクターデザイン兼総作画監督を担当したと報告している。",
-      "category": "アニメ・漫画",
+      "id": "2103813689845616667",
+      "title": "ゲイツ氏のAIが10億人を死なせる可能性の警告を引用し、第一次大戦の技術進化を例に危険性を指摘している。",
+      "summary": "ゲイツ氏のAIが10億人を死なせる可能性の警告を引用し、第一次大戦の技術進化を例に危険性を指摘している。",
+      "category": "AI",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/yatanekko/status/2103493312607134172",
-      "postedAt": "2026-09-25T14:34:21.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
+      "sourceUrl": "https://x.com/kensuu/status/2103813689845616667",
+      "postedAt": "2026-09-26T11:47:25.000Z",
+      "collectedAt": "2026-09-26T18:00:44.738Z",
       "author": {
-        "name": "Yataneko （越後光崇）",
-        "handle": "@yatanekko"
+        "name": "けんすう",
+        "handle": "@kensuu"
       },
       "scores": {
-        "informationValue": 4,
+        "informationValue": 3,
         "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 2,
+        "impact": 3,
+        "attentionSignal": 4,
         "importance": 3
       },
       "media": [],
@@ -61,82 +61,30 @@
       }
     },
     {
-      "id": "2103125468962832750",
-      "title": "ゴッホの言葉を受け、自己否定感があるときにとりあえず描いてみたら静まったという経験を述べている。",
-      "summary": "ゴッホの言葉を受け、自己否定感があるときにとりあえず描いてみたら静まったという経験を述べている。",
-      "category": "イラスト・美術",
+      "id": "2103842723971379620",
+      "title": "琉大合気道部が琉大祭1日目の御礼と、翌日もたこ焼き・ドーナツを販売すると告知している。",
+      "summary": "琉大合気道部が琉大祭1日目の御礼と、翌日もたこ焼き・ドーナツを販売すると告知している。",
+      "category": "合気道・武道",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/zm_zmfhzl/status/2103125468962832750",
-      "postedAt": "2026-09-24T14:12:40.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
+      "sourceUrl": "https://x.com/RyudaiAiki/status/2103842723971379620",
+      "postedAt": "2026-09-26T13:42:47.000Z",
+      "collectedAt": "2026-09-26T18:00:44.738Z",
       "author": {
-        "name": "ZM",
-        "handle": "@zm_zmfhzl"
+        "name": "琉大合気道部(琉球大学合氣道部)",
+        "handle": "@RyudaiAiki"
       },
       "scores": {
-        "informationValue": 3,
-        "personalRelevance": 4,
-        "impact": 2,
+        "informationValue": 2,
+        "personalRelevance": 2,
+        "impact": 1,
         "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103525294359654810",
-      "title": "カミーユ・ブルータン作の仏漫画『YON』最終巻のアニメーション予告編を紹介している。",
-      "summary": "カミーユ・ブルータン作の仏漫画『YON』最終巻のアニメーション予告編を紹介している。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/catsuka/status/2103525294359654810",
-      "postedAt": "2026-09-25T16:41:26.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
-      "author": {
-        "name": "Catsuka",
-        "handle": "@catsuka"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103183232988483911",
-      "title": "Andrew Chesworthによる『Klaus』（2019）の鉛筆テスト・アニメーションを紹介している投稿。",
-      "summary": "Andrew Chesworthによる『Klaus』（2019）の鉛筆テスト・アニメーションを紹介している投稿。",
-      "category": "アニメ・漫画",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/CDReferences/status/2103183232988483911",
-      "postedAt": "2026-09-24T18:02:12.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
-      "author": {
-        "name": "Character Design References",
-        "handle": "@CDReferences"
-      },
-      "scores": {
-        "informationValue": 3,
-        "personalRelevance": 3,
-        "impact": 2,
-        "attentionSignal": 1,
-        "importance": 3
+        "importance": 2
       },
       "media": [
         {
           "type": "video",
           "url": null,
-          "previewUrl": "https://pbs.twimg.com/ext_tw_video_thumb/2103183226344726528/pu/img/bClI-VcybcK1nz7_.jpg",
+          "previewUrl": "https://pbs.twimg.com/amplify_video_thumb/2103842705042526208/img/WAVvH-JGd1PacDHW.jpg",
           "altText": null,
           "width": null,
           "height": null
@@ -148,76 +96,24 @@
       }
     },
     {
-      "id": "2103294119863042353",
-      "title": "「起きている能力が高いのではなく長時間眠る能力が低い」と指摘され、睡眠能力を高めようと考えていると述べている。",
-      "summary": "「起きている能力が高いのではなく長時間眠る能力が低い」と指摘され、睡眠能力を高めようと考えていると述べている。",
+      "id": "2103817025940521036",
+      "title": "人間関係をこじらせない人がしていることをシリーズで紹介すると予告している投稿",
+      "summary": "人間関係をこじらせない人がしていることをシリーズで紹介すると予告している投稿",
       "category": "生活・健康",
       "sourceType": "x",
-      "sourceUrl": "https://x.com/ochyai/status/2103294119863042353",
-      "postedAt": "2026-09-25T01:22:50.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
+      "sourceUrl": "https://x.com/B_B_Sergeant/status/2103817025940521036",
+      "postedAt": "2026-09-26T12:00:40.000Z",
+      "collectedAt": "2026-09-26T18:00:44.738Z",
       "author": {
-        "name": "落合陽一 Yoichi OCHIAI",
-        "handle": "@ochyai"
+        "name": "B.B軍曹",
+        "handle": "@B_B_Sergeant"
       },
       "scores": {
         "informationValue": 2,
         "personalRelevance": 3,
-        "impact": 1,
-        "attentionSignal": 2,
+        "impact": 2,
+        "attentionSignal": 3,
         "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103440011979005999",
-      "title": "「明日暇？」は用件次第だと主張し、高尾山の誘いなら暇ではないと述べている。",
-      "summary": "「明日暇？」は用件次第だと主張し、高尾山の誘いなら暇ではないと述べている。",
-      "category": "日常・雑談",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/SAKURA__harp/status/2103440011979005999",
-      "postedAt": "2026-09-25T11:02:33.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
-      "author": {
-        "name": "吉田 瑳矩果 SakuraYoshida",
-        "handle": "@SAKURA__harp"
-      },
-      "scores": {
-        "informationValue": 2,
-        "personalRelevance": 2,
-        "impact": 1,
-        "attentionSignal": 2,
-        "importance": 2
-      },
-      "media": [],
-      "visual": {
-        "value": null,
-        "roles": []
-      }
-    },
-    {
-      "id": "2103288554420048038",
-      "title": "アカウント停止に対し「またバンされた　死ね」と感情的に罵倒している投稿",
-      "summary": "アカウント停止に対し「またバンされた　死ね」と感情的に罵倒している投稿",
-      "category": "その他",
-      "sourceType": "x",
-      "sourceUrl": "https://x.com/mtmt_death/status/2103288554420048038",
-      "postedAt": "2026-09-25T01:00:43.000Z",
-      "collectedAt": "2026-09-25T18:00:39.175Z",
-      "author": {
-        "name": "丹生",
-        "handle": "@mtmt_death"
-      },
-      "scores": {
-        "informationValue": 1,
-        "personalRelevance": 1,
-        "impact": 1,
-        "attentionSignal": 5,
-        "importance": 1
       },
       "media": [],
       "visual": {
